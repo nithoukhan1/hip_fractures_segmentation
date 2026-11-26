@@ -47,6 +47,10 @@ def key_result(run_dir: Path) -> tuple[str, str]:
         parts.append(f"same data: {sc.get('identical_files_classes_pixels')}")
         parts.append(f"same folds: {sc.get('identical_folds')}")
         parts.append(f"val empty: {dt.get('val_is_empty')}")
+        if dt.get("val_pooled_into_train"):
+            parts.append(f"val pooled into train: {dt['val_pooled_into_train']}")
+        if "csv_files_found_on_disk" in sc:
+            parts.append(f"all files found: {sc['csv_files_found_on_disk']}")
         speed = rep.get("gpu_speed") or {}
         if isinstance(speed, dict) and speed and "error" not in speed and "skipped" not in speed:
             parts.append("fp16 TFLOPs: " + ", ".join(str(v.get("fp16_matmul_tflops")) for v in speed.values()))

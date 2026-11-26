@@ -185,7 +185,7 @@ The full design is in Report 03 §3 and §7. The only changes are:
 | 8–9 | 18–31 Jan | | 1 | 28–32 | ~15 per week |
 
 **Two ways to stretch the quota:**
-1. If Kaggle counts a **T4 x2** session like one GPU, one launch can run an A job on GPU 0 and a B job on GPU 1 at the same time, halving the cost of parallel work. The first `S00_env_check` run reports the GPU count. We will compare your quota before and after one T4 x2 run to find out.
+1. If Kaggle counts a **T4 x2** session like one GPU, one launch can run an A job on GPU 0 and a B job on GPU 1 at the same time, halving the cost of parallel work. `S00_env_check` (26 Nov) confirmed 2 × T4 per session, 4 CPU cores and 32 GB RAM. We will compare your quota before and after one long T4 x2 run to find out how it is counted.
 2. Several folds or variants are chained in one Save Version launch (up to about 10 hours), so you click **about 3–5 times per week**, not once per model.
 
 ## 7. Step 7: Timeline for both papers

@@ -2,7 +2,9 @@
 """Make the fixed cross-validation folds for the HUSJA-UA femoral fracture dataset.
 
 Why: the official release has train (1043 femurs) and test (210) but an EMPTY val folder.
-Rules (see Analysis/03_Idea_Ranking_and_Research_Plan.md, section 7):
+Rules (see Analysis/04_Execution_Plan_A_and_B.md, section 3):
+  0. Images in val/ (or valid/) are pooled into train. The Kaggle copy moved 104 training femurs
+     into val/; pooling gives the same 1,043 training femurs, and so the same folds, on every copy.
   1. The official test set is never touched (fold = -1).
   2. Train is split into K folds, grouped by x-ray ID so both femurs of one radiograph stay
      together. Pixel-identical images (one known pair) are merged into the same group.
@@ -31,7 +33,7 @@ import numpy as np
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 from femurseg.classes import BY_CLS6, EXPECTED_COUNTS, yolo_to_cls6  # noqa: E402
-from femurseg.paths import find_data_root  # noqa: E402
+from femurseg.paths import build_index, find_data_root  # noqa: E402
 
 
 def read_gray(path: Path) -> np.ndarray:
@@ -46,9 +48,9 @@ def read_gray(path: Path) -> np.ndarray:
         return cv2.imread(str(path), cv2.IMREAD_GRAYSCALE)
 
 
-def read_yolo_class(label_path: Path) -> int:
+def read_yolo_class(label_path: Path | None) -> int:
     """Return the YOLO class id of a label file, or -1 if there is no fracture label."""
-    if not label_path.exists():
+    if label_path is None or not label_path.exists():
         return -1
     ids = {int(float(line.split()[0])) for line in label_path.read_text().splitlines() if line.strip()}
     if not ids:
@@ -119,19 +121,25 @@ def main() -> None:
 
     root = find_data_root(args.data_root)
     print(f"data root: {root}")
+    index = build_index(root)  # (split, file) -> paths; val/ and valid/ are pooled into train
     rows = []
     for split in ("train", "test"):
-        for img in sorted((root / split / "images").glob("*.png")):
-            stem = img.stem
-            femur_id, xray_id = stem.split("_", 1)
-            cls6 = yolo_to_cls6(read_yolo_class(root / split / "labels" / f"{stem}.txt"))
+        for name in sorted(n for (s, n) in index if s == split):
+            where = index[(split, name)]
+            img = where["image"]
+            femur_id, xray_id = img.stem.split("_", 1)
+            cls6 = yolo_to_cls6(read_yolo_class(where["label"]))
             c = BY_CLS6[cls6]
             rows.append(dict(
                 file=img.name, split=split, femur_id=femur_id, xray_id=xray_id, cls6=cls6,
                 yolo_id=c.yolo_id, code=c.code, class_name=c.name, location=c.location, grade=c.grade,
                 pixel_md5=hashlib.md5(np.ascontiguousarray(read_gray(img)).tobytes()).hexdigest(),
             ))
-    print(f"read {len(rows)} images")
+    by_folder = Counter(where["folder"] for where in index.values())
+    print(f"read {len(rows)} images (" + ", ".join(f"{n} from {f}/" for f, n in sorted(by_folder.items())) + ")")
+    pooled = sum(n for f, n in by_folder.items() if f in ("val", "valid"))
+    if pooled:
+        print(f"note: {pooled} images found in val/ were pooled into train (rule in src/femurseg/paths.py)")
 
     # Groups: x-ray ID, then merge pixel-identical images (keeps duplicate pairs in one fold).
     uf = UnionFind()
@@ -201,6 +209,7 @@ def main() -> None:
     table["test"] = {BY_CLS6[c].name: sum(1 for r in rows if r["split"] == "test" and r["cls6"] == c) for c in range(6)}
     table["test"]["TOTAL"] = sum(1 for r in rows if r["split"] == "test")
     summary = dict(data_root=str(root), n_splits=args.n_splits, seed=args.seed, n_rows=len(rows),
+                   images_per_folder=dict(sorted(by_folder.items())), val_pooled_into_train=pooled,
                    fingerprint_sha1=fingerprint, counts=table,
                    duplicates=sorted({tuple(sorted([r["file"], r["duplicate_of"]])) for r in rows if r["duplicate_of"]}))
     out.with_name(out.stem + "_summary.json").write_text(json.dumps(summary, indent=2))

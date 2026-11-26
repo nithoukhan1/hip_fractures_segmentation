@@ -1,0 +1,163 @@
+{
+  "time_utc": "2026-11-26T08:06:26Z",
+  "git_commit": "37d8d0f53225d3f95a670a345007ececfa0c5ce3",
+  "git_ref": "heads/main",
+  "hardware": {
+    "cpu_count": 4,
+    "ram_total": "32869288 kB",
+    "ram_available": "31322944 kB",
+    "disk": {
+      "/kaggle/working": {
+        "total_gb": 21.0,
+        "free_gb": 20.9
+      },
+      "/tmp": {
+        "total_gb": 8758.4,
+        "free_gb": 2698.4
+      }
+    },
+    "platform": "Linux-6.18.55+-x86_64-with-glibc2.39",
+    "nvidia_smi": "Tesla T4, 15360 MiB, 580.178.04\nTesla T4, 15360 MiB, 580.178.04"
+  },
+  "software": {
+    "python": "3.13.16",
+    "versions": {
+      "torch": "2.11.0+cu130",
+      "torchvision": "0.26.0+cu130",
+      "numpy": "2.1.3",
+      "pandas": "2.3.3",
+      "pillow": "13.0.0",
+      "opencv-python": "4.14.0.94",
+      "opencv-python-headless": "4.14.0.94",
+      "scipy": "1.16.3",
+      "scikit-learn": "1.6.1",
+      "matplotlib": "3.10.0",
+      "PyYAML": "6.0.3",
+      "timm": "1.0.30",
+      "segmentation-models-pytorch": null,
+      "ultralytics": null,
+      "albumentations": "2.0.8",
+      "monai": null
+    },
+    "torch_cuda": {
+      "available": true,
+      "cuda": "13.0",
+      "cudnn": 92700,
+      "device_count": 2,
+      "devices": [
+        "Tesla T4",
+        "Tesla T4"
+      ]
+    },
+    "internet": {
+      "github.com": true,
+      "pypi.org": true,
+      "files.pythonhosted.org": true
+    }
+  },
+  "data": {
+    "root": "/kaggle/input/datasets/utopianstar/dataset/femoral/data",
+    "listing_of_input": "/kaggle/input\n/kaggle/input/datasets\n/kaggle/input/datasets/utopianstar\n/kaggle/input/datasets/utopianstar/dataset\n/kaggle/input/datasets/utopianstar/dataset/femoral",
+    "counts": {
+      "train": {
+        "images": 939,
+        "labels": 612,
+        "masks": 939
+      },
+      "val": {
+        "images": 104,
+        "labels": 68,
+        "masks": 104
+      },
+      "test": {
+        "images": 210,
+        "labels": 145,
+        "masks": 210
+      }
+    },
+    "val_is_empty": false,
+    "data_yml": "path: '/kaggle/input/dataset/femoral/data'  \ntrain: train/images\nval: val/images   \ntest: test/images\nnc: 5\n\nnames:\n  0: Neck (Garden I-II)        # Was 2AB\n  1: Neck (Garden III-IV)      # Was 2CD\n  2: Pertrochanteric (Evans I-II)   # Was 3AB\n  3: Pertrochanteric (Evans III-V)  # Was 3CDE\n  4: Subtrochanteric           # Was 4",
+    "image_size_and_mode_(w,h)": [
+      "((1024, 1536), 'L')"
+    ],
+    "pil_read_ms_per_image": 98.0
+  },
+  "split_check": {
+    "fingerprint_local": "733a70aa5c970be9ae3e76d65c69636dbc0ecb5a",
+    "fingerprint_kaggle": "56fa358fda0a9b24ca40e8fe6d9928f7be773a7d",
+    "identical_files_classes_pixels": false,
+    "identical_folds": false,
+    "n_differences": 868,
+    "first_differences": [
+      [
+        "train",
+        "00003_00002.png"
+      ],
+      [
+        "train",
+        "00004_00003.png"
+      ],
+      [
+        "train",
+        "00005_00003.png"
+      ],
+      [
+        "train",
+        "00006_00005.png"
+      ],
+      [
+        "train",
+        "00007_00006.png"
+      ],
+      [
+        "train",
+        "00008_00006.png"
+      ],
+      [
+        "train",
+        "00009_00007.png"
+      ],
+      [
+        "train",
+        "00010_00008.png"
+      ],
+      [
+        "train",
+        "00011_00008.png"
+      ],
+      [
+        "train",
+        "00014_00010.png"
+      ]
+    ],
+    "class_counts_match_paper": false
+  },
+  "gpu_speed": {
+    "Tesla T4 #0": {
+      "fp16_matmul_tflops": 24.0,
+      "memory_gb": 15.6
+    },
+    "Tesla T4 #1": {
+      "fp16_matmul_tflops": 22.6,
+      "memory_gb": 15.6
+    }
+  },
+  "expected_counts_from_paper": {
+    "train": {
+      "0": 363,
+      "1": 57,
+      "2": 254,
+      "3": 134,
+      "4": 199,
+      "5": 36
+    },
+    "test": {
+      "0": 65,
+      "1": 16,
+      "2": 41,
+      "3": 34,
+      "4": 42,
+      "5": 12
+    }
+  }
+}

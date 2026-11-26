@@ -36,3 +36,7 @@ lightning_logs/
 .DS_Store
 Thumbs.db
 desktop.ini
+
+# --- Results inbox: downloads waiting to be filed (and already filed) are not committed
+/results/_inbox/*
+!/results/_inbox/README.md

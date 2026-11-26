@@ -8,4 +8,4 @@ python scripts/register_run.py results/_inbox/results_<RUN>.zip --version <Kaggl
 ```
 The script copies the run into `results/<RUN>/`, adds a `NOTES.md` stub, appends a line to `results/EXPERIMENTS.md` and moves the zip to `results/_inbox/filed/`.
 
-Zip files are not committed to git (see `.gitignore`); only the filed run folders are.
+Nothing in this folder is committed to git except this README (see `.gitignore`); only the filed run folders in `results/<RUN>/` are.

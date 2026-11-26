@@ -25,7 +25,10 @@
 ## Runs available now
 | RUN | Step | GPU time | What it does |
 |---|---|---|---|
-| `S00_env_check` | 0 | ~3 min | Hardware and package report, dataset location and counts, val-empty check, split identity check, GPU speed test |
+| `S00_env_check` | 0 | ~4 min | Hardware and package report, dataset location and counts, val-empty check, split identity check, GPU speed test (done 2026-11-26: found Kaggle's val/ folder holds 104 training femurs) |
+| `S00_env_check_r2` | 0 | ~4 min | Same check after pooling val/ back into train: data, folds and file list must now be identical to `splits/folds_v1.csv` |
+
+**About Kaggle's val/ folder:** the Kaggle copy moved 104 of the 1,043 training femurs into `val/`, without keeping both femurs of an x-ray together. All code pools `val/` back into train (`src/femurseg/paths.py`), so Kaggle and the local copy give the same 1,043 training femurs and the same 5 folds.
 
 Run names: **S** = shared (baselines S1–S9, core model M0), **A** = Paper A (SLG-Net), **R** = Paper B (RefFrac). Shared baselines are added in Step 1 (`Analysis/04_Execution_Plan_A_and_B.md` §7).
 

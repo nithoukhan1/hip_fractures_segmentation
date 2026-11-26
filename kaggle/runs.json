@@ -8,8 +8,21 @@
     ],
     "pip": [],
     "gpu": "any (T4 or P100)",
-    "expected_minutes": 3,
+    "expected_minutes": 4,
     "about": "Check GPU, packages and internet, find the dataset, confirm val/ is empty, and confirm the Kaggle data and folds are identical to splits/folds_v1.csv.",
+    "track": "Shared"
+  },
+  "S00_env_check_r2": {
+    "step": "0",
+    "script": "kaggle/env_check.py",
+    "args": [
+      "--input",
+      "/kaggle/input"
+    ],
+    "pip": [],
+    "gpu": "any (T4 or P100)",
+    "expected_minutes": 4,
+    "about": "Re-run of S00_env_check after pooling Kaggle's val/ folder (104 training femurs) back into train: confirms the Kaggle data and folds are now identical to splits/folds_v1.csv and that every file is found.",
     "track": "Shared"
   }
 }

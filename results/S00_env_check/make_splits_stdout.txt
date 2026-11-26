@@ -1,0 +1,16 @@
+data root: /kaggle/input/datasets/utopianstar/dataset/femoral/data
+read 1149 images
+WARNING: train class counts {0: 327, 1: 50, 2: 223, 3: 124, 4: 182, 5: 33} differ from expected {0: 363, 1: 57, 2: 254, 3: 134, 4: 199, 5: 36}
+
+class codes: NF = No fracture, 2AB = Neck Garden I-II, 2CD = Neck Garden III-IV, 3AB = Pertroch Evans I-II, 3CDE = Pertroch Evans III-V, 4 = Subtrochanteric
+fold          NF     2AB     2CD     3AB    3CDE       4   TOTAL  x-rays
+fold0         65      10      45      25      36       7     188     132
+fold1         66      10      44      25      37       6     188     132
+fold2         65      10      45      25      37       6     188     132
+fold3         66      10      44      25      36       7     188     131
+fold4         65      10      45      24      36       7     187     131
+test          65      16      41      34      42      12     210        
+
+fingerprint 56fa358fda0a9b24ca40e8fe6d9928f7be773a7d
+wrote /kaggle/working/results/S00_env_check/folds_check.csv and /kaggle/working/results/S00_env_check/folds_check_summary.json
+
