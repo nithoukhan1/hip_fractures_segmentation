@@ -24,5 +24,59 @@
     "expected_minutes": 4,
     "about": "Re-run of S00_env_check after pooling Kaggle's val/ folder (104 training femurs) back into train: confirms the Kaggle data and folds are now identical to splits/folds_v1.csv and that every file is found.",
     "track": "Shared"
+  },
+  "S01_yolov8s_seg_1024": {
+    "step": "1",
+    "script": "scripts/train_yolo_seg.py",
+    "pip": [
+      "ultralytics==8.4.219"
+    ],
+    "gpu": "T4 x2 (two folds at a time)",
+    "track": "Shared",
+    "args": [
+      "--model",
+      "yolov8s-seg.pt",
+      "--imgsz",
+      "1024",
+      "--epochs",
+      "100",
+      "--batch",
+      "8",
+      "--folds",
+      "0,1,2,3,4",
+      "--gpus",
+      "0,1",
+      "--est-fold-min",
+      "110"
+    ],
+    "expected_minutes": 330,
+    "about": "Baseline 1: the base article's final model (YOLOv8-small-seg, 1024 px) retrained on our 5 folds with the paper's 100 epochs and Ultralytics defaults (batch 8 at 1024 px). Final weights, val=False during training, fracture threshold fitted on the out-of-fold predictions; every fold model also predicts the test set (fixed baseline = frozen configuration)."
+  },
+  "S02_yolov8s_seg_640": {
+    "step": "1",
+    "script": "scripts/train_yolo_seg.py",
+    "pip": [
+      "ultralytics==8.4.219"
+    ],
+    "gpu": "T4 x2 (two folds at a time)",
+    "track": "Shared",
+    "args": [
+      "--model",
+      "yolov8s-seg.pt",
+      "--imgsz",
+      "640",
+      "--epochs",
+      "100",
+      "--batch",
+      "16",
+      "--folds",
+      "0,1,2,3,4",
+      "--gpus",
+      "0,1",
+      "--est-fold-min",
+      "50"
+    ],
+    "expected_minutes": 150,
+    "about": "Baseline 2: the paper's best-Dice setting (YOLOv8-small-seg, 640 px; test Dice .780 in its grid), same protocol as S01 with Ultralytics' default batch 16."
   }
 }

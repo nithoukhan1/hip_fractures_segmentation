@@ -17,8 +17,9 @@ Sources:
 | Ranking of directions D1–D9 and research plan | Done (Report 03) |
 | Decision: Papers A and B in parallel; execution plan | Done (Report 04) |
 | Fixed 5-fold split of the training set | Done (`splits/folds_v1.csv`) |
-| Kaggle environment check | Run 1 done: Kaggle's val/ holds 104 training femurs, now pooled into train. **Next: `S00_env_check_r2`** |
-| Shared baselines S1–S9 and core model M0 | Not started (Weeks 1–2) |
+| Kaggle environment check | Done: data and folds on Kaggle are identical to `splits/folds_v1.csv` (Kaggle's val/ pooled into train) |
+| Data loader, metrics, tests | Done (`src/femurseg/data.py`, `metrics.py`, `tests/`) |
+| Shared baselines S1–S9 and core model M0 | In progress: YOLO baselines S01 and S02 ready to run on Kaggle |
 | Paper A and Paper B methods, experiments, manuscripts | Not started |
 
 Details: [`PROJECT_TRACKER.md`](PROJECT_TRACKER.md) (overall) and [`PROGRESS_LOG.md`](PROGRESS_LOG.md) (step by step).
@@ -38,8 +39,9 @@ Details: [`PROJECT_TRACKER.md`](PROJECT_TRACKER.md) (overall) and [`PROGRESS_LOG
 ├── research/               literature notes
 ├── EDA/                    EDA script, per-image statistics, figures
 ├── splits/                 fixed train folds (official val folder is empty; test is untouched)
-├── src/femurseg/           Python package (class definitions, data paths; models and metrics come next)
-├── scripts/                command-line tools (make_splits.py, register_run.py; training scripts come next)
+├── src/femurseg/           Python package: classes, data paths, data loader (data.py), metrics (metrics.py)
+├── scripts/                command-line tools: make_splits.py, register_run.py, train_yolo_seg.py (S01/S02)
+├── tests/                  checks of metrics and folds (numpy/scipy) and a CPU smoke test of the YOLO script
 ├── configs/                one YAML file per experiment
 ├── kaggle/                 Kaggle launcher notebook, run list and Kaggle-only scripts
 ├── results/                every run's metrics, notes and small outputs (no model weights)

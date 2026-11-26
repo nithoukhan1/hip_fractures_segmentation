@@ -58,12 +58,20 @@ def key_result(run_dir: Path) -> tuple[str, str]:
     if met.exists():
         m = json.loads(met.read_text())
         gpu = gpu or str(m.get("gpu", ""))
-        for k in ("macro_f1", "dice_fractured_mean", "accuracy_6class", "auc_fracture", "garden12_recall"):
-            for scope in ("test_ensemble", "oof", "val", None):
-                block = m.get(scope, {}) if scope else m
-                if isinstance(block, dict) and isinstance(block.get(k), (int, float)):
-                    parts.append(f"{k}{'' if scope is None else f' ({scope})'}: {block[k]:.3f}")
+        short = (("auc_fracture", "AUC"), ("accuracy_6class", "6-class acc"), ("macro_f1", "macro-F1"),
+                 ("dice_fractured_mean", "Dice fractured"), ("garden12_recall", "Garden I-II recall"))
+        for scope, label in (("oof", "OOF"), ("val", "val"), ("test_ensemble", "test ensemble"), (None, "")):
+            block = m.get(scope) if scope else m
+            vals = [f"{name} {block[k]:.3f}" for k, name in short
+                    if isinstance(block, dict) and isinstance(block.get(k), (int, float))]
+            if vals:
+                parts.append((f"{label}: " if label else "") + ", ".join(vals))
+                if scope is None:
                     break
+        if (m.get("thresholds") or {}).get("oof_youden") is not None:
+            parts.append(f"threshold (OOF Youden) {m['thresholds']['oof_youden']:.3f}")
+        if m.get("folds_skipped_time_guard") or m.get("folds_failed"):
+            parts.append(f"folds skipped {m.get('folds_skipped_time_guard')}, failed {m.get('folds_failed')}")
     return gpu, "; ".join(parts) if parts else "see files"
 
 

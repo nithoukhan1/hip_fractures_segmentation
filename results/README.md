@@ -12,10 +12,11 @@ results/
 └── <RUN>/                    one folder per run, filed from its zip
     ├── run_meta.json         git commit, command, start time, runtime, exit code
     ├── NOTES.md              why the run was made, what changed, result, what we learnt, decision
-    ├── config.yaml           exact settings (training runs)
-    ├── metrics.json          summary metrics (validation, out-of-fold, test when final)
-    ├── per_case_*.csv        one row per femur: prediction, probability, Dice, etc.
-    └── log.txt / *.png       training log and small figures
+    ├── config.json           exact settings, git commit, start-weights checksum (training runs)
+    ├── metrics.json          summary metrics (out-of-fold, per fold, test when frozen), thresholds, folds done
+    ├── summary.md            headline table, next to the base article's numbers where they exist
+    ├── per_case_*.csv        one row per femur: per-class confidences, prediction, Dice, HD95, NSD
+    └── folds/fold<k>/        per-fold predictions, training curve, Ultralytics settings, log tail
 ```
 
 ## Run names
@@ -38,5 +39,5 @@ Example: `S01_yolov8s_seg_1024`. The plan for every run is in `Analysis/04_Execu
 ## Rules
 1. A run folder is never edited after it is filed, except its `NOTES.md`. A re-run gets a new name, for example `S01_yolov8s_seg_1024_r2`.
 2. Every number in a manuscript must come from a file in this folder.
-3. Test-set metrics appear only in runs marked `final` (frozen configurations).
+3. Test-set metrics appear only for frozen configurations: fixed baselines such as S01 and S02, and runs marked `final`.
 4. Failed runs are filed too (exit code ≠ 0), with a note on what went wrong. They show what was tried.

@@ -220,7 +220,7 @@ Radiologists compare the painful hip with the other side. RefFrac gives the netw
 | ID | Model | Why it is there |
 |---|---|---|
 | B1 | YOLOv8s-seg @ 1024 px | The paper's final model (our reproduction; their code is not public) |
-| B2 | YOLOv8n-seg @ 640 px | The paper's best-Dice setting |
+| B2 | YOLOv8s-seg @ 640 px | The paper's best-Dice setting (small @640: test Dice .780; corrected 2026-11-26, earlier drafts said nano) |
 | B3 | YOLO11s-seg @ 640 px | Newer YOLO generation |
 | B4 | DenseNet121 classifier | The paper's best classifier (AUC 0.993) |
 | B5 | EfficientNet-B4 classifier | Paper baseline |
@@ -268,7 +268,7 @@ Hours per run are my estimates for a single T4 or P100 with mixed precision. Wee
 |---|---|---|---|
 | Environment check + image cache | 1 | 0.3 | 0.3 |
 | B1 YOLOv8s-seg @1024 | 5 | 1.5–2.0 | 8–10 |
-| B2 YOLOv8n-seg @640, B3 YOLO11s-seg @640 | 10 | 0.5–0.8 | 6–7 |
+| B2 YOLOv8s-seg @640, B3 YOLO11s-seg @640 | 10 | 0.5–0.8 | 6–7 |
 | B4–B6 classifiers | 15 | 0.3–0.4 | 5–6 |
 | B7–B9 segmenters | 15 | 0.4–0.5 | 6–8 |
 | SLG-Net development (fold 0 only) | ~25 | 0.5 | 12–15 |

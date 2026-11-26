@@ -21,9 +21,9 @@
 | 4 | Gap analysis and idea selection | Done (2026-11-26): **A and B in parallel** | `Analysis/02_…` (D1–D9), `Analysis/03_…` (ranking, designs) | |
 | 5 | Execution plan for both papers | Done (2026-11-26) | `Analysis/04_Execution_Plan_A_and_B.md` | Runs, validation rules, compute, dual timeline |
 | 6 | Repository, fixed splits, Kaggle launcher, run register | Done; merged into `main` 2026-11-26 (PR #1); default branch = `main` | README, `splits/folds_v1.csv`, `kaggle/`, `results/`, `scripts/register_run.py` | 5 grouped, stratified folds; counts match paper Table 1 |
-| 7 | Kaggle environment check | Run 1 done 2026-11-26: Kaggle's val/ holds 104 training femurs, now pooled into train. **Next: `S00_env_check_r2` to confirm** | `results/S00_env_check/` | 2 × T4, 4 CPU cores, 32 GB RAM; 939 train + 210 test files identical to local |
-| 8 | Data loader, metrics and statistics modules | Not started (Week 1) | `src/femurseg/` | Same code for both papers |
-| 9 | Baselines S1–S9 and core model M0 (5 folds each) | Not started (Weeks 1–2) → **M1** | `results/S*` | M0 = A1 in Paper A = R0 in Paper B |
+| 7 | Kaggle environment check | Done 2026-11-26: run 1 found Kaggle's val/ holds 104 training femurs (now pooled into train); `S00_env_check_r2` confirmed same data, same folds, all files found | `results/S00_env_check/`, `results/S00_env_check_r2/` | 2 × T4, 4 CPU cores, 32 GB RAM; all 1,253 files identical to local |
+| 8 | Data loader, metrics and statistics modules | Loader and metrics done 2026-11-26 (13 metric checks incl. scikit-learn, 4 fold checks, CPU smoke test of the YOLO script); statistics module next | `src/femurseg/data.py`, `metrics.py`, `tests/` | Same code for both papers |
+| 9 | Baselines S1–S9 and core model M0 (5 folds each) | In progress: S01 (YOLOv8s-seg @1024) and S02 (YOLOv8s-seg @640) ready on Kaggle (`scripts/train_yolo_seg.py`) → **M1** | `results/S*` | M0 = A1 in Paper A = R0 in Paper B |
 
 ### Track A: Paper 1, SLG-Net
 | # | Phase | Weeks | Status |
@@ -48,7 +48,7 @@
 ## Milestones
 | ID | Milestone | Target date | Status |
 |---|---|---|---|
-| M0 | Setup merged into `main`, Kaggle environment check passed | 29 Nov 2026 | Setup merged; check needs the r2 confirmation |
+| M0 | Setup merged into `main`, Kaggle environment check passed | 29 Nov 2026 | **Reached 26 Nov 2026** |
 | M1 | Baseline table v1 (S1–S9 + M0) | 13 Dec 2026 | |
 | M2-A | SLG-Net frozen | 3 Jan 2027 | |
 | M2-B | RefFrac frozen | 10 Jan 2027 | |
@@ -62,10 +62,10 @@
 ## Compute budget (Kaggle GPU-hours, from Report 04 §6)
 | Block | GPU-hours | Used so far |
 |---|---|---|
-| Shared | 28–34 | 0.06 (S00) |
+| Shared | 28–34 | 0.12 (S00 + S00_r2) |
 | Track A only | 35–38 | 0 |
 | Track B only | 55–60 | 0 |
-| **Total** | **120–135** (peak about 20 h in one week) | 0.06 |
+| **Total** | **120–135** (peak about 20 h in one week) | 0.12 |
 
 ## Key decisions log
 | Date | Decision | Why |
@@ -84,9 +84,11 @@
 | 2026-11-26 | `main` created as an empty base branch, so the whole setup can be reviewed in one pull request | The repository started with only the setup branch |
 | 2026-11-26 | **Kaggle's val/ folder (104 of the 1,043 training femurs) is pooled back into train in all code** (`src/femurseg/paths.py`); the folds stay `splits/folds_v1.csv` | Kaggle's val/ is not the paper's missing validation set, it splits 57 x-rays across train and val (leak), and pooling gives the same data and folds on every copy (S00_env_check) |
 | 2026-11-26 | Training scripts load all images into RAM once per session | Reading from /kaggle/input takes 98 ms per image; all 1,253 images take about 2 GB of the 32 GB RAM |
+| 2026-11-26 | YOLO baselines (S01, S02): Ultralytics 8.4.219, COCO weights, 100 epochs, Ultralytics defaults (optimizer auto = AdamW for this data size), final weights with `val=False`; paper rule (fracture = any instance, class and mask of the top-confidence instance); fracture threshold = Youden on OOF (ties → higher sensitivity), plus results at Ultralytics' 0.25; test = mean ± SD of the 5 fold models and their ensemble | Same rules as every other run; the paper kept the best-validation checkpoint and did not report hyper-parameters, so differences are stated |
+| 2026-11-26 | **Correction:** the paper's best-Dice setting is YOLOv8-**small** @640 (test Dice .780), not nano; S02 is `S02_yolov8s_seg_640` | Reports 03 and 04 said nano; fixed |
 
 ## Open questions
-- `S00_env_check_r2` on Kaggle: are Kaggle's 104 val/ images pixel-identical to the local ones? (The other 1,149 files are.) Expected: same data True, same folds True, all files found True.
+- Resolved 2026-11-26 (`S00_env_check_r2`): Kaggle's 104 val/ images are identical to the local ones; data, folds and file list all match.
 - Is a T4 x2 session metered like one GPU? Compare your quota before and after one run. If yes, A and B jobs can share one launch.
 - Real hours per run on Kaggle (Week 1), to update the compute table in Report 04 §6.
 - Repository visibility: it is public now. Consider making it private until submission, so the methods are not visible before the papers; Kaggle can still clone it with a token (see `kaggle/launcher.ipynb`).
