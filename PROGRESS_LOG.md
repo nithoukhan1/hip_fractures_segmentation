@@ -25,13 +25,16 @@ Newest entries at the top. Each entry: what was done, what it produced, what com
    - `tests/test_nets.py`: M0's class output is identical to the ConvNeXt-T classifier's with the same weights; decision rules, losses and the cache.
    - `tests/smoke_train_net.py`: full 5-fold CPU runs of a classifier, a segmenter and M0, plus both analysis scripts.
    - A learning check on synthetic data reached Dice 0.97.
+   - The image cache was built from the real local data (1,253 femurs, 43.5 s). Every mask holds only its femur's class, and the smallest fracture mask has 1,722 pixels at 768 × 512 (median 23,045), well above the 500 pixels the segmenters' fracture score averages.
    - The YOLO smoke test still passes.
 5. `run_stats.py` and `run_breakdown.py` handle runs without masks: classifiers get no Dice, not Dice 0.
 6. The full protocol is written down before any result: `Analysis/05_Step2_Baselines_Protocol.md`.
+7. Sent everything as PR #5 and synced your local folder.
 
 **Next**
-- You: run `S00_net_check` (about 15 min) in a second session on your main account, with `BRANCH = "claude/project-thread-kges8j"` until PR #5 is merged. Put the zip in `results/_inbox/`.
-- Me: file it, set the measured batch sizes and times in `kaggle/runs.json`, then send PR #5. The first training runs are S06 and S10.
+- You: merge PR #5, then run `S00_net_check` (about 15 min) in a second session on your main account with `BRANCH = "main"` (before the merge, `"claude/project-thread-kges8j"`). Put the zip in `results/_inbox/`.
+- Me: file it and set the measured batch sizes and run times in `kaggle/runs.json`. The first training runs are then S06 and S10.
+- When S03 finishes: I file it and write analysis C02 (S01 vs S03).
 
 ---
 
