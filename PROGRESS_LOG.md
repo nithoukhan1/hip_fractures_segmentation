@@ -4,6 +4,26 @@ Newest entries at the top. Each entry: what was done, what it produced, what com
 
 ---
 
+## 2026-11-26 · Step 10: S00_net_check filed; measured run times for S04–S10
+
+**Done (you)**
+- Merged PR #5 (`a15364b`) and ran `S00_net_check` on Kaggle (3.5 min, exit code 0).
+
+**Done (me)**
+1. Filed it with `scripts/register_run.py` (`results/S00_net_check/`, register line 5) and wrote its `NOTES.md`.
+2. Result: all 7 networks downloaded their ImageNet weights and trained on a T4.
+   - Micro-batch 16: DenseNet121, ConvNeXt-T, U-Net, DeepLabV3+ and M0.
+   - Micro-batch 8 with 2 accumulated steps (still 16 images per update): EfficientNet-B4 (16 needed 14.6 GB) and SegFormer (16 ran out of memory).
+3. Set the measured run times in `kaggle/runs.json`: S04 1.6 h, S05 2.1 h, S06 1.7 h, S07 1.7 h, S08 1.5 h, S09 3.3 h, S10 2.8 h (about 14.6 h in all).
+4. Added the result to the protocol as an addendum (`Analysis/05_Step2_Baselines_Protocol.md` §7). The recipe is unchanged.
+5. `scripts/register_run.py` now writes "Tesla T4 x2" for a net check that used both GPUs.
+
+**Next**
+- You: run `S10_m0_convnext_unet` (about 2.8 h) and `S06_convnext_tiny` (about 1.7 h), in two sessions if two are free. Put each zip in `results/_inbox/`.
+- Me: file each run; with both in, analysis C05 (S06 vs S10: does learning the mask help the classifier?). When S03 finishes: file it and write C02 (S01 vs S03).
+
+---
+
 ## 2026-11-26 · Step 9: Step 2 code, one training script for S04–S10 (classifiers, segmenters, M0)
 
 **Done (you)**

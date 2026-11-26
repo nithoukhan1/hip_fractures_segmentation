@@ -128,8 +128,9 @@
       "--gpus",
       "0,1"
     ],
-    "expected_minutes": 15,
-    "about": "Pre-flight of the 7 networks of S04-S10 on the real GPUs, before any of them is trained: downloads the ImageNet weights, finds the largest micro-batch that fits in a T4 (gradients are accumulated to the batch of 16), times a training step, and estimates the minutes per fold and per run. Also builds the resized image cache once and times it. Trains nothing."
+    "expected_minutes": 4,
+    "about": "Pre-flight of the 7 networks of S04-S10 on the real GPUs, before any of them is trained: downloads the ImageNet weights, finds the largest micro-batch that fits in a T4 (gradients are accumulated to the batch of 16), times a training step, and estimates the minutes per fold and per run. Also builds the resized image cache once and times it. Trains nothing.",
+    "estimate_note": "measured: 3.5 min (register line 5)"
   },
   "S04_densenet121": {
     "step": "2",
@@ -153,9 +154,9 @@
       "--gpus",
       "0,1"
     ],
-    "expected_minutes": 75,
+    "expected_minutes": 95,
     "about": "Baseline 4: DenseNet121 image classifier (6 classes), the article's best classifier (test AUC .993, 6-class accuracy 83.8%, Table 3), retrained on our 5 folds with the shared recipe (768 x 512 px, 60 epochs, AdamW, final weights, OOF threshold).",
-    "estimate_note": "first guess; replaced by the S00_net_check measurement"
+    "estimate_note": "measured by S00_net_check (register line 5): micro-batch 16 x 1, 8.48 GB, 0.4813 s per micro-step, about 28.6 min per fold; 3 rounds of folds + about 5 min set-up"
   },
   "S05_efficientnet_b4": {
     "step": "2",
@@ -179,9 +180,9 @@
       "--gpus",
       "0,1"
     ],
-    "expected_minutes": 90,
+    "expected_minutes": 125,
     "about": "Baseline 5: EfficientNet-B4 image classifier, an article baseline (test AUC .990, accuracy 79.0%, Table 3), same recipe as S04.",
-    "estimate_note": "first guess; replaced by the S00_net_check measurement"
+    "estimate_note": "measured by S00_net_check (register line 5): micro-batch 8 x 2, 7.48 GB, 0.3387 s per micro-step, about 39.8 min per fold; 3 rounds of folds + about 5 min set-up (micro-batch 16 needed 14.58 GB, over 85% of the T4)"
   },
   "S06_convnext_tiny": {
     "step": "2",
@@ -205,9 +206,9 @@
       "--gpus",
       "0,1"
     ],
-    "expected_minutes": 75,
+    "expected_minutes": 100,
     "about": "Baseline 6 = A0 of Paper A: ConvNeXt-Tiny image classifier, the backbone of M0 and of both papers' models, same recipe as S04. Separates the effect of the new heads (Paper A) and of the reference image (Paper B) from the backbone.",
-    "estimate_note": "first guess; replaced by the S00_net_check measurement"
+    "estimate_note": "measured by S00_net_check (register line 5): micro-batch 16 x 1, 8.3 GB, 0.508 s per micro-step, about 30.1 min per fold; 3 rounds of folds + about 5 min set-up"
   },
   "S07_unet_r34": {
     "step": "2",
@@ -231,9 +232,9 @@
       "--gpus",
       "0,1"
     ],
-    "expected_minutes": 80,
+    "expected_minutes": 100,
     "about": "Baseline 7: U-Net with a ResNet34 encoder, semantic segmentation into the 6 classes (class of a femur = class of its predicted fracture region), same recipe. Standard segmentation baseline for the Dice comparison with YOLO (RQ1).",
-    "estimate_note": "first guess; replaced by the S00_net_check measurement"
+    "estimate_note": "measured by S00_net_check (register line 5): micro-batch 16 x 1, 8.38 GB, 0.5252 s per micro-step, about 31.5 min per fold; 3 rounds of folds + about 5 min set-up"
   },
   "S08_deeplabv3p_r34": {
     "step": "2",
@@ -257,9 +258,9 @@
       "--gpus",
       "0,1"
     ],
-    "expected_minutes": 80,
+    "expected_minutes": 90,
     "about": "Baseline 8: DeepLabV3+ with a ResNet34 encoder, same task and recipe as S07.",
-    "estimate_note": "first guess; replaced by the S00_net_check measurement"
+    "estimate_note": "measured by S00_net_check (register line 5): micro-batch 16 x 1, 6.25 GB, 0.447 s per micro-step, about 27.0 min per fold; 3 rounds of folds + about 5 min set-up"
   },
   "S09_segformer_b2": {
     "step": "2",
@@ -283,9 +284,9 @@
       "--gpus",
       "0,1"
     ],
-    "expected_minutes": 90,
+    "expected_minutes": 195,
     "about": "Baseline 9: SegFormer (MiT-B2 transformer encoder), same task and recipe as S07.",
-    "estimate_note": "first guess; replaced by the S00_net_check measurement"
+    "estimate_note": "measured by S00_net_check (register line 5): micro-batch 8 x 2, 10.58 GB, 0.5401 s per micro-step, about 63.3 min per fold; 3 rounds of folds + about 5 min set-up (micro-batch 16 ran out of memory)"
   },
   "S10_m0_convnext_unet": {
     "step": "2",
@@ -309,8 +310,8 @@
       "--gpus",
       "0,1"
     ],
-    "expected_minutes": 110,
+    "expected_minutes": 170,
     "about": "Core model M0 (= A1 of Paper A = R0 of Paper B): U-Net with the ConvNeXt-Tiny encoder of S06, a binary fracture mask and the same 6-class head on the encoder's last features. Differs from S06 only by the decoder and its mask loss, so S06 vs S10 answers whether segmentation as an extra task helps.",
-    "estimate_note": "first guess; replaced by the S00_net_check measurement"
+    "estimate_note": "measured by S00_net_check (register line 5): micro-batch 16 x 1, 11.19 GB, 0.9139 s per micro-step, about 53.8 min per fold; 3 rounds of folds + about 5 min set-up"
   }
 }

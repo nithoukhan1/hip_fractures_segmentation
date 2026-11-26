@@ -1,0 +1,198 @@
+{
+  "run": "S00_net_check",
+  "nets": [
+    {
+      "net": "cls:densenet121.tv_in1k",
+      "ok": true,
+      "device": "cuda:0",
+      "gpu": "Tesla T4",
+      "pretrained": true,
+      "build_seconds": 4.2,
+      "params_m": 6.96,
+      "tried": [
+        {
+          "micro_batch": 16,
+          "s_per_step": 0.4813,
+          "peak_gb": 8.48
+        }
+      ],
+      "micro_batch": 16,
+      "accumulation": 1,
+      "s_per_micro_step": 0.4813,
+      "peak_gb": 8.48,
+      "gpu_total_gb": 15.6,
+      "s_per_image_inference": 0.0114,
+      "est_fold_min": 28.6,
+      "log_tail": []
+    },
+    {
+      "net": "cls:efficientnet_b4.ra2_in1k",
+      "ok": true,
+      "device": "cuda:0",
+      "gpu": "Tesla T4",
+      "pretrained": true,
+      "build_seconds": 5.2,
+      "params_m": 17.56,
+      "tried": [
+        {
+          "micro_batch": 16,
+          "s_per_step": 0.6544,
+          "peak_gb": 14.58,
+          "note": "over 85% of the GPU memory: next size down"
+        },
+        {
+          "micro_batch": 8,
+          "s_per_step": 0.3387,
+          "peak_gb": 7.48
+        }
+      ],
+      "micro_batch": 8,
+      "accumulation": 2,
+      "s_per_micro_step": 0.3387,
+      "peak_gb": 7.48,
+      "gpu_total_gb": 15.6,
+      "s_per_image_inference": 0.0126,
+      "est_fold_min": 39.8,
+      "log_tail": []
+    },
+    {
+      "net": "cls:convnext_tiny.fb_in22k_ft_in1k",
+      "ok": true,
+      "device": "cuda:0",
+      "gpu": "Tesla T4",
+      "pretrained": true,
+      "build_seconds": 4.7,
+      "params_m": 27.82,
+      "tried": [
+        {
+          "micro_batch": 16,
+          "s_per_step": 0.508,
+          "peak_gb": 8.3
+        }
+      ],
+      "micro_batch": 16,
+      "accumulation": 1,
+      "s_per_micro_step": 0.508,
+      "peak_gb": 8.3,
+      "gpu_total_gb": 15.6,
+      "s_per_image_inference": 0.0109,
+      "est_fold_min": 30.1,
+      "log_tail": []
+    },
+    {
+      "net": "seg:Unet:resnet34",
+      "ok": true,
+      "device": "cuda:0",
+      "gpu": "Tesla T4",
+      "pretrained": true,
+      "build_seconds": 3.9,
+      "params_m": 24.44,
+      "tried": [
+        {
+          "micro_batch": 16,
+          "s_per_step": 0.5252,
+          "peak_gb": 8.38
+        }
+      ],
+      "micro_batch": 16,
+      "accumulation": 1,
+      "s_per_micro_step": 0.5252,
+      "peak_gb": 8.38,
+      "gpu_total_gb": 15.6,
+      "s_per_image_inference": 0.0109,
+      "est_fold_min": 31.5,
+      "log_tail": []
+    },
+    {
+      "net": "seg:DeepLabV3Plus:resnet34",
+      "ok": true,
+      "device": "cuda:0",
+      "gpu": "Tesla T4",
+      "pretrained": true,
+      "build_seconds": 2.4,
+      "params_m": 22.44,
+      "tried": [
+        {
+          "micro_batch": 16,
+          "s_per_step": 0.447,
+          "peak_gb": 6.25
+        }
+      ],
+      "micro_batch": 16,
+      "accumulation": 1,
+      "s_per_micro_step": 0.447,
+      "peak_gb": 6.25,
+      "gpu_total_gb": 15.6,
+      "s_per_image_inference": 0.0094,
+      "est_fold_min": 27.0,
+      "log_tail": []
+    },
+    {
+      "net": "seg:Segformer:mit_b2",
+      "ok": true,
+      "device": "cuda:0",
+      "gpu": "Tesla T4",
+      "pretrained": true,
+      "build_seconds": 4.5,
+      "params_m": 24.72,
+      "tried": [
+        {
+          "micro_batch": 16,
+          "oom": true
+        },
+        {
+          "micro_batch": 8,
+          "s_per_step": 0.5401,
+          "peak_gb": 10.58
+        }
+      ],
+      "micro_batch": 8,
+      "accumulation": 2,
+      "s_per_micro_step": 0.5401,
+      "peak_gb": 10.58,
+      "gpu_total_gb": 15.6,
+      "s_per_image_inference": 0.025,
+      "est_fold_min": 63.3,
+      "log_tail": []
+    },
+    {
+      "net": "m0:convnext_tiny.fb_in22k_ft_in1k",
+      "ok": true,
+      "device": "cuda:0",
+      "gpu": "Tesla T4",
+      "pretrained": true,
+      "build_seconds": 3.5,
+      "params_m": 31.93,
+      "tried": [
+        {
+          "micro_batch": 16,
+          "s_per_step": 0.9139,
+          "peak_gb": 11.19
+        }
+      ],
+      "micro_batch": 16,
+      "accumulation": 1,
+      "s_per_micro_step": 0.9139,
+      "peak_gb": 11.19,
+      "gpu_total_gb": 15.6,
+      "s_per_image_inference": 0.0209,
+      "est_fold_min": 53.8,
+      "log_tail": []
+    }
+  ],
+  "cache_build_seconds": 46.2,
+  "size_hw": [
+    768,
+    512
+  ],
+  "epochs": 60,
+  "batch": 16,
+  "folds_per_gpu_round": 3,
+  "minutes_total": 3.5,
+  "torch": "2.11.0+cu130",
+  "timm": "1.0.30",
+  "smp": "0.6.0",
+  "albumentations": "2.0.8",
+  "numpy": "2.1.3",
+  "python": "3.13.16"
+}

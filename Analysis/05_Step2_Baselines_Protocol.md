@@ -74,3 +74,23 @@ Each run trains 5 folds, two at a time on the two T4s, with the time guard of `s
 - One recipe for all networks, so no baseline gets tuned settings. This is the usual and fairer choice, but a baseline could do better with its own tuning. The recipe is fixed before any result.
 - The YOLO baselines see 1024 px, the others 768 × 512. This is the standard input of each family; the test of resolution belongs to the sensitivity runs (Report 04, A-sens at 1152 × 768).
 - The segmenters' fracture score is a design choice (top-500 mean). It is stated here, before the results, and the same for all three.
+
+---
+
+## 7. Addendum: pre-flight result (`S00_net_check`, 2026-11-26, register line 5)
+
+Added after the pre-flight; §1–§6 are unchanged. The run used commit `a15364b` on Kaggle's T4s and took 3.5 min (image cache built in 46 s). All 7 networks downloaded their ImageNet weights and trained a step. The pre-flight only fixed the micro-batch, by the rule in §2.
+
+| Run | Network | Micro-batch × accumulation | Peak GPU memory (GB) | Minutes per fold | Expected run time |
+|---|---|---|---|---|---|
+| S04 | DenseNet121 | 16 × 1 | 8.5 | 29 | 1.6 h |
+| S05 | EfficientNet-B4 | 8 × 2 | 7.5 | 40 | 2.1 h |
+| S06 | ConvNeXt-T | 16 × 1 | 8.3 | 30 | 1.7 h |
+| S07 | U-Net (ResNet34) | 16 × 1 | 8.4 | 32 | 1.7 h |
+| S08 | DeepLabV3+ (ResNet34) | 16 × 1 | 6.3 | 27 | 1.5 h |
+| S09 | SegFormer (MiT-B2) | 8 × 2 | 10.6 | 63 | 3.3 h |
+| S10 | M0 | 16 × 1 | 11.2 | 54 | 2.8 h |
+
+- EfficientNet-B4 needed 14.6 GB at micro-batch 16 (over 85% of the 15.6 GB T4), and SegFormer ran out of memory at 16. Both train with micro-batches of 8 and two accumulated steps, so the optimiser still sees 16 images per update. EfficientNet-B4's batch-norm statistics come from 8 images; SegFormer has a single batch-norm layer, in its decoder. The methods section states this.
+- No network is close to the 85% limit at its chosen size (largest: M0 with 11.2 GB), so each run's own pre-flight picks the same micro-batch.
+- Expected run time = 3 rounds of folds (5 folds, two at a time) + about 5 min of set-up; about 14.6 h for the 7 runs. The step times come from random images. The data loader should not slow training: augmenting one image takes about 1.5 ms on one CPU core (measured in our container), more than ten times faster than a fold needs.

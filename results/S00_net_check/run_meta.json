@@ -1,0 +1,9 @@
+{
+  "run": "S00_net_check",
+  "step": "2",
+  "git_commit": "a15364b4a4927c917521fce453cb6525d40bf20a",
+  "command": "/usr/bin/python3 /tmp/code/scripts/train_net.py --check-nets cls:densenet121.tv_in1k,cls:efficientnet_b4.ra2_in1k,cls:convnext_tiny.fb_in22k_ft_in1k,seg:Unet:resnet34,seg:DeepLabV3Plus:resnet34,seg:Segformer:mit_b2,m0:convnext_tiny.fb_in22k_ft_in1k --size 768x512 --batch 16 --epochs 60 --gpus 0,1 --out /kaggle/working/results/S00_net_check",
+  "started_utc": "2026-11-26T16:47:51Z",
+  "runtime_minutes": 3.47,
+  "exit_code": 0
+}
