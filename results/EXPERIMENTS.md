@@ -14,9 +14,10 @@ Every Kaggle run gets one line in the table at the **bottom** of this file. `scr
 | ~~S01_yolov8s_seg_1024~~ | Shared | 1 | Done 2026-11-26 (register line 3): reproduces the article's accuracy and AUC; analysis in `results/analysis/C01_yolo_1024_vs_640/` | 2.9 h measured |
 | ~~S02_yolov8s_seg_640~~ | Shared | 1 | Done 2026-11-26 (register line 4): same as S01 within noise; the article's Dice gain at 640 px is not reproduced | 1.35 h measured |
 | S03_yolo11s_seg_1024 | Shared | 2 | Baseline 3: YOLO11s-seg @1024 with exactly S01's protocol (ready in `kaggle/runs.json`) | ~3 h (one launch) |
-| S04–S06 | Shared | 2 | Classifiers DenseNet121, EfficientNet-B4, ConvNeXt-T (S06 = A0), 768 × 512 input | about 1.5–2 h each (estimate) |
-| S07–S09 | Shared | 2 | Segmenters U-Net, DeepLabV3+, SegFormer, 768 × 512 input | about 1.5–2 h each (estimate) |
-| M0 | Shared | 2 | ConvNeXt-T + U-Net decoder + flat 6-class head (= A1 in Paper A = R0 in Paper B) | about 2 h (estimate) |
+| S00_net_check | Shared | 2 | Pre-flight of the 7 Step 2 networks on the T4s (weights, memory, speed); trains nothing | ~15 min |
+| S04_densenet121, S05_efficientnet_b4, S06_convnext_tiny | Shared | 2 | Classifiers DenseNet121, EfficientNet-B4, ConvNeXt-T (S06 = A0), 768 × 512 input, `scripts/train_net.py` (protocol: `Analysis/05_Step2_Baselines_Protocol.md`) | about 1–1.5 h each (S00_net_check measures it) |
+| S07_unet_r34, S08_deeplabv3p_r34, S09_segformer_b2 | Shared | 2 | Segmenters U-Net, DeepLabV3+ (ResNet34), SegFormer (MiT-B2), 768 × 512 input | about 1.5 h each (S00_net_check measures it) |
+| S10_m0_convnext_unet | Shared | 2 | Core model M0: ConvNeXt-T + U-Net decoder + the same 6-class head as S06 (= A1 in Paper A = R0 in Paper B) | about 2 h (S00_net_check measures it) |
 
 ## Register
 | # | Date | RUN | Track | Step | Git commit | Kaggle version | GPU | Runtime (min) | Exit | Key result | Purpose / decision |

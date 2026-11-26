@@ -82,10 +82,25 @@ def nsd(pred: np.ndarray, gt: np.ndarray, tol: float = 2.0) -> float:
     return float(((a <= tol).sum() + (b <= tol).sum()) / (len(a) + len(b)))
 
 
-def seg_metrics(pred: np.ndarray, gt: np.ndarray, nsd_tol: float = 2.0) -> dict[str, float]:
+def seg_metrics(pred: np.ndarray, gt: np.ndarray, nsd_tol: float | tuple[float, ...] = 2.0) -> dict[str, float]:
+    """Dice, IoU, HD95, NSD at one or several tolerances (keys nsd2, nsd10, ...) and both areas.
+
+    The surface distances are computed once and shared by HD95 and every NSD tolerance; the values are the same as
+    those of hd95() and nsd()."""
     p, g = _as_bool(pred), _as_bool(gt)
-    return {"dice": dice(p, g), "iou": iou(p, g), "hd95": hd95(p, g), f"nsd{nsd_tol:g}": nsd(p, g, nsd_tol),
-            "area_pred": int(p.sum()), "area_gt": int(g.sum())}
+    tols = (float(nsd_tol),) if np.isscalar(nsd_tol) else tuple(float(t) for t in nsd_tol)
+    if not p.any() and not g.any():
+        hd, ns = 0.0, {t: 1.0 for t in tols}
+    elif not p.any() or not g.any():
+        hd, ns = float("nan"), {t: 0.0 for t in tols}
+    else:
+        a, b = _surface_distances(p, g)
+        hd = float(np.percentile(np.concatenate([a, b]), 95))
+        ns = {t: float(((a <= t).sum() + (b <= t).sum()) / (len(a) + len(b))) for t in tols}
+    out = {"dice": dice(p, g), "iou": iou(p, g), "hd95": hd}
+    out.update({f"nsd{t:g}": v for t, v in ns.items()})
+    out.update(area_pred=int(p.sum()), area_gt=int(g.sum()))
+    return out
 
 
 # ------------------------------------------------------------------------------------------- classification

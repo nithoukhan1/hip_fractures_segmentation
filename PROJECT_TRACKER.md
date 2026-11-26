@@ -23,7 +23,7 @@
 | 6 | Repository, fixed splits, Kaggle launcher, run register | Done; merged into `main` 2026-11-26 (PR #1); default branch = `main` | README, `splits/folds_v1.csv`, `kaggle/`, `results/`, `scripts/register_run.py` | 5 grouped, stratified folds; counts match paper Table 1 |
 | 7 | Kaggle environment check | Done 2026-11-26: run 1 found Kaggle's val/ holds 104 training femurs (now pooled into train); `S00_env_check_r2` confirmed same data, same folds, all files found | `results/S00_env_check/`, `results/S00_env_check_r2/` | 2 × T4, 4 CPU cores, 32 GB RAM; all 1,253 files identical to local |
 | 8 | Data loader, metrics and statistics modules | Done 2026-11-26: loader, metrics (13 checks incl. scikit-learn), statistics (9 checks; reproduces the paper's accuracy interval 80.77–90.55 exactly), fold checks, CPU smoke test of the YOLO script and the statistics script | `src/femurseg/data.py`, `metrics.py`, `stats.py`, `scripts/run_stats.py`, `tests/` | Same code for both papers |
-| 9 | Baselines S1–S9 and core model M0 (5 folds each) | In progress: **S01 and S02 done 2026-11-26** (register lines 3–4; analysis `results/analysis/C01_yolo_1024_vs_640/`): classification reproduces the article, Dice .02–.04 lower. S03 (YOLO11s-seg @1024) ready on Kaggle; S04–S09 and M0 need the Step 2 training script → **M1** | `results/S*`, `results/analysis/` | M0 = A1 in Paper A = R0 in Paper B |
+| 9 | Baselines S1–S9 and core model M0 (5 folds each) | In progress: **S01 and S02 done 2026-11-26** (register lines 3–4; analysis `results/analysis/C01_yolo_1024_vs_640/`): classification reproduces the article, Dice .02–.04 lower. S03 (YOLO11s-seg @1024) running on Kaggle. **Step 2 code done 2026-11-26:** `scripts/train_net.py` for S04–S10 (CPU-tested; protocol `Analysis/05_…`); next `S00_net_check`, then S06 and S10 → **M1** | `results/S*`, `results/analysis/` | M0 = run S10 = A1 in Paper A = R0 in Paper B |
 
 ### Track A: Paper 1, SLG-Net
 | # | Phase | Weeks | Status |
@@ -92,6 +92,10 @@
 | 2026-11-26 | New training code also records NSD at 10 and 20 px | NSD at 2 px is about .05 for every model (median HD95 63–72 px), so it cannot separate methods |
 | 2026-11-26 | S03 = YOLO11s-seg at 1024 px with exactly S01's protocol | 640 vs 1024 px made no significant difference (C01); a like-for-like comparison with S01 isolates the architecture |
 | 2026-11-26 | The article's published numbers live in `src/femurseg/reference.py`, checked by `tests/test_reference.py` | One checked source for every comparison table |
+| 2026-11-26 | **Step 2 recipe, the same for S04–S10** (`Analysis/05_Step2_Baselines_Protocol.md`): 768 × 512 input, ImageNet weights, AdamW lr 2e-4 wd 0.05, 2 warm-up epochs + cosine, 60 epochs, final weights, batch 16 (micro-batches with gradient accumulation if memory is short), fp16; no per-model tuning | Fixed before any result; fair to all baselines; fits Kaggle's T4s |
+| 2026-11-26 | M0 = S06's ConvNeXt-T classifier + a U-Net decoder (binary mask); its 6-class head is S06's own head on the same features (checked identical in `tests/test_nets.py`). M0 runs as `S10_m0_convnext_unet` | S06 vs S10 isolates the effect of learning the mask |
+| 2026-11-26 | Segmenters (S07–S09): 6-class pixel labels; fracture score = mean of the 500 highest pixel fracture probabilities; class = largest share of the predicted region. All models are scored by one module (`src/femurseg/evaluation.py`), which re-scores S01/S02 to exactly their `metrics.json` | One decision rule and one scoring code for every model |
+| 2026-11-26 | Use one Kaggle account; run parallel sessions on it, or on a colleague's own account | Kaggle allows one account per person; a second own account risks a ban of both |
 
 ## Open questions
 - Resolved 2026-11-26 (`S00_env_check_r2`): Kaggle's 104 val/ images are identical to the local ones; data, folds and file list all match.

@@ -54,6 +54,16 @@ def key_result(run_dir: Path) -> tuple[str, str]:
         speed = rep.get("gpu_speed") or {}
         if isinstance(speed, dict) and speed and "error" not in speed and "skipped" not in speed:
             parts.append("fp16 TFLOPs: " + ", ".join(str(v.get("fp16_matmul_tflops")) for v in speed.values()))
+    check = run_dir / "net_check.json"
+    if check.exists():  # S00_net_check: pre-flight of several networks
+        rep = json.loads(check.read_text())
+        nets = rep.get("nets") or []
+        gpu = gpu or ", ".join(sorted({str(n.get("gpu")) for n in nets if n.get("gpu")}))
+        ok = [n for n in nets if n.get("ok")]
+        parts.append(f"networks ok: {len(ok)}/{len(nets)}")
+        parts += [f"{n['net']}: micro-batch {n['micro_batch']}x{n['accumulation']}, {n.get('peak_gb')} GB, "
+                  f"~{n['est_fold_min']} min/fold" for n in ok]
+        parts += [f"{n['net']}: FAILED {str(n.get('error'))[:80]}" for n in nets if not n.get("ok")]
     met = run_dir / "metrics.json"
     if met.exists():
         m = json.loads(met.read_text())
@@ -63,7 +73,7 @@ def key_result(run_dir: Path) -> tuple[str, str]:
         for scope, label in (("oof", "OOF"), ("val", "val"), ("test_ensemble", "test ensemble"), (None, "")):
             block = m.get(scope) if scope else m
             vals = [f"{name} {block[k]:.3f}" for k, name in short
-                    if isinstance(block, dict) and isinstance(block.get(k), (int, float))]
+                    if isinstance(block, dict) and isinstance(block.get(k), (int, float)) and block[k] == block[k]]
             if vals:
                 parts.append((f"{label}: " if label else "") + ", ".join(vals))
                 if scope is None:

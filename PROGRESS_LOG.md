@@ -4,6 +4,40 @@ Newest entries at the top. Each entry: what was done, what it produced, what com
 
 ---
 
+## 2026-11-26 · Step 9: Step 2 code, one training script for S04–S10 (classifiers, segmenters, M0)
+
+**Done (you)**
+- Merged PR #4 (`b1a2719`) and started `S03_yolo11s_seg_1024` on Kaggle.
+
+**Done (me)**
+1. `scripts/train_net.py`: one script for the 7 remaining shared runs:
+   - S04 DenseNet121, S05 EfficientNet-B4 and S06 ConvNeXt-T (= A0) image classifiers;
+   - S07 U-Net, S08 DeepLabV3+ (ResNet34) and S09 SegFormer (MiT-B2) segmenters;
+   - S10 = the core model M0 (= A1 = R0).
+   It trains 5 folds, two at a time on the two T4s, with the same rules as S01: fixed length, final weights, OOF threshold, test mean ± SD and ensemble.
+2. A pre-flight before training: it downloads the weights, finds the largest batch that fits the GPU (otherwise smaller batches with gradient accumulation to 16) and times a step. `S00_net_check` runs only this, for all 7 networks.
+3. Shared modules:
+   - `src/femurseg/evaluation.py`: the per-case files and scores, now used by every model. It re-scores S01 and S02 to exactly their `metrics.json`, and records NSD at 10 and 20 px as well.
+   - `runner.py`: parallel folds with the time guard, also used by the YOLO script.
+   - `torchdata.py`: every image read once into a resized cache.
+   - `nets.py`: networks, losses and the decision rule.
+4. Tests:
+   - `tests/test_nets.py`: M0's class output is identical to the ConvNeXt-T classifier's with the same weights; decision rules, losses and the cache.
+   - `tests/smoke_train_net.py`: full 5-fold CPU runs of a classifier, a segmenter and M0, plus both analysis scripts.
+   - A learning check on synthetic data reached Dice 0.97.
+   - The image cache was built from the real local data (1,253 femurs, 43.5 s). Every mask holds only its femur's class, and the smallest fracture mask has 1,722 pixels at 768 × 512 (median 23,045), well above the 500 pixels the segmenters' fracture score averages.
+   - The YOLO smoke test still passes.
+5. `run_stats.py` and `run_breakdown.py` handle runs without masks: classifiers get no Dice, not Dice 0.
+6. The full protocol is written down before any result: `Analysis/05_Step2_Baselines_Protocol.md`.
+7. Sent everything as PR #5 and synced your local folder.
+
+**Next**
+- You: merge PR #5, then run `S00_net_check` (about 15 min) in a second session on your main account with `BRANCH = "main"` (before the merge, `"claude/project-thread-kges8j"`). Put the zip in `results/_inbox/`.
+- Me: file it and set the measured batch sizes and run times in `kaggle/runs.json`. The first training runs are then S06 and S10.
+- When S03 finishes: I file it and write analysis C02 (S01 vs S03).
+
+---
+
 ## 2026-11-26 · Step 8: YOLO baselines S01 and S02 filed and analysed
 
 **Done (you)**

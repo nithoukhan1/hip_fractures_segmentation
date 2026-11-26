@@ -199,10 +199,10 @@ def analyse_run(results: Path, run: str) -> dict:
     }
     # check: the pooled numbers must equal the ones the training script wrote
     for scope in ("oof", "test_ensemble"):
-        for key in ("accuracy_6class", "macro_f1", "auc_fracture"):
-            a, b = out[scope][key], met[scope][key]
-            assert abs(a - b) < 1e-9, f"{run} {scope} {key}: {a} vs metrics.json {b}"
-        assert abs(out[scope]["seg"]["dice_fractured_mean"] - met[scope]["dice_fractured_mean"]) < 1e-9
+        pairs = [(key, out[scope][key], met[scope][key]) for key in ("accuracy_6class", "macro_f1", "auc_fracture")]
+        pairs.append(("dice_fractured_mean", out[scope]["seg"]["dice_fractured_mean"], met[scope]["dice_fractured_mean"]))
+        for key, a, b in pairs:  # NaN on both sides (no masks: image classifiers) counts as equal
+            assert (math.isnan(a) and math.isnan(b)) or abs(a - b) < 1e-9, f"{run} {scope} {key}: {a} vs metrics.json {b}"
     # mask areas by class: true masks of the training femurs (OOF rows) and of the test femurs, and the predicted
     # masks of fractures that were called (OOF; test pooled over the 5 fold models)
     first = [r for r in test if r["model"] == models[0]]
@@ -290,7 +290,7 @@ def run_section(r: dict, final: dict) -> list[str]:
          f"Model `{Path(str(r['model'])).name}` at {r['imgsz']} px; fracture threshold {r['threshold']:.4f} (Youden on the "
          f"pooled OOF predictions). The fold model the article's selection rule picks (best accuracy on its own "
          f"held-out fold, {pct(sel['held_out_accuracy'])}%) is fold {sel['fold']}.", "",
-         f"### Headline metrics", "",
+         "### Headline metrics", "",
          f"| Metric | OOF pooled (n={nf:,}) | OOF, 5 folds mean ± SD | Test, 5 fold models mean ± SD | Test, selected fold model | Test, 5-model ensemble (n={nt}) |",
          "|---|---|---|---|---|---|"]
     for key, label, nd, sc in HEADLINE:
