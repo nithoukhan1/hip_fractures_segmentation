@@ -19,7 +19,7 @@ Sources:
 | Fixed 5-fold split of the training set | Done (`splits/folds_v1.csv`) |
 | Kaggle environment check | Done: data and folds on Kaggle are identical to `splits/folds_v1.csv` (Kaggle's val/ pooled into train) |
 | Data loader, metrics, statistics, tests | Done (`src/femurseg/data.py`, `metrics.py`, `stats.py`, `tests/`) |
-| Shared baselines S1–S9 and core model M0 | In progress: YOLO baselines S01 and S02 ready to run on Kaggle |
+| Shared baselines S1–S9 and core model M0 | In progress: S01 and S02 (YOLOv8s-seg) done and analysed: they reproduce the article's accuracy and AUC (`results/analysis/C01_yolo_1024_vs_640/report.md`). S03 (YOLO11s-seg) ready on Kaggle |
 | Paper A and Paper B methods, experiments, manuscripts | Not started |
 
 Details: [`PROJECT_TRACKER.md`](PROJECT_TRACKER.md) (overall) and [`PROGRESS_LOG.md`](PROGRESS_LOG.md) (step by step).
@@ -40,14 +40,17 @@ Details: [`PROJECT_TRACKER.md`](PROJECT_TRACKER.md) (overall) and [`PROGRESS_LOG
 ├── EDA/                    EDA script, per-image statistics, figures
 ├── splits/                 fixed train folds (official val folder is empty; test is untouched)
 ├── src/femurseg/           Python package: classes, data paths, data loader (data.py), metrics (metrics.py),
-│                           confidence intervals and paired tests (stats.py)
-├── scripts/                command-line tools: make_splits.py, register_run.py, train_yolo_seg.py (S01/S02),
-│                           run_stats.py (95% intervals and paired comparisons of filed runs)
-├── tests/                  checks of metrics, statistics and folds, and a CPU smoke test of the YOLO script
+│                           confidence intervals and paired tests (stats.py), the article's numbers (reference.py)
+├── scripts/                command-line tools: make_splits.py, register_run.py, train_yolo_seg.py (S01–S03),
+│                           run_stats.py (95% intervals and paired comparisons of filed runs),
+│                           run_breakdown.py (per class, mean ± SD over folds, comparison with the article)
+├── tests/                  checks of metrics, statistics, folds, the article's numbers and the breakdown, and a
+│                           CPU smoke test of the YOLO script and both analysis scripts
 ├── configs/                one YAML file per experiment
 ├── kaggle/                 Kaggle launcher notebook, run list and Kaggle-only scripts
 ├── results/                every run's metrics, notes and small outputs (no model weights)
 │   ├── EXPERIMENTS.md      the experiment register: one line per run
+│   ├── analysis/           analyses across runs (C01 = S01 vs S02: intervals, tests, per class, report)
 │   └── _inbox/             drop zips downloaded from Kaggle here
 └── manuscript/             paper drafts, tables and figures (later)
 ```

@@ -2,8 +2,9 @@
 
 It builds a fake dataset with the Kaggle folder layout (train/, val/ and test/, with part of the training femurs in
 val/ to exercise the pooling), a matching fold file, then runs 5 folds two at a time on the CPU for 2 epochs and
-checks every output. It also checks --export-only and the time guard. Needs torch and ultralytics, so run it in a
-Python environment that has them (Kaggle, or a local virtual environment):
+checks every output. It also checks --export-only, the time guard, and the analysis scripts run_stats.py and
+run_breakdown.py on the outputs. Needs torch and ultralytics, so run it in a Python environment that has them
+(Kaggle, or a local virtual environment):
 
     python tests/smoke_train_yolo_seg.py --work /tmp/smoke [--model yolov8n-seg.pt]
 """
@@ -142,7 +143,8 @@ def main() -> None:
     cfg = json.loads((out / "config.json").read_text())
     assert cfg["start_weights"] and "summary.md" in {p.name for p in out.iterdir()}
     summary = (out / "summary.md").read_text()
-    assert summary.count("| Fracture AUC |") == 2 and "n/a ± n/a" not in summary, "summary table incomplete"
+    main_table = summary.split("## Ultralytics' default threshold")[0]  # an untrained model may call nothing at 0.25
+    assert summary.count("| Fracture AUC |") == 2 and "n/a ± n/a" not in main_table, "summary table incomplete"
     print((out / "summary.md").read_text())
     print("ok  full run: 5 folds, OOF, test, ensemble, summary")
 
@@ -156,6 +158,15 @@ def main() -> None:
     same = st["comparisons"]["SMOKE vs SMOKE"]["oof"]
     assert all(r["p"] == 1.0 for r in same.values()), "a run compared with itself must give p = 1"
     print("ok  statistics: intervals and paired comparison")
+
+    # 5) per-class breakdown and comparison with the article (it also re-checks the pooled numbers of metrics.json)
+    cmd = [sys.executable, str(REPO / "scripts" / "run_breakdown.py"), "SMOKE", "--name", "SMOKE_breakdown",
+           "--results", str(root / "results")]
+    assert subprocess.run(cmd, capture_output=True, text=True).returncode == 0, "run_breakdown.py failed"
+    bd = json.loads((root / "results" / "analysis" / "SMOKE_breakdown" / "breakdown.json").read_text())["runs"][0]
+    assert bd["oof"]["n"] == 60 and len(bd["oof_folds"]) == 5 and len(bd["test_models"]) == 5
+    assert bd["selected_model"]["fold"] in range(5) and set(bd["areas"]) == {"2AB", "2CD", "3AB", "3CDE", "4"}
+    print("ok  breakdown: per class, over folds and fold models, errors, areas")
     print("SMOKE TEST PASSED")
 
 

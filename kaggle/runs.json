@@ -49,8 +49,9 @@
       "--est-fold-min",
       "110"
     ],
-    "expected_minutes": 330,
-    "about": "Baseline 1: the base article's final model (YOLOv8-small-seg, 1024 px) retrained on our 5 folds with the paper's 100 epochs and Ultralytics defaults (batch 8 at 1024 px). Final weights, val=False during training, fracture threshold fitted on the out-of-fold predictions; every fold model also predicts the test set (fixed baseline = frozen configuration)."
+    "expected_minutes": 180,
+    "about": "Baseline 1: the base article's final model (YOLOv8-small-seg, 1024 px) retrained on our 5 folds with the paper's 100 epochs and Ultralytics defaults (batch 8 at 1024 px). Final weights, val=False during training, fracture threshold fitted on the out-of-fold predictions; every fold model also predicts the test set (fixed baseline = frozen configuration).",
+    "measured": "176 min on T4 x2, 2026-11-26 (register line 3)"
   },
   "S02_yolov8s_seg_640": {
     "step": "1",
@@ -76,7 +77,35 @@
       "--est-fold-min",
       "50"
     ],
-    "expected_minutes": 150,
-    "about": "Baseline 2: the paper's best-Dice setting (YOLOv8-small-seg, 640 px; test Dice .780 in its grid), same protocol as S01 with Ultralytics' default batch 16."
+    "expected_minutes": 85,
+    "about": "Baseline 2: the paper's best-Dice setting (YOLOv8-small-seg, 640 px; test Dice .780 in its grid), same protocol as S01 with Ultralytics' default batch 16.",
+    "measured": "81 min on T4 x2, 2026-11-26 (register line 4)"
+  },
+  "S03_yolo11s_seg_1024": {
+    "step": "2",
+    "script": "scripts/train_yolo_seg.py",
+    "pip": [
+      "ultralytics==8.4.219"
+    ],
+    "gpu": "T4 x2 (two folds at a time)",
+    "track": "Shared",
+    "args": [
+      "--model",
+      "yolo11s-seg.pt",
+      "--imgsz",
+      "1024",
+      "--epochs",
+      "100",
+      "--batch",
+      "8",
+      "--folds",
+      "0,1,2,3,4",
+      "--gpus",
+      "0,1",
+      "--est-fold-min",
+      "65"
+    ],
+    "expected_minutes": 185,
+    "about": "Baseline 3: the newer YOLO11-small-seg at 1024 px with exactly S01's protocol (100 epochs, batch 8, Ultralytics defaults, final weights, OOF threshold), so it differs from S01 only in the architecture. Answers the reviewer question whether a newer YOLO closes the gap."
   }
 }

@@ -4,6 +4,42 @@ Newest entries at the top. Each entry: what was done, what it produced, what com
 
 ---
 
+## 2026-11-26 · Step 8: YOLO baselines S01 and S02 filed and analysed
+
+**Done (you)**
+- Merged PR #3 and ran `S01_yolov8s_seg_1024` and `S02_yolov8s_seg_640` with Save Version, in two parallel sessions (commit `29e1852`). Both finished all 5 folds with exit code 0: S01 in 176 min, S02 in 81 min.
+
+**Done (me)**
+1. Filed both runs with `scripts/register_run.py` (`results/S01_yolov8s_seg_1024/`, `results/S02_yolov8s_seg_640/`, register lines 3 and 4) and wrote their `NOTES.md`.
+2. 95% intervals and paired S01 vs S02 tests with `scripts/run_stats.py` → `results/analysis/C01_yolo_1024_vs_640/stats.md`.
+3. New `scripts/run_breakdown.py` → `breakdown.md` in the same folder:
+   - recall, precision and Dice per class;
+   - every metric as mean ± SD over the 5 held-out folds and over the 5 fold models on the test set;
+   - errors split like the article (detection, location, grade);
+   - mask areas, and Dice under several definitions;
+   - side by side with the article.
+4. New `src/femurseg/reference.py`: the article's numbers (Table 2, Table 3, Fig. 3 confusion matrix). `tests/test_reference.py` checks that the typed confusion matrix gives every number the article derives from it (181/210, sensitivity, specificity, PPV, NPV, 8/6/15 errors). `tests/test_breakdown.py` checks the breakdown code; the smoke test now also runs both analysis scripts.
+5. Wrote the interpretation: `results/analysis/C01_yolo_1024_vs_640/report.md`.
+
+**Result**
+- **Classification reproduces the article.** S01 fold models on the test set: AUC .985 ± .005 and 6-class accuracy 84.6 ± 2.1%, against .986 ± .008 and 84.4 ± 2.5% (article, 6 runs). S02: 82.2 ± 2.1% against 82.0 ± 3.0%.
+- **The 5-model ensemble of S01 is the strongest baseline:** 88.1% (185/210, 95% CI 82.9–92.1), AUC .994, 25 errors against the article's 29.
+- **Dice is .02 to .04 lower than the article's** (detected fractures: .741 at both sizes vs .761 and .780). The article's "640 px gives better masks" is not reproduced: S01 and S02 do not differ on any endpoint after the Holm correction.
+- **Errors are mostly grades:** location is right for 96.6% of found fractures, the grade for 86.1% of those. Weak spots: Garden I–II (recall .44 ± .12) and Evans III–V called Evans I–II.
+- **Finding:** the test masks of neck fractures are 35–40% smaller than the training ones (the article's test labels were reviewed by a committee). The models draw the same mask size on both, so they over-segment test neck fractures about 2 times. This explains most of the OOF-to-test Dice drop (.800 → .741).
+
+**Decisions**
+- S01 is the reference YOLO baseline for both papers: fold models mean ± SD, ensemble, and OOF for development.
+- Dice is reported per location, OOF and test side by side. Nothing learned from the test set is used to correct it.
+- New training code records NSD at 10 and 20 px as well (2 px is uninformative: about .05).
+- S03 = YOLO11s-seg at 1024 px with S01's protocol (added to `kaggle/runs.json`).
+
+**Next**
+- You: merge PR #4, then run `S03_yolo11s_seg_1024` with Save Version (about 3 h). Check how much GPU quota Kaggle shows as used this week: it tells us whether a T4 × 2 session counts once or twice.
+- Me: Step 2, one training script for the classifiers S04–S06, the segmenters S07–S09 and the core model M0 (768 × 512 input), tested on the CPU first.
+
+---
+
 ## 2026-11-26 · Step 7: Kaggle check confirmed (M0 reached); Step 1 code: data loader, metrics, YOLO baselines
 
 **Done (you)**

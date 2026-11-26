@@ -1,0 +1,42 @@
+{
+  "model": "yolov8s-seg.pt",
+  "imgsz": 1024,
+  "epochs": 100,
+  "batch": 8,
+  "folds": "0,1,2,3,4",
+  "gpus": "0,1",
+  "workers": 2,
+  "seed": 2026,
+  "cache": "ram",
+  "data_root": "/kaggle/input",
+  "folds_csv": "/tmp/code/splits/folds_v1.csv",
+  "out": "/kaggle/working/results/S01_yolov8s_seg_1024",
+  "work": "/kaggle/working/work/S01_yolov8s_seg_1024",
+  "conf_min": 0.001,
+  "max_det": 20,
+  "no_test": false,
+  "time_budget_h": 11.0,
+  "est_fold_min": 110.0,
+  "extra_train": "{}",
+  "limit": 0,
+  "export_only": false,
+  "worker": false,
+  "fold": -1,
+  "device": "",
+  "fold_list": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "gpu_list": [
+    "0",
+    "1"
+  ],
+  "git_commit": "29e18525ec3cd1c89deb18ff9741d6efeb865833",
+  "started_utc": "2026-11-26T10:38:17Z",
+  "start_weights": "/kaggle/working/work/S01_yolov8s_seg_1024/start_weights/yolov8s-seg.pt",
+  "start_weights_md5": "3ce94748243e201a29a9c11587777c59",
+  "protocol": "final weights (last.pt), val=False during training, threshold fitted on OOF (Youden)"
+}

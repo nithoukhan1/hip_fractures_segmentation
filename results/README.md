@@ -9,8 +9,10 @@ results/
 ├── RUN_NOTES_TEMPLATE.md     template for each run's NOTES.md
 ├── _inbox/                   drop results_<RUN>.zip files from Kaggle here (zips are not committed)
 │   └── filed/                zips that were already filed
-├── analysis/<name>/          95% intervals and paired comparisons computed from filed runs by
-│                             scripts/run_stats.py (stats.json, stats.md); recomputable, never edits a run folder
+├── analysis/<name>/          analyses across filed runs; recomputable, never edit a run folder:
+│                             stats.{json,md} (95% intervals, paired tests; scripts/run_stats.py),
+│                             breakdown.{json,md} (per class, mean ± SD over folds and fold models, errors,
+│                             comparison with the article; scripts/run_breakdown.py), report.md (interpretation)
 └── <RUN>/                    one folder per run, filed from its zip
     ├── run_meta.json         git commit, command, start time, runtime, exit code
     ├── NOTES.md              why the run was made, what changed, result, what we learnt, decision
@@ -37,9 +39,10 @@ Example: `S01_yolov8s_seg_1024`. The plan for every run is in `Analysis/04_Execu
    ```
    This copies the run into `results/<RUN>/`, creates `NOTES.md` from the template, appends a line to `EXPERIMENTS.md` and moves the zip to `_inbox/filed/`.
 4. `NOTES.md` is filled in (5–10 lines), and the same files are pushed to the repository, so the local folder and GitHub stay identical.
+5. For a comparison of runs: `python scripts/run_stats.py RUN1 RUN2 --compare --name C<nn>_<what>` and `python scripts/run_breakdown.py RUN1 RUN2 --name C<nn>_<what>`, then a short `report.md` in the same folder. Big Kaggle outputs (weights, predicted masks, the `<RUN>.zip` of the work folder) are kept locally in `_inbox/filed/` and are not committed.
 
 ## Rules
 1. A run folder is never edited after it is filed, except its `NOTES.md`. A re-run gets a new name, for example `S01_yolov8s_seg_1024_r2`.
 2. Every number in a manuscript must come from a file in this folder.
-3. Test-set metrics appear only for frozen configurations: fixed baselines such as S01 and S02, and runs marked `final`.
+3. Test-set metrics appear only for frozen configurations: fixed baselines such as S01–S03, and runs marked `final`.
 4. Failed runs are filed too (exit code ≠ 0), with a note on what went wrong. They show what was tried.

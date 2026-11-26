@@ -50,6 +50,7 @@ import numpy as np
 REPO = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO / "src"))
 from femurseg import metrics as M  # noqa: E402
+from femurseg import reference as REF  # noqa: E402
 from femurseg.classes import CLASSES  # noqa: E402
 from femurseg.data import DEFAULT_FOLDS_CSV, ImageStore, fold_split, load_records, read_png  # noqa: E402
 
@@ -375,7 +376,8 @@ def write_summary(args, res: dict) -> None:
         v = (src.get(block) or {}).get(key)
         return "n/a" if v is None or (isinstance(v, float) and np.isnan(v)) else f"{v * scale:.{nd}f}"
 
-    paper = {1024: (".986", "84.4", ".761"), 640: (".985", "82.0", ".780")}.get(args.imgsz, ("", "", ""))
+    g = REF.GRID.get(("small", args.imgsz))  # the article's YOLOv8-small at the same image size (Table 2)
+    paper = (f"{g['auc'][0]:.3f}", f"{100 * g['accuracy_6class'][0]:.1f}", f"{g['dice'][0]:.3f}") if g else ("", "", "")
     rows = (("Fracture AUC", "auc_fracture", 1, 3, paper[0]),
             ("Fracture sensitivity", "fracture_sensitivity", 1, 3, ""),
             ("Fracture specificity", "fracture_specificity", 1, 3, ""),
@@ -395,7 +397,7 @@ def write_summary(args, res: dict) -> None:
                         res.get("at_default_threshold_0.25") or {})):
         lines += ["", f"## {title}", "",
                   f"| Metric | OOF (n={n_oof:,}) | Test, fold models mean ± SD | Test, ensemble "
-                  "| Paper, same setting (test, 6 seeds) |", "|---|---|---|---|---|"]
+                  "| Paper, YOLOv8-small at this image size (test, 6 runs) |", "|---|---|---|---|---|"]
         for label, key, scale, nd, p in rows:
             lines.append(f"| {label} | {f(src, 'oof', key, scale, nd)} | {f(src, 'test_models_mean', key, scale, nd)} ± "
                          f"{f(src, 'test_models_sd', key, scale, nd)} | {f(src, 'test_ensemble', key, scale, nd)} | {p} |")

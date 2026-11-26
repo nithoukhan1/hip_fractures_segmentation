@@ -27,12 +27,13 @@
 |---|---|---|---|
 | `S00_env_check` | 0 | ~4 min | Hardware and package report, dataset location and counts, val-empty check, split identity check, GPU speed test (done 2026-11-26: found Kaggle's val/ folder holds 104 training femurs) |
 | `S00_env_check_r2` | 0 | ~4 min | Same check after pooling val/ back into train: data, folds and file list must now be identical to `splits/folds_v1.csv` |
-| `S01_yolov8s_seg_1024` | 1 | ~5–6 h | Baseline 1: the paper's final model, YOLOv8-small-seg at 1024 px, retrained on our 5 folds (100 epochs, Ultralytics defaults, batch 8). Two folds run at a time, one per T4. Writes out-of-fold and test predictions, `metrics.json` and `summary.md` |
-| `S02_yolov8s_seg_640` | 1 | ~2–3 h | Baseline 2: the paper's best-Dice setting, YOLOv8-small-seg at 640 px (batch 16), same protocol |
+| `S01_yolov8s_seg_1024` | 1 | 2.9 h (measured) | Baseline 1: the paper's final model, YOLOv8-small-seg at 1024 px, retrained on our 5 folds (100 epochs, Ultralytics defaults, batch 8). Two folds run at a time, one per T4. Writes out-of-fold and test predictions, `metrics.json` and `summary.md` (done 2026-11-26, register line 3) |
+| `S02_yolov8s_seg_640` | 1 | 1.35 h (measured) | Baseline 2: the paper's best-Dice setting, YOLOv8-small-seg at 640 px (batch 16), same protocol (done 2026-11-26, register line 4) |
+| `S03_yolo11s_seg_1024` | 2 | ~3 h | Baseline 3: YOLO11-small-seg at 1024 px with exactly S01's protocol, so it differs from S01 only in the architecture |
 
 **About Kaggle's val/ folder:** the Kaggle copy moved 104 of the 1,043 training femurs into `val/`, without keeping both femurs of an x-ray together. All code pools `val/` back into train (`src/femurseg/paths.py`), so Kaggle and the local copy give the same 1,043 training femurs and the same 5 folds.
 
-Run names: **S** = shared (baselines S1–S9, core model M0), **A** = Paper A (SLG-Net), **R** = Paper B (RefFrac). Shared baselines are added in Step 1 (`Analysis/04_Execution_Plan_A_and_B.md` §7).
+Run names: **S** = shared (baselines S1–S9, core model M0), **A** = Paper A (SLG-Net), **R** = Paper B (RefFrac). Shared baselines are added step by step (`Analysis/04_Execution_Plan_A_and_B.md` §7): S01–S03 use `scripts/train_yolo_seg.py`; S04–S09 and M0 get their own training script in Step 2.
 
 ## Good habits that save quota
 - Kaggle's free GPU quota is commonly reported as about 30 h per week, with 12 h per session. Your exact remaining quota is shown in your Kaggle account settings.
@@ -42,5 +43,5 @@ Run names: **S** = shared (baselines S1–S9, core model M0), **A** = Paper A (S
 - Big files (weights `last.pt`, predicted masks) stay in the version's Output under `work/<RUN>/`; only
   `results/<RUN>/` is zipped and committed.
 - Use fold 0 for development. Run all 5 folds only for frozen configurations.
-- Never tune anything on the test set. Fixed baselines (S01, S02) are frozen by definition, so they predict the test
+- Never tune anything on the test set. Fixed baselines (S01–S03) are frozen by definition, so they predict the test
   set; their fracture threshold is fitted on the out-of-fold predictions only.
