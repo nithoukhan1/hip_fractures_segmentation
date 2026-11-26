@@ -36,6 +36,11 @@ Newest entries at the top. Each entry: what was done, what it produced, what com
    - All pass.
 5. `kaggle/runs.json`: added `S01_yolov8s_seg_1024` (about 5–6 h) and `S02_yolov8s_seg_640` (about 2–3 h). `ultralytics==8.4.219` is pinned.
 6. **Correction:** the paper's best-Dice setting is YOLOv8-*small* at 640 px (test Dice .780), not nano. S02 is now `S02_yolov8s_seg_640`, and Reports 03 and 04 are fixed.
+7. `src/femurseg/stats.py` (statistics module) and `scripts/run_stats.py`:
+   - 95% intervals: bootstrap over whole x-rays, because the two femurs of an x-ray are not independent. AUC also gets a DeLong interval, and accuracy an exact one.
+   - Paired tests between runs on the same femurs: DeLong for AUC, McNemar for right/wrong decisions, a randomisation test for macro-F1, and Wilcoxon for Dice. Holm correction is applied.
+   - Results go to `results/analysis/<name>/`, so run folders stay untouched.
+   - 9 checks pass. One of them reproduces the paper's accuracy interval exactly: 181 of 210 correct gives 80.77–90.55 (exact Clopper–Pearson). So our intervals and the paper's are directly comparable.
 
 **Differences from the paper** (stated in each run's NOTES and later in the papers)
 - We use final weights, where the paper kept the best-validation checkpoint.
@@ -45,7 +50,7 @@ Newest entries at the top. Each entry: what was done, what it produced, what com
 
 **Next**
 - You: merge PR #3, then run `S01_yolov8s_seg_1024` with Save Version (guide in the thread), then `S02_yolov8s_seg_640`.
-- Me, while S01 runs: the statistics module (bootstrap confidence intervals, DeLong, McNemar, Wilcoxon, Holm), then the next baselines.
+- Me, while S01 runs: the next baselines (S03 YOLO11s-seg, classifiers S04–S06). When S01 is back: file it and add 95% intervals with `scripts/run_stats.py`.
 
 ---
 

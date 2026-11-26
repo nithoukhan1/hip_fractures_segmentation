@@ -145,6 +145,17 @@ def main() -> None:
     assert summary.count("| Fracture AUC |") == 2 and "n/a ± n/a" not in summary, "summary table incomplete"
     print((out / "summary.md").read_text())
     print("ok  full run: 5 folds, OOF, test, ensemble, summary")
+
+    # 4) statistics on the filed outputs: intervals and a paired comparison of the run with itself
+    cmd = [sys.executable, str(REPO / "scripts" / "run_stats.py"), "SMOKE", "SMOKE", "--compare", "--name", "SMOKE_stats",
+           "--results", str(root / "results"), "--folds-csv", str(folds_csv), "--n-boot", "200", "--n-perm", "200"]
+    assert subprocess.run(cmd, capture_output=True, text=True).returncode == 0, "run_stats.py failed"
+    st = json.loads((root / "results" / "analysis" / "SMOKE_stats" / "stats.json").read_text())
+    ci = st["intervals"]["SMOKE"]["test_ensemble"]["accuracy_6class"]
+    assert ci["lo"] <= ci["estimate"] <= ci["hi"]
+    same = st["comparisons"]["SMOKE vs SMOKE"]["oof"]
+    assert all(r["p"] == 1.0 for r in same.values()), "a run compared with itself must give p = 1"
+    print("ok  statistics: intervals and paired comparison")
     print("SMOKE TEST PASSED")
 
 

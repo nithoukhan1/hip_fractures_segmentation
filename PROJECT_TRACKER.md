@@ -22,7 +22,7 @@
 | 5 | Execution plan for both papers | Done (2026-11-26) | `Analysis/04_Execution_Plan_A_and_B.md` | Runs, validation rules, compute, dual timeline |
 | 6 | Repository, fixed splits, Kaggle launcher, run register | Done; merged into `main` 2026-11-26 (PR #1); default branch = `main` | README, `splits/folds_v1.csv`, `kaggle/`, `results/`, `scripts/register_run.py` | 5 grouped, stratified folds; counts match paper Table 1 |
 | 7 | Kaggle environment check | Done 2026-11-26: run 1 found Kaggle's val/ holds 104 training femurs (now pooled into train); `S00_env_check_r2` confirmed same data, same folds, all files found | `results/S00_env_check/`, `results/S00_env_check_r2/` | 2 × T4, 4 CPU cores, 32 GB RAM; all 1,253 files identical to local |
-| 8 | Data loader, metrics and statistics modules | Loader and metrics done 2026-11-26 (13 metric checks incl. scikit-learn, 4 fold checks, CPU smoke test of the YOLO script); statistics module next | `src/femurseg/data.py`, `metrics.py`, `tests/` | Same code for both papers |
+| 8 | Data loader, metrics and statistics modules | Done 2026-11-26: loader, metrics (13 checks incl. scikit-learn), statistics (9 checks; reproduces the paper's accuracy interval 80.77–90.55 exactly), fold checks, CPU smoke test of the YOLO script and the statistics script | `src/femurseg/data.py`, `metrics.py`, `stats.py`, `scripts/run_stats.py`, `tests/` | Same code for both papers |
 | 9 | Baselines S1–S9 and core model M0 (5 folds each) | In progress: S01 (YOLOv8s-seg @1024) and S02 (YOLOv8s-seg @640) ready on Kaggle (`scripts/train_yolo_seg.py`) → **M1** | `results/S*` | M0 = A1 in Paper A = R0 in Paper B |
 
 ### Track A: Paper 1, SLG-Net
@@ -86,6 +86,7 @@
 | 2026-11-26 | Training scripts load all images into RAM once per session | Reading from /kaggle/input takes 98 ms per image; all 1,253 images take about 2 GB of the 32 GB RAM |
 | 2026-11-26 | YOLO baselines (S01, S02): Ultralytics 8.4.219, COCO weights, 100 epochs, Ultralytics defaults (optimizer auto = AdamW for this data size), final weights with `val=False`; paper rule (fracture = any instance, class and mask of the top-confidence instance); fracture threshold = Youden on OOF (ties → higher sensitivity), plus results at Ultralytics' 0.25; test = mean ± SD of the 5 fold models and their ensemble | Same rules as every other run; the paper kept the best-validation checkpoint and did not report hyper-parameters, so differences are stated |
 | 2026-11-26 | **Correction:** the paper's best-Dice setting is YOLOv8-**small** @640 (test Dice .780), not nano; S02 is `S02_yolov8s_seg_640` | Reports 03 and 04 said nano; fixed |
+| 2026-11-26 | Statistics: 95% intervals by cluster bootstrap over x-rays (2,000 resamples), DeLong for AUC, exact Clopper–Pearson for accuracy; paired tests DeLong (AUC), exact McNemar + mid-p (decisions), randomisation test swapping per x-ray (macro-F1), Wilcoxon signed-rank with Pratt zeros (Dice); Holm within each comparison family | The two femurs of an x-ray are not independent; the paper's own accuracy interval is Clopper–Pearson (181/210 → 80.77–90.55), so our numbers are directly comparable |
 
 ## Open questions
 - Resolved 2026-11-26 (`S00_env_check_r2`): Kaggle's 104 val/ images are identical to the local ones; data, folds and file list all match.

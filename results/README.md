@@ -9,6 +9,8 @@ results/
 ├── RUN_NOTES_TEMPLATE.md     template for each run's NOTES.md
 ├── _inbox/                   drop results_<RUN>.zip files from Kaggle here (zips are not committed)
 │   └── filed/                zips that were already filed
+├── analysis/<name>/          95% intervals and paired comparisons computed from filed runs by
+│                             scripts/run_stats.py (stats.json, stats.md); recomputable, never edits a run folder
 └── <RUN>/                    one folder per run, filed from its zip
     ├── run_meta.json         git commit, command, start time, runtime, exit code
     ├── NOTES.md              why the run was made, what changed, result, what we learnt, decision

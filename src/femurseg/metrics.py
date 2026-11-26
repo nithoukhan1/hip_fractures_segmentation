@@ -119,10 +119,9 @@ def binary_metrics(y_true, y_pred) -> dict[str, float]:
 
 
 def confusion_matrix(y_true, y_pred, n_classes: int = 6) -> np.ndarray:
-    cm = np.zeros((n_classes, n_classes), dtype=int)
-    for t, p in zip(np.asarray(y_true, int), np.asarray(y_pred, int)):
-        cm[t, p] += 1
-    return cm  # rows = true class, columns = predicted class
+    t, p = np.asarray(y_true, int), np.asarray(y_pred, int)
+    return np.bincount(t * n_classes + p, minlength=n_classes * n_classes).reshape(n_classes, n_classes)
+    # rows = true class, columns = predicted class
 
 
 def multiclass_metrics(y_true, y_pred, n_classes: int = 6) -> dict:

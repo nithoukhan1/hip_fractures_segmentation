@@ -18,7 +18,7 @@ Sources:
 | Decision: Papers A and B in parallel; execution plan | Done (Report 04) |
 | Fixed 5-fold split of the training set | Done (`splits/folds_v1.csv`) |
 | Kaggle environment check | Done: data and folds on Kaggle are identical to `splits/folds_v1.csv` (Kaggle's val/ pooled into train) |
-| Data loader, metrics, tests | Done (`src/femurseg/data.py`, `metrics.py`, `tests/`) |
+| Data loader, metrics, statistics, tests | Done (`src/femurseg/data.py`, `metrics.py`, `stats.py`, `tests/`) |
 | Shared baselines S1–S9 and core model M0 | In progress: YOLO baselines S01 and S02 ready to run on Kaggle |
 | Paper A and Paper B methods, experiments, manuscripts | Not started |
 
@@ -39,9 +39,11 @@ Details: [`PROJECT_TRACKER.md`](PROJECT_TRACKER.md) (overall) and [`PROGRESS_LOG
 ├── research/               literature notes
 ├── EDA/                    EDA script, per-image statistics, figures
 ├── splits/                 fixed train folds (official val folder is empty; test is untouched)
-├── src/femurseg/           Python package: classes, data paths, data loader (data.py), metrics (metrics.py)
-├── scripts/                command-line tools: make_splits.py, register_run.py, train_yolo_seg.py (S01/S02)
-├── tests/                  checks of metrics and folds (numpy/scipy) and a CPU smoke test of the YOLO script
+├── src/femurseg/           Python package: classes, data paths, data loader (data.py), metrics (metrics.py),
+│                           confidence intervals and paired tests (stats.py)
+├── scripts/                command-line tools: make_splits.py, register_run.py, train_yolo_seg.py (S01/S02),
+│                           run_stats.py (95% intervals and paired comparisons of filed runs)
+├── tests/                  checks of metrics, statistics and folds, and a CPU smoke test of the YOLO script
 ├── configs/                one YAML file per experiment
 ├── kaggle/                 Kaggle launcher notebook, run list and Kaggle-only scripts
 ├── results/                every run's metrics, notes and small outputs (no model weights)
