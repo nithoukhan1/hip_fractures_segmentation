@@ -1,0 +1,9 @@
+{
+  "run": "S00_env_check_r2",
+  "step": "0",
+  "git_commit": "2758d452205f5a7bfc041d3b4ee040f9681191ea",
+  "command": "/usr/bin/python3 /tmp/code/kaggle/env_check.py --input /kaggle/input --out /kaggle/working/results/S00_env_check_r2",
+  "started_utc": "2026-11-26T08:30:35Z",
+  "runtime_minutes": 3.7,
+  "exit_code": 0
+}

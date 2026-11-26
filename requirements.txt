@@ -9,10 +9,10 @@ pyyaml
 tqdm
 opencv-python-headless
 
-# Deep learning (Kaggle has torch and torchvision; the launcher installs the rest).
-# Exact versions are pinned after the first Kaggle environment check (kaggle/env_check.py).
+# Deep learning. Kaggle (S00_env_check, 2026-11-26) has Python 3.13, torch 2.11.0, torchvision 0.26, timm 1.0.30;
+# the launcher installs the rest per run (the "pip" list in kaggle/runs.json).
 torch
 torchvision
 timm
 segmentation-models-pytorch
-ultralytics
+ultralytics==8.4.219  # pinned: baselines S01/S02 and the smoke test were run with this version

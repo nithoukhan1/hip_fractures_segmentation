@@ -190,7 +190,7 @@ Note: the paper reports only overall Dice. Per-class Dice needs model prediction
 ## Part 4. Recommended experimental protocol (for all later phases)
 1. Keep the official **test set (210)** frozen; report AUC, binary accuracy, Se/Sp, 6-class accuracy, macro-F1, balanced accuracy, **per-class Dice, HD95, NSD**, plus calibration (ECE).
 2. Create `splits/val_from_train.csv`: about 15% of train grouped by x-ray ID, stratified by class (or 5-fold grouped CV for robustness on the small rare classes).
-3. Re-run the paper's YOLOv8-seg (small @1024 and nano @640) on Kaggle with 3 or more seeds as our own reproduction baseline, since their code and hyper-parameters are not public.
+3. Re-run the paper's YOLOv8-seg (small @1024, its final model, and small @640, its best-Dice setting; corrected 2026-11-26, this line first said nano @640) on Kaggle as our own reproduction baseline, since their code and hyper-parameters are not public. Done as runs S01 and S02 with one model per fold of the 5 folds (Analysis/04).
 4. Use DeLong for AUC, McNemar / bootstrap for accuracy and Dice, with 95% CIs.
 5. Optional pre-processing: mirror all femurs to one side, mask the black padding out of the loss and the normalisation.
 

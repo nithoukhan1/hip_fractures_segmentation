@@ -4,6 +4,56 @@ Newest entries at the top. Each entry: what was done, what it produced, what com
 
 ---
 
+## 2026-11-26 · Step 7: Kaggle check confirmed (M0 reached); Step 1 code: data loader, metrics, YOLO baselines
+
+**Done (you)**
+- Merged PR #2 and ran `S00_env_check_r2` on main (commit `2758d45`, 3.7 min, exit 0).
+
+**Result** (`results/S00_env_check_r2/`, register line 2)
+- Same data True, same folds True, all 1,253 files found, and the 104 femurs of Kaggle's val/ pooled into train.
+- So the Kaggle data and folds are exactly the local ones. **Milestone M0 reached.**
+
+**Done (me): Step 1 code, shared by both papers**
+1. `src/femurseg/data.py`:
+   - reads the fold file into records;
+   - `fold_split` gives the training and held-out femurs of each fold;
+   - `ImageStore` finds every file on any copy of the data and keeps images and masks in RAM.
+2. `src/femurseg/metrics.py`:
+   - segmentation: Dice, IoU, HD95 and normalised surface Dice, with the empty-mask conventions stated;
+   - classification: AUC, sensitivity and specificity, 6-class accuracy, macro-F1, balanced accuracy, kappa;
+   - also: the paper's error breakdown (detection, location, grade), calibration (ECE, Brier) and the Youden threshold. Ties go to the higher sensitivity.
+3. `scripts/train_yolo_seg.py`, for baselines S01 and S02:
+   - training: YOLOv8-seg from COCO weights, 100 epochs, Ultralytics 8.4.219 defaults, final weights. The held-out fold is never used to pick an epoch.
+   - prediction: the paper's rule (fracture = any instance, class and mask of the top instance).
+   - threshold: fitted on the out-of-fold predictions only, and also reported at Ultralytics' default 0.25.
+   - test set: mean ± SD of the 5 fold models, and their ensemble.
+   - Kaggle: two folds run at a time, one per T4, with an 11-hour time guard.
+   - outputs: `metrics.json`, `summary.md` (with the paper's numbers alongside), and per-case CSVs for the statistics later.
+4. `tests/`:
+   - 13 metric checks against brute-force definitions and scikit-learn;
+   - 4 checks of the fixed folds;
+   - a CPU smoke test of the whole YOLO pipeline on a synthetic dataset with Kaggle's folder layout (val/ pooling, 5 folds two at a time, export, time guard).
+   - All pass.
+5. `kaggle/runs.json`: added `S01_yolov8s_seg_1024` (about 5–6 h) and `S02_yolov8s_seg_640` (about 2–3 h). `ultralytics==8.4.219` is pinned.
+6. **Correction:** the paper's best-Dice setting is YOLOv8-*small* at 640 px (test Dice .780), not nano. S02 is now `S02_yolov8s_seg_640`, and Reports 03 and 04 are fixed.
+7. `src/femurseg/stats.py` (statistics module) and `scripts/run_stats.py`:
+   - 95% intervals: bootstrap over whole x-rays, because the two femurs of an x-ray are not independent. AUC also gets a DeLong interval, and accuracy an exact one.
+   - Paired tests between runs on the same femurs: DeLong for AUC, McNemar for right/wrong decisions, a randomisation test for macro-F1, and Wilcoxon for Dice. Holm correction is applied.
+   - Results go to `results/analysis/<name>/`, so run folders stay untouched.
+   - 9 checks pass. One of them reproduces the paper's accuracy interval exactly: 181 of 210 correct gives 80.77–90.55 (exact Clopper–Pearson). So our intervals and the paper's are directly comparable.
+
+**Differences from the paper** (stated in each run's NOTES and later in the papers)
+- We use final weights, where the paper kept the best-validation checkpoint.
+- We train 5 fold models, where the paper trained 6 seeds on one split.
+- We use Ultralytics 8.4 defaults; the paper did not report its version or hyper-parameters.
+- Our fracture threshold comes from out-of-fold predictions.
+
+**Next**
+- You: merge PR #3, then run `S01_yolov8s_seg_1024` with Save Version (guide in the thread), then `S02_yolov8s_seg_640`.
+- Me, while S01 runs: the next baselines (S03 YOLO11s-seg, classifiers S04–S06). When S01 is back: file it and add 95% intervals with `scripts/run_stats.py`.
+
+---
+
 ## 2026-11-26 · Step 6: Setup merged; first Kaggle run (environment check)
 
 **Done (you)**
