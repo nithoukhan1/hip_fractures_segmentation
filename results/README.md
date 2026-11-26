@@ -19,12 +19,14 @@ results/
     ├── config.json           exact settings, git commit, start-weights checksum (training runs)
     ├── metrics.json          summary metrics (out-of-fold, per fold, test when frozen), thresholds, folds done
     ├── summary.md            headline table, next to the base article's numbers where they exist
-    ├── per_case_*.csv        one row per femur: per-class confidences, prediction, Dice, HD95, NSD
-    └── folds/fold<k>/        per-fold predictions, training curve, Ultralytics settings, log tail
+    ├── preflight.json        Step 2 runs: micro-batch that fits, time per step, estimate per fold
+    ├── per_case_*.csv        one row per femur: per-class confidences, prediction, Dice, HD95, NSD at 2/10/20 px
+    │                         (columns: src/femurseg/evaluation.py; classifiers leave the mask columns empty)
+    └── folds/fold<k>/        per-fold predictions, training curve, settings, log tail
 ```
 
 ## Run names
-- **S** = shared runs (environment check, baselines S1–S9, core model M0)
+- **S** = shared runs (environment check, baselines S1–S9, core model M0 = run S10)
 - **A** = Paper A (SLG-Net)
 - **R** = Paper B (RefFrac)
 
@@ -39,7 +41,7 @@ Example: `S01_yolov8s_seg_1024`. The plan for every run is in `Analysis/04_Execu
    ```
    This copies the run into `results/<RUN>/`, creates `NOTES.md` from the template, appends a line to `EXPERIMENTS.md` and moves the zip to `_inbox/filed/`.
 4. `NOTES.md` is filled in (5–10 lines), and the same files are pushed to the repository, so the local folder and GitHub stay identical.
-5. For a comparison of runs: `python scripts/run_stats.py RUN1 RUN2 --compare --name C<nn>_<what>` and `python scripts/run_breakdown.py RUN1 RUN2 --name C<nn>_<what>`, then a short `report.md` in the same folder. Big Kaggle outputs (weights, predicted masks, the `<RUN>.zip` of the work folder) are kept locally in `_inbox/filed/` and are not committed.
+5. For a comparison of runs: `python scripts/run_stats.py RUN1 RUN2 --compare --name C<nn>_<what>` and `python scripts/run_breakdown.py RUN1 RUN2 --name C<nn>_<what>`, then a short `report.md` in the same folder. Big Kaggle outputs (weights, predicted masks, probability maps of the Step 2 runs, the `<RUN>.zip` of the work folder) are kept locally in `_inbox/filed/` and are not committed.
 
 ## Rules
 1. A run folder is never edited after it is filed, except its `NOTES.md`. A re-run gets a new name, for example `S01_yolov8s_seg_1024_r2`.

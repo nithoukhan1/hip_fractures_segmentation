@@ -170,8 +170,10 @@ def worker_init_fn(worker_id: int) -> None:
     """Give every data-loader worker its own augmentation random stream (torch seeds each worker differently)."""
     import random
 
+    import cv2
     import torch
 
+    cv2.setNumThreads(1)  # one thread per worker: the workers already run in parallel on the few CPU cores
     seed = torch.initial_seed() % 2**32
     random.seed(seed)
     np.random.seed(seed)

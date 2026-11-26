@@ -84,18 +84,18 @@ def evaluate(rows: list[dict], tau: float) -> dict:
                errors=M.error_breakdown(y, pred), per_class=mc["per_class"], confusion_matrix=mc["confusion_matrix"])
     fx = [r for r in rows if r["cls6_true"] > 0]
     det = [r for r in fx if r["top_conf"] >= tau]
-    dice_fx = [_num(r["dice_top"]) if r["top_conf"] >= tau else 0.0 for r in fx]
+    dice_fx = [_num(r.get("dice_top")) if r["top_conf"] >= tau else 0.0 for r in fx]
 
-    def fx_mean(key: str) -> float:
-        return float(np.mean([_num(r[key]) if r["top_conf"] >= tau else 0.0 for r in fx])) if fx else float("nan")
+    def fx_mean(key: str) -> float:  # optional mask columns: absent or empty for models without masks
+        return float(np.mean([_num(r.get(key)) if r["top_conf"] >= tau else 0.0 for r in fx])) if fx else float("nan")
 
     out.update(
         dice_fractured_mean=float(np.mean(dice_fx)) if fx else float("nan"),
         dice_fractured_median=float(np.median(dice_fx)) if fx else float("nan"),
-        dice_detected_mean=float(np.mean([_num(r["dice_top"]) for r in det])) if det else float("nan"),
+        dice_detected_mean=float(np.mean([_num(r.get("dice_top")) for r in det])) if det else float("nan"),
         iou_fractured_mean=fx_mean("iou_top"),
         nsd2_fractured_mean=fx_mean("nsd2_top"),
-        hd95_detected_median=_nanmedian([_num(r["hd95_top"]) for r in det]),
+        hd95_detected_median=_nanmedian([_num(r.get("hd95_top")) for r in det]),
         n_fractured=len(fx), n_fractured_missed=len(fx) - len(det),
         dice_per_class={CLASSES[c].code: float(np.mean([d for d, r in zip(dice_fx, fx) if r["cls6_true"] == c]))
                         for c in range(1, 6) if any(r["cls6_true"] == c for r in fx)},

@@ -19,7 +19,7 @@ Sources:
 | Fixed 5-fold split of the training set | Done (`splits/folds_v1.csv`) |
 | Kaggle environment check | Done: data and folds on Kaggle are identical to `splits/folds_v1.csv` (Kaggle's val/ pooled into train) |
 | Data loader, metrics, statistics, tests | Done (`src/femurseg/data.py`, `metrics.py`, `stats.py`, `tests/`) |
-| Shared baselines S1–S9 and core model M0 | In progress: S01 and S02 (YOLOv8s-seg) done and analysed: they reproduce the article's accuracy and AUC (`results/analysis/C01_yolo_1024_vs_640/report.md`). S03 (YOLO11s-seg) ready on Kaggle |
+| Shared baselines S1–S9 and core model M0 | In progress: S01 and S02 (YOLOv8s-seg) done and analysed: they reproduce the article's accuracy and AUC (`results/analysis/C01_yolo_1024_vs_640/report.md`). S03 (YOLO11s-seg) running on Kaggle. Step 2 code for S04–S10 (classifiers, segmenters, M0) ready; protocol in `Analysis/05_Step2_Baselines_Protocol.md` |
 | Paper A and Paper B methods, experiments, manuscripts | Not started |
 
 Details: [`PROJECT_TRACKER.md`](PROJECT_TRACKER.md) (overall) and [`PROGRESS_LOG.md`](PROGRESS_LOG.md) (step by step).
@@ -35,17 +35,21 @@ Details: [`PROJECT_TRACKER.md`](PROJECT_TRACKER.md) (overall) and [`PROGRESS_LOG
 │   ├── 01_Base_Article_and_EDA_Report.md
 │   ├── 02_How_to_Use_the_Dataset.md        nine directions D1–D9
 │   ├── 03_Idea_Ranking_and_Research_Plan.md ranking, Option A and B designs
-│   └── 04_Execution_Plan_A_and_B.md         A and B in parallel: runs, validation, compute, timeline
+│   ├── 04_Execution_Plan_A_and_B.md         A and B in parallel: runs, validation, compute, timeline
+│   └── 05_Step2_Baselines_Protocol.md       how S04–S10 (classifiers, segmenters, M0) are trained and scored
 ├── research/               literature notes
 ├── EDA/                    EDA script, per-image statistics, figures
 ├── splits/                 fixed train folds (official val folder is empty; test is untouched)
 ├── src/femurseg/           Python package: classes, data paths, data loader (data.py), metrics (metrics.py),
-│                           confidence intervals and paired tests (stats.py), the article's numbers (reference.py)
+│                           confidence intervals and paired tests (stats.py), the article's numbers (reference.py),
+│                           per-case files and scoring shared by all models (evaluation.py), parallel folds with
+│                           a time guard (runner.py), PyTorch networks (nets.py) and image cache (torchdata.py)
 ├── scripts/                command-line tools: make_splits.py, register_run.py, train_yolo_seg.py (S01–S03),
+│                           train_net.py (S04–S10: classifiers, segmenters, M0; S00_net_check),
 │                           run_stats.py (95% intervals and paired comparisons of filed runs),
 │                           run_breakdown.py (per class, mean ± SD over folds, comparison with the article)
-├── tests/                  checks of metrics, statistics, folds, the article's numbers and the breakdown, and a
-│                           CPU smoke test of the YOLO script and both analysis scripts
+├── tests/                  checks of metrics, statistics, folds, the article's numbers, the breakdown and the
+│                           networks, and CPU smoke tests of both training scripts and both analysis scripts
 ├── configs/                one YAML file per experiment
 ├── kaggle/                 Kaggle launcher notebook, run list and Kaggle-only scripts
 ├── results/                every run's metrics, notes and small outputs (no model weights)

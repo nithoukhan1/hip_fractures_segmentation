@@ -60,6 +60,8 @@ def decisions(rows: list[dict], tau: float) -> dict[str, np.ndarray]:
         pred = np.array([int(float(r["top_cls6"])) if _num(r["top_conf"]) >= tau else 0 for r in rows])
     dice = np.array([(_num(r["dice_top"]) if p > 0 else 0.0) if t > 0 else np.nan
                      for r, t, p in zip(rows, y, pred)])
+    if not any(r.get("dice_top") not in ("", None) for r, t in zip(rows, y) if t > 0):
+        dice[:] = np.nan  # a run without masks (image classifier): no Dice at all, not Dice 0 for missed fractures
     return {"file": np.array([r["file"] for r in rows]), "y": y, "score": score, "pred": pred, "dice": dice}
 
 
@@ -78,11 +80,12 @@ def metric_fn(name: str):
         return lambda y, p, s, d: M.multiclass_metrics(y, p)[key]
 
     def dice_fx(y, p, s, d):
-        return float(np.nanmean(d)) if (y > 0).any() else float("nan")
+        v = d[y > 0]
+        return float(np.nanmean(v)) if v.size and not np.isnan(v).all() else float("nan")
 
     def dice_det(y, p, s, d):
         m = (y > 0) & (p > 0)
-        return float(np.mean(d[m])) if m.any() else float("nan")
+        return float(np.mean(d[m])) if m.any() and not np.isnan(d[m]).all() else float("nan")
 
     def g12(y, p, s, d):
         return float(np.mean(p[y == 1] == 1)) if (y == 1).any() else float("nan")
@@ -124,8 +127,9 @@ def compare(da: dict, db: dict, groups: np.ndarray, n_boot: int, n_perm: int, se
     res["macro_f1"] = {"test": "randomisation (swap per x-ray)", "diff": perm["diff"], "p": perm["p"],
                        "diff_lo": boot["lo"], "diff_hi": boot["hi"]}
     fx = y > 0
-    w = S.wilcoxon_paired(da["dice"][fx], db["dice"][fx])
-    res["dice_fractured"] = w | {"test": "Wilcoxon signed-rank (Pratt), fractured femurs, missed = 0"}
+    if not (np.isnan(da["dice"][fx]).all() or np.isnan(db["dice"][fx]).all()):  # both runs predict masks
+        w = S.wilcoxon_paired(da["dice"][fx], db["dice"][fx])
+        res["dice_fractured"] = w | {"test": "Wilcoxon signed-rank (Pratt), fractured femurs, missed = 0"}
     names = list(res)
     adj = S.holm([res[n]["p"] for n in names])
     for n, a in zip(names, adj):
