@@ -17,7 +17,7 @@ Sources:
 | Ranking of directions D1–D9 and research plan | Done (Report 03) |
 | Decision: Papers A and B in parallel; execution plan | Done (Report 04) |
 | Fixed 5-fold split of the training set | Done (`splits/folds_v1.csv`) |
-| Kaggle environment check (`S00_env_check`) | **Next: your run on Kaggle** |
+| Kaggle environment check | Run 1 done: Kaggle's val/ holds 104 training femurs, now pooled into train. **Next: `S00_env_check_r2`** |
 | Shared baselines S1–S9 and core model M0 | Not started (Weeks 1–2) |
 | Paper A and Paper B methods, experiments, manuscripts | Not started |
 
@@ -85,7 +85,7 @@ See [`kaggle/README.md`](kaggle/README.md). In short:
 
 ## Ground rules for every experiment
 1. The **official test set (210 femurs) is frozen.** It is never used for tuning, and only frozen configurations are evaluated on it.
-2. Validation comes from the **5 fixed folds** in `splits/folds_v1.csv` (grouped by x-ray, stratified by class). Every configuration is trained 5 times; each training femur is predicted once by the model that did not train on it (out-of-fold).
+2. Validation comes from the **5 fixed folds** in `splits/folds_v1.csv` (grouped by x-ray, stratified by class). The Kaggle copy's `val/` folder holds 104 of the training femurs; all code pools it back into train. Every configuration is trained 5 times; each training femur is predicted once by the model that did not train on it (out-of-fold).
 3. Fixed training length, final weights: the held-out fold is never used to pick an epoch. Thresholds and calibration are fitted on out-of-fold predictions only. Development uses fold 0 only.
 4. Every run records the git commit, config, seed or fold, GPU, runtime and metrics, and gets a line in `results/EXPERIMENTS.md`.
 5. Primary endpoints are fixed in advance:

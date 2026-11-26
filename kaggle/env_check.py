@@ -4,10 +4,12 @@
 What it checks and writes to <out>/env_report.json:
   1. Hardware: GPU name(s) and memory, CPU count, RAM, free disk in /kaggle/working and /tmp.
   2. Software: Python, torch/CUDA, versions of the packages we will use, internet access (GitHub, PyPI).
-  3. Data: where Kaggle mounted the dataset, image/label/mask counts per split, whether val/ is empty,
-     data.yml content, image size, and image read speed.
+  3. Data: where Kaggle mounted the dataset, image/label/mask counts per folder, whether val/ is empty
+     (if not, its images are pooled into train: src/femurseg/paths.py), data.yml content, image size,
+     and image read speed.
   4. Split check: re-runs scripts/make_splits.py on the Kaggle copy and compares it with the committed
-     splits/folds_v1.csv (same files, same classes, same pixels, same folds).
+     splits/folds_v1.csv (same files, same classes, same pixels, same folds), and checks that every
+     file listed in splits/folds_v1.csv is found on disk.
   5. A 10-second GPU speed test (fp16 matrix multiply), used to calibrate the compute plan.
 
 Every section is wrapped so one failure does not stop the rest. Usage (normally via kaggle/run.py):
@@ -32,7 +34,7 @@ from pathlib import Path
 REPO = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO / "src"))
 from femurseg.classes import EXPECTED_COUNTS  # noqa: E402
-from femurseg.paths import find_data_root  # noqa: E402
+from femurseg.paths import build_index, find_data_root  # noqa: E402
 
 
 def sh(cmd: str) -> str:
@@ -116,6 +118,9 @@ def main() -> None:
     def _():
         root = find_data_root(args.input)
         data["root"] = root
+        per_folder: dict[str, int] = {}
+        for where in build_index(root).values():
+            per_folder[where["folder"]] = per_folder.get(where["folder"], 0) + 1
         counts = {}
         for split in ("train", "val", "valid", "test"):
             d = root / split
@@ -134,6 +139,8 @@ def main() -> None:
         read_ms = (time.time() - t0) / max(len(imgs), 1) * 1000
         return {"root": str(root), "listing_of_input": sh(f"find '{args.input}' -maxdepth 4 -type d | head -40"),
                 "counts": counts, "val_is_empty": not any(v["images"] for k, v in counts.items() if k in ("val", "valid")),
+                "val_pooled_into_train": sum(n for f, n in per_folder.items() if f in ("val", "valid")),
+                "train_pool_size": sum(n for f, n in per_folder.items() if f != "test"),
                 "data_yml": yml.read_text() if yml else None,
                 "image_size_and_mode_(w,h)": sorted(str(s) for s in sizes),
                 "pil_read_ms_per_image": round(read_ms, 1)}
@@ -155,9 +162,13 @@ def main() -> None:
                 return {(row["split"], row["file"]): (row["cls6"], row["fold"], row["pixel_md5"]) for row in csv.DictReader(f)}
         a, b = load(REPO / "splits" / "folds_v1.csv"), load(out / "folds_check.csv")
         diff = sorted(k for k in set(a) | set(b) if a.get(k) != b.get(k))
+        on_disk = set(build_index(data["root"]))
+        missing, extra = sorted(set(a) - on_disk), sorted(on_disk - set(a))
         return {"fingerprint_local": mine["fingerprint_sha1"], "fingerprint_kaggle": theirs["fingerprint_sha1"],
                 "identical_files_classes_pixels": mine["fingerprint_sha1"] == theirs["fingerprint_sha1"],
                 "identical_folds": not diff, "n_differences": len(diff), "first_differences": [list(k) for k in diff[:10]],
+                "csv_files_found_on_disk": not missing and not extra, "n_missing_on_disk": len(missing),
+                "n_not_in_csv": len(extra), "first_missing": [list(k) for k in missing[:10]],
                 "class_counts_match_paper": "WARNING" not in r.stdout}
 
     @section(rep, "gpu_speed")
@@ -195,8 +206,10 @@ def main() -> None:
     print("internet     :", sw.get("internet"))
     print("data root    :", dt.get("root"))
     print("counts       :", dt.get("counts"))
-    print("val empty    :", dt.get("val_is_empty"))
-    print("split check  : same data =", sc.get("identical_files_classes_pixels"), "| same folds =", sc.get("identical_folds"))
+    print("val empty    :", dt.get("val_is_empty"), "| val images pooled into train:", dt.get("val_pooled_into_train"),
+          "| training pool:", dt.get("train_pool_size"))
+    print("split check  : same data =", sc.get("identical_files_classes_pixels"), "| same folds =", sc.get("identical_folds"),
+          "| all files found =", sc.get("csv_files_found_on_disk"))
     print("GPU speed    :", rep.get("gpu_speed"))
     print(f"report       : {out / 'env_report.json'}")
 

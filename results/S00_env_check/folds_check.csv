@@ -1,0 +1,1150 @@
+file,split,fold,femur_id,xray_id,group,cls6,yolo_id,code,class_name,location,grade,n_femurs_in_xray,pair_file,pair_cls6,duplicate_of,pixel_md5
+00000_00000.png,train,1,00000,00000,train:00000,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,2,00001_00000.png,0,,e4d401bc39ce2cd93a599d44697eec7b
+00001_00000.png,train,1,00001,00000,train:00000,0,-1,NF,No fracture,none,none,2,00000_00000.png,4,,3b59fc275b18091285785e98f9a15d4f
+00003_00002.png,train,0,00003,00002,train:00002,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,1,,,,ab1c4837c9abc6f95aec20a03804928d
+00004_00003.png,train,1,00004,00003,train:00003,0,-1,NF,No fracture,none,none,2,00005_00003.png,4,,99eea94d37ff7282a718ee0df6f0b716
+00005_00003.png,train,1,00005,00003,train:00003,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,2,00004_00003.png,0,,7e93fbc8bdeeaa65424e9bcae5b30566
+00007_00006.png,train,2,00007,00006,train:00006,2,1,2CD,Neck Garden III-IV,neck,high,2,00008_00006.png,0,,79ca1b3529a91c597fd40f4e28f6f899
+00008_00006.png,train,2,00008,00006,train:00006,0,-1,NF,No fracture,none,none,2,00007_00006.png,2,,2c849eda1f520972c5415d30002b0555
+00009_00007.png,train,4,00009,00007,train:00007,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,1,,,,29c4a8218a1e531d94ae134b621a74ce
+00010_00008.png,train,1,00010,00008,train:00008,0,-1,NF,No fracture,none,none,2,00011_00008.png,2,,ba2986d024b37d056ffaaed1b025ccb8
+00011_00008.png,train,1,00011,00008,train:00008,2,1,2CD,Neck Garden III-IV,neck,high,2,00010_00008.png,0,,90a98d82e6a3f2adfde776badf3048dd
+00014_00010.png,train,1,00014,00010,train:00010,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,2,00015_00010.png,0,,19722488b33ce34695a2596a836987d3
+00015_00010.png,train,1,00015,00010,train:00010,0,-1,NF,No fracture,none,none,2,00014_00010.png,4,,320453db2073f37290885e6f9773e382
+00016_00011.png,train,0,00016,00011,train:00011,2,1,2CD,Neck Garden III-IV,neck,high,2,00017_00011.png,0,,0b4483e04e45d6174d0570d3330fbe3b
+00017_00011.png,train,0,00017,00011,train:00011,0,-1,NF,No fracture,none,none,2,00016_00011.png,2,,8b46b3ac1c1aa1a148202dba61cbaaa3
+00018_00012.png,train,3,00018,00012,train:00012,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,722a1ee6bc8fb69ff95fbfb4ed7a771e
+00026_00019.png,train,0,00026,00019,train:00019,0,-1,NF,No fracture,none,none,2,00027_00019.png,3,,17f9cd380b254cc0ded16022459ab5fc
+00027_00019.png,train,0,00027,00019,train:00019,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,2,00026_00019.png,0,,0ca763d3a69aeacca1be64d3c747d975
+00028_00020.png,train,1,00028,00020,train:00020,0,-1,NF,No fracture,none,none,2,00029_00020.png,5,,fcafd327c8153dd19fc3cb679973e181
+00029_00020.png,train,1,00029,00020,train:00020,5,4,4,Subtrochanteric,subtrochanteric,ungraded,2,00028_00020.png,0,,a6ee14d2f21dfadf0b5420d47f393f8e
+00030_00021.png,train,0,00030,00021,train:00021,5,4,4,Subtrochanteric,subtrochanteric,ungraded,1,,,,55cba8bfb43b961f788ca1e0d57e981a
+00031_00022.png,train,2,00031,00022,train:00022,0,-1,NF,No fracture,none,none,2,00032_00022.png,3,,1ea16d8ccaf8ec3189175b4dd00b5672
+00032_00022.png,train,2,00032,00022,train:00022,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,2,00031_00022.png,0,,63896746708ffbea26f7969c819f0fb9
+00033_00023.png,train,2,00033,00023,train:00023,0,-1,NF,No fracture,none,none,2,00034_00023.png,1,,1df7352e830955d8cbf70885156f9ca3
+00034_00023.png,train,2,00034,00023,train:00023,1,0,2AB,Neck Garden I-II,neck,low,2,00033_00023.png,0,,15f93c860d848e257efbdc2780ca1d04
+00035_00024.png,train,3,00035,00024,train:00024,1,0,2AB,Neck Garden I-II,neck,low,1,,,,7c17f6add2c48e1f9cc0b81a2f48e2ff
+00039_00027.png,train,4,00039,00027,train:00027,0,-1,NF,No fracture,none,none,2,00040_00027.png,4,,900246c98b64ad7d158d12850cedc537
+00040_00027.png,train,4,00040,00027,train:00027,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,2,00039_00027.png,0,,ea3f7a7278b29a46785bc5823fe1801e
+00041_00028.png,train,3,00041,00028,train:00028,0,-1,NF,No fracture,none,none,1,,,,016475cbad8fa9bd4fa935225a74994b
+00044_00030.png,train,4,00044,00030,train:00030,0,-1,NF,No fracture,none,none,2,00045_00030.png,1,,1af946e2857f06bd016d14fe323fa2c8
+00045_00030.png,train,4,00045,00030,train:00030,1,0,2AB,Neck Garden I-II,neck,low,2,00044_00030.png,0,,82c9569b78355dd6ec570fa5f10fa3c7
+00046_00031.png,train,0,00046,00031,train:00031,0,-1,NF,No fracture,none,none,2,00047_00031.png,2,,a4e3054f9ad19670959ee51c6b7edfe2
+00047_00031.png,train,0,00047,00031,train:00031,2,1,2CD,Neck Garden III-IV,neck,high,2,00046_00031.png,0,,7630aabdf546ed0749aaf078621742f6
+00048_00032.png,train,2,00048,00032,train:00032,0,-1,NF,No fracture,none,none,2,00049_00032.png,4,,db19ed70c93f47036005082bb38db3e2
+00049_00032.png,train,2,00049,00032,train:00032,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,2,00048_00032.png,0,,574f554a5f8432dfc2468b3a72df0a13
+00050_00033.png,train,2,00050,00033,train:00033,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,1,,,,03101f97baf7f96bfbb99f175b4c331f
+00051_00034.png,train,3,00051,00034,train:00034,0,-1,NF,No fracture,none,none,2,00052_00034.png,2,,4f2913fafd0e29940c12e6b690bee980
+00052_00034.png,train,3,00052,00034,train:00034,2,1,2CD,Neck Garden III-IV,neck,high,2,00051_00034.png,0,,cb170eaa7fe31e9efa715e90310ee1bd
+00055_00036.png,train,1,00055,00036,train:00036,2,1,2CD,Neck Garden III-IV,neck,high,2,00056_00036.png,0,,187c5a3b18b8f24da5b3c6469a793a02
+00056_00036.png,train,1,00056,00036,train:00036,0,-1,NF,No fracture,none,none,2,00055_00036.png,2,,192f300b1d7a1783ba7017bc4ecbac45
+00057_00037.png,train,3,00057,00037,train:00037,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,7167fbb450de466c5b27605ab111a1bf
+00058_00038.png,train,4,00058,00038,train:00038,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,37df7c3fbc287a5294f661d8eb8b8135
+00059_00039.png,train,2,00059,00039,train:00039,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,0acb6efe9e8e12eea9479555c82db1dd
+00060_00040.png,train,2,00060,00040,train:00040,0,-1,NF,No fracture,none,none,1,,,,5bceba702f206a4c233c1829cbcd5526
+00062_00041.png,train,4,00062,00041,train:00041,1,0,2AB,Neck Garden I-II,neck,low,1,,,,03539599735fed34d8aab1fcac84e0be
+00064_00043.png,train,2,00064,00043,train:00043,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,1,,,,d8f082e2c9f63f3b5c7cfbb2eeab1791
+00067_00045.png,train,1,00067,00045,train:00045,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,1,,,,4d9c45d17fddcef8a70b1625cf983a2b
+00069_00046.png,train,0,00069,00046,train:00046,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,1,,,,36a0ccb40a5ac751962eeca963e363d5
+00070_00047.png,train,3,00070,00047,train:00047,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,1967641ad1f0478d83f8bbcb9ccf6349
+00071_00048.png,train,4,00071,00048,train:00048,0,-1,NF,No fracture,none,none,2,00072_00048.png,2,,731f316b893f5fbf42927ba7d128ed67
+00072_00048.png,train,4,00072,00048,train:00048,2,1,2CD,Neck Garden III-IV,neck,high,2,00071_00048.png,0,,ddc6dab965cbe336510e1a18845ababf
+00076_00051.png,train,3,00076,00051,train:00051,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,1,,,,beada9c4b08949d842c6f2704ed50d7c
+00077_00052.png,train,1,00077,00052,train:00052,0,-1,NF,No fracture,none,none,2,00078_00052.png,3,,1d4da66af2122fec04eddb932297e6a9
+00078_00052.png,train,1,00078,00052,train:00052,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,2,00077_00052.png,0,,7135173641a65d23b83e4407c93f2c41
+00079_00053.png,train,1,00079,00053,train:00053,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,1,,,,85f3aa632bf59f2491c87f6d3c02d23d
+00081_00054.png,train,1,00081,00054,train:00054,2,1,2CD,Neck Garden III-IV,neck,high,2,00082_00054.png,0,,9f92702752146ce9163e73d0dfd4db08
+00082_00054.png,train,1,00082,00054,train:00054,0,-1,NF,No fracture,none,none,2,00081_00054.png,2,,faef43e2e41326b06fd047782b287236
+00083_00055.png,train,3,00083,00055,train:00055,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,7248896c4b037bb1c2355c1adcd978bb
+00087_00058.png,train,3,00087,00058,train:00058,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,4d7b00a8116412412440160977c0baba
+00089_00059.png,train,3,00089,00059,train:00059,2,1,2CD,Neck Garden III-IV,neck,high,2,00090_00059.png,0,,2ddf91cbd8b3f096dc1d0b9d0d1d52f8
+00090_00059.png,train,3,00090,00059,train:00059,0,-1,NF,No fracture,none,none,2,00089_00059.png,2,,ec0f448191db078018a5f1ec4a9b9f5e
+00091_00060.png,train,4,00091,00060,train:00060,0,-1,NF,No fracture,none,none,2,00092_00060.png,3,,63236dd9328c9c17b592210ff02c3a20
+00092_00060.png,train,4,00092,00060,train:00060,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,2,00091_00060.png,0,,f3b2cfa8658d4fb85a0d0df5bcc98e92
+00093_00061.png,train,2,00093,00061,train:00061,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,1,,,,02f408ce4845792b08e3fad636dd2f95
+00094_00062.png,train,1,00094,00062,train:00062,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,9eb1a99260da778a58cd2b61ca269e8a
+00095_00063.png,train,1,00095,00063,train:00063,0,-1,NF,No fracture,none,none,2,00096_00063.png,2,,842ab196d0b80882a727cdfa8888f11b
+00096_00063.png,train,1,00096,00063,train:00063,2,1,2CD,Neck Garden III-IV,neck,high,2,00095_00063.png,0,,61c97b1a9c8f2aa83cf7f485ea30c116
+00100_00065.png,train,1,00100,00065,train:00065,0,-1,NF,No fracture,none,none,1,,,,e6d6985e7433d3a68db7b6e7d7692652
+00101_00066.png,train,4,00101,00066,train:00066,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,04c341fb109db646f021587abf9e1429
+00103_00069.png,train,4,00103,00069,train:00069,0,-1,NF,No fracture,none,none,2,00104_00069.png,1,,4fe355534776f5d16c82e6b0e8a5f43e
+00104_00069.png,train,4,00104,00069,train:00069,1,0,2AB,Neck Garden I-II,neck,low,2,00103_00069.png,0,,0b17827a592a2fc89016daaba3fd394b
+00105_00070.png,train,1,00105,00070,train:00070,1,0,2AB,Neck Garden I-II,neck,low,1,,,,69cd2610f9dff421d3def525a18cdf0d
+00107_00072.png,train,4,00107,00072,train:00072,5,4,4,Subtrochanteric,subtrochanteric,ungraded,1,,,,46d10cfde859657beb7b584cedc69214
+00108_00073.png,train,3,00108,00073,train:00073,5,4,4,Subtrochanteric,subtrochanteric,ungraded,1,,,,4d313e53ee9134c7d1d31dd78f83317c
+00111_00075.png,train,1,00111,00075,train:00075,5,4,4,Subtrochanteric,subtrochanteric,ungraded,1,,,,cb907f2cc408bf8ce4d773043bdd7377
+00112_00076.png,train,2,00112,00076,train:00076,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,f9c7fdb01beea1237c3b7d6941267e1b
+00113_00077.png,train,0,00113,00077,train:00077,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,2,00114_00077.png,0,,412402e0ce2e678fccce9a96d31be002
+00114_00077.png,train,0,00114,00077,train:00077,0,-1,NF,No fracture,none,none,2,00113_00077.png,4,,97dfaae4161ae43859ed35df8e32c123
+00117_00079.png,train,0,00117,00079,train:00079,1,0,2AB,Neck Garden I-II,neck,low,2,00118_00079.png,0,,cc0219b8de483ad9dbf8a17253ff4136
+00118_00079.png,train,0,00118,00079,train:00079,0,-1,NF,No fracture,none,none,2,00117_00079.png,1,,ca5db286da15e3f1fb3c38a313ad731e
+00120_00081.png,train,4,00120,00081,train:00081,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,1,,,,4944da3bb1badc3ad85f7746959c9381
+00121_00082.png,train,2,00121,00082,train:00082,0,-1,NF,No fracture,none,none,2,00122_00082.png,4,,3a6dd6ac4a53d3cfc340f5fc1b7a4d67
+00122_00082.png,train,2,00122,00082,train:00082,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,2,00121_00082.png,0,,0a152c0d3c029b4bf960ce4630758f1d
+00126_00085.png,train,0,00126,00085,train:00085,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,2,00127_00085.png,0,,34b0072bc4544c9e5924684ce600912f
+00127_00085.png,train,0,00127,00085,train:00085,0,-1,NF,No fracture,none,none,2,00126_00085.png,4,,a1cc443d9a46541c57150c7f6717ce73
+00128_00086.png,train,2,00128,00086,train:00086,2,1,2CD,Neck Garden III-IV,neck,high,2,00129_00086.png,0,,00a085e8a015ea108ce4494d3f786023
+00129_00086.png,train,2,00129,00086,train:00086,0,-1,NF,No fracture,none,none,2,00128_00086.png,2,,0a0ab8009e07781430de8a65e70c02cc
+00130_00087.png,train,3,00130,00087,train:00087,0,-1,NF,No fracture,none,none,2,00131_00087.png,2,,01ef56266463c51d175013d1de514bdc
+00131_00087.png,train,3,00131,00087,train:00087,2,1,2CD,Neck Garden III-IV,neck,high,2,00130_00087.png,0,,995d57b6ac3ac89d13ae2ac4bbbbba51
+00132_00088.png,train,2,00132,00088,train:00088,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,7682eb2dc5153f283984c5e451e9a510
+00133_00089.png,train,0,00133,00089,train:00089,5,4,4,Subtrochanteric,subtrochanteric,ungraded,2,00134_00089.png,0,,e9cbb5422373d8bcd97bcb99c6e81298
+00134_00089.png,train,0,00134,00089,train:00089,0,-1,NF,No fracture,none,none,2,00133_00089.png,5,,f159211daceecf0d45115de3eb8c7207
+00135_00090.png,train,2,00135,00090,train:00090,5,4,4,Subtrochanteric,subtrochanteric,ungraded,1,,,,098d3ce5ff43757683c745ef9231fb31
+00136_00091.png,train,3,00136,00091,train:00091,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,3e6a8f2ef958db402b32c681b287e28e
+00138_00092.png,train,2,00138,00092,train:00092,2,1,2CD,Neck Garden III-IV,neck,high,2,00139_00092.png,0,,cc74732789fdf4752ad9da6025d98928
+00139_00092.png,train,2,00139,00092,train:00092,0,-1,NF,No fracture,none,none,2,00138_00092.png,2,,c81baf7f9095a10142c4ee06f8e4bc81
+00140_00093.png,train,4,00140,00093,train:00093,5,4,4,Subtrochanteric,subtrochanteric,ungraded,1,,,,4149b2058696970f323a61f8fc7d9d5d
+00144_00096.png,train,1,00144,00096,train:00096,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,1,,,,ed57320eb4e50997c8064359c65aa94b
+00145_00097.png,train,2,00145,00097,train:00097,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,1,,,,3d7391034fe30d7fbf3aeb9dcc87a9a6
+00149_00101.png,train,2,00149,00101,train:00101,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,2,00150_00101.png,0,,39e48d4ad4bc368194bdef77d8cf562b
+00150_00101.png,train,2,00150,00101,train:00101,0,-1,NF,No fracture,none,none,2,00149_00101.png,3,,0aab969d95f4b9ce4459f3206b0c061d
+00154_00104.png,train,1,00154,00104,train:00104,0,-1,NF,No fracture,none,none,2,00155_00104.png,2,,acbb5b8f316671e037c122802f778435
+00155_00104.png,train,1,00155,00104,train:00104,2,1,2CD,Neck Garden III-IV,neck,high,2,00154_00104.png,0,,31e23013e0db2efadfa88a88a671d948
+00156_00105.png,train,2,00156,00105,train:00105,1,0,2AB,Neck Garden I-II,neck,low,1,,,,7cd43a429effd7c0d2f6d04063c34b1e
+00157_00106.png,train,3,00157,00106,train:00106,1,0,2AB,Neck Garden I-II,neck,low,2,00158_00106.png,0,,2c28b1f6e8fb30630f2accfb55775aa3
+00158_00106.png,train,3,00158,00106,train:00106,0,-1,NF,No fracture,none,none,2,00157_00106.png,1,,00616e9e15cb8ed26fdd3069fccbc360
+00159_00107.png,train,2,00159,00107,train:00107,0,-1,NF,No fracture,none,none,2,00160_00107.png,3,,26d4568bf3dcd8b066145a2974b0bb4a
+00160_00107.png,train,2,00160,00107,train:00107,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,2,00159_00107.png,0,,14fde1673c8231561859e13c0b5a1dd2
+00161_00108.png,train,4,00161,00108,train:00108,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,1,,,,4995b66e55c9311590653c807fc987af
+00163_00109.png,train,0,00163,00109,train:00109,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,1,,,,55bc97cd2a9862ee6da8c4fa40d9ac94
+00164_00110.png,train,3,00164,00110,train:00110,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,1,,,,2b0a7ed46cad55e104b710399d4f6867
+00166_00111.png,train,0,00166,00111,train:00111,2,1,2CD,Neck Garden III-IV,neck,high,2,00167_00111.png,0,,d91db3cb6406e2a9d16569673e1b352f
+00167_00111.png,train,0,00167,00111,train:00111,0,-1,NF,No fracture,none,none,2,00166_00111.png,2,,b6bc17acfe056f88de8e9ed37045ff57
+00168_00112.png,train,1,00168,00112,train:00112,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,1,,,,cc030b7f2112da66acb47f1247fb698d
+00169_00113.png,train,1,00169,00113,train:00113,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,2,00170_00113.png,0,,395a2bc1f48e7281748f17a002e0f421
+00170_00113.png,train,1,00170,00113,train:00113,0,-1,NF,No fracture,none,none,2,00169_00113.png,3,,012aeac6a25e8c980ef6723acd794be0
+00171_00114.png,train,4,00171,00114,train:00114,0,-1,NF,No fracture,none,none,2,00172_00114.png,3,,e2a6ecf49b9057fc6148f9d86162b9af
+00172_00114.png,train,4,00172,00114,train:00114,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,2,00171_00114.png,0,,c64fa1d8e047f9f73e693722014a6f27
+00174_00116.png,train,1,00174,00116,train:00116,0,-1,NF,No fracture,none,none,2,00175_00116.png,3,,a3acd3e706eab4b6625f7994b6e20ddd
+00175_00116.png,train,1,00175,00116,train:00116,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,2,00174_00116.png,0,,f4b3d6a7576fbd9bf570da821ea287f2
+00177_00118.png,train,2,00177,00118,train:00118,0,-1,NF,No fracture,none,none,1,,,,c9e90887e90bd9d2d741ee469766cd82
+00179_00119.png,train,3,00179,00119,train:00119,0,-1,NF,No fracture,none,none,2,00180_00119.png,2,,fa8ddaed61104bd2adcf9ca9e6fb296f
+00180_00119.png,train,3,00180,00119,train:00119,2,1,2CD,Neck Garden III-IV,neck,high,2,00179_00119.png,0,,a409b68b3029ece82de3e8a2ea3ec6d2
+00186_00123.png,train,2,00186,00123,train:00123,5,4,4,Subtrochanteric,subtrochanteric,ungraded,1,,,,d5b0dda2fca35ef8fde01b82c95cfed7
+00188_00125.png,train,4,00188,00125,train:00125,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,bc0cba5480635403c0d4d7e5fd9ccfbb
+00193_00127.png,train,0,00193,00127,train:00127,0,-1,NF,No fracture,none,none,1,,,,5ea689dc3322d8a0e56e6987fe7d3a14
+00197_00130.png,train,1,00197,00130,train:00130,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,1,,,,cbc41bca10874aa6fc540f3dd6103d84
+00198_00131.png,train,0,00198,00131,train:00131,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,1,,,,efb89c43b56c6bc95db37cc5b90b6af4
+00204_00135.png,train,0,00204,00135,train:00135,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,1,,,,eef4dbb7ccdbf213c4b2a3f6aecc0451
+00205_00136.png,train,3,00205,00136,train:00136,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,1,,,,56e83b5df68abdbf08b4778a00f18cfc
+00210_00139.png,train,4,00210,00139,train:00139,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,2,00211_00139.png,0,,9c4e367e9b3eceea3cae6d6019e0509b
+00211_00139.png,train,4,00211,00139,train:00139,0,-1,NF,No fracture,none,none,2,00210_00139.png,3,,92f3a4e007013ec4f35c140d5bc9306b
+00215_00142.png,train,4,00215,00142,train:00142,1,0,2AB,Neck Garden I-II,neck,low,1,,,,fcfb35233364caf6c3af1607b28b2e11
+00218_00144.png,train,4,00218,00144,train:00144,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,1,,,,74c71dbbf474c35cba9dd18d08a8f9af
+00223_00147.png,train,0,00223,00147,train:00147,2,1,2CD,Neck Garden III-IV,neck,high,2,00224_00147.png,0,,11fc2b83a5587244b7db21c2f41f4375
+00224_00147.png,train,0,00224,00147,train:00147,0,-1,NF,No fracture,none,none,2,00223_00147.png,2,,c66661f84f02d1f557c1486b5a7a99a1
+00225_00148.png,train,2,00225,00148,train:00148,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,fab4213b57ffc3922e7bc49eb74dd490
+00227_00149.png,train,0,00227,00149,train:00149,0,-1,NF,No fracture,none,none,1,,,,b1a35a429cee8faddcaa24db81b34e22
+00228_00150.png,train,2,00228,00150,train:00150,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,1,,,,ca549b19b7d55ede471d62fe21c57136
+00229_00151.png,train,4,00229,00151,train:00151,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,867f5e618854f9969219573b6f36067c
+00236_00155.png,train,3,00236,00155,train:00155,2,1,2CD,Neck Garden III-IV,neck,high,2,00237_00155.png,0,,8acd3fb9592a1fe106ad321bc52f6093
+00237_00155.png,train,3,00237,00155,train:00155,0,-1,NF,No fracture,none,none,2,00236_00155.png,2,,1cea2ecdf32c289adb8e3d9638f1ef39
+00240_00157.png,train,4,00240,00157,train:00157,1,0,2AB,Neck Garden I-II,neck,low,1,,,,639741552c5edd10de01678f5cd39342
+00242_00158.png,train,0,00242,00158,train:00158,1,0,2AB,Neck Garden I-II,neck,low,1,,,,99e02bbf578415ea2a5bff65da480585
+00243_00159.png,train,1,00243,00159,train:00159,0,-1,NF,No fracture,none,none,2,00244_00159.png,2,,6f828fa70926a965d5b016f1b0ab40c5
+00244_00159.png,train,1,00244,00159,train:00159,2,1,2CD,Neck Garden III-IV,neck,high,2,00243_00159.png,0,,03e2c65f856d3aaf576ef0b63c55a9fe
+00245_00160.png,train,4,00245,00160,train:00160,0,-1,NF,No fracture,none,none,2,00246_00160.png,2,,5f4ee47a7092855ef2f7b2cbe5b59b5c
+00246_00160.png,train,4,00246,00160,train:00160,2,1,2CD,Neck Garden III-IV,neck,high,2,00245_00160.png,0,,c38a6548d5ea7b2688004e773d698d33
+00247_00161.png,train,3,00247,00161,train:00161,0,-1,NF,No fracture,none,none,2,00248_00161.png,2,,68f461460d202354ea7402fccfeb2915
+00248_00161.png,train,3,00248,00161,train:00161,2,1,2CD,Neck Garden III-IV,neck,high,2,00247_00161.png,0,,3744af5c333481982319d1827da520e0
+00249_00162.png,train,2,00249,00162,train:00162,0,-1,NF,No fracture,none,none,2,00250_00162.png,4,,814f4cc7170e0c65fde5b17840228ee1
+00250_00162.png,train,2,00250,00162,train:00162,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,2,00249_00162.png,0,,d33948ee82943f381a33f48aa629dc1e
+00251_00163.png,train,1,00251,00163,train:00163,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,1,,,,20d8732e08275419c59f5aa0dfc4640e
+00252_00164.png,train,3,00252,00164,train:00164,1,0,2AB,Neck Garden I-II,neck,low,2,00253_00164.png,0,,370affa9ecee994e3ed866d6845121f7
+00253_00164.png,train,3,00253,00164,train:00164,0,-1,NF,No fracture,none,none,2,00252_00164.png,1,,e2d0743646385cdc01d41eb5cc31ee7e
+00254_00165.png,train,1,00254,00165,train:00165,1,0,2AB,Neck Garden I-II,neck,low,1,,,,64bf5596e2bcfe26e735644b6e82ac14
+00255_00166.png,train,3,00255,00166,train:00166,0,-1,NF,No fracture,none,none,2,00256_00166.png,2,,e03fb4fb204844d82974e6f192bda86d
+00256_00166.png,train,3,00256,00166,train:00166,2,1,2CD,Neck Garden III-IV,neck,high,2,00255_00166.png,0,,fccc777a95a61701f6c4dfb865c86dfe
+00257_00167.png,train,2,00257,00167,train:00167,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,1,,,,0f1bdb40b89e883b26516aa5b7634dda
+00258_00168.png,train,4,00258,00168,train:00168,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,2,00259_00168.png,0,,db8540a44efcbee348ceb061e1f4b050
+00259_00168.png,train,4,00259,00168,train:00168,0,-1,NF,No fracture,none,none,2,00258_00168.png,4,,6fc7150554af7687f567af89286f1222
+00260_00169.png,train,0,00260,00169,train:00169,2,1,2CD,Neck Garden III-IV,neck,high,2,00261_00169.png,0,,07490f2802874c12d4865affae575144
+00261_00169.png,train,0,00261,00169,train:00169,0,-1,NF,No fracture,none,none,2,00260_00169.png,2,,7c5170537a29831e33452cf6d03f744e
+00265_00172.png,train,3,00265,00172,train:00172,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,1,,,,74c802649cf82c6040751a943946d1d8
+00268_00174.png,train,0,00268,00174,train:00174,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,1,,,,812ff6e860b55d9fb641ec14b3b71bb4
+00269_00175.png,train,1,00269,00175,train:00175,0,-1,NF,No fracture,none,none,2,00270_00175.png,3,,8185acece7977c4a6e71190f764bd52a
+00270_00175.png,train,1,00270,00175,train:00175,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,2,00269_00175.png,0,,1b1cf90db99d12ad74e368a54fa35060
+00273_00177.png,train,4,00273,00177,train:00177,0,-1,NF,No fracture,none,none,1,,,,d319dbb3240c27c0a61be469f5beb8f1
+00275_00178.png,train,3,00275,00178,train:00178,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,1,,,,aaabcf6554b981534fa74318265a5c52
+00277_00180.png,train,0,00277,00180,train:00180,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,a936ec4b2bc1a055fb6f87237873d3d4
+00278_00181.png,train,0,00278,00181,train:00181,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,a5a85c5c1a408c07734c97257beb71ce
+00279_00182.png,train,1,00279,00182,train:00182,2,1,2CD,Neck Garden III-IV,neck,high,2,00280_00182.png,0,,8143dce55efa9bc6eb19bca084c756e2
+00280_00182.png,train,1,00280,00182,train:00182,0,-1,NF,No fracture,none,none,2,00279_00182.png,2,,ab72a110a9d94fe01284d265639dee9f
+00281_00183.png,train,4,00281,00183,train:00183,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,1,,,,081afd85eb5cdb0a35984a40810cb5a2
+00283_00184.png,train,0,00283,00184,train:00184,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,1,,,,2c0652b5546f15493f2867969525c3f5
+00284_00185.png,train,3,00284,00185,train:00185,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,1,,,,431303d27adc3099c48b439202760924
+00285_00186.png,train,0,00285,00186,train:00186,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,1,,,,890858044c5cb21b63e95a94106f643e
+00286_00187.png,train,2,00286,00187,train:00187,0,-1,NF,No fracture,none,none,2,00287_00187.png,3,,315804195848d0a7d61c8b2556ffece1
+00287_00187.png,train,2,00287,00187,train:00187,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,2,00286_00187.png,0,,329a7cc1e848f4823df267e3611a7fed
+00288_00188.png,train,2,00288,00188,train:00188,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,1,,,,afdb20749df7289a62f4b22d4e68d161
+00289_00189.png,train,2,00289,00189,train:00189,2,1,2CD,Neck Garden III-IV,neck,high,2,00290_00189.png,0,,01e2e3c13f620a5d517a8365597c7ec7
+00290_00189.png,train,2,00290,00189,train:00189,0,-1,NF,No fracture,none,none,2,00289_00189.png,2,,2f191593e49c514cf5d6b024748de6a6
+00291_00190.png,train,2,00291,00190,train:00190,0,-1,NF,No fracture,none,none,2,00292_00190.png,3,,cfdde4d8786ee76311ae7339b08458bc
+00292_00190.png,train,2,00292,00190,train:00190,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,2,00291_00190.png,0,,d7437ac159b20cd77eab27651c86e94f
+00297_00193.png,train,3,00297,00193,train:00193,0,-1,NF,No fracture,none,none,2,00298_00193.png,2,,12a4b74a2b23ed7baabcd0e54d4332c3
+00298_00193.png,train,3,00298,00193,train:00193,2,1,2CD,Neck Garden III-IV,neck,high,2,00297_00193.png,0,,66381c805f14ca12b93b0045e1b2d273
+00301_00195.png,train,0,00301,00195,train:00195,0,-1,NF,No fracture,none,none,2,00302_00195.png,1,,83ae83b851b320de5d7bb10dbe6ec43b
+00302_00195.png,train,0,00302,00195,train:00195,1,0,2AB,Neck Garden I-II,neck,low,2,00301_00195.png,0,,7abce24eca4c505068a38308e738a2a2
+00303_00196.png,train,4,00303,00196,train:00196,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,2,00304_00196.png,0,,7cd55fba581b645620e429692f572286
+00304_00196.png,train,4,00304,00196,train:00196,0,-1,NF,No fracture,none,none,2,00303_00196.png,3,,542a6f432df6a522fd7f83bf4f0503cd
+00305_00197.png,train,4,00305,00197,train:00197,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,1,,,,a9811af4191b0a91ec02d212ecd7dd2e
+00306_00198.png,train,2,00306,00198,train:00198,0,-1,NF,No fracture,none,none,2,00307_00198.png,2,,eff47d910255f0eaa0d3d6cf3283794b
+00307_00198.png,train,2,00307,00198,train:00198,2,1,2CD,Neck Garden III-IV,neck,high,2,00306_00198.png,0,,4589327f338b69c040bae9fabd830ad0
+00309_00200.png,train,3,00309,00200,train:00200,0,-1,NF,No fracture,none,none,2,00310_00200.png,0,,58111f31388cb3874fff347b231a6af7
+00310_00200.png,train,3,00310,00200,train:00200,0,-1,NF,No fracture,none,none,2,00309_00200.png,0,,c72ca5374ea43033534013cc0bf8d214
+00314_00203.png,train,1,00314,00203,train:00203,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,2,00315_00203.png,0,,c99a76407de27cce3d6514f3142c5680
+00315_00203.png,train,1,00315,00203,train:00203,0,-1,NF,No fracture,none,none,2,00314_00203.png,3,,fcd734ca5a636fee0708bb13019ef0a9
+00316_00204.png,train,3,00316,00204,train:00204,0,-1,NF,No fracture,none,none,2,00317_00204.png,4,,cb552a3496e8fe526d65d5b71b683eaf
+00317_00204.png,train,3,00317,00204,train:00204,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,2,00316_00204.png,0,,d64d53331b723f995e1be8a23ba1bb2f
+00318_00205.png,train,2,00318,00205,train:00205,1,0,2AB,Neck Garden I-II,neck,low,1,,,,42c6143bde96f5b47f0e7c1b1f0dac44
+00319_00206.png,train,1,00319,00206,train:00206,0,-1,NF,No fracture,none,none,2,00320_00206.png,2,,2fb8d0b1016a0c49456766687f0b6c87
+00320_00206.png,train,1,00320,00206,train:00206,2,1,2CD,Neck Garden III-IV,neck,high,2,00319_00206.png,0,,2b53486d6dbe78c702642299540130b1
+00321_00207.png,train,0,00321,00207,train:00207,2,1,2CD,Neck Garden III-IV,neck,high,2,00322_00207.png,0,,21020226a6f2dc79fece2f752b57f260
+00322_00207.png,train,0,00322,00207,train:00207,0,-1,NF,No fracture,none,none,2,00321_00207.png,2,,356018b98bdc0f28fd3aa928f0787be5
+00323_00208.png,train,1,00323,00208,train:00208,1,0,2AB,Neck Garden I-II,neck,low,2,00324_00208.png,0,,a1a646e876376922279914386ce7fce0
+00324_00208.png,train,1,00324,00208,train:00208,0,-1,NF,No fracture,none,none,2,00323_00208.png,1,,0edbff2f076e59365d651683f7277e97
+00325_00209.png,train,3,00325,00209,train:00209,1,0,2AB,Neck Garden I-II,neck,low,1,,,,d05fd68c3b1a01daea64afad2e456d2d
+00326_00210.png,train,4,00326,00210,train:00210,1,0,2AB,Neck Garden I-II,neck,low,1,,,,53290c4aeb7262314de61efa96a96469
+00328_00212.png,train,1,00328,00212,train:00212,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,2,00329_00212.png,0,,bc23524c4608f873619618690ca79043
+00329_00212.png,train,1,00329,00212,train:00212,0,-1,NF,No fracture,none,none,2,00328_00212.png,4,,7f4ecb0a150e37946c410ad8f5f725b1
+00330_00213.png,train,3,00330,00213,train:00213,0,-1,NF,No fracture,none,none,2,00331_00213.png,2,,656a0f8facfc6afbb28f2377da508558
+00331_00213.png,train,3,00331,00213,train:00213,2,1,2CD,Neck Garden III-IV,neck,high,2,00330_00213.png,0,,fe1c382b61ddd16da5382d7613209a0e
+00332_00214.png,train,4,00332,00214,train:00214,2,1,2CD,Neck Garden III-IV,neck,high,2,00333_00214.png,0,,673e39bb6a40aabf28105e06cb205b1d
+00333_00214.png,train,4,00333,00214,train:00214,0,-1,NF,No fracture,none,none,2,00332_00214.png,2,,574af6a641ebbeb4096281c489f65905
+00334_00215.png,train,0,00334,00215,train:00215,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,79c254f6e5ce89961ad7709cff0c3e9a
+00338_00218.png,train,2,00338,00218,train:00218,1,0,2AB,Neck Garden I-II,neck,low,1,,,,f36da4670733f047ab58cb202cb80ad0
+00339_00219.png,train,0,00339,00219,train:00219,1,0,2AB,Neck Garden I-II,neck,low,1,,,,ed526ae52ce73ea5d4b3f80caef1f427
+00340_00221.png,train,3,00340,00221,train:00221,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,2,00341_00221.png,0,,94c7e500e98d43b597b265fe808c2a0f
+00341_00221.png,train,3,00341,00221,train:00221,0,-1,NF,No fracture,none,none,2,00340_00221.png,3,,33a14b898c7a875397b1a7c509c8ee5e
+00342_00222.png,train,2,00342,00222,train:00222,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,1,,,,e7beb0ec2aea8f67ff72632818eaad76
+00344_00224.png,train,4,00344,00224,train:00224,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,197ca0127ad0d20752da9e3ef81981f0
+00345_00225.png,train,2,00345,00225,train:00225,0,-1,NF,No fracture,none,none,2,00346_00225.png,3,,e20f043844541bc8e14739f4e553a767
+00346_00225.png,train,2,00346,00225,train:00225,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,2,00345_00225.png,0,,a713a7a101392c26b3513b949e399323
+00351_00229.png,train,3,00351,00229,train:00229,2,1,2CD,Neck Garden III-IV,neck,high,2,00352_00229.png,0,,0caacace2b5bf187efcf4d5a9168070f
+00352_00229.png,train,3,00352,00229,train:00229,0,-1,NF,No fracture,none,none,2,00351_00229.png,2,,578015c924ff506c8917f0fa798d5012
+00353_00230.png,train,1,00353,00230,train:00230,0,-1,NF,No fracture,none,none,2,00354_00230.png,4,,b7514b8d69e0149cc47a7dca8e5ec32c
+00354_00230.png,train,1,00354,00230,train:00230,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,2,00353_00230.png,0,,85d28fb106108cbb7fbb4aa716589cad
+00358_00233.png,train,1,00358,00233,train:00233,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,68568753c6ad2ae9cc3acad21676a10d
+00359_00234.png,train,4,00359,00234,train:00234,1,0,2AB,Neck Garden I-II,neck,low,1,,,,2c15e10c7483a00b075c9b2f9ca84cbc
+00361_00235.png,train,1,00361,00235,train:00235,0,-1,NF,No fracture,none,none,2,00362_00235.png,1,,f659c1350ee0ec8423809f34b047a37a
+00362_00235.png,train,1,00362,00235,train:00235,1,0,2AB,Neck Garden I-II,neck,low,2,00361_00235.png,0,,f354758027326c7e576c638a67552606
+00363_00236.png,train,2,00363,00236,train:00236,1,0,2AB,Neck Garden I-II,neck,low,1,,,,4af1a52b274cf73bcc3bd0684dcf6163
+00364_00238.png,train,1,00364,00238,train:00238,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,88489eb8f45f4b1a736e9c9e3456ef1f
+00365_00239.png,train,2,00365,00239,train:00239,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,71035ed8409c6b3365d98980c5dc6ce9
+00367_00240.png,train,3,00367,00240,train:00240,0,-1,NF,No fracture,none,none,2,00368_00240.png,1,,cd54c3c9fa6e973b42859fa449315044
+00368_00240.png,train,3,00368,00240,train:00240,1,0,2AB,Neck Garden I-II,neck,low,2,00367_00240.png,0,,22ee20df005ea32b81ebd328bc316324
+00369_00241.png,train,0,00369,00241,train:00241,1,0,2AB,Neck Garden I-II,neck,low,1,,,,191d67550e85dab3912d2cd7536d3975
+00370_00242.png,train,3,00370,00242,train:00242,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,2,00371_00242.png,0,,e3537148ee7cd696d53c8b2a06ee76e4
+00371_00242.png,train,3,00371,00242,train:00242,0,-1,NF,No fracture,none,none,2,00370_00242.png,4,,34bbe3479ac3651c3fdefce8ec79ff5d
+00372_00243.png,train,4,00372,00243,train:00243,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,1,,,,0cede8e6a7d7dd02096fb457cedc9a80
+00376_00246.png,train,2,00376,00246,train:00246,2,1,2CD,Neck Garden III-IV,neck,high,2,00377_00246.png,0,,c8d9b661ad04aacf5f9b305277a8aa09
+00377_00246.png,train,2,00377,00246,train:00246,0,-1,NF,No fracture,none,none,2,00376_00246.png,2,,df35e17eb610078e60781ac9c7046616
+00381_00250.png,train,0,00381,00250,train:00250,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,1,,,,e29b623efb9cc0e78f16c58d700f1e2e
+00382_00252.png,train,0,00382,00252,train:00252,2,1,2CD,Neck Garden III-IV,neck,high,2,00383_00252.png,0,,196f1ed91f0c560b26e64076d8f4807b
+00383_00252.png,train,0,00383,00252,train:00252,0,-1,NF,No fracture,none,none,2,00382_00252.png,2,,50d0c683d5370792cd3d67c004758302
+00386_00254.png,train,3,00386,00254,train:00254,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,2,00387_00254.png,0,,3c5a012554a9413c0c742e588a5ffdd1
+00387_00254.png,train,3,00387,00254,train:00254,0,-1,NF,No fracture,none,none,2,00386_00254.png,4,,b7d2aa86f7ed4d0eda52c0bb8920fb51
+00388_00255.png,train,2,00388,00255,train:00255,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,1,,,,76bfacaa6df2d05aa89357e5c3a9cdf9
+00389_00256.png,train,2,00389,00256,train:00256,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,1,,,,f92300ed1f39a703bc4c33cd1b96a09a
+00393_00259.png,train,3,00393,00259,train:00259,0,-1,NF,No fracture,none,none,2,00394_00259.png,2,,e58466dbedeb88182189d9bcbdbeaaa3
+00394_00259.png,train,3,00394,00259,train:00259,2,1,2CD,Neck Garden III-IV,neck,high,2,00393_00259.png,0,,6d91dc6b0b68fd7274f0f9be474798db
+00395_00260.png,train,0,00395,00260,train:00260,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,2,00396_00260.png,0,,11f0b028800bb74ffc8c2869bf2eaeb7
+00396_00260.png,train,0,00396,00260,train:00260,0,-1,NF,No fracture,none,none,2,00395_00260.png,4,,4e1dfd00d6a32b71e79b9220be5a2163
+00397_00261.png,train,0,00397,00261,train:00261,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,2,00398_00261.png,0,00399_00262.png,6880960703e9c6254c9bf9f64920137b
+00398_00261.png,train,0,00398,00261,train:00261,0,-1,NF,No fracture,none,none,2,00397_00261.png,4,,3ae17b42fbd5935b7ab448c339674fcc
+00399_00262.png,train,0,00399,00262,train:00261,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,1,,,00397_00261.png,6880960703e9c6254c9bf9f64920137b
+00401_00263.png,train,2,00401,00263,train:00263,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,e330bd2b1e82011916af1b7a9a094d74
+00403_00264.png,train,3,00403,00264,train:00264,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,037e2776803ac1e77123fcaafc594c86
+00404_00265.png,train,0,00404,00265,train:00265,0,-1,NF,No fracture,none,none,1,,,,9337799d5b545b25f7e6543c73df91ea
+00406_00266.png,train,3,00406,00266,train:00266,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,913f80dc5765a0c100af260763b5cbbe
+00407_00267.png,train,1,00407,00267,train:00267,0,-1,NF,No fracture,none,none,2,00408_00267.png,4,,14678a8b8e2f8fa24c0dcc5bdbad8b5b
+00408_00267.png,train,1,00408,00267,train:00267,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,2,00407_00267.png,0,,7254b99d4023fb79c4792d12534f79b6
+00409_00268.png,train,2,00409,00268,train:00268,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,1,,,,e55a053bb47fce5302ed7db084c77bc7
+00410_00269.png,train,1,00410,00269,train:00269,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,bd47310cded06d08e68bf5500293988d
+00412_00271.png,train,2,00412,00271,train:00271,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,1,,,,e91a3ed8230d55a7b82d4a884853f167
+00415_00273.png,train,2,00415,00273,train:00273,0,-1,NF,No fracture,none,none,2,00416_00273.png,4,,b09451b8102065db90c3ad2d4aa1e57a
+00416_00273.png,train,2,00416,00273,train:00273,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,2,00415_00273.png,0,,20bf7d7c7ccd0f069d57a905bf3dedce
+00417_00274.png,train,2,00417,00274,train:00274,0,-1,NF,No fracture,none,none,1,,,,3a54f8e9009354fce7332c6b648072e0
+00419_00275.png,train,3,00419,00275,train:00275,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,1,,,,8165c4060d6ede9536f58ca896333dbc
+00423_00278.png,train,1,00423,00278,train:00278,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,1,,,,04d24311855aa1299481cd33f486f978
+00425_00279.png,train,2,00425,00279,train:00279,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,23ec498b09f74aef13d0fc54f9948e37
+00427_00281.png,train,2,00427,00281,train:00281,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,2,00428_00281.png,0,,94ac333c51a2f6016cdb1d893886eed4
+00428_00281.png,train,2,00428,00281,train:00281,0,-1,NF,No fracture,none,none,2,00427_00281.png,4,,4350e09594c83b1405e1e199a9164272
+00429_00282.png,train,0,00429,00282,train:00282,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,39f16a99df5daaa6d11001feed7bc1c3
+00431_00284.png,train,2,00431,00284,train:00284,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,2,00432_00284.png,0,,b6cb095150df8d97c9aab65bfb2acb8f
+00432_00284.png,train,2,00432,00284,train:00284,0,-1,NF,No fracture,none,none,2,00431_00284.png,4,,2f554c95d2104eeb932895d085b0495e
+00433_00285.png,train,4,00433,00285,train:00285,0,-1,NF,No fracture,none,none,2,00434_00285.png,2,,9d5f60d9c5178b44911b8a8507c85f5d
+00434_00285.png,train,4,00434,00285,train:00285,2,1,2CD,Neck Garden III-IV,neck,high,2,00433_00285.png,0,,cb5dc56684803e20da7ffdb84597564a
+00435_00286.png,train,2,00435,00286,train:00286,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,3ca55c030c5fd45573e02eafd3bd5043
+00436_00287.png,train,0,00436,00287,train:00287,0,-1,NF,No fracture,none,none,2,00437_00287.png,2,,0d2cdaf2b57717992271f806537626a5
+00437_00287.png,train,0,00437,00287,train:00287,2,1,2CD,Neck Garden III-IV,neck,high,2,00436_00287.png,0,,b3bdd2ac0e970932db7321b356b6a349
+00441_00289.png,train,4,00441,00289,train:00289,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,07b9f19ec2eeb1bef98edff08694abdf
+00445_00292.png,train,1,00445,00292,train:00292,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,1,,,,5877015c74c3953ee94f547a7e7c60d2
+00446_00293.png,train,3,00446,00293,train:00293,0,-1,NF,No fracture,none,none,2,00447_00293.png,3,,092f35e50318170562912360c68e99c7
+00447_00293.png,train,3,00447,00293,train:00293,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,2,00446_00293.png,0,,5b74ee855e8dc3c3ec4ee66a0f952122
+00450_00295.png,train,4,00450,00295,train:00295,0,-1,NF,No fracture,none,none,2,00451_00295.png,2,,4df185101e0f189ab6a726cfb67bb9df
+00451_00295.png,train,4,00451,00295,train:00295,2,1,2CD,Neck Garden III-IV,neck,high,2,00450_00295.png,0,,046af69185c4e475a19886d00a7ed8b3
+00452_00296.png,train,1,00452,00296,train:00296,0,-1,NF,No fracture,none,none,2,00453_00296.png,3,,88289d3ccfc56307319eb80b6667728a
+00453_00296.png,train,1,00453,00296,train:00296,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,2,00452_00296.png,0,,6e003718bba8084e8fb4ca9ce3e4d907
+00454_00297.png,train,4,00454,00297,train:00297,2,1,2CD,Neck Garden III-IV,neck,high,2,00455_00297.png,0,,4d9769489c820550e7dc4f8495697f2c
+00455_00297.png,train,4,00455,00297,train:00297,0,-1,NF,No fracture,none,none,2,00454_00297.png,2,,e828be23d44831cb8821a280e3c67077
+00456_00298.png,train,4,00456,00298,train:00298,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,2,00457_00298.png,0,,d6d622cad5b872d4edc59d4ee88b7dde
+00457_00298.png,train,4,00457,00298,train:00298,0,-1,NF,No fracture,none,none,2,00456_00298.png,3,,4dc02372ac4fb0809eb5535846989436
+00461_00301.png,train,0,00461,00301,train:00301,0,-1,NF,No fracture,none,none,1,,,,4b278efe277d319e1b34a5f4129fe589
+00463_00302.png,train,2,00463,00302,train:00302,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,1,,,,118efc7a5d362cf7b3938da5c94a1da8
+00464_00303.png,train,4,00464,00303,train:00303,0,-1,NF,No fracture,none,none,2,00465_00303.png,2,,67227292645796874d1a9bbc9af0cba6
+00465_00303.png,train,4,00465,00303,train:00303,2,1,2CD,Neck Garden III-IV,neck,high,2,00464_00303.png,0,,cff6d679154bbcf724b6735c747fd021
+00466_00304.png,train,4,00466,00304,train:00304,0,-1,NF,No fracture,none,none,1,,,,544bbe7dd1104a8ab5ba4f74581c3c4e
+00468_00305.png,train,3,00468,00305,train:00305,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,1,,,,d6bcc75fa094af83c96d55dbf24adf83
+00472_00309.png,train,4,00472,00309,train:00309,0,-1,NF,No fracture,none,none,2,00473_00309.png,2,,085aafeef47d8e4c1059264c8d2c358f
+00473_00309.png,train,4,00473,00309,train:00309,2,1,2CD,Neck Garden III-IV,neck,high,2,00472_00309.png,0,,b32834f1e3df52d02fcccb1e83859326
+00475_00311.png,train,4,00475,00311,train:00311,0,-1,NF,No fracture,none,none,2,00476_00311.png,4,,422aa9f3a18c220b42d428ea327e1b63
+00476_00311.png,train,4,00476,00311,train:00311,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,2,00475_00311.png,0,,630ef49f4cc97be31f2a94e51743060f
+00479_00313.png,train,3,00479,00313,train:00313,0,-1,NF,No fracture,none,none,2,00480_00313.png,3,,2c5d35736ddb1922811234a6db0cfcac
+00480_00313.png,train,3,00480,00313,train:00313,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,2,00479_00313.png,0,,e802ee232eff4605646cc2b632ddcb50
+00481_00314.png,train,4,00481,00314,train:00314,0,-1,NF,No fracture,none,none,2,00482_00314.png,2,,8fb9ef8aa4c1133a2763462dbd8edea0
+00482_00314.png,train,4,00482,00314,train:00314,2,1,2CD,Neck Garden III-IV,neck,high,2,00481_00314.png,0,,b5a6e19d7a7afa701437aa0c520f20ec
+00483_00315.png,train,0,00483,00315,train:00315,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,801ba3e8ffaa521d3182341186df1b60
+00484_00316.png,train,3,00484,00316,train:00316,0,-1,NF,No fracture,none,none,2,00485_00316.png,5,,439bc63296e6afdea3a1d08771cdde9f
+00485_00316.png,train,3,00485,00316,train:00316,5,4,4,Subtrochanteric,subtrochanteric,ungraded,2,00484_00316.png,0,,bd2a892db77ec54eaaf0623b19e68282
+00486_00317.png,train,2,00486,00317,train:00317,2,1,2CD,Neck Garden III-IV,neck,high,2,00487_00317.png,0,,dee3cf5c87a963b633c17e0dfb6f175d
+00487_00317.png,train,2,00487,00317,train:00317,0,-1,NF,No fracture,none,none,2,00486_00317.png,2,,5f4d8b02a7e956ced8d0225bed1270f7
+00488_00318.png,train,4,00488,00318,train:00318,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,30f1f43851ff92409b42224532fce3a4
+00489_00319.png,train,0,00489,00319,train:00319,0,-1,NF,No fracture,none,none,2,00490_00319.png,3,,fdad366cb5dc861005a8126762b750f6
+00490_00319.png,train,0,00490,00319,train:00319,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,2,00489_00319.png,0,,3d94a79121e3d37d706fbf488f8fdad9
+00491_00320.png,train,2,00491,00320,train:00320,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,b9741ccaf33f1dcb20096173b9214cfa
+00492_00322.png,train,1,00492,00322,train:00322,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,1,,,,9883c1104b114ba2bdaa4e534caedaa4
+00493_00324.png,train,0,00493,00324,train:00324,1,0,2AB,Neck Garden I-II,neck,low,2,00494_00324.png,0,,61f98a6688925386ff25cd3ce91b5e59
+00494_00324.png,train,0,00494,00324,train:00324,0,-1,NF,No fracture,none,none,2,00493_00324.png,1,,8f5f6c139800e5f9c7f76b424ae41c5e
+00497_00326.png,train,0,00497,00326,train:00326,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,1,,,,55a5cf41faf001dada7f3b76cd020615
+00498_00327.png,train,4,00498,00327,train:00327,0,-1,NF,No fracture,none,none,2,00499_00327.png,4,,aaa1cd65cbfd577152b8131759fab952
+00499_00327.png,train,4,00499,00327,train:00327,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,2,00498_00327.png,0,,2c6b18ad41cbcd313fc8998b2b300297
+00500_00328.png,train,1,00500,00328,train:00328,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,1,,,,59444a0ed998645fc865c3eff9edaf15
+00502_00329.png,train,0,00502,00329,train:00329,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,1,,,,419f9eddbb96f0d7fbd6cc7f4b405429
+00503_00330.png,train,2,00503,00330,train:00330,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,a82da03b2cb73217d6f949026181381a
+00504_00331.png,train,0,00504,00331,train:00331,0,-1,NF,No fracture,none,none,2,00505_00331.png,2,,e6a7c6bb8c0e3fca89801aefbe37bbe5
+00505_00331.png,train,0,00505,00331,train:00331,2,1,2CD,Neck Garden III-IV,neck,high,2,00504_00331.png,0,,dd814ca2dd4a6fa8f322c830be6c7825
+00507_00332.png,train,2,00507,00332,train:00332,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,1,,,,294001b57a0a3c0a7244b455ae33e8db
+00510_00334.png,train,0,00510,00334,train:00334,0,-1,NF,No fracture,none,none,2,00511_00334.png,4,,a4ebd7d85edf636a13a4b591efa40979
+00511_00334.png,train,0,00511,00334,train:00334,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,2,00510_00334.png,0,,3bb4cc424d22f567ee8d014dc42b0615
+00512_00335.png,train,3,00512,00335,train:00335,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,1,,,,751940cafe8e90e2795e684e7b5bcadb
+00513_00336.png,train,1,00513,00336,train:00336,0,-1,NF,No fracture,none,none,2,00514_00336.png,4,,cdfcf809422ce96d0eb0ac4cfe44d8f9
+00514_00336.png,train,1,00514,00336,train:00336,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,2,00513_00336.png,0,,7ddf94585e88210de37b0a0b93ba0e4f
+00515_00337.png,train,3,00515,00337,train:00337,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,1,,,,ded0c3ea6f63d1970786215212762495
+00516_00338.png,train,2,00516,00338,train:00338,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,2,00517_00338.png,0,,119b9641f4124671c007d2b2eb3a50ad
+00517_00338.png,train,2,00517,00338,train:00338,0,-1,NF,No fracture,none,none,2,00516_00338.png,4,,4c405ee63ee6bc25f38ebac781e63ee0
+00519_00340.png,train,4,00519,00340,train:00340,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,1,,,,d20d21ce9eaf1a47820e403e3f81440f
+00523_00345.png,train,2,00523,00345,train:00345,5,4,4,Subtrochanteric,subtrochanteric,ungraded,1,,,,d9debaad55b1abe9c09dd87ad822d44b
+00524_00346.png,train,4,00524,00346,train:00346,0,-1,NF,No fracture,none,none,2,00525_00346.png,2,,4a5c18be0d9016d127be5398c7d07b1f
+00525_00346.png,train,4,00525,00346,train:00346,2,1,2CD,Neck Garden III-IV,neck,high,2,00524_00346.png,0,,5370362295a97059c8430ca36b02394c
+00527_00348.png,train,0,00527,00348,train:00348,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,1,,,,9a5410133db6b1f4900d75ec0ce5d8b7
+00528_00349.png,train,0,00528,00349,train:00349,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,1,,,,5dc1af5b01e37f1c666cad0e529e29d0
+00530_00351.png,train,0,00530,00351,train:00351,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,5f8b69d6eaef0ad270f9d5339e347709
+00531_00352.png,train,1,00531,00352,train:00352,2,1,2CD,Neck Garden III-IV,neck,high,2,00532_00352.png,0,,3809b66ee2b5bad39f03783c3fe1ebe2
+00532_00352.png,train,1,00532,00352,train:00352,0,-1,NF,No fracture,none,none,2,00531_00352.png,2,,a3c0eb936061ee40994827cb3795ea85
+00533_00353.png,train,4,00533,00353,train:00353,5,4,4,Subtrochanteric,subtrochanteric,ungraded,2,00534_00353.png,0,,81109caf38f721be7aa2324a49f6ec07
+00534_00353.png,train,4,00534,00353,train:00353,0,-1,NF,No fracture,none,none,2,00533_00353.png,5,,bd0c53cf0c147fd800afb65245db49bb
+00536_00354.png,train,4,00536,00354,train:00354,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,1,,,,cd4a714bce58774c6efe7cfbefc8bb6c
+00537_00355.png,train,1,00537,00355,train:00355,1,0,2AB,Neck Garden I-II,neck,low,1,,,,ef7800ec7e331e615027566ab2534bc7
+00540_00358.png,train,2,00540,00358,train:00358,0,-1,NF,No fracture,none,none,2,00541_00358.png,2,,5a1ab4df48ff5911a3a10423e1629f75
+00541_00358.png,train,2,00541,00358,train:00358,2,1,2CD,Neck Garden III-IV,neck,high,2,00540_00358.png,0,,d0943089834766692e77ccb8af725de9
+00542_00359.png,train,4,00542,00359,train:00359,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,6c4f4259dc133a2d6d9b8fe5423128f1
+00543_00360.png,train,2,00543,00360,train:00360,0,-1,NF,No fracture,none,none,2,00544_00360.png,4,,0b006bca069aafaac1a8b20516e93c91
+00544_00360.png,train,2,00544,00360,train:00360,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,2,00543_00360.png,0,,953943b6aca31b8635e65b6037a35496
+00550_00365.png,train,2,00550,00365,train:00365,0,-1,NF,No fracture,none,none,2,00551_00365.png,0,,95f58abf6184a5a0baa3ea907c1bd68d
+00551_00365.png,train,2,00551,00365,train:00365,0,-1,NF,No fracture,none,none,2,00550_00365.png,0,,3484f7663c0008b0c73cf1473bd9ac73
+00556_00369.png,train,0,00556,00369,train:00369,0,-1,NF,No fracture,none,none,2,00557_00369.png,4,,bc82e82542d5d364ac4e20e024f0447c
+00557_00369.png,train,0,00557,00369,train:00369,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,2,00556_00369.png,0,,423883420301f5ce7456608989eee30e
+00559_00371.png,train,4,00559,00371,train:00371,0,-1,NF,No fracture,none,none,2,00560_00371.png,4,,e6654d95e2471604c3a28420b014da16
+00560_00371.png,train,4,00560,00371,train:00371,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,2,00559_00371.png,0,,1c8c8bee5c133df48f353996898938ee
+00561_00372.png,train,3,00561,00372,train:00372,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,9628b69f17f808c406ebd157d16d4638
+00565_00375.png,train,1,00565,00375,train:00375,1,0,2AB,Neck Garden I-II,neck,low,1,,,,c00af1e59427b18d9e38018e9e790d9b
+00566_00376.png,train,3,00566,00376,train:00376,0,-1,NF,No fracture,none,none,2,00567_00376.png,3,,3893cf2e712d242fc86a6efd0b2d1960
+00567_00376.png,train,3,00567,00376,train:00376,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,2,00566_00376.png,0,,dc91dbcd61e4e2074ee8e93e9d40d016
+00568_00377.png,train,1,00568,00377,train:00377,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,303c36044cc13d17a93374e7956147b5
+00570_00378.png,train,1,00570,00378,train:00378,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,abbfc60e6ba875a83a86e2846c0cd434
+00571_00379.png,train,0,00571,00379,train:00379,1,0,2AB,Neck Garden I-II,neck,low,1,,,,37d422cbeb09f86fe7f60d892581968c
+00574_00381.png,train,0,00574,00381,train:00381,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,2,00575_00381.png,0,,5cb57bfe5504f61371ca4176d56f3028
+00575_00381.png,train,0,00575,00381,train:00381,0,-1,NF,No fracture,none,none,2,00574_00381.png,4,,1464ecc1e1b77cf6a702d42851f55df9
+00577_00383.png,train,4,00577,00383,train:00383,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,153b4ac90ce50123931848fe597f571b
+00578_00384.png,train,1,00578,00384,train:00384,0,-1,NF,No fracture,none,none,2,00579_00384.png,2,,9a6070a46eca710c491f49485f874c2a
+00579_00384.png,train,1,00579,00384,train:00384,2,1,2CD,Neck Garden III-IV,neck,high,2,00578_00384.png,0,,0c24450774dcb19516ce243f3a922c4c
+00580_00385.png,train,3,00580,00385,train:00385,0,-1,NF,No fracture,none,none,1,,,,6fdb5edc58132e63ed43bda32730bb8e
+00584_00387.png,train,0,00584,00387,train:00387,0,-1,NF,No fracture,none,none,2,00585_00387.png,2,,1c0379c758a938006b14bac51e093240
+00585_00387.png,train,0,00585,00387,train:00387,2,1,2CD,Neck Garden III-IV,neck,high,2,00584_00387.png,0,,bd64bf7f78fe708a2bc2f8499a7bdf58
+00586_00388.png,train,4,00586,00388,train:00388,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,130e41941e7e5a3b50623bde7f536ef7
+00587_00389.png,train,4,00587,00389,train:00389,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,1,,,,cb6f07a9202bfc0656f0370d295e694c
+00588_00390.png,train,4,00588,00390,train:00390,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,2,00589_00390.png,0,,12f6005ea1e1a23455bc9a3361e734f2
+00589_00390.png,train,4,00589,00390,train:00390,0,-1,NF,No fracture,none,none,2,00588_00390.png,4,,9cc28412f9ea7eb6e7c73651f0bd9529
+00590_00391.png,train,3,00590,00391,train:00391,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,2,00591_00391.png,0,,180c206dba4923016185f9865196a331
+00591_00391.png,train,3,00591,00391,train:00391,0,-1,NF,No fracture,none,none,2,00590_00391.png,3,,8111965cc54c2358b1fd3da01f4a33d1
+00592_00392.png,train,2,00592,00392,train:00392,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,1,,,,ae2204782790aceedc9188ae98b0c366
+00593_00393.png,train,3,00593,00393,train:00393,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,1,,,,1e9a6d9bc8407c3bb62c1778dba4fa21
+00595_00394.png,train,3,00595,00394,train:00394,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,1,,,,8f8768b690d5b709c33a487cdaf6c540
+00600_00397.png,train,3,00600,00397,train:00397,0,-1,NF,No fracture,none,none,2,00601_00397.png,2,,7defd4c638828e039520f009ed8f7ad4
+00601_00397.png,train,3,00601,00397,train:00397,2,1,2CD,Neck Garden III-IV,neck,high,2,00600_00397.png,0,,feaca237246f25d7deaf0a661b30dc22
+00602_00398.png,train,1,00602,00398,train:00398,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,a233ec9e39a1b27b1c9d984f9382fcb5
+00604_00400.png,train,2,00604,00400,train:00400,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,1,,,,b79cf99465b3cd17d587e3fbb342446c
+00606_00401.png,train,0,00606,00401,train:00401,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,1,,,,961357c531cadc4c18185d0465e90759
+00607_00402.png,train,3,00607,00402,train:00402,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,2,00608_00402.png,0,,45eb30227b623e29572ca007bb8ab689
+00608_00402.png,train,3,00608,00402,train:00402,0,-1,NF,No fracture,none,none,2,00607_00402.png,4,,0a2667256efc406892f593922f7f6d8b
+00610_00403.png,train,1,00610,00403,train:00403,1,0,2AB,Neck Garden I-II,neck,low,1,,,,a2bb3345da0b5a850bc1747b89631e0c
+00614_00406.png,train,3,00614,00406,train:00406,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,1,,,,b340b81fd401df63dd054f6aec083351
+00615_00407.png,train,0,00615,00407,train:00407,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,1,,,,a8ad23a26aacee596737bdea02eba12d
+00616_00408.png,train,3,00616,00408,train:00408,0,-1,NF,No fracture,none,none,2,00617_00408.png,3,,e9f747a9df943e9ea9cf72f1e4d1b894
+00617_00408.png,train,3,00617,00408,train:00408,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,2,00616_00408.png,0,,b3ee202dfbac03f5bec30bca61c627f3
+00621_00411.png,train,3,00621,00411,train:00411,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,1,,,,889a67dc8ffa94f3cbc203ebd7a86461
+00622_00412.png,train,3,00622,00412,train:00412,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,1,,,,2009eb484d0ddaf1d950810cd65f0bd3
+00623_00413.png,train,2,00623,00413,train:00413,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,2,00624_00413.png,0,,63984f029ec8001165b72b5871294393
+00624_00413.png,train,2,00624,00413,train:00413,0,-1,NF,No fracture,none,none,2,00623_00413.png,3,,e3634267574ca526b54e787e1f1b2d45
+00625_00414.png,train,2,00625,00414,train:00414,2,1,2CD,Neck Garden III-IV,neck,high,2,00626_00414.png,0,,3d66885a31735ea2eb731678af2c0f7f
+00626_00414.png,train,2,00626,00414,train:00414,0,-1,NF,No fracture,none,none,2,00625_00414.png,2,,916a0b9154a032568fe16020d79c4608
+00627_00415.png,train,0,00627,00415,train:00415,0,-1,NF,No fracture,none,none,2,00628_00415.png,2,,606bfb29090f6afa5d350ae2ac70731e
+00628_00415.png,train,0,00628,00415,train:00415,2,1,2CD,Neck Garden III-IV,neck,high,2,00627_00415.png,0,,4d5ce0b12976c31ae771fbdc465bb78d
+00629_00416.png,train,1,00629,00416,train:00416,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,1,,,,efaddf561448446b94aea1e71b17bc89
+00630_00417.png,train,0,00630,00417,train:00417,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,2,00631_00417.png,0,,6358f92aab5ea49f2eecb244d60d3f80
+00631_00417.png,train,0,00631,00417,train:00417,0,-1,NF,No fracture,none,none,2,00630_00417.png,3,,d9b6b36d2f09adaea1aa9683d1b6791b
+00632_00418.png,train,4,00632,00418,train:00418,0,-1,NF,No fracture,none,none,2,00633_00418.png,2,,342bdf6673841ee3b162f3b85f8f8dc8
+00633_00418.png,train,4,00633,00418,train:00418,2,1,2CD,Neck Garden III-IV,neck,high,2,00632_00418.png,0,,c7d6105f45058f74beedbbf2a45f0a86
+00634_00419.png,train,2,00634,00419,train:00419,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,1,,,,1067f380452fd59800354b4c6b17a4ea
+00635_00420.png,train,3,00635,00420,train:00420,0,-1,NF,No fracture,none,none,2,00636_00420.png,4,,e2d3bf9e0493c3d45bfe0ff1bd0c0bcf
+00636_00420.png,train,3,00636,00420,train:00420,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,2,00635_00420.png,0,,f81fa1ea47fa80b5baf8626b5d2dd7a6
+00639_00422.png,train,4,00639,00422,train:00422,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,0d6618066640c687c21ba0d77d0e0601
+00643_00425.png,train,1,00643,00425,train:00425,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,1,,,,ebb928ec58222b050a2f17bcd8d37d99
+00644_00426.png,train,0,00644,00426,train:00426,0,-1,NF,No fracture,none,none,2,00645_00426.png,4,,1cda578ba83fdcb7908fc9186b39d4e8
+00645_00426.png,train,0,00645,00426,train:00426,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,2,00644_00426.png,0,,e6af956dd3f18d0e1308212c64afb46d
+00647_00428.png,train,1,00647,00428,train:00428,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,bad79431a97f9fbcb902580c98f5dbce
+00648_00429.png,train,3,00648,00429,train:00429,0,-1,NF,No fracture,none,none,2,00649_00429.png,2,,c5c52ea3250e4a54eb20faaf36c7bd9e
+00649_00429.png,train,3,00649,00429,train:00429,2,1,2CD,Neck Garden III-IV,neck,high,2,00648_00429.png,0,,87a0d8c98839b61349b01bd75edbb38f
+00650_00430.png,train,1,00650,00430,train:00430,0,-1,NF,No fracture,none,none,2,00651_00430.png,2,,83313e841fcd2eea1853acbb4d1f4734
+00651_00430.png,train,1,00651,00430,train:00430,2,1,2CD,Neck Garden III-IV,neck,high,2,00650_00430.png,0,,2ee7548268208ff037319b3f25a9c769
+00652_00431.png,train,1,00652,00431,train:00431,2,1,2CD,Neck Garden III-IV,neck,high,2,00653_00431.png,0,,a690eca8d4e5f2e77dd45f408ecb9c3e
+00653_00431.png,train,1,00653,00431,train:00431,0,-1,NF,No fracture,none,none,2,00652_00431.png,2,,847223c2a3cc3ec4fe0de5539247c662
+00654_00432.png,train,3,00654,00432,train:00432,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,82ab0d8e3e48156f265df21365d85e8e
+00655_00433.png,train,1,00655,00433,train:00433,0,-1,NF,No fracture,none,none,2,00656_00433.png,4,,15cec99640baf201c0e6156697bf9948
+00656_00433.png,train,1,00656,00433,train:00433,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,2,00655_00433.png,0,,17a1a78b37519ab93cb7dbd3f3bfbcbb
+00657_00434.png,train,0,00657,00434,train:00434,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,1,,,,0ff1252e06355232dd0ac68b3508f9c4
+00659_00436.png,train,4,00659,00436,train:00436,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,2,00660_00436.png,0,,472f6871872c2c82437d23e07a7cec33
+00660_00436.png,train,4,00660,00436,train:00436,0,-1,NF,No fracture,none,none,2,00659_00436.png,4,,cd4457da9c08af7f0d05a902d5085e47
+00661_00437.png,train,1,00661,00437,train:00437,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,1,,,,779ccfbc6e5d142d225d0c6caffa635f
+00662_00438.png,train,4,00662,00438,train:00438,0,-1,NF,No fracture,none,none,2,00663_00438.png,3,,2a4cd0ea5156b9073a3647ccfdb5266f
+00663_00438.png,train,4,00663,00438,train:00438,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,2,00662_00438.png,0,,70724105b6ea64153e23f0d74f932872
+00667_00441.png,train,3,00667,00441,train:00441,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,14d18e80acd8846a41fe0cf9b95ed0a2
+00668_00442.png,train,4,00668,00442,train:00442,2,1,2CD,Neck Garden III-IV,neck,high,2,00669_00442.png,0,,c35cbad5c413f11b680f7b97e275a618
+00669_00442.png,train,4,00669,00442,train:00442,0,-1,NF,No fracture,none,none,2,00668_00442.png,2,,c96f7c02fd8434b0dd62e9b993b1ce40
+00670_00443.png,train,1,00670,00443,train:00443,0,-1,NF,No fracture,none,none,2,00671_00443.png,0,,0609e49ddd3e1e4f5930bf7c59af1083
+00671_00443.png,train,1,00671,00443,train:00443,0,-1,NF,No fracture,none,none,2,00670_00443.png,0,,896de68cfa29b6e0fdd7e7abb054d12f
+00672_00444.png,train,1,00672,00444,train:00444,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,1,,,,ab73b62c81eb9b25d3e0869ca9e27548
+00673_00445.png,train,4,00673,00445,train:00445,0,-1,NF,No fracture,none,none,2,00674_00445.png,4,,87c6ceffca49ec9610787ac1178d681f
+00674_00445.png,train,4,00674,00445,train:00445,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,2,00673_00445.png,0,,2c8c4b4a24aa8fe107496df048c2d964
+00682_00451.png,train,2,00682,00451,train:00451,1,0,2AB,Neck Garden I-II,neck,low,2,00683_00451.png,0,,f57eaa0ac59f3ad3f02df39fab8687d3
+00683_00451.png,train,2,00683,00451,train:00451,0,-1,NF,No fracture,none,none,2,00682_00451.png,1,,284cf1bd9ed44b9fc5ed1afff96db72c
+00684_00452.png,train,4,00684,00452,train:00452,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,1,,,,14744702e12c0c6d2ef54470a16d108a
+00685_00453.png,train,4,00685,00453,train:00453,0,-1,NF,No fracture,none,none,1,,,,865f6634112788d238dd55b8e9393b80
+00687_00454.png,train,3,00687,00454,train:00454,0,-1,NF,No fracture,none,none,2,00688_00454.png,5,,4fac79025216276ca6bad352f8401bca
+00688_00454.png,train,3,00688,00454,train:00454,5,4,4,Subtrochanteric,subtrochanteric,ungraded,2,00687_00454.png,0,,c681cad81c1dd166634c5cc29b8dba21
+00689_00455.png,train,1,00689,00455,train:00455,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,19cd5d56404b31c0891fd13c9788ed92
+00690_00456.png,train,0,00690,00456,train:00456,2,1,2CD,Neck Garden III-IV,neck,high,2,00691_00456.png,0,,e3becc27fa8d33e395393dbdc8eddcd3
+00691_00456.png,train,0,00691,00456,train:00456,0,-1,NF,No fracture,none,none,2,00690_00456.png,2,,ec622e40ce7df3400a6976d3290c4de5
+00696_00460.png,train,3,00696,00460,train:00460,0,-1,NF,No fracture,none,none,2,00697_00460.png,2,,2013c9b6a7c1a2eabca505f42b6ad47d
+00697_00460.png,train,3,00697,00460,train:00460,2,1,2CD,Neck Garden III-IV,neck,high,2,00696_00460.png,0,,1cddd1ed813e637b723d5b7196dc783e
+00698_00461.png,train,4,00698,00461,train:00461,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,2,00699_00461.png,0,,b8b675a5f91fd42d4236456eb6f228b1
+00699_00461.png,train,4,00699,00461,train:00461,0,-1,NF,No fracture,none,none,2,00698_00461.png,4,,78c5f3c1d34b8bf36852a7734b78a495
+00700_00462.png,train,1,00700,00462,train:00462,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,1,,,,500f65b9ec177056cedd527de80cc0f8
+00701_00463.png,train,4,00701,00463,train:00463,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,eea1f52c190863ff9a51e4587e46394b
+00702_00464.png,train,3,00702,00464,train:00464,2,1,2CD,Neck Garden III-IV,neck,high,2,00703_00464.png,0,,c804a809eb913b464addc6d80d828d39
+00703_00464.png,train,3,00703,00464,train:00464,0,-1,NF,No fracture,none,none,2,00702_00464.png,2,,f6a4ae8c10a183539bbc10ac7079d1b1
+00704_00465.png,train,2,00704,00465,train:00465,2,1,2CD,Neck Garden III-IV,neck,high,2,00705_00465.png,0,,f6e441b6d02a4faa8c698afd5ea8b186
+00705_00465.png,train,2,00705,00465,train:00465,0,-1,NF,No fracture,none,none,2,00704_00465.png,2,,867f8e7d197fe6cdd86aed95ebe2021d
+00706_00466.png,train,4,00706,00466,train:00466,0,-1,NF,No fracture,none,none,2,00707_00466.png,2,,46ce09ea0cee7cec5f28a6b8452dcd6a
+00707_00466.png,train,4,00707,00466,train:00466,2,1,2CD,Neck Garden III-IV,neck,high,2,00706_00466.png,0,,412ee899a84b8a9dca3373225b07891b
+00708_00467.png,train,0,00708,00467,train:00467,1,0,2AB,Neck Garden I-II,neck,low,1,,,,86da7f9e8d814124dec8d01c9bab59a9
+00710_00470.png,train,3,00710,00470,train:00470,2,1,2CD,Neck Garden III-IV,neck,high,2,00711_00470.png,0,,2b7d2ed49920863a247e52373b13a3c4
+00711_00470.png,train,3,00711,00470,train:00470,0,-1,NF,No fracture,none,none,2,00710_00470.png,2,,9e12e55d74771d7a121010fe8a31c8a9
+00713_00472.png,train,3,00713,00472,train:00472,0,-1,NF,No fracture,none,none,2,00714_00472.png,4,,01db88071788c5208a9901a56afc4354
+00714_00472.png,train,3,00714,00472,train:00472,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,2,00713_00472.png,0,,9d5657f22cf3184fbf380298f362a446
+00716_00474.png,train,4,00716,00474,train:00474,0,-1,NF,No fracture,none,none,2,00717_00474.png,4,,2b4dd9c70636e7f380328762edae9dbf
+00717_00474.png,train,4,00717,00474,train:00474,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,2,00716_00474.png,0,,29e2f2f762bdcdcef4204341f3cbd6ea
+00718_00475.png,train,2,00718,00475,train:00475,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,1,,,,f7a7db422d49ee4431b623be07b61a87
+00720_00476.png,train,0,00720,00476,train:00476,0,-1,NF,No fracture,none,none,2,00721_00476.png,2,,bbccb9f1f8aeec7ed55ccea927f3e8a1
+00721_00476.png,train,0,00721,00476,train:00476,2,1,2CD,Neck Garden III-IV,neck,high,2,00720_00476.png,0,,92e2509a2f8e1c9df0969e5ad9659731
+00723_00479.png,train,4,00723,00479,train:00479,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,1,,,,a2bea6fbcaf943d74a01ebc01f7233a5
+00724_00480.png,train,4,00724,00480,train:00480,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,2,00725_00480.png,0,,27627c4a73efbb3e8f044f9e3b7a6a0b
+00725_00480.png,train,4,00725,00480,train:00480,0,-1,NF,No fracture,none,none,2,00724_00480.png,3,,a305eb9e14756e0c39af512a61b2b2c7
+00726_00481.png,train,1,00726,00481,train:00481,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,2,00727_00481.png,0,,5f8824da9077213395bd04d99fb2fc45
+00727_00481.png,train,1,00727,00481,train:00481,0,-1,NF,No fracture,none,none,2,00726_00481.png,4,,cc99f7106245f6f5b91ca89b9c58b413
+00732_00484.png,train,4,00732,00484,train:00484,0,-1,NF,No fracture,none,none,2,00733_00484.png,2,,fd82254ba075b6e847c41c68062c837d
+00733_00484.png,train,4,00733,00484,train:00484,2,1,2CD,Neck Garden III-IV,neck,high,2,00732_00484.png,0,,9e72b59810b2ed69bf26fa53f940450e
+00734_00485.png,train,0,00734,00485,train:00485,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,3eaf3399d82cf5bd5b8f2715a113bbf4
+00747_00493.png,train,1,00747,00493,train:00493,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,6cc1a87ae2b8579e92e97fac5e60a41b
+00748_00494.png,train,0,00748,00494,train:00494,2,1,2CD,Neck Garden III-IV,neck,high,2,00749_00494.png,0,,b2e0b617d356a78f4ae27f0b1f491b22
+00749_00494.png,train,0,00749,00494,train:00494,0,-1,NF,No fracture,none,none,2,00748_00494.png,2,,f14ff2c72a5ff131c5058ebd8431e976
+00750_00495.png,train,3,00750,00495,train:00495,2,1,2CD,Neck Garden III-IV,neck,high,2,00751_00495.png,0,,b510579b47d07fc8f68f860201c43e84
+00751_00495.png,train,3,00751,00495,train:00495,0,-1,NF,No fracture,none,none,2,00750_00495.png,2,,4e757dd9be86a19eb8ca65c01dbc0123
+00752_00496.png,train,1,00752,00496,train:00496,1,0,2AB,Neck Garden I-II,neck,low,2,00753_00496.png,0,,1fa8e9f89c1e57ff246e4013e6a5e29e
+00753_00496.png,train,1,00753,00496,train:00496,0,-1,NF,No fracture,none,none,2,00752_00496.png,1,,57140632ecbf7b36f4214d19d668edb9
+00754_00497.png,train,0,00754,00497,train:00497,1,0,2AB,Neck Garden I-II,neck,low,1,,,,580edb9e07e87dbf00c4b2d82c5438dc
+00755_00498.png,train,0,00755,00498,train:00498,5,4,4,Subtrochanteric,subtrochanteric,ungraded,1,,,,a9412546880e786c896739d4b79ad135
+00757_00499.png,train,1,00757,00499,train:00499,5,4,4,Subtrochanteric,subtrochanteric,ungraded,1,,,,14588f68a2ffe8fc08695b56d0d85209
+00761_00502.png,train,0,00761,00502,train:00502,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,5febdcc1d0971b72caa7bbedd22493de
+00763_00503.png,train,3,00763,00503,train:00503,0,-1,NF,No fracture,none,none,1,,,,c65455daf01b91270cb1564ebde541d8
+00765_00504.png,train,2,00765,00504,train:00504,0,-1,NF,No fracture,none,none,1,,,,e4b25657e17deb2518e11ba8d4e8e98a
+00766_00505.png,train,0,00766,00505,train:00505,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,4be3dbd78fe5bfb24d07fd5b3be25691
+00770_00509.png,train,0,00770,00509,train:00509,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,2,00771_00509.png,0,,cf583f1be3327164f46408f9d9600bc3
+00771_00509.png,train,0,00771,00509,train:00509,0,-1,NF,No fracture,none,none,2,00770_00509.png,3,,05be910251b9e973189de2f836af6b15
+00772_00510.png,train,1,00772,00510,train:00510,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,1,,,,9739cf06b1226e1a4812e433a58d3542
+00773_00511.png,train,2,00773,00511,train:00511,0,-1,NF,No fracture,none,none,2,00774_00511.png,4,,19d089027a9e95ad5a63b121db947a7d
+00774_00511.png,train,2,00774,00511,train:00511,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,2,00773_00511.png,0,,4c2d295850f1609f80e33ee61f00971c
+00779_00514.png,train,2,00779,00514,train:00514,1,0,2AB,Neck Garden I-II,neck,low,1,,,,1d93858ce40685f275d64e693c5f2a5d
+00780_00515.png,train,0,00780,00515,train:00515,0,-1,NF,No fracture,none,none,2,00781_00515.png,4,,b88e5235465458b80ec23fbc3eaab39f
+00781_00515.png,train,0,00781,00515,train:00515,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,2,00780_00515.png,0,,7239667b428bac6ae77f288744f2b263
+00782_00516.png,train,2,00782,00516,train:00516,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,2,00783_00516.png,0,,9b0d765d77ef23df9519667f9e07cfc9
+00783_00516.png,train,2,00783,00516,train:00516,0,-1,NF,No fracture,none,none,2,00782_00516.png,4,,a22bd12bd1960363cabc8a5fb69d3225
+00786_00518.png,train,2,00786,00518,train:00518,0,-1,NF,No fracture,none,none,2,00787_00518.png,2,,f74e761134340d32d605e0f992964b91
+00787_00518.png,train,2,00787,00518,train:00518,2,1,2CD,Neck Garden III-IV,neck,high,2,00786_00518.png,0,,f52e124dfe84a1352ba8a7ed7794c954
+00788_00519.png,train,1,00788,00519,train:00519,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,a3843acd8f2813964d76c07230549980
+00789_00520.png,train,1,00789,00520,train:00520,0,-1,NF,No fracture,none,none,2,00790_00520.png,4,,54aa87cd19dec05e2b072df6f3f412b4
+00790_00520.png,train,1,00790,00520,train:00520,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,2,00789_00520.png,0,,fdbd33f3fb0e3edd457058d6acf50457
+00791_00521.png,train,2,00791,00521,train:00521,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,56c142034de1b24895adbe125fa6a14e
+00792_00522.png,train,0,00792,00522,train:00522,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,1d5249a22bfad2aa9f796d9f7d80cae3
+00796_00524.png,train,1,00796,00524,train:00524,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,1,,,,83a47f16050bfe107ddcfe4b7d360ba0
+00800_00527.png,train,1,00800,00527,train:00527,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,1,,,,8ad4f7e352193c2d4e72085bb461a76b
+00801_00528.png,train,2,00801,00528,train:00528,0,-1,NF,No fracture,none,none,2,00802_00528.png,3,,fc1be91b40b4c60fc672af4be3009211
+00802_00528.png,train,2,00802,00528,train:00528,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,2,00801_00528.png,0,,00e6eb69a3f79cedde22ad5e865b6e66
+00803_00529.png,train,0,00803,00529,train:00529,0,-1,NF,No fracture,none,none,2,00804_00529.png,4,,8ebff75236ac05bcdac6b8d7596291fb
+00804_00529.png,train,0,00804,00529,train:00529,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,2,00803_00529.png,0,,957328022cee605d85dd109b6fa28833
+00805_00530.png,train,4,00805,00530,train:00530,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,664da827e86fee340d72e1ae1517eaad
+00806_00531.png,train,4,00806,00531,train:00531,0,-1,NF,No fracture,none,none,2,00807_00531.png,2,,b6e41fdfaaab6caa7fa17e395d1277ec
+00807_00531.png,train,4,00807,00531,train:00531,2,1,2CD,Neck Garden III-IV,neck,high,2,00806_00531.png,0,,e576a5c90d2887501c997bf4d66f4af9
+00815_00537.png,train,1,00815,00537,train:00537,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,1,,,,e1a613ce2c47e45004f6755b69d80c26
+00816_00538.png,train,4,00816,00538,train:00538,0,-1,NF,No fracture,none,none,2,00817_00538.png,3,,fabb763927774debd657b3ac6c37b291
+00817_00538.png,train,4,00817,00538,train:00538,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,2,00816_00538.png,0,,1b38af4c036f87c9a33bc32dda34b6aa
+00818_00539.png,train,1,00818,00539,train:00539,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,1,,,,88fc3a391e5a2025747a214391bd6900
+00819_00540.png,train,0,00819,00540,train:00540,0,-1,NF,No fracture,none,none,2,00820_00540.png,2,,b9bb229c62d3ed855fdeda6dc4934772
+00820_00540.png,train,0,00820,00540,train:00540,2,1,2CD,Neck Garden III-IV,neck,high,2,00819_00540.png,0,,2e9f1e355f7cd1d71838c26c8683d81c
+00821_00541.png,train,2,00821,00541,train:00541,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,cf6e04853e2dcb3f5aa2c0115097aa2a
+00822_00542.png,train,2,00822,00542,train:00542,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,d2c77b76dae8cb019c503063ce7b3b94
+00823_00543.png,train,4,00823,00543,train:00543,0,-1,NF,No fracture,none,none,1,,,,e768a45145e56cf07cbb69421f1e3c94
+00825_00544.png,train,4,00825,00544,train:00544,2,1,2CD,Neck Garden III-IV,neck,high,2,00826_00544.png,0,,8d5cac644c325c759fb77292db27469a
+00826_00544.png,train,4,00826,00544,train:00544,0,-1,NF,No fracture,none,none,2,00825_00544.png,2,,0c6e205578c147c0255e409a167c18b4
+00827_00545.png,train,2,00827,00545,train:00545,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,c06aea64401f9eb02462f3b299e3761e
+00828_00546.png,train,0,00828,00546,train:00546,0,-1,NF,No fracture,none,none,2,00829_00546.png,5,,ee7b492b77bcb1e16e4accc5ea12e92a
+00829_00546.png,train,0,00829,00546,train:00546,5,4,4,Subtrochanteric,subtrochanteric,ungraded,2,00828_00546.png,0,,a1e94e23dc11e00ff961aeecbf2bea36
+00832_00548.png,train,0,00832,00548,train:00548,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,1,,,,0329dc974d8783e7599f1bde3400ca26
+00836_00551.png,train,4,00836,00551,train:00551,5,4,4,Subtrochanteric,subtrochanteric,ungraded,1,,,,21e6f21a786e93d15228ca6206edbfd8
+00837_00552.png,train,3,00837,00552,train:00552,5,4,4,Subtrochanteric,subtrochanteric,ungraded,1,,,,d5c40d1d124fa8bc109612bc4d1166bb
+00839_00553.png,train,4,00839,00553,train:00553,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,1,,,,44f4fdddb5f2d64b24d3c9b263d48cbf
+00840_00554.png,train,2,00840,00554,train:00554,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,f2d3cc72fe9759d34f3211c6c5028b44
+00841_00555.png,train,4,00841,00555,train:00555,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,5e361721ec17109b13aad0249d1545b4
+00842_00556.png,train,1,00842,00556,train:00556,0,-1,NF,No fracture,none,none,2,00843_00556.png,2,,1ac6b8a73c6de260d80cf95bac9899b5
+00843_00556.png,train,1,00843,00556,train:00556,2,1,2CD,Neck Garden III-IV,neck,high,2,00842_00556.png,0,,966e53d60a18f3656bfc2f536706ed33
+00844_00557.png,train,4,00844,00557,train:00557,0,-1,NF,No fracture,none,none,2,00845_00557.png,5,,1b8cb07fae2576ef10f4d7886a6643db
+00845_00557.png,train,4,00845,00557,train:00557,5,4,4,Subtrochanteric,subtrochanteric,ungraded,2,00844_00557.png,0,,d98c1431337eaf89e073fc417b1f4ff0
+00846_00558.png,train,2,00846,00558,train:00558,0,-1,NF,No fracture,none,none,2,00847_00558.png,5,,22546898f345e573ec29e852b8b575f3
+00847_00558.png,train,2,00847,00558,train:00558,5,4,4,Subtrochanteric,subtrochanteric,ungraded,2,00846_00558.png,0,,7a09842d11db2390f29fa66801375cc6
+00848_00559.png,train,4,00848,00559,train:00559,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,1,,,,da6667dee55c13682ecb2dbeddd9e357
+00849_00560.png,train,4,00849,00560,train:00560,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,1,,,,3c73440197ab2456bd58744f08e86225
+00850_00561.png,train,1,00850,00561,train:00561,5,4,4,Subtrochanteric,subtrochanteric,ungraded,1,,,,e7cdcab7348cc330c0ef7998b749199e
+00851_00563.png,train,2,00851,00563,train:00563,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,1,,,,642d79a81d5cf517600004d1e0957690
+00852_00564.png,train,3,00852,00564,train:00564,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,2,00853_00564.png,0,,fe28b3dad5a37ef43281f551b62d37a9
+00853_00564.png,train,3,00853,00564,train:00564,0,-1,NF,No fracture,none,none,2,00852_00564.png,4,,e1fd7d11abb55896d3ddaef172b3eb83
+00855_00565.png,train,0,00855,00565,train:00565,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,80689c8735ea8b0f572c1d03541b01cc
+00856_00566.png,train,1,00856,00566,train:00566,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,81c56f4565632c4116117c86e5bfe6ab
+00869_00575.png,train,4,00869,00575,train:00575,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,5aee11764c8d2b8029ce9e33b142808a
+00870_00576.png,train,0,00870,00576,train:00576,2,1,2CD,Neck Garden III-IV,neck,high,2,00871_00576.png,0,,f48f108b6612ca5a9edf6ac4925c540d
+00871_00576.png,train,0,00871,00576,train:00576,0,-1,NF,No fracture,none,none,2,00870_00576.png,2,,8f1b88c6d2925971f79e9419dd069c51
+00872_00577.png,train,3,00872,00577,train:00577,1,0,2AB,Neck Garden I-II,neck,low,1,,,,031d20a36cece8a00d9f737247a5b12c
+00873_00578.png,train,3,00873,00578,train:00578,0,-1,NF,No fracture,none,none,2,00874_00578.png,1,,12cac1745f0bc70b69d314352ad80b95
+00874_00578.png,train,3,00874,00578,train:00578,1,0,2AB,Neck Garden I-II,neck,low,2,00873_00578.png,0,,d3763c98287b77082b1653b3cc7db954
+00876_00581.png,train,3,00876,00581,train:00581,1,0,2AB,Neck Garden I-II,neck,low,1,,,,ae3476643b614e2a665a78e2e02f620f
+00881_00584.png,train,1,00881,00584,train:00584,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,4e34a527637af03fece5e4f276e266bd
+00883_00585.png,train,4,00883,00585,train:00585,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,22834da69990d1bdf050772f5605ab5e
+00884_00586.png,train,3,00884,00586,train:00586,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,1,,,,0521d86deb119d0210524eaf1d311d4b
+00885_00587.png,train,3,00885,00587,train:00587,0,-1,NF,No fracture,none,none,2,00886_00587.png,4,,d85fa1f662a540e2a60c0cebfa3acd89
+00886_00587.png,train,3,00886,00587,train:00587,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,2,00885_00587.png,0,,14ee95d7c46196a728baa6d9317d3f26
+00890_00590.png,train,1,00890,00590,train:00590,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,4140b0e95b50ea88aa7d7c53eace4c25
+00892_00591.png,train,3,00892,00591,train:00591,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,c112516a65a7bd72ea2f0cb38140640e
+00893_00592.png,train,2,00893,00592,train:00592,2,1,2CD,Neck Garden III-IV,neck,high,2,00894_00592.png,0,,8eac3669498ce88243f2de42cf0c76bc
+00894_00592.png,train,2,00894,00592,train:00592,0,-1,NF,No fracture,none,none,2,00893_00592.png,2,,40ec5f9b818304662314836fbac00805
+00896_00594.png,train,1,00896,00594,train:00594,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,9273dd4f9269445664e955b3ffcfb458
+00897_00595.png,train,1,00897,00595,train:00595,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,1,,,,0f537e5d68f978b21c4dd13781c55ee2
+00898_00596.png,train,0,00898,00596,train:00596,0,-1,NF,No fracture,none,none,2,00899_00596.png,2,,9c583455ac4261f40b98a9382af893fa
+00899_00596.png,train,0,00899,00596,train:00596,2,1,2CD,Neck Garden III-IV,neck,high,2,00898_00596.png,0,,de6e9ca3471d6301e944044037707dcd
+00900_00597.png,train,4,00900,00597,train:00597,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,1,,,,db86a5d4f32ec1484fce6401fcad211d
+00902_00599.png,train,1,00902,00599,train:00599,0,-1,NF,No fracture,none,none,2,00903_00599.png,4,,54befb6604f9214b7bb6434a998bbc78
+00903_00599.png,train,1,00903,00599,train:00599,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,2,00902_00599.png,0,,dba6669337d4c0475deb8a46078a8032
+00904_00600.png,train,0,00904,00600,train:00600,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,1,,,,050e10595a7d1dbc915a0bd2af1e43d5
+00905_00601.png,train,0,00905,00601,train:00601,0,-1,NF,No fracture,none,none,2,00906_00601.png,0,,bec97cb3cac7fee30349021a9486202f
+00906_00601.png,train,0,00906,00601,train:00601,0,-1,NF,No fracture,none,none,2,00905_00601.png,0,,bca6a860a08cbe5f6f10e7816e28a4cc
+00907_00602.png,train,0,00907,00602,train:00602,0,-1,NF,No fracture,none,none,2,00908_00602.png,4,,a8b45452b5acda23b67eadaae57fae90
+00908_00602.png,train,0,00908,00602,train:00602,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,2,00907_00602.png,0,,35b1cd54b695ba802b4f58bbae91fe68
+00909_00603.png,train,3,00909,00603,train:00603,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,1,,,,1dd5167f3df0c72eb5f258d220ec9d9b
+00910_00604.png,train,2,00910,00604,train:00604,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,1,,,,607a3c4b1fb5b03745164729e8ed51b4
+00912_00605.png,train,2,00912,00605,train:00605,0,-1,NF,No fracture,none,none,2,00913_00605.png,0,,835a2daf6e031179b1f7a2201383acda
+00913_00605.png,train,2,00913,00605,train:00605,0,-1,NF,No fracture,none,none,2,00912_00605.png,0,,c314e60490417528f5287046fbf243e7
+00914_00606.png,train,4,00914,00606,train:00606,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,c29a666d084572b819efcbc66784da35
+00916_00607.png,train,0,00916,00607,train:00607,0,-1,NF,No fracture,none,none,1,,,,fcd26d750f36a8ac398b8831a2377222
+00919_00608.png,train,0,00919,00608,train:00608,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,8a8a2f7db6ad88e9e8c0756364254473
+00920_00609.png,train,0,00920,00609,train:00609,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,e206ee38a10797c6ce717ec33a1fedd2
+00922_00610.png,train,1,00922,00610,train:00610,0,-1,NF,No fracture,none,none,1,,,,4729ff535b4fdbeba68a105a4bf294b3
+00930_00617.png,train,4,00930,00617,train:00617,0,-1,NF,No fracture,none,none,2,00931_00617.png,2,,f51b531963ef30c801497a9e02260726
+00931_00617.png,train,4,00931,00617,train:00617,2,1,2CD,Neck Garden III-IV,neck,high,2,00930_00617.png,0,,0cb72d6f9d84b6fbe8e6fe20752f7009
+00935_00622.png,train,4,00935,00622,train:00622,0,-1,NF,No fracture,none,none,1,,,,d6940dd8b2f982c7e2341e0e8086f6d5
+00937_00623.png,train,2,00937,00623,train:00623,0,-1,NF,No fracture,none,none,2,00938_00623.png,4,,b5295e3a6a9c51ac103b614fe2720bf9
+00938_00623.png,train,2,00938,00623,train:00623,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,2,00937_00623.png,0,,58c58bd718da9a55ba2e6008a6cd1f73
+00940_00625.png,train,3,00940,00625,train:00625,2,1,2CD,Neck Garden III-IV,neck,high,2,00941_00625.png,0,,f181fb1b68564e4666097a417359c975
+00941_00625.png,train,3,00941,00625,train:00625,0,-1,NF,No fracture,none,none,2,00940_00625.png,2,,0849ef36ae51d9845df8dc9b29e65c5b
+00942_00626.png,train,0,00942,00626,train:00626,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,bb75e1c74b88e51717f7c3be8777ce67
+00945_00628.png,train,2,00945,00628,train:00628,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,1,,,,0fd38c70cf2fe22001666e276e5d112e
+00950_00631.png,train,3,00950,00631,train:00631,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,5f7010e82675ee4e9fcb2dcb6e9d90c0
+00951_00632.png,train,3,00951,00632,train:00632,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,027b5ae31e431e0fa47071cc1da9b942
+00954_00634.png,train,3,00954,00634,train:00634,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,1,,,,537180a0f130443dbb19597ec6cb0a41
+00955_00635.png,train,0,00955,00635,train:00635,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,2,00956_00635.png,0,,87c3a75fe8b66c4f6778eb48928b606c
+00956_00635.png,train,0,00956,00635,train:00635,0,-1,NF,No fracture,none,none,2,00955_00635.png,3,,17bfb7cb1fa7d910e87b3615bc5b3aca
+00957_00636.png,train,3,00957,00636,train:00636,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,1,,,,72acd97a4267d563985c7a0502c8861f
+00960_00638.png,train,4,00960,00638,train:00638,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,2,00961_00638.png,0,,975b43a39d3d3130dd0add8e2ae741fd
+00961_00638.png,train,4,00961,00638,train:00638,0,-1,NF,No fracture,none,none,2,00960_00638.png,3,,92ab94e0cc2074d455022e7ca072fbf0
+00967_00643.png,train,0,00967,00643,train:00643,5,4,4,Subtrochanteric,subtrochanteric,ungraded,1,,,,adc04275ce61750e62d0849c6891ed04
+00969_00644.png,train,0,00969,00644,train:00644,5,4,4,Subtrochanteric,subtrochanteric,ungraded,1,,,,01422acb2b476e0a63be8c15b8be914b
+00974_00647.png,train,2,00974,00647,train:00647,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,1,,,,f34d0789cca87b9dfb50123f18214820
+00975_00648.png,train,3,00975,00648,train:00648,0,-1,NF,No fracture,none,none,2,00976_00648.png,2,,7d892e5471eb0297eb09e1a459072e4d
+00976_00648.png,train,3,00976,00648,train:00648,2,1,2CD,Neck Garden III-IV,neck,high,2,00975_00648.png,0,,83d13d6004feb03cdf8d0952261ffe49
+00977_00649.png,train,2,00977,00649,train:00649,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,d5b8f1f554b554a89568b6c595453e31
+00978_00650.png,train,0,00978,00650,train:00650,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,1,,,,4707525281ae5081e7349294f6a7c5e8
+00979_00651.png,train,1,00979,00651,train:00651,1,0,2AB,Neck Garden I-II,neck,low,1,,,,ce6d1d119633a6661e3d3008d4e6e035
+00981_00652.png,train,1,00981,00652,train:00652,1,0,2AB,Neck Garden I-II,neck,low,1,,,,59beda60d6e2ce6e042f0353428bd57e
+00982_00653.png,train,4,00982,00653,train:00653,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,1,,,,8e61d78bcb9fc18526ad182188d0dfee
+00983_00655.png,train,1,00983,00655,train:00655,0,-1,NF,No fracture,none,none,2,00984_00655.png,4,,bce46e7a6abe80d630399dc175ab1abb
+00984_00655.png,train,1,00984,00655,train:00655,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,2,00983_00655.png,0,,8e6c1ef5e9af744a52006550ebcfeb90
+00985_00656.png,train,0,00985,00656,train:00656,0,-1,NF,No fracture,none,none,2,00986_00656.png,3,,553aefac665c0135ff5f2d7a0875b086
+00986_00656.png,train,0,00986,00656,train:00656,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,2,00985_00656.png,0,,70f957d504a6298a781867db47e3a5cd
+00987_00657.png,train,2,00987,00657,train:00657,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,1,,,,8497ad5ede82a72af3ed01afdc0305f1
+00988_00658.png,train,4,00988,00658,train:00658,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,2,00989_00658.png,0,,e9acad4d7b364ea6ad3b20ea34243008
+00989_00658.png,train,4,00989,00658,train:00658,0,-1,NF,No fracture,none,none,2,00988_00658.png,3,,30cd7722c2db2fdd3500b3f27b874e7c
+00990_00659.png,train,0,00990,00659,train:00659,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,1,,,,8f7b337bf8c5151e49cfea5dcf5a6aa4
+00991_00660.png,train,2,00991,00660,train:00660,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,1,,,,e90589f924ecfb8b53bb2a04eb5389c5
+00992_00661.png,train,3,00992,00661,train:00661,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,2,00993_00661.png,0,,02d6da8b5c3b164b6ce8a97b98b75953
+00993_00661.png,train,3,00993,00661,train:00661,0,-1,NF,No fracture,none,none,2,00992_00661.png,4,,19e838fbcc8b1f1012f0845a57a0e63c
+00996_00664.png,train,1,00996,00664,train:00664,0,-1,NF,No fracture,none,none,2,00997_00664.png,2,,006665f0bd24ab8a05dab92c0d8c53cd
+00997_00664.png,train,1,00997,00664,train:00664,2,1,2CD,Neck Garden III-IV,neck,high,2,00996_00664.png,0,,aeb8c3517bf34a67a2ba1d55bfc2c2b7
+00998_00665.png,train,3,00998,00665,train:00665,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,1,,,,55b41f9fc65b1300535c7f186946d83c
+00999_00667.png,train,4,00999,00667,train:00667,0,-1,NF,No fracture,none,none,2,01000_00667.png,2,,143c993ffb0ac37c34858b0e81741b6b
+01000_00667.png,train,4,01000,00667,train:00667,2,1,2CD,Neck Garden III-IV,neck,high,2,00999_00667.png,0,,bc6c66471f37f23fe2e71dd48e6ad2ec
+01001_00668.png,train,2,01001,00668,train:00668,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,2,01002_00668.png,0,,e3468f3821fa1b4dc7ca516089f375b0
+01002_00668.png,train,2,01002,00668,train:00668,0,-1,NF,No fracture,none,none,2,01001_00668.png,3,,ca3a2a05ae3d4b201b4f82679b498eec
+01003_00669.png,train,0,01003,00669,train:00669,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,1,,,,ec9e19e3bc9f8d299ed573297c8a316b
+01004_00670.png,train,0,01004,00670,train:00670,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,2,01005_00670.png,0,,2151ec40942f537023e5bc312572ae68
+01005_00670.png,train,0,01005,00670,train:00670,0,-1,NF,No fracture,none,none,2,01004_00670.png,3,,7348dd45c2cfce4f447d74b7fce3ac04
+01008_00672.png,train,1,01008,00672,train:00672,0,-1,NF,No fracture,none,none,1,,,,afc02b99923ac633dcfc48ab15c22dd0
+01010_00673.png,train,4,01010,00673,train:00673,2,1,2CD,Neck Garden III-IV,neck,high,2,01011_00673.png,0,,cac8c9bad14b16362309e9662f25e7e8
+01011_00673.png,train,4,01011,00673,train:00673,0,-1,NF,No fracture,none,none,2,01010_00673.png,2,,d13532a72922225201fbb5f8caa9180c
+01012_00674.png,train,1,01012,00674,train:00674,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,1,,,,2225cced56297eeeab5b528b24df81f2
+01016_00677.png,train,4,01016,00677,train:00677,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,4bf17b2019eff1a7d5f39305821a4d83
+01017_00678.png,train,1,01017,00678,train:00678,0,-1,NF,No fracture,none,none,1,,,,c593d7acbfc19c01c137120ef20a2a66
+01019_00679.png,train,1,01019,00679,train:00679,0,-1,NF,No fracture,none,none,2,01020_00679.png,4,,058648d20eeac0c15c3a34bbc9b33daa
+01020_00679.png,train,1,01020,00679,train:00679,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,2,01019_00679.png,0,,32869dfd9ed3ead488bfe39744267e4a
+01021_00680.png,train,2,01021,00680,train:00680,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,1,,,,f6e85455373d2a7b51b84a9f898d4727
+01023_00681.png,train,4,01023,00681,train:00681,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,1,,,,436a1fa93228fa084d49f0cd85bc8295
+01024_00682.png,train,1,01024,00682,train:00682,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,1,,,,e736c372806d2a3c975ca804ed7f8b2b
+01025_00683.png,train,4,01025,00683,train:00683,0,-1,NF,No fracture,none,none,2,01026_00683.png,4,,ec795c2e37361a83e71432cf8906551a
+01026_00683.png,train,4,01026,00683,train:00683,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,2,01025_00683.png,0,,97223e1b5f01dedef47954d4b08e8b36
+01028_00685.png,train,1,01028,00685,train:00685,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,2,01029_00685.png,0,,a5ae3eedbb442ac4027d6aef37447461
+01029_00685.png,train,1,01029,00685,train:00685,0,-1,NF,No fracture,none,none,2,01028_00685.png,3,,6b7e147e24b5c433547cef3bc501d441
+01032_00687.png,train,0,01032,00687,train:00687,0,-1,NF,No fracture,none,none,2,01033_00687.png,4,,86a274b3e6fe83bccf8af8149ac14458
+01033_00687.png,train,0,01033,00687,train:00687,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,2,01032_00687.png,0,,ef5caf948c21407062560a2cb131007c
+01038_00691.png,train,3,01038,00691,train:00691,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,1,,,,25afb3f66b608a3beb7bb066c0dd4ec1
+01039_00692.png,train,0,01039,00692,train:00692,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,88834af985a83759fc46501844c1cf85
+01040_00693.png,train,2,01040,00693,train:00693,0,-1,NF,No fracture,none,none,2,01041_00693.png,2,,b77dce5f10546451b23207f892021b1e
+01041_00693.png,train,2,01041,00693,train:00693,2,1,2CD,Neck Garden III-IV,neck,high,2,01040_00693.png,0,,e6c82e393516d322013f3fec687f58ea
+01042_00694.png,train,1,01042,00694,train:00694,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,1,,,,823f69b5bf22beee3ab3ab9cc8cd1cea
+01043_00695.png,train,3,01043,00695,train:00695,0,-1,NF,No fracture,none,none,2,01044_00695.png,3,,d22efcc2d76ead7a1100575c4c1d92d9
+01044_00695.png,train,3,01044,00695,train:00695,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,2,01043_00695.png,0,,6264300755d66d5439726446fb9cbda2
+01045_00696.png,train,3,01045,00696,train:00696,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,1,,,,efdd696a6c1f57db85f41f55d3d73fe4
+01049_00699.png,train,2,01049,00699,train:00699,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,0e03f0f20b61940a3aec2231b7ab66b0
+01051_00700.png,train,2,01051,00700,train:00700,0,-1,NF,No fracture,none,none,1,,,,a1e5f47b2fa8715707b14da510cb22c1
+01052_00701.png,train,1,01052,00701,train:00701,0,-1,NF,No fracture,none,none,2,01053_00701.png,0,,c435d24731fda35df4bc4da648dc561a
+01053_00701.png,train,1,01053,00701,train:00701,0,-1,NF,No fracture,none,none,2,01052_00701.png,0,,a7209250f8e4cdc26f19fdcb08b6f577
+01054_00702.png,train,3,01054,00702,train:00702,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,2,01055_00702.png,0,,d6d4cd8177a20dcf357a06bcc006b667
+01055_00702.png,train,3,01055,00702,train:00702,0,-1,NF,No fracture,none,none,2,01054_00702.png,4,,e2b4c598bce9e3c9bfc28c6a7eb14e8a
+01056_00703.png,train,1,01056,00703,train:00703,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,1,,,,b78f5cbb9887845a293fe3052b5987b9
+01057_00704.png,train,4,01057,00704,train:00704,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,2,01058_00704.png,0,,adc34a19a9bfa14f62ac63ef124b030e
+01058_00704.png,train,4,01058,00704,train:00704,0,-1,NF,No fracture,none,none,2,01057_00704.png,4,,b9b208c02f5d1fcbe20d040640ac21f2
+01059_00705.png,train,0,01059,00705,train:00705,0,-1,NF,No fracture,none,none,1,,,,843ee9560229958be9f0ba449c0bf6da
+01062_00707.png,train,1,01062,00707,train:00707,0,-1,NF,No fracture,none,none,2,01063_00707.png,4,,266619d3cf4a8f71fa34d2f28cc85db3
+01063_00707.png,train,1,01063,00707,train:00707,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,2,01062_00707.png,0,,6862b5b442e27d5cf759b275d34fff7b
+01065_00708.png,train,0,01065,00708,train:00708,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,1,,,,91979cc17e9ad85aa9a1d73fcc633064
+01066_00709.png,train,3,01066,00709,train:00709,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,1,,,,85ca38a95502f27771e481d655d5e87e
+01067_00710.png,train,1,01067,00710,train:00710,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,2,01068_00710.png,0,,d0cf6df1795ef58f99d431102ab10704
+01068_00710.png,train,1,01068,00710,train:00710,0,-1,NF,No fracture,none,none,2,01067_00710.png,4,,7700cf0be6fa6645a35cb21ff95dd7be
+01069_00711.png,train,3,01069,00711,train:00711,0,-1,NF,No fracture,none,none,2,01070_00711.png,4,,01ade3e439c44f70894935542e83c158
+01070_00711.png,train,3,01070,00711,train:00711,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,2,01069_00711.png,0,,e8a9303f18b7c3755358ea90b171ad02
+01073_00713.png,train,0,01073,00713,train:00713,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,1,,,,825013c783568a6ccce384da90a3505a
+01076_00715.png,train,4,01076,00715,train:00715,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,1,,,,0f45f876f668695126b07b653aaa7b46
+01077_00717.png,train,0,01077,00717,train:00717,0,-1,NF,No fracture,none,none,2,01078_00717.png,3,,9162b115c7f1e9995113e6ff29a513b1
+01078_00717.png,train,0,01078,00717,train:00717,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,2,01077_00717.png,0,,f6526d0619fd8a775397d8df877329a8
+01079_00718.png,train,0,01079,00718,train:00718,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,91399a2aad8df6ca5977eb2a6c006d5a
+01080_00720.png,train,2,01080,00720,train:00720,1,0,2AB,Neck Garden I-II,neck,low,1,,,,258dffced5bc20f89a31c79a4c8afd51
+01081_00721.png,train,1,01081,00721,train:00721,0,-1,NF,No fracture,none,none,2,01082_00721.png,3,,bbaae65ffba07010b3cceb9768c02102
+01082_00721.png,train,1,01082,00721,train:00721,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,2,01081_00721.png,0,,c5b0bbd3c8bf603aa78e9952b0b72ef9
+01085_00723.png,train,4,01085,00723,train:00723,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,1,,,,c779d66a0c53aec5897455fc8236cb9b
+01086_00724.png,train,1,01086,00724,train:00724,2,1,2CD,Neck Garden III-IV,neck,high,2,01087_00724.png,0,,793664036cf3ae43e4ecc6c73640ce72
+01087_00724.png,train,1,01087,00724,train:00724,0,-1,NF,No fracture,none,none,2,01086_00724.png,2,,39baee6738f647f0c5f199532cf88a7a
+01088_00725.png,train,1,01088,00725,train:00725,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,2,01089_00725.png,0,,b6c6f6ac9c15872425999e210b6b4d53
+01089_00725.png,train,1,01089,00725,train:00725,0,-1,NF,No fracture,none,none,2,01088_00725.png,3,,f261e13a415e34641755cd5b24f0da96
+01091_00727.png,train,3,01091,00727,train:00727,0,-1,NF,No fracture,none,none,2,01092_00727.png,2,,dec982b1c11df355fbd76374d63d7536
+01092_00727.png,train,3,01092,00727,train:00727,2,1,2CD,Neck Garden III-IV,neck,high,2,01091_00727.png,0,,79ebb381b6619fcb41089de1ec0a914c
+01093_00728.png,train,0,01093,00728,train:00728,0,-1,NF,No fracture,none,none,2,01094_00728.png,4,,be3d3b6909ba0e6126d4c25c9776eb3a
+01094_00728.png,train,0,01094,00728,train:00728,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,2,01093_00728.png,0,,118739a6e5f68ec7af1e795965f7a67a
+01095_00729.png,train,3,01095,00729,train:00729,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,1,,,,394780254c9f21680e6e9bcf10dcbdb9
+01096_00730.png,train,2,01096,00730,train:00730,0,-1,NF,No fracture,none,none,2,01097_00730.png,4,,7dab14ff1adc723a24e8e45a14f241eb
+01097_00730.png,train,2,01097,00730,train:00730,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,2,01096_00730.png,0,,c996ef67f0b1e979547693aca7e806ab
+01098_00731.png,train,0,01098,00731,train:00731,0,-1,NF,No fracture,none,none,2,01099_00731.png,3,,2b7d81f5f6f6d73de60bbed2d8362bdc
+01099_00731.png,train,0,01099,00731,train:00731,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,2,01098_00731.png,0,,5b57d3a903337b1e1f0490e2fef8b848
+01100_00732.png,train,3,01100,00732,train:00732,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,1,,,,8aca72b1d70b298ad037756d1e27b010
+01102_00733.png,train,0,01102,00733,train:00733,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,1,,,,6c1dcf5e762e9482009e576d757067ae
+01103_00734.png,train,3,01103,00734,train:00734,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,1,,,,42e2ac82479da3abf2bbc50f1817cb9c
+01104_00735.png,train,2,01104,00735,train:00735,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,2,01105_00735.png,0,,78d7e78dee0616afe71ed7e945802715
+01105_00735.png,train,2,01105,00735,train:00735,0,-1,NF,No fracture,none,none,2,01104_00735.png,4,,f426baffc60fc84271e59f0f7e4b0880
+01108_00737.png,train,3,01108,00737,train:00737,0,-1,NF,No fracture,none,none,2,01109_00737.png,4,,174074a3fdb9bf9db6d611cc37b81583
+01109_00737.png,train,3,01109,00737,train:00737,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,2,01108_00737.png,0,,5a5c06dc09feac3f33264890a507d639
+01115_00741.png,train,1,01115,00741,train:00741,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,e1b98a7d0b5a53dd5014495d3b7c06e2
+01116_00742.png,train,1,01116,00742,train:00742,0,-1,NF,No fracture,none,none,2,01117_00742.png,2,,542c8972bf4011fe0a742af702ea564d
+01117_00742.png,train,1,01117,00742,train:00742,2,1,2CD,Neck Garden III-IV,neck,high,2,01116_00742.png,0,,8d79d4b2626fc02287407f6f0a7842cc
+01119_00744.png,train,0,01119,00744,train:00744,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,2,01120_00744.png,0,,97a84db138211d8e1fd2a09d847ed86f
+01120_00744.png,train,0,01120,00744,train:00744,0,-1,NF,No fracture,none,none,2,01119_00744.png,3,,01900723b1af54a83a623d0a7b26374d
+01121_00745.png,train,0,01121,00745,train:00745,0,-1,NF,No fracture,none,none,2,01122_00745.png,2,,b17d09cf2d8b24ba4652868266e4c779
+01122_00745.png,train,0,01122,00745,train:00745,2,1,2CD,Neck Garden III-IV,neck,high,2,01121_00745.png,0,,1b3602c78d04664443cf536cc23428d0
+01123_00746.png,train,1,01123,00746,train:00746,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,1,,,,7ce8cab0d8c9d3e658bfc96daab7d534
+01124_00747.png,train,2,01124,00747,train:00747,0,-1,NF,No fracture,none,none,2,01125_00747.png,3,,a5c19625d5660656f9cb97665570f341
+01125_00747.png,train,2,01125,00747,train:00747,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,2,01124_00747.png,0,,73ac7dad786f1e181186389e35fc154e
+01126_00748.png,train,4,01126,00748,train:00748,0,-1,NF,No fracture,none,none,1,,,,ea4ca58b0a5249bb33498eb406fcc710
+01128_00749.png,train,3,01128,00749,train:00749,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,6ff10cbfe6ebef9fa224afe252d9af9e
+01133_00753.png,train,4,01133,00753,train:00753,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,1,,,,0527ca2ed73c21f50a9df83aaeed3367
+01138_00756.png,train,3,01138,00756,train:00756,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,73efc3dc5162d7eefb483b7db3dd9d72
+01139_00757.png,train,4,01139,00757,train:00757,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,33c70863247fd3e323eca268bbfb0339
+01142_00760.png,train,1,01142,00760,train:00760,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,1,,,,fc68dda186d9a9e7c8531d1deb442aa8
+01147_00764.png,train,0,01147,00764,train:00764,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,7e307d950787cdc4c0383439ad6ab2e6
+01149_00765.png,train,1,01149,00765,train:00765,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,ee9eb6e81264716e7174355c6853408a
+01152_00767.png,train,1,01152,00767,train:00767,2,1,2CD,Neck Garden III-IV,neck,high,2,01153_00767.png,0,,f3f060a5f96664839b5c2c0c4fb7e490
+01153_00767.png,train,1,01153,00767,train:00767,0,-1,NF,No fracture,none,none,2,01152_00767.png,2,,422588f4ae394a16607ad7bf99631eb4
+01154_00768.png,train,2,01154,00768,train:00768,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,25f8c1a7dde07e96add96ada335d6707
+01155_00769.png,train,1,01155,00769,train:00769,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,25bb5539f2c6859da72dfc91fd0e3c5d
+01156_00770.png,train,1,01156,00770,train:00770,2,1,2CD,Neck Garden III-IV,neck,high,2,01157_00770.png,0,,3830962691379cc5be7b451e1456eae6
+01157_00770.png,train,1,01157,00770,train:00770,0,-1,NF,No fracture,none,none,2,01156_00770.png,2,,91ed9bed1bdb690be98e363b3760a855
+01159_00771.png,train,2,01159,00771,train:00771,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,1,,,,20758409f8f14c29d30a5e5e7d49ae2c
+01160_00772.png,train,3,01160,00772,train:00772,0,-1,NF,No fracture,none,none,2,01161_00772.png,3,,59ed6e9785a48ff16764ad9ebb9b113d
+01161_00772.png,train,3,01161,00772,train:00772,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,2,01160_00772.png,0,,d655c933ca1968abc4a6719f7f5330d7
+01163_00773.png,train,4,01163,00773,train:00773,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,1,,,,1caf37a6d13ec4e03b2e0c9d138ecb7f
+01164_00775.png,train,3,01164,00775,train:00775,0,-1,NF,No fracture,none,none,2,01165_00775.png,5,,034bbe9484ad1365d2985948535b4b21
+01165_00775.png,train,3,01165,00775,train:00775,5,4,4,Subtrochanteric,subtrochanteric,ungraded,2,01164_00775.png,0,,906798aa7e598a218077331ee2cbab01
+01166_00776.png,train,0,01166,00776,train:00776,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,a3c2568079faf048a880aaa2b34c35f4
+01171_00779.png,train,4,01171,00779,train:00779,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,1,,,,1f9ed04224e52b872c380a4301f31264
+01172_00780.png,train,3,01172,00780,train:00780,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,6f0583b4ded642b36ae720aa76d37d15
+01173_00781.png,train,4,01173,00781,train:00781,0,-1,NF,No fracture,none,none,2,01174_00781.png,2,,462d4bd64e08141769e5d8f30d2c5780
+01174_00781.png,train,4,01174,00781,train:00781,2,1,2CD,Neck Garden III-IV,neck,high,2,01173_00781.png,0,,6b157fceb7a218bf8a292f1eb7d0e913
+01177_00784.png,train,0,01177,00784,train:00784,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,1,,,,00b4e8470a93aceb2a7a922155afe373
+01178_00785.png,train,4,01178,00785,train:00785,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,1,,,,8f4d768ebecf3e4edc5bc5ea3f950089
+01179_00786.png,train,2,01179,00786,train:00786,2,1,2CD,Neck Garden III-IV,neck,high,2,01180_00786.png,0,,4e659e271a43e020f4abbb26f84a1568
+01180_00786.png,train,2,01180,00786,train:00786,0,-1,NF,No fracture,none,none,2,01179_00786.png,2,,008016f6d33e6694f48e35fdb2d38b91
+01181_00787.png,train,3,01181,00787,train:00787,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,96f3692ddccd8602e4ae3ee93e8a9e73
+01182_00788.png,train,2,01182,00788,train:00788,0,-1,NF,No fracture,none,none,2,01183_00788.png,4,,bae785802b66484bdfa74c326aa4d8b0
+01183_00788.png,train,2,01183,00788,train:00788,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,2,01182_00788.png,0,,3d9ff1e2d9f66ea5f17caa04fbfc6f14
+01184_00789.png,train,0,01184,00789,train:00789,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,1,,,,c95f5f591bdfd81a55b7ae6c58366fad
+01192_00795.png,train,4,01192,00795,train:00795,2,1,2CD,Neck Garden III-IV,neck,high,2,01193_00795.png,0,,e61ac9f83af8edd216f5e3ab399741ad
+01193_00795.png,train,4,01193,00795,train:00795,0,-1,NF,No fracture,none,none,2,01192_00795.png,2,,55c2a8a093a03cb7b00d3ad7e002619f
+01195_00797.png,train,4,01195,00797,train:00797,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,1,,,,1f14498eba5c5ca5f1ae88337bc2c874
+01196_00798.png,train,0,01196,00798,train:00798,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,39db2ba1f23e9db7fd72f9f9fb1acd7d
+01197_00799.png,train,4,01197,00799,train:00799,0,-1,NF,No fracture,none,none,1,,,,632e54f2af912793570033e3a4d9736a
+01202_00801.png,train,4,01202,00801,train:00801,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,1,,,,23b959d81e4b6bb707919ec637bf1aa9
+01203_00802.png,train,4,01203,00802,train:00802,0,-1,NF,No fracture,none,none,2,01204_00802.png,4,,4159ec1e052d0e804f68d67650b0ffb8
+01204_00802.png,train,4,01204,00802,train:00802,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,2,01203_00802.png,0,,ff462509cd36b72c1483436686ba239a
+01207_00804.png,train,1,01207,00804,train:00804,5,4,4,Subtrochanteric,subtrochanteric,ungraded,2,01208_00804.png,0,,1ef7e376cc3e3ec0ae629de459e0ff5b
+01208_00804.png,train,1,01208,00804,train:00804,0,-1,NF,No fracture,none,none,2,01207_00804.png,5,,af801f751a4a4cd9eb6f340c0f3e189b
+01209_00805.png,train,2,01209,00805,train:00805,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,1,,,,d1029e33a4bf2dd679103aa032fbe33c
+01210_00806.png,train,3,01210,00806,train:00806,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,7d2b9a49247438df098ef17ca2c0bbdf
+01216_00809.png,train,3,01216,00809,train:00809,0,-1,NF,No fracture,none,none,2,01217_00809.png,4,,0d3c63c84d0031f7c8fc2ad2681d22aa
+01217_00809.png,train,3,01217,00809,train:00809,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,2,01216_00809.png,0,,56ffc084d770223184dfa874f14371bd
+01218_00810.png,train,2,01218,00810,train:00810,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,1,,,,885f16837a8ee4f507cfbcf10e530729
+01219_00811.png,train,4,01219,00811,train:00811,5,4,4,Subtrochanteric,subtrochanteric,ungraded,1,,,,c770f98a3532f22b2c11c53d28447775
+01220_00812.png,train,1,01220,00812,train:00812,0,-1,NF,No fracture,none,none,2,01221_00812.png,3,,9683a69aa1e8e8297dad4a7b893bfad1
+01221_00812.png,train,1,01221,00812,train:00812,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,2,01220_00812.png,0,,235ed7ab281bb0e25ea0084efb82f235
+01222_00813.png,train,4,01222,00813,train:00813,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,1,,,,54ea6f700c088312a589a31db012adc1
+01224_00814.png,train,4,01224,00814,train:00814,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,1,,,,cbcc968b6867d99e39ebab7b757ec1bb
+01225_00815.png,train,2,01225,00815,train:00815,0,-1,NF,No fracture,none,none,2,01226_00815.png,3,,694b397f8b6ebfd7ad8c99291663eefd
+01226_00815.png,train,2,01226,00815,train:00815,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,2,01225_00815.png,0,,f3b5502d23e880ecf2dc7720402ffca7
+01227_00816.png,train,0,01227,00816,train:00816,2,1,2CD,Neck Garden III-IV,neck,high,2,01228_00816.png,0,,4d795ad323583db51e188e525883c672
+01228_00816.png,train,0,01228,00816,train:00816,0,-1,NF,No fracture,none,none,2,01227_00816.png,2,,107ede4882b1330e64fd23e36e84d469
+01230_00817.png,train,1,01230,00817,train:00817,5,4,4,Subtrochanteric,subtrochanteric,ungraded,1,,,,5a37a4df2267eed061ca509cd879862f
+01231_00819.png,train,1,01231,00819,train:00819,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,e8e2f52679462c55180baf1379e269b7
+01237_00823.png,train,2,01237,00823,train:00823,2,1,2CD,Neck Garden III-IV,neck,high,2,01238_00823.png,0,,0faae882383fadf325dd3de2fa862503
+01238_00823.png,train,2,01238,00823,train:00823,0,-1,NF,No fracture,none,none,2,01237_00823.png,2,,e24e89ec41d327550d56589e5dc9a78c
+01239_00824.png,train,4,01239,00824,train:00824,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,78ea1e7bd346e95fe1e47bf68ccf1b06
+01243_00827.png,train,3,01243,00827,train:00827,0,-1,NF,No fracture,none,none,1,,,,d5d6003a1e4ff7f88a3acaca288c0b43
+01255_00835.png,train,4,01255,00835,train:00835,0,-1,NF,No fracture,none,none,2,01256_00835.png,4,,cc42c86bee88b670c264594222022c28
+01256_00835.png,train,4,01256,00835,train:00835,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,2,01255_00835.png,0,,bb248fc2a41c6d1d12ad48c05ec0f807
+01257_00836.png,train,2,01257,00836,train:00836,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,1,,,,e1dfc008a347d4acaaaab302cf9bf832
+01258_00837.png,train,3,01258,00837,train:00837,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,a63949f15ce9da51d12aed473afd4b74
+01260_00838.png,train,2,01260,00838,train:00838,0,-1,NF,No fracture,none,none,2,01261_00838.png,4,,49b2257163370fddb290a840d48ef4d3
+01261_00838.png,train,2,01261,00838,train:00838,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,2,01260_00838.png,0,,65ee2e2546a04e94add29489458fdbb1
+01262_00839.png,train,4,01262,00839,train:00839,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,1,,,,5ede50ac90823272af883deefca8855d
+01263_00840.png,train,2,01263,00840,train:00840,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,1,,,,e6096da69580232c019fff9b3494f559
+01264_00841.png,train,4,01264,00841,train:00841,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,f8d3d34e7a0dfcce0dbcd0c386cdbbe3
+01265_00842.png,train,0,01265,00842,train:00842,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,1,,,,7bd4026156b76412da3ced44f8ee1f17
+01268_00844.png,train,2,01268,00844,train:00844,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,93ef46619a071763e664f9a3547c88bf
+01269_00845.png,train,1,01269,00845,train:00845,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,d75366caf7328ae7007ced833d52ce9f
+01272_00846.png,train,3,01272,00846,train:00846,0,-1,NF,No fracture,none,none,1,,,,ce1d0b5fb6c1a1641e98cd57e58f9def
+01273_00847.png,train,3,01273,00847,train:00847,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,1,,,,991cd95efdfd1b251cf07077655bce12
+01274_00848.png,train,4,01274,00848,train:00848,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,5d83d03fe162742bd53f430f2e3916d2
+01276_00849.png,train,0,01276,00849,train:00849,0,-1,NF,No fracture,none,none,1,,,,aa9943a9ff19a8a260bf05adf7ced0b3
+01279_00851.png,train,3,01279,00851,train:00851,0,-1,NF,No fracture,none,none,2,01280_00851.png,3,,47ecefe47d9f8dc6a06693784b9857a2
+01280_00851.png,train,3,01280,00851,train:00851,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,2,01279_00851.png,0,,99e843760a93ebea76d531d071a92fb1
+01281_00852.png,train,2,01281,00852,train:00852,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,1,,,,71345501f577b813113c101b9ce96de8
+01284_00854.png,train,0,01284,00854,train:00854,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,2,01285_00854.png,0,,d1e49f1b9350d5fb90bfdf95251c177a
+01285_00854.png,train,0,01285,00854,train:00854,0,-1,NF,No fracture,none,none,2,01284_00854.png,3,,5dacc7c190fd551044bd5a4219104765
+01286_00855.png,train,3,01286,00855,train:00855,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,1,,,,99e9b3933d439b776878ec39a4cb7142
+01287_00856.png,train,0,01287,00856,train:00856,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,1,,,,1188ecd36cd1e61323ed903a52a81914
+01288_00857.png,train,4,01288,00857,train:00857,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,1,,,,9d49b23d252124d45b18da5b75f4479d
+01292_00860.png,train,2,01292,00860,train:00860,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,1,,,,b5925f05c9741f230230b675db8d771b
+01293_00861.png,train,3,01293,00861,train:00861,0,-1,NF,No fracture,none,none,2,01294_00861.png,4,,48d715585bea9c9d0729ab27c1ea8e8e
+01294_00861.png,train,3,01294,00861,train:00861,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,2,01293_00861.png,0,,a5f457c9ba735901b0d9ee5834c1fb16
+01295_00862.png,train,4,01295,00862,train:00862,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,2,01296_00862.png,0,,8d16c7dbe5dd41b762445da0f47e7c76
+01296_00862.png,train,4,01296,00862,train:00862,0,-1,NF,No fracture,none,none,2,01295_00862.png,4,,d6d732f441487954e87114f674919c5d
+01300_00865.png,train,4,01300,00865,train:00865,0,-1,NF,No fracture,none,none,2,01301_00865.png,4,,6d3b07a836c36227c91f45d36d8cfb15
+01301_00865.png,train,4,01301,00865,train:00865,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,2,01300_00865.png,0,,dc9467bd3a8e1c0476fb4732856ebb81
+01303_00866.png,train,0,01303,00866,train:00866,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,1,,,,33a7cba6c182aa6f1a6920ff0ba9e81a
+01304_00867.png,train,3,01304,00867,train:00867,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,1,,,,e0cffaa2574748afebffb6bec681e709
+01306_00869.png,train,1,01306,00869,train:00869,0,-1,NF,No fracture,none,none,2,01307_00869.png,4,,e76dfdc0d64d01d818531975902209c9
+01307_00869.png,train,1,01307,00869,train:00869,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,2,01306_00869.png,0,,b97959aaed75e02af6f4e4563f966aad
+01315_00875.png,train,0,01315,00875,train:00875,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,2e098b1e4fdda224336367a1308cfd36
+01316_00876.png,train,2,01316,00876,train:00876,2,1,2CD,Neck Garden III-IV,neck,high,2,01317_00876.png,0,,a054fb1a427f3a8b384eb7e9db3ffb61
+01317_00876.png,train,2,01317,00876,train:00876,0,-1,NF,No fracture,none,none,2,01316_00876.png,2,,4e868dcf95c7ed54303f52d1d160d532
+01318_00877.png,train,1,01318,00877,train:00877,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,1,,,,24ba5ae6184131309f5eeca7a4559d15
+01319_00878.png,train,4,01319,00878,train:00878,0,-1,NF,No fracture,none,none,2,01320_00878.png,0,,7e3f6bc8190f73fca9fd653e9c98559a
+01320_00878.png,train,4,01320,00878,train:00878,0,-1,NF,No fracture,none,none,2,01319_00878.png,0,,e845ea8ff673d297896fab7e9eba153f
+01324_00881.png,train,0,01324,00881,train:00881,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,1,,,,b5bb82bc5e7bf351bbe630e62c3cd337
+01328_00884.png,train,2,01328,00884,train:00884,2,1,2CD,Neck Garden III-IV,neck,high,2,01329_00884.png,0,,46cc719322129e921f560fc4c18516c1
+01329_00884.png,train,2,01329,00884,train:00884,0,-1,NF,No fracture,none,none,2,01328_00884.png,2,,cf59617678e2371a9a31809a33c8095a
+01330_00885.png,train,2,01330,00885,train:00885,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,b03acfb64ff0a3c1482f51e7724ea57e
+01331_00886.png,train,2,01331,00886,train:00886,2,1,2CD,Neck Garden III-IV,neck,high,2,01332_00886.png,0,,70526be1183ba84ce70a6383433ad011
+01332_00886.png,train,2,01332,00886,train:00886,0,-1,NF,No fracture,none,none,2,01331_00886.png,2,,7ec386f241e5d62537892fd2fc6cccdf
+01333_00887.png,train,2,01333,00887,train:00887,0,-1,NF,No fracture,none,none,2,01334_00887.png,5,,ba4eb9c3d7f39b8e3be6e19051ef8e63
+01334_00887.png,train,2,01334,00887,train:00887,5,4,4,Subtrochanteric,subtrochanteric,ungraded,2,01333_00887.png,0,,69ed8aa544332b76b4b99a924db597db
+01335_00888.png,train,4,01335,00888,train:00888,1,0,2AB,Neck Garden I-II,neck,low,2,01336_00888.png,0,,030602968bf52b3c07872f85cbaa4a00
+01336_00888.png,train,4,01336,00888,train:00888,0,-1,NF,No fracture,none,none,2,01335_00888.png,1,,c066e3567352d6c3066afecfa0950a36
+01337_00889.png,train,2,01337,00889,train:00889,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,42121fe48ec89010f11fea984061de99
+01340_00891.png,train,0,01340,00891,train:00891,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,9e2616614eeec964343df52d08bbf22c
+01350_00897.png,train,2,01350,00897,train:00897,0,-1,NF,No fracture,none,none,1,,,,5935e1b981b82172340a541fa7c62a21
+01352_00898.png,train,0,01352,00898,train:00898,0,-1,NF,No fracture,none,none,2,01353_00898.png,3,,121da3b41a53a22fc994399d9438d9cf
+01353_00898.png,train,0,01353,00898,train:00898,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,2,01352_00898.png,0,,5759271d10b916c34a7ccb14d3172e44
+01354_00899.png,train,3,01354,00899,train:00899,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,1,,,,2581f5841b31db4688a5420a9ced3ec2
+01362_00904.png,train,1,01362,00904,train:00904,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,9030d6199c6fa3a0df5881805552f536
+01365_00906.png,train,1,01365,00906,train:00906,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,1,,,,76995a885573d53234440a6ea15d3675
+01366_00907.png,train,1,01366,00907,train:00907,0,-1,NF,No fracture,none,none,1,,,,0938e9d734e03c32af58e1186e66d31f
+01373_00911.png,train,4,01373,00911,train:00911,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,44fed06527fc66e72a63e85443c83a99
+01378_00914.png,train,0,01378,00914,train:00914,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,07598ef677be80faccaa27b89bd7629e
+01379_00915.png,train,2,01379,00915,train:00915,1,0,2AB,Neck Garden I-II,neck,low,1,,,,a459f55164895492e83d0a341771753a
+01380_00916.png,train,4,01380,00916,train:00916,0,-1,NF,No fracture,none,none,2,01381_00916.png,1,,e1d2475b663edda7a5f7c47e9bcca3bd
+01381_00916.png,train,4,01381,00916,train:00916,1,0,2AB,Neck Garden I-II,neck,low,2,01380_00916.png,0,,b0fe4d0828e0d1623abf27c21b28feb6
+01384_00919.png,train,0,01384,00919,train:00919,2,1,2CD,Neck Garden III-IV,neck,high,2,01385_00919.png,0,,18e939556841a57ee96045ebb231ab24
+01385_00919.png,train,0,01385,00919,train:00919,0,-1,NF,No fracture,none,none,2,01384_00919.png,2,,fc424758cbba5428d73989b00c088a35
+01387_00921.png,train,2,01387,00921,train:00921,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,2,01388_00921.png,0,,780e83317fcb045769ae3f78666ad28a
+01388_00921.png,train,2,01388,00921,train:00921,0,-1,NF,No fracture,none,none,2,01387_00921.png,4,,ebfb96f4b2a06d182b82f8c1b95b91b3
+01389_00922.png,train,1,01389,00922,train:00922,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,1,,,,e8722cd37974fbcbdbd1d8686da48299
+01390_00923.png,train,3,01390,00923,train:00923,5,4,4,Subtrochanteric,subtrochanteric,ungraded,1,,,,eb8553f8c93cbdbcecf9e151bd6ed167
+01393_00925.png,train,1,01393,00925,train:00925,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,928905dda8dbc6f5c6aa932b7f359752
+01401_00931.png,train,3,01401,00931,train:00931,1,0,2AB,Neck Garden I-II,neck,low,1,,,,fbdf93e06d8d5765d862d72e0968e5e2
+01403_00932.png,train,0,01403,00932,train:00932,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,87c9bff570bd3724b0994deada2181cc
+01404_00933.png,train,3,01404,00933,train:00933,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,ea5c630fa6a40d9f3bd72a0d177cc538
+01406_00935.png,train,3,01406,00935,train:00935,0,-1,NF,No fracture,none,none,1,,,,92da80f3ab0b93752a9347c4e389e5ff
+01408_00936.png,train,1,01408,00936,train:00936,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,1,,,,f782441f20555e1f939bf3525d740c04
+01410_00937.png,train,2,01410,00937,train:00937,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,a24368ae159fa6ebb796e66e14585fbc
+01411_00938.png,train,4,01411,00938,train:00938,5,4,4,Subtrochanteric,subtrochanteric,ungraded,1,,,,818f8a49a59d60816c36d0a3b0b67cc1
+01414_00941.png,train,1,01414,00941,train:00941,0,-1,NF,No fracture,none,none,2,01415_00941.png,2,,25ac508ce43c2e5d34737b190cc9e252
+01415_00941.png,train,1,01415,00941,train:00941,2,1,2CD,Neck Garden III-IV,neck,high,2,01414_00941.png,0,,8197416d7b3e4169f6a48bbe31ff2fb7
+01417_00942.png,train,3,01417,00942,train:00942,0,-1,NF,No fracture,none,none,1,,,,9dd3a642ced70abb54e3cfcaab8bce4b
+01418_00943.png,train,0,01418,00943,train:00943,0,-1,NF,No fracture,none,none,2,01419_00943.png,2,,d8f312f187c6aecbbc741695ecea33e5
+01419_00943.png,train,0,01419,00943,train:00943,2,1,2CD,Neck Garden III-IV,neck,high,2,01418_00943.png,0,,f4d47f80e51f1faff007f92198232fc1
+01420_00944.png,train,2,01420,00944,train:00944,5,4,4,Subtrochanteric,subtrochanteric,ungraded,1,,,,94c10e9d87ae215ad3b25d6cbe0a54ca
+01422_00945.png,train,3,01422,00945,train:00945,1,0,2AB,Neck Garden I-II,neck,low,1,,,,2ee00e97479ab28c26e1a8234e0ebfb2
+01423_00946.png,train,4,01423,00946,train:00946,0,-1,NF,No fracture,none,none,1,,,,c98efa70b58bd22e15e3c96e31d99fc5
+01426_00947.png,train,3,01426,00947,train:00947,0,-1,NF,No fracture,none,none,1,,,,bf88e2406e2f7fe68a0710a0c8d51a63
+01427_00948.png,train,1,01427,00948,train:00948,0,-1,NF,No fracture,none,none,2,01428_00948.png,3,,5bf6aa16e73ad754ba84499df9c01364
+01428_00948.png,train,1,01428,00948,train:00948,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,2,01427_00948.png,0,,66b0d298e00f25fa6bcbc6bf76a103c1
+01429_00949.png,train,2,01429,00949,train:00949,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,1,,,,11d370e0a2b30746039985e9f3590e83
+01430_00950.png,train,4,01430,00950,train:00950,0,-1,NF,No fracture,none,none,2,01431_00950.png,4,,ad62d96ec324a41e067c88654b00cb2a
+01431_00950.png,train,4,01431,00950,train:00950,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,2,01430_00950.png,0,,fcbd1586b4e9d2d84070f73d1ec2a943
+01432_00951.png,train,3,01432,00951,train:00951,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,1,,,,55c6c7a6d04918eb296526c0bf554d9c
+01433_00952.png,train,2,01433,00952,train:00952,0,-1,NF,No fracture,none,none,2,01434_00952.png,2,,51412a78eede4a1e6bf6403e2262ecdd
+01434_00952.png,train,2,01434,00952,train:00952,2,1,2CD,Neck Garden III-IV,neck,high,2,01433_00952.png,0,,32b0ea5bd398dce43f037b092d4acad7
+01435_00954.png,train,0,01435,00954,train:00954,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,ba938f7f7145dc924460465bb7ed5da3
+01436_00955.png,train,3,01436,00955,train:00955,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,85311964a2b9034db2c9539f62849406
+01438_00956.png,train,3,01438,00956,train:00956,5,4,4,Subtrochanteric,subtrochanteric,ungraded,1,,,,6b599ac539d07c2324eee433270d661b
+01439_00957.png,train,1,01439,00957,train:00957,0,-1,NF,No fracture,none,none,1,,,,54bc6fbb6636746cb9a9d1a511af2910
+01445_00961.png,train,2,01445,00961,train:00961,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,1,,,,f26b0f49cf56e1c75a8ca17b021803ee
+01446_00962.png,train,0,01446,00962,train:00962,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,2,01447_00962.png,0,,3dc1d30f6886a8627e3692458187d1ed
+01447_00962.png,train,0,01447,00962,train:00962,0,-1,NF,No fracture,none,none,2,01446_00962.png,4,,bfc44cd924dfc00b7a090657d7d371d6
+01450_00965.png,train,3,01450,00965,train:00965,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,2,01451_00965.png,0,,541a92ebbd8327734cb02882b97ed07c
+01451_00965.png,train,3,01451,00965,train:00965,0,-1,NF,No fracture,none,none,2,01450_00965.png,3,,86c428f6dee23966103d1cdcb568776e
+01452_00966.png,train,3,01452,00966,train:00966,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,1,,,,b67c2d41be7f490bb74482efa0574160
+01457_00970.png,train,2,01457,00970,train:00970,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,a0e3dc3be6e057d566c65c85f5f75109
+01460_00973.png,train,1,01460,00973,train:00973,0,-1,NF,No fracture,none,none,2,01461_00973.png,3,,ca5087275b55ffd73529607bfe0bb067
+01461_00973.png,train,1,01461,00973,train:00973,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,2,01460_00973.png,0,,beb551d14b18cdae2558b95d64fee914
+01464_00976.png,train,2,01464,00976,train:00976,2,1,2CD,Neck Garden III-IV,neck,high,2,01465_00976.png,0,,a612ec5aae87903461d4921cef569400
+01465_00976.png,train,2,01465,00976,train:00976,0,-1,NF,No fracture,none,none,2,01464_00976.png,2,,701404f516308df5e4330a6aef871050
+01466_00977.png,train,4,01466,00977,train:00977,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,8f2aba156b5bf48eb9b6c8931cf16f9a
+01469_00982.png,train,1,01469,00982,train:00982,0,-1,NF,No fracture,none,none,2,01470_00982.png,2,,989720a5117dcffaaaefc4cd0263d876
+01470_00982.png,train,1,01470,00982,train:00982,2,1,2CD,Neck Garden III-IV,neck,high,2,01469_00982.png,0,,78f709f0319fa626b2782d79e45b36ec
+01471_00983.png,train,1,01471,00983,train:00983,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,1a65084ccd492bbfe927ea1c5627f9b8
+01473_00985.png,train,0,01473,00985,train:00985,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,1,,,,add20ee5a4769e1dfa5c297980609b92
+01474_00986.png,train,3,01474,00986,train:00986,2,1,2CD,Neck Garden III-IV,neck,high,2,01475_00986.png,0,,878c2cbeea4e7a48f4223166169edd2a
+01475_00986.png,train,3,01475,00986,train:00986,0,-1,NF,No fracture,none,none,2,01474_00986.png,2,,fb8293f45f57deaacba2250ad74e1449
+01476_00987.png,train,1,01476,00987,train:00987,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,0e4d98351940c1d541d60c3df1d2b04b
+01477_00988.png,train,2,01477,00988,train:00988,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,2,01478_00988.png,0,,d44018b27b520d314772fce1a2ba8a51
+01478_00988.png,train,2,01478,00988,train:00988,0,-1,NF,No fracture,none,none,2,01477_00988.png,4,,307a1efa20dfc65e76d76fa4e9c2736c
+01479_00989.png,train,4,01479,00989,train:00989,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,1,,,,8805c25bc8ef3971e6e24bdf43a5a532
+01481_00991.png,train,0,01481,00991,train:00991,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,2,01482_00991.png,0,,60471b1caf25c953b606cdeb7b6cec55
+01482_00991.png,train,0,01482,00991,train:00991,0,-1,NF,No fracture,none,none,2,01481_00991.png,4,,998b18025e829c8386c56b10ac604d18
+01483_00992.png,train,3,01483,00992,train:00992,0,-1,NF,No fracture,none,none,2,01484_00992.png,4,,5e3f1567b7d9147ebf357c50c1c425f9
+01484_00992.png,train,3,01484,00992,train:00992,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,2,01483_00992.png,0,,4ad543ce9c641f4c9065dd0746657046
+01485_00993.png,train,3,01485,00993,train:00993,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,1,,,,fd33bc80a3bb27af3e72ee93bf314024
+01492_01000.png,train,0,01492,01000,train:01000,0,-1,NF,No fracture,none,none,2,01493_01000.png,5,,b41aec7c2acbb6249da65b31eabc47b7
+01493_01000.png,train,0,01493,01000,train:01000,5,4,4,Subtrochanteric,subtrochanteric,ungraded,2,01492_01000.png,0,,fcd8ca5b7bfee9e3263fc8c0d5af7e86
+01494_01001.png,train,3,01494,01001,train:01001,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,1784ba7c30b32cdedcb9214fb468c00c
+01495_01002.png,train,4,01495,01002,train:01002,0,-1,NF,No fracture,none,none,2,01496_01002.png,3,,518a03b12da6d47913ad58fb04a23c13
+01496_01002.png,train,4,01496,01002,train:01002,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,2,01495_01002.png,0,,e07b7fd643f44ea65a2e997208311988
+01497_01003.png,train,2,01497,01003,train:01003,0,-1,NF,No fracture,none,none,1,,,,e54e019a25ed7d4fa1074f02ddf7c70d
+01499_01004.png,train,1,01499,01004,train:01004,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,1,,,,2bb88681f7dee65098f4a07673480e1d
+01500_01005.png,train,3,01500,01005,train:01005,0,-1,NF,No fracture,none,none,2,01501_01005.png,3,,53068af0e2c291ca82a16287932d1ae1
+01501_01005.png,train,3,01501,01005,train:01005,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,2,01500_01005.png,0,,b31c101ed6f5d51f64b92f1bf72854af
+01502_01006.png,train,3,01502,01006,train:01006,0,-1,NF,No fracture,none,none,2,01503_01006.png,3,,0f71c0e67d586b6f706d1799a1cc713d
+01503_01006.png,train,3,01503,01006,train:01006,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,2,01502_01006.png,0,,660291b2c2266594ce0b5e255652dae7
+01504_01008.png,train,0,01504,01008,train:01008,1,0,2AB,Neck Garden I-II,neck,low,1,,,,2f605ea0183a721eedfb43568fa55faa
+01507_01010.png,train,3,01507,01010,train:01010,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,2,01508_01010.png,0,,09eb676c674bb5e5e8dc8173e3d90b3f
+01508_01010.png,train,3,01508,01010,train:01010,0,-1,NF,No fracture,none,none,2,01507_01010.png,4,,f679fce3837ead20ad8fbf7bcf672e31
+01509_01011.png,train,1,01509,01011,train:01011,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,1,,,,5eeedb4334722c8d34fe19284f15e1ea
+01510_01012.png,train,2,01510,01012,train:01012,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,87c83dd541cc4254780d21a155ae4c7a
+01512_01013.png,train,1,01512,01013,train:01013,0,-1,NF,No fracture,none,none,1,,,,6cc653c01e0314f64cb3ff7533631d3a
+01514_01014.png,train,1,01514,01014,train:01014,0,-1,NF,No fracture,none,none,1,,,,340948c031b7c129e99049b5743f3730
+01516_01015.png,train,0,01516,01015,train:01015,0,-1,NF,No fracture,none,none,1,,,,54331891db5179ec0f978cfd119d6bcc
+01519_01017.png,train,2,01519,01017,train:01017,2,1,2CD,Neck Garden III-IV,neck,high,2,01520_01017.png,0,,31999f2a0fed2ad0ea1cb4071760bd44
+01520_01017.png,train,2,01520,01017,train:01017,0,-1,NF,No fracture,none,none,2,01519_01017.png,2,,f8cec77098efcf6958c5b44da4f2b6bb
+01523_01019.png,train,2,01523,01019,train:01019,0,-1,NF,No fracture,none,none,2,01524_01019.png,1,,13b7d4e3f173767654982157e9a21827
+01524_01019.png,train,2,01524,01019,train:01019,1,0,2AB,Neck Garden I-II,neck,low,2,01523_01019.png,0,,f407a16ffeeea7f181020cb7848b183e
+01525_01020.png,train,4,01525,01020,train:01020,1,0,2AB,Neck Garden I-II,neck,low,1,,,,570f63c519d2f2cb083a9ef7832a4a0f
+01526_01021.png,train,0,01526,01021,train:01021,0,-1,NF,No fracture,none,none,2,01527_01021.png,4,,6c9842df8688a1753063dc79677d0ec9
+01527_01021.png,train,0,01527,01021,train:01021,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,2,01526_01021.png,0,,4f0909f3c051996e895ec16b257ec644
+01528_01022.png,train,1,01528,01022,train:01022,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,2,01529_01022.png,0,,ff2c5540378f4f76a61a66578b806f5a
+01529_01022.png,train,1,01529,01022,train:01022,0,-1,NF,No fracture,none,none,2,01528_01022.png,4,,635a723823641c6d0459f595fbbc479b
+01532_01024.png,train,4,01532,01024,train:01024,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,1,,,,0002cd0536bb38694d3bb17d5eaeb9b7
+01533_01025.png,train,0,01533,01025,train:01025,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,1,,,,3b652e8d0ec31493f985ad992ba9b22e
+00012_00009.png,test,-1,00012,00009,test:00009,2,1,2CD,Neck Garden III-IV,neck,high,2,00013_00009.png,0,,cfc9fdf59c60619b31a069f9f92644c0
+00013_00009.png,test,-1,00013,00009,test:00009,0,-1,NF,No fracture,none,none,2,00012_00009.png,2,,a93c13cb766629e37c4ca5ed6cf06c54
+00037_00025.png,test,-1,00037,00025,test:00025,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,42dc422aece51f1ff5ca1245913903cb
+00053_00035.png,test,-1,00053,00035,test:00035,1,0,2AB,Neck Garden I-II,neck,low,2,00054_00035.png,0,,9be4cb9e54198132cbabbdd9c7d5e5e8
+00054_00035.png,test,-1,00054,00035,test:00035,0,-1,NF,No fracture,none,none,2,00053_00035.png,1,,757b5ffa260b8ec44852544bb7cc3c30
+00063_00042.png,test,-1,00063,00042,test:00042,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,1,,,,a3672a81ee93eab4d8baf3cba5c60bdd
+00084_00056.png,test,-1,00084,00056,test:00056,0,-1,NF,No fracture,none,none,2,00085_00056.png,3,,7489166ab37b4a200c8ae1bc5817e58c
+00085_00056.png,test,-1,00085,00056,test:00056,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,2,00084_00056.png,0,,21adb1cddae89b188b67fa5f124c5aeb
+00086_00057.png,test,-1,00086,00057,test:00057,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,1,,,,adc82175602987a365829debaf0ce7e8
+00097_00064.png,test,-1,00097,00064,test:00064,0,-1,NF,No fracture,none,none,2,00098_00064.png,3,,535e38ea2c0710e79049647e15f73ffa
+00098_00064.png,test,-1,00098,00064,test:00064,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,2,00097_00064.png,0,,9a0f3e9a6acf3dd15e065265c32aed6c
+00106_00071.png,test,-1,00106,00071,test:00071,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,1,,,,a644f54d7352ff503e1cc5e96a401411
+00109_00074.png,test,-1,00109,00074,test:00074,0,-1,NF,No fracture,none,none,2,00110_00074.png,5,,e8fdc358819db35a3e652a7b91ec5e0d
+00110_00074.png,test,-1,00110,00074,test:00074,5,4,4,Subtrochanteric,subtrochanteric,ungraded,2,00109_00074.png,0,,851ec9a94a427ccb9a6af27262ff7c23
+00123_00083.png,test,-1,00123,00083,test:00083,1,0,2AB,Neck Garden I-II,neck,low,1,,,,d9c816844e1299f4893e3d5dba5458b1
+00124_00084.png,test,-1,00124,00084,test:00084,1,0,2AB,Neck Garden I-II,neck,low,2,00125_00084.png,0,,fa98dd4bc275fc9244c2f90e869d3447
+00125_00084.png,test,-1,00125,00084,test:00084,0,-1,NF,No fracture,none,none,2,00124_00084.png,1,,33e3bdb147ae49811dbc1033f1b44eaa
+00181_00120.png,test,-1,00181,00120,test:00120,2,1,2CD,Neck Garden III-IV,neck,high,2,00182_00120.png,0,,7a98ddb59679c9b76b3ea5e5bf57228c
+00182_00120.png,test,-1,00182,00120,test:00120,0,-1,NF,No fracture,none,none,2,00181_00120.png,2,,05925f7b7e54bdeb390ad4e043af539b
+00183_00121.png,test,-1,00183,00121,test:00121,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,ce7dafe0db7c6d0e381a0f6f7d9fb4c0
+00184_00122.png,test,-1,00184,00122,test:00122,0,-1,NF,No fracture,none,none,2,00185_00122.png,2,,30164d7172068dca4abe4029b47ef7d7
+00185_00122.png,test,-1,00185,00122,test:00122,2,1,2CD,Neck Garden III-IV,neck,high,2,00184_00122.png,0,,58e0d7585f38068e244ff32df9fb7bbb
+00187_00124.png,test,-1,00187,00124,test:00124,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,1,,,,37070a463b33614d36318e5aff0f6945
+00194_00128.png,test,-1,00194,00128,test:00128,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,1,,,,83173d9cb24cc7efab0643978be7d252
+00195_00129.png,test,-1,00195,00129,test:00129,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,2,00196_00129.png,0,,0921850500d4bd297b5f95b4a90f41d9
+00196_00129.png,test,-1,00196,00129,test:00129,0,-1,NF,No fracture,none,none,2,00195_00129.png,3,,b61b8aca12a601b2a6b5638633644ca0
+00201_00133.png,test,-1,00201,00133,test:00133,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,1,,,,6ffcff6367f92f4303f9a47bbaa8dca6
+00202_00134.png,test,-1,00202,00134,test:00134,0,-1,NF,No fracture,none,none,2,00203_00134.png,4,,630a24789e7ed1dc08ea8bde5dcecb27
+00203_00134.png,test,-1,00203,00134,test:00134,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,2,00202_00134.png,0,,046f13eb09c7094444ffd01b0e548421
+00207_00137.png,test,-1,00207,00137,test:00137,0,-1,NF,No fracture,none,none,2,00208_00137.png,5,,e4d4c430de4da93c7f5e297fa85c21ed
+00208_00137.png,test,-1,00208,00137,test:00137,5,4,4,Subtrochanteric,subtrochanteric,ungraded,2,00207_00137.png,0,,695c1742b05b1cffd442b4a02de06598
+00209_00138.png,test,-1,00209,00138,test:00138,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,1,,,,a26d46134d209e0c984c93c35cda5cda
+00212_00140.png,test,-1,00212,00140,test:00140,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,1,,,,0cd8d842e1575bb5b705a012617ced94
+00213_00141.png,test,-1,00213,00141,test:00141,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,1,,,,f5d7bdb3556fa02cc2a5f38b061799da
+00216_00143.png,test,-1,00216,00143,test:00143,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,2,00217_00143.png,0,,168805350b9f3f0eba812aa334095c14
+00217_00143.png,test,-1,00217,00143,test:00143,0,-1,NF,No fracture,none,none,2,00216_00143.png,4,,9491dadba06e958334aae664f4c10bef
+00220_00145.png,test,-1,00220,00145,test:00145,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,1,,,,0e42dfa61b4c49522ace969d7b0cf9cd
+00262_00170.png,test,-1,00262,00170,test:00170,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,1,,,,7a3b86f02f2d68b758a46b3cc0b369a4
+00263_00171.png,test,-1,00263,00171,test:00171,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,2,00264_00171.png,0,,b4b855a2628678e5738b13cdcec45c5e
+00264_00171.png,test,-1,00264,00171,test:00171,0,-1,NF,No fracture,none,none,2,00263_00171.png,4,,54aa1282ff401acee839a2f7f47ee30c
+00276_00179.png,test,-1,00276,00179,test:00179,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,9a0d363f9e84c8e0d20aad68438b8649
+00299_00194.png,test,-1,00299,00194,test:00194,0,-1,NF,No fracture,none,none,2,00300_00194.png,2,,f3ead1c3df1aa5f35fd6d5f09cebd2b6
+00300_00194.png,test,-1,00300,00194,test:00194,2,1,2CD,Neck Garden III-IV,neck,high,2,00299_00194.png,0,,28c0b63ed7022fcfa7d482411d14af75
+00327_00211.png,test,-1,00327,00211,test:00211,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,1,,,,f1549630097e6b80d7d8f24ea32fa511
+00335_00216.png,test,-1,00335,00216,test:00216,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,b240766dc8789e48a9e981ec85af0b24
+00336_00217.png,test,-1,00336,00217,test:00217,0,-1,NF,No fracture,none,none,2,00337_00217.png,2,,79e12394e2319e1861d31c4862658717
+00337_00217.png,test,-1,00337,00217,test:00217,2,1,2CD,Neck Garden III-IV,neck,high,2,00336_00217.png,0,,d1ff04f5fe656ecc3140b924e4375f13
+00347_00226.png,test,-1,00347,00226,test:00226,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,5227e49e571b72c37d3cd8c7c7bbb9ce
+00348_00227.png,test,-1,00348,00227,test:00227,0,-1,NF,No fracture,none,none,2,00349_00227.png,1,,726d97741a300326034d164cdfb48b58
+00349_00227.png,test,-1,00349,00227,test:00227,1,0,2AB,Neck Garden I-II,neck,low,2,00348_00227.png,0,,86de9ff7a57f3b5a0ddfe86b5125cae4
+00350_00228.png,test,-1,00350,00228,test:00228,1,0,2AB,Neck Garden I-II,neck,low,1,,,,96f02616b74a836a26dea48026a6aa44
+00355_00231.png,test,-1,00355,00231,test:00231,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,1,,,,e64280463bee2ff26d7bc995f8e8105d
+00356_00232.png,test,-1,00356,00232,test:00232,0,-1,NF,No fracture,none,none,2,00357_00232.png,3,,7dc5f9db2a23f46f61155ce6a663e44e
+00357_00232.png,test,-1,00357,00232,test:00232,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,2,00356_00232.png,0,,5311b84a4fb1d5c44668adfe9e12a6eb
+00379_00248.png,test,-1,00379,00248,test:00248,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,1,,,,4d4c86782842eb0964d5ff2d945c209e
+00384_00253.png,test,-1,00384,00253,test:00253,0,-1,NF,No fracture,none,none,2,00385_00253.png,2,,9456b2f3075245ea68fc18a952b5e4b0
+00385_00253.png,test,-1,00385,00253,test:00253,2,1,2CD,Neck Garden III-IV,neck,high,2,00384_00253.png,0,,4b7f4fe66e9758881a58246877c3936a
+00420_00276.png,test,-1,00420,00276,test:00276,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,1,,,,6352eb011609060002ce3dab7d0edcb6
+00421_00277.png,test,-1,00421,00277,test:00277,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,1,,,,2f1af13121dace7ecb28772e5502c3a8
+00438_00288.png,test,-1,00438,00288,test:00288,0,-1,NF,No fracture,none,none,2,00439_00288.png,1,,74ebe99d739c29a154b10985be215f97
+00439_00288.png,test,-1,00439,00288,test:00288,1,0,2AB,Neck Garden I-II,neck,low,2,00438_00288.png,0,,5cc2ee785438c9d40c233cdc734add51
+00448_00294.png,test,-1,00448,00294,test:00294,0,-1,NF,No fracture,none,none,2,00449_00294.png,3,,9b7a8e149ef8eaabc23b1a4f697c8d36
+00449_00294.png,test,-1,00449,00294,test:00294,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,2,00448_00294.png,0,,e8a10d9298e1d5f1fe4cb7d33d26af36
+00458_00299.png,test,-1,00458,00299,test:00299,1,0,2AB,Neck Garden I-II,neck,low,1,,,,b834cf11ed607a92d46c4a69a74efd0a
+00459_00300.png,test,-1,00459,00300,test:00300,0,-1,NF,No fracture,none,none,2,00460_00300.png,1,,ff6f100653ca678767700e1cf644a3e7
+00460_00300.png,test,-1,00460,00300,test:00300,1,0,2AB,Neck Garden I-II,neck,low,2,00459_00300.png,0,,ea1cfa1b3e2253959079b6ed99acca5a
+00469_00306.png,test,-1,00469,00306,test:00306,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,3475442527bebf44bbf8ea1a3bb2bd4c
+00470_00307.png,test,-1,00470,00307,test:00307,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,d9e923105c18dbdfccb3aa91355e3f5b
+00522_00343.png,test,-1,00522,00343,test:00343,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,40b9e93fba06465d6dfd311bc88dd7b4
+00538_00357.png,test,-1,00538,00357,test:00357,0,-1,NF,No fracture,none,none,2,00539_00357.png,2,,68fff16fb9438307aa84036514b68be9
+00539_00357.png,test,-1,00539,00357,test:00357,2,1,2CD,Neck Garden III-IV,neck,high,2,00538_00357.png,0,,9c4f3daa132dd58266314df9eae76fc3
+00562_00373.png,test,-1,00562,00373,test:00373,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,1,,,,159e6f180a38c005819149cd3dfb0dca
+00563_00374.png,test,-1,00563,00374,test:00374,0,-1,NF,No fracture,none,none,2,00564_00374.png,3,,a73790b574a2407a329c9830bc5dddc3
+00564_00374.png,test,-1,00564,00374,test:00374,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,2,00563_00374.png,0,,142f0a71a577ff8607f2e6998a3d7114
+00572_00380.png,test,-1,00572,00380,test:00380,0,-1,NF,No fracture,none,none,2,00573_00380.png,4,,37bf317ea9ca449e19b4792f01488e39
+00573_00380.png,test,-1,00573,00380,test:00380,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,2,00572_00380.png,0,,b505d2b2e896c2d8b8a4e6ba43c85598
+00576_00382.png,test,-1,00576,00382,test:00382,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,1,,,,02b8fb2b23b45d05fc92d3d6532166cd
+00618_00409.png,test,-1,00618,00409,test:00409,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,1,,,,bebd1f3e22744a57213924e316a98d86
+00640_00423.png,test,-1,00640,00423,test:00423,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,1,,,,69dbe2d161dd7aeb3ba11e10fc569c14
+00641_00424.png,test,-1,00641,00424,test:00424,0,-1,NF,No fracture,none,none,2,00642_00424.png,4,,471fb2a36612ecdd05e6fe63293dd203
+00642_00424.png,test,-1,00642,00424,test:00424,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,2,00641_00424.png,0,,2eb304b92ce369a72d3a2c5a1bd80fc7
+00664_00439.png,test,-1,00664,00439,test:00439,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,2,00665_00439.png,0,,69292fd912890ef5df232298ba1dc935
+00665_00439.png,test,-1,00665,00439,test:00439,0,-1,NF,No fracture,none,none,2,00664_00439.png,3,,10453586e43477f88d0b219753de8642
+00666_00440.png,test,-1,00666,00440,test:00440,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,1,,,,854ade26cfd865934c159e857d02d9f0
+00675_00446.png,test,-1,00675,00446,test:00446,0,-1,NF,No fracture,none,none,2,00676_00446.png,2,,8b62b8a6fa64d389ffaa466fd00e2b82
+00676_00446.png,test,-1,00676,00446,test:00446,2,1,2CD,Neck Garden III-IV,neck,high,2,00675_00446.png,0,,fbe2bb592acc651e40700fdd6641a1aa
+00680_00449.png,test,-1,00680,00449,test:00449,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,1,,,,eb7a7678633f9cb5601442b29470af2e
+00692_00457.png,test,-1,00692,00457,test:00457,0,-1,NF,No fracture,none,none,2,00693_00457.png,1,,4b1ab56de553a46ec43aea01203f2392
+00693_00457.png,test,-1,00693,00457,test:00457,1,0,2AB,Neck Garden I-II,neck,low,2,00692_00457.png,0,,c7cb842f1d69213b1bd2f593ac9bb270
+00694_00458.png,test,-1,00694,00458,test:00458,1,0,2AB,Neck Garden I-II,neck,low,1,,,,01b772c6597c169694eb35981f3ef1a2
+00709_00469.png,test,-1,00709,00469,test:00469,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,9bdb073c32ea6e46803d36be9c618c98
+00728_00482.png,test,-1,00728,00482,test:00482,2,1,2CD,Neck Garden III-IV,neck,high,2,00729_00482.png,0,,6e59a5549490017faf631ef459cfd8bb
+00729_00482.png,test,-1,00729,00482,test:00482,0,-1,NF,No fracture,none,none,2,00728_00482.png,2,,b40784769a5c1421336e316fff8e2259
+00730_00483.png,test,-1,00730,00483,test:00483,1,0,2AB,Neck Garden I-II,neck,low,2,00731_00483.png,0,,e871553ca7910455b384217dbd71cb03
+00731_00483.png,test,-1,00731,00483,test:00483,0,-1,NF,No fracture,none,none,2,00730_00483.png,1,,aee3ac9b9861efffac14764c73cd8854
+00740_00489.png,test,-1,00740,00489,test:00489,0,-1,NF,No fracture,none,none,2,00741_00489.png,5,,1efb6605c92a024f2b96bf90cc32c611
+00741_00489.png,test,-1,00741,00489,test:00489,5,4,4,Subtrochanteric,subtrochanteric,ungraded,2,00740_00489.png,0,,6ee3d324eaae4324f08db086b1cb5588
+00742_00490.png,test,-1,00742,00490,test:00490,0,-1,NF,No fracture,none,none,2,00743_00490.png,3,,6640d227663aa3d694234ef8b5fafb52
+00743_00490.png,test,-1,00743,00490,test:00490,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,2,00742_00490.png,0,,bffb1805b8e45f5450b718c36459781e
+00758_00500.png,test,-1,00758,00500,test:00500,0,-1,NF,No fracture,none,none,1,,,,a3aa8b32834634388e3a6cb58ae1bdf7
+00760_00501.png,test,-1,00760,00501,test:00501,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,1,,,,06cb2c1b8bf11e9495fedb80456d5c3f
+00767_00506.png,test,-1,00767,00506,test:00506,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,0578ed1bc5e5c694e5ec0a01b4f52ab3
+00768_00507.png,test,-1,00768,00507,test:00507,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,8f4c10683e764bc35477a589f1845cb9
+00769_00508.png,test,-1,00769,00508,test:00508,5,4,4,Subtrochanteric,subtrochanteric,ungraded,1,,,,67385be7bf26dbd952fa3caf0ec581b5
+00775_00512.png,test,-1,00775,00512,test:00512,0,-1,NF,No fracture,none,none,2,00776_00512.png,2,,fdfaf0444bf0aedcc9cdef57c5a427d9
+00776_00512.png,test,-1,00776,00512,test:00512,2,1,2CD,Neck Garden III-IV,neck,high,2,00775_00512.png,0,,054b21b7509d608668c72e9aebc6b242
+00810_00534.png,test,-1,00810,00534,test:00534,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,1,,,,56d867cc1b073a08adae2b2f624041ff
+00811_00535.png,test,-1,00811,00535,test:00535,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,1,,,,765b7d48b632e012182ec6c29addacad
+00830_00547.png,test,-1,00830,00547,test:00547,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,de3d66e6f71da6b8df7eace404d08b41
+00860_00569.png,test,-1,00860,00569,test:00569,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,1,,,,8324ae77f34c8dc85aefbac9b83145f3
+00861_00570.png,test,-1,00861,00570,test:00570,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,2,00862_00570.png,0,,fd0d44482a1b95f5563ee16fca1fa3c3
+00862_00570.png,test,-1,00862,00570,test:00570,0,-1,NF,No fracture,none,none,2,00861_00570.png,3,,4360500da1c4632c10151f96f61c9fb9
+00863_00571.png,test,-1,00863,00571,test:00571,0,-1,NF,No fracture,none,none,2,00864_00571.png,4,,72f4ce967525ae33b8bb597f41b687bb
+00864_00571.png,test,-1,00864,00571,test:00571,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,2,00863_00571.png,0,,220099475c24ea965b9489ac77da58d0
+00866_00572.png,test,-1,00866,00572,test:00572,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,1,,,,10e8a757baf2c6a7d76c641aaa201d7e
+00867_00573.png,test,-1,00867,00573,test:00573,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,1,,,,3172a2b40a47cf8d2370489ea0d655db
+00868_00574.png,test,-1,00868,00574,test:00574,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,1,,,,ef91523c5a4d3a7da7eda0f65da10d6a
+00875_00579.png,test,-1,00875,00579,test:00579,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,9f67f416614beb10c868cfdddbf78548
+00895_00593.png,test,-1,00895,00593,test:00593,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,1,,,,376c6476ab3fd0578177bb5789a8aaec
+00932_00619.png,test,-1,00932,00619,test:00619,5,4,4,Subtrochanteric,subtrochanteric,ungraded,1,,,,4dec94d62af436fc5bc560531ba429be
+00943_00627.png,test,-1,00943,00627,test:00627,0,-1,NF,No fracture,none,none,2,00944_00627.png,5,,3945ab26516d27e5640d2780a75ad444
+00944_00627.png,test,-1,00944,00627,test:00627,5,4,4,Subtrochanteric,subtrochanteric,ungraded,2,00943_00627.png,0,,7eaf73e03a894e3b4af4ae5ae9ea727a
+00952_00633.png,test,-1,00952,00633,test:00633,0,-1,NF,No fracture,none,none,2,00953_00633.png,4,,8fc6a04be60f5168852996c4d6f8d582
+00953_00633.png,test,-1,00953,00633,test:00633,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,2,00952_00633.png,0,,8bbef24500c07ab5e0488ba54abf27db
+00962_00639.png,test,-1,00962,00639,test:00639,5,4,4,Subtrochanteric,subtrochanteric,ungraded,1,,,,33b59e587f14b3ed2a874d94e131f7c5
+00963_00640.png,test,-1,00963,00640,test:00640,0,-1,NF,No fracture,none,none,2,00964_00640.png,5,,c9be1502254e9ae619f88945824171f4
+00964_00640.png,test,-1,00964,00640,test:00640,5,4,4,Subtrochanteric,subtrochanteric,ungraded,2,00963_00640.png,0,,fd906da5723ab24bb5b727a55db6f6e3
+00966_00641.png,test,-1,00966,00641,test:00641,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,1,,,,dd3b539ce7728f657cd155a0d91ff0b7
+00970_00645.png,test,-1,00970,00645,test:00645,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,1,,,,ac0aa61a3ab026ee96f9480d5126d124
+00971_00646.png,test,-1,00971,00646,test:00646,0,-1,NF,No fracture,none,none,2,00972_00646.png,4,,3c171db4cf04cf629db80fba8b3cae01
+00972_00646.png,test,-1,00972,00646,test:00646,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,2,00971_00646.png,0,,47233a8d3ab6a8f255966b664c9b0e70
+00994_00663.png,test,-1,00994,00663,test:00663,0,-1,NF,No fracture,none,none,2,00995_00663.png,2,,75a0f798d704a88c28fc267cc5443e8a
+00995_00663.png,test,-1,00995,00663,test:00663,2,1,2CD,Neck Garden III-IV,neck,high,2,00994_00663.png,0,,c82a3a93733a4ab99bbe06141b98cf55
+01034_00688.png,test,-1,01034,00688,test:00688,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,1,,,,e7434286a5213830d4f130abdf72e6c9
+01035_00689.png,test,-1,01035,00689,test:00689,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,2,01036_00689.png,0,,91f361f19c77e4f86b63ced9e3da074d
+01036_00689.png,test,-1,01036,00689,test:00689,0,-1,NF,No fracture,none,none,2,01035_00689.png,4,,96dbd7af3c4251bae304fcd41dadc439
+01075_00714.png,test,-1,01075,00714,test:00714,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,1,,,,17aadef6ca66de3b3a1daf1eb3070938
+01083_00722.png,test,-1,01083,00722,test:00722,5,4,4,Subtrochanteric,subtrochanteric,ungraded,1,,,,c8300030360a0bf05ba99446f18f3308
+01106_00736.png,test,-1,01106,00736,test:00736,0,-1,NF,No fracture,none,none,2,01107_00736.png,3,,c9645f6bdf666f39322a56bbbe344a0a
+01107_00736.png,test,-1,01107,00736,test:00736,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,2,01106_00736.png,0,,3214345eab7b4b3feb202307f44cfdcb
+01129_00750.png,test,-1,01129,00750,test:00750,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,1,,,,2031d7c8ab7f93267f2ae3df8f30a887
+01130_00751.png,test,-1,01130,00751,test:00751,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,1,,,,4ae44a1bf19c2cc59cd790141b6b940c
+01136_00755.png,test,-1,01136,00755,test:00755,2,1,2CD,Neck Garden III-IV,neck,high,2,01137_00755.png,0,,f45190b26186301657931ef0a17bcdfa
+01137_00755.png,test,-1,01137,00755,test:00755,0,-1,NF,No fracture,none,none,2,01136_00755.png,2,,74644b1c9132166a406419fdb1f51bc1
+01143_00761.png,test,-1,01143,00761,test:00761,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,3965da9baf2696cc5f3fbb745066ee02
+01144_00762.png,test,-1,01144,00762,test:00762,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,2,01145_00762.png,0,,30089b9687e8039bf878058b25c4ecdc
+01145_00762.png,test,-1,01145,00762,test:00762,0,-1,NF,No fracture,none,none,2,01144_00762.png,4,,786c07ec0277585119623ed18e076466
+01146_00763.png,test,-1,01146,00763,test:00763,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,1,,,,db24bd34c44da1a57d2dc4fdd2939762
+01150_00766.png,test,-1,01150,00766,test:00766,0,-1,NF,No fracture,none,none,2,01151_00766.png,4,,33a3a6c843ed492d5bbdc92941f53026
+01151_00766.png,test,-1,01151,00766,test:00766,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,2,01150_00766.png,0,,8194a052a9db45be46b8513f005700b3
+01168_00777.png,test,-1,01168,00777,test:00777,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,2,01169_00777.png,0,,3b47a01c83677e144e624e9a98cd855a
+01169_00777.png,test,-1,01169,00777,test:00777,0,-1,NF,No fracture,none,none,2,01168_00777.png,4,,964645838c3c98f41185e33c4932edf7
+01170_00778.png,test,-1,01170,00778,test:00778,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,1,,,,e48cb30330cdb03850675a65aae5b204
+01185_00790.png,test,-1,01185,00790,test:00790,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,1,,,,7c8a57a4c59451cb868b9b17f24b4b13
+01186_00791.png,test,-1,01186,00791,test:00791,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,1,,,,d8d581ab072f7d4f109fc508c14a3e19
+01187_00792.png,test,-1,01187,00792,test:00792,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,1ed60acd9b01d608bd5ee88dfc10be68
+01188_00793.png,test,-1,01188,00793,test:00793,2,1,2CD,Neck Garden III-IV,neck,high,2,01189_00793.png,0,,046cd7b87b116c449f0f34cdbc3accf5
+01189_00793.png,test,-1,01189,00793,test:00793,0,-1,NF,No fracture,none,none,2,01188_00793.png,2,,202831e2e7b6749ee2d7ca752e63d8fa
+01205_00803.png,test,-1,01205,00803,test:00803,0,-1,NF,No fracture,none,none,2,01206_00803.png,4,,815280a4664835d45910fc63d4728f58
+01206_00803.png,test,-1,01206,00803,test:00803,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,2,01205_00803.png,0,,8ff6fd19538ec764dcfe73569d36aa65
+01212_00807.png,test,-1,01212,00807,test:00807,0,-1,NF,No fracture,none,none,2,01213_00807.png,2,,c06f760dfd8ee26e424af58625aa65e6
+01213_00807.png,test,-1,01213,00807,test:00807,2,1,2CD,Neck Garden III-IV,neck,high,2,01212_00807.png,0,,fed36b5acaaa01b06430927c8a1e0e42
+01250_00832.png,test,-1,01250,00832,test:00832,0,-1,NF,No fracture,none,none,2,01251_00832.png,3,,e577f39e7b91094b15c5799ae5094521
+01251_00832.png,test,-1,01251,00832,test:00832,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,2,01250_00832.png,0,,f647779995d4c719defbe5f17450499b
+01266_00843.png,test,-1,01266,00843,test:00843,0,-1,NF,No fracture,none,none,2,01267_00843.png,2,,65966d210f3d24d4a8e50636cc4dbfb8
+01267_00843.png,test,-1,01267,00843,test:00843,2,1,2CD,Neck Garden III-IV,neck,high,2,01266_00843.png,0,,2923779a45524977fc309258ae4ca363
+01277_00850.png,test,-1,01277,00850,test:00850,0,-1,NF,No fracture,none,none,2,01278_00850.png,2,,288aa5f0bf93723e77aaaa99170e26f6
+01278_00850.png,test,-1,01278,00850,test:00850,2,1,2CD,Neck Garden III-IV,neck,high,2,01277_00850.png,0,,97fc7fd6cf594054718eef6081f5e9b3
+01282_00853.png,test,-1,01282,00853,test:00853,0,-1,NF,No fracture,none,none,2,01283_00853.png,4,,53a4cf1b67066315e98c1348b4313b2b
+01283_00853.png,test,-1,01283,00853,test:00853,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,2,01282_00853.png,0,,e2d4ee9f96bda7b464a39b3bf6791120
+01291_00858.png,test,-1,01291,00858,test:00858,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,63cf19f95f2b679db0c4e0971eea18d0
+01297_00863.png,test,-1,01297,00863,test:00863,0,-1,NF,No fracture,none,none,2,01298_00863.png,3,,22c18b40c99bd175cc70e81c234d53c1
+01298_00863.png,test,-1,01298,00863,test:00863,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,2,01297_00863.png,0,,88088b40580620bb87e481ce4aa6b6d8
+01299_00864.png,test,-1,01299,00864,test:00864,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,19524e0074d18e3a03c846d588be1b9f
+01313_00874.png,test,-1,01313,00874,test:00874,2,1,2CD,Neck Garden III-IV,neck,high,2,01314_00874.png,0,,ae06c09db9d4efde9d1cc2d67248b72c
+01314_00874.png,test,-1,01314,00874,test:00874,0,-1,NF,No fracture,none,none,2,01313_00874.png,2,,28f6c8c68d42f7e4de24284be90470a0
+01342_00892.png,test,-1,01342,00892,test:00892,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,2,01343_00892.png,0,,ef8f5a7c47cc7f4e925976d027bcf0dc
+01343_00892.png,test,-1,01343,00892,test:00892,0,-1,NF,No fracture,none,none,2,01342_00892.png,4,,8f02421d229a847989e73dd28282662b
+01344_00893.png,test,-1,01344,00893,test:00893,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,1,,,,d49e0920cf0197e213356c076ba0fb89
+01345_00894.png,test,-1,01345,00894,test:00894,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,1,,,,a9a98bbde9a58fe39981a95c7079ab2d
+01346_00895.png,test,-1,01346,00895,test:00895,3,2,3AB,Pertroch Evans I-II,pertrochanteric,low,1,,,,9330b39c0882f4096a7f0c241b2dcaed
+01363_00905.png,test,-1,01363,00905,test:00905,2,1,2CD,Neck Garden III-IV,neck,high,2,01364_00905.png,0,,0528dee3fce741292f4d19bfaf582ad9
+01364_00905.png,test,-1,01364,00905,test:00905,0,-1,NF,No fracture,none,none,2,01363_00905.png,2,,1d4d2248ff8163d184a2a66756e6c7f7
+01367_00908.png,test,-1,01367,00908,test:00908,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,8c83db557ca00ba41d75327ade3d3e39
+01376_00913.png,test,-1,01376,00913,test:00913,1,0,2AB,Neck Garden I-II,neck,low,2,01377_00913.png,0,,b8915ddeaff83bc0ff9548e890342dfd
+01377_00913.png,test,-1,01377,00913,test:00913,0,-1,NF,No fracture,none,none,2,01376_00913.png,1,,5321b4338c348fba6b67ea26b3126497
+01386_00920.png,test,-1,01386,00920,test:00920,5,4,4,Subtrochanteric,subtrochanteric,ungraded,1,,,,ac391d51b58ca0e9b2883c263b535701
+01394_00926.png,test,-1,01394,00926,test:00926,0,-1,NF,No fracture,none,none,2,01395_00926.png,2,,cce09be5e2e3c4f92f6e1773e155ccff
+01395_00926.png,test,-1,01395,00926,test:00926,2,1,2CD,Neck Garden III-IV,neck,high,2,01394_00926.png,0,,51cc0b06ffad1137ff334f5f27832add
+01396_00927.png,test,-1,01396,00927,test:00927,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,9734b07e42540c7a913cfdf16181bfde
+01397_00928.png,test,-1,01397,00928,test:00928,2,1,2CD,Neck Garden III-IV,neck,high,2,01398_00928.png,0,,ca6859ccfe3b6617dc1a420a48282439
+01398_00928.png,test,-1,01398,00928,test:00928,0,-1,NF,No fracture,none,none,2,01397_00928.png,2,,8c3dfbb0a7225439c27439872ec9372b
+01399_00929.png,test,-1,01399,00929,test:00929,5,4,4,Subtrochanteric,subtrochanteric,ungraded,1,,,,f51b9515d778048ace0ef09e543c6d6e
+01405_00934.png,test,-1,01405,00934,test:00934,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,1,,,,2096ac45ccc1594854e509e29f6327cf
+01412_00939.png,test,-1,01412,00939,test:00939,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,1,,,,9b49cab7e5d8efea04eb7ce99fbebd48
+01413_00940.png,test,-1,01413,00940,test:00940,2,1,2CD,Neck Garden III-IV,neck,high,1,,,,9ecceb00ff65b8d466033410b40ffb46
+01440_00958.png,test,-1,01440,00958,test:00958,0,-1,NF,No fracture,none,none,2,01441_00958.png,4,,9ddc88be8a62b7495dd011ce06e4df54
+01441_00958.png,test,-1,01441,00958,test:00958,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,2,01440_00958.png,0,,29d5ab7fa7d97b3cfb835d0e153661d1
+01448_00963.png,test,-1,01448,00963,test:00963,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,1,,,,dd9649f74bde1640bd949a033f1b2e6d
+01449_00964.png,test,-1,01449,00964,test:00964,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,1,,,,b9fc3141ea7911daec4e77c7a6b9aac9
+01458_00972.png,test,-1,01458,00972,test:00972,5,4,4,Subtrochanteric,subtrochanteric,ungraded,2,01459_00972.png,0,,45f4d810ab8759d73ebfd8a3966fd383
+01459_00972.png,test,-1,01459,00972,test:00972,0,-1,NF,No fracture,none,none,2,01458_00972.png,5,,b6ef9abe7a4bc0c9daf3220a8a2a1bff
+01462_00974.png,test,-1,01462,00974,test:00974,0,-1,NF,No fracture,none,none,2,01463_00974.png,4,,c8e403e5af4d6ae18d7811f19a6972af
+01463_00974.png,test,-1,01463,00974,test:00974,4,3,3CDE,Pertroch Evans III-V,pertrochanteric,high,2,01462_00974.png,0,,9ed878b0de33872ca8d61e03774221d9
+01467_00980.png,test,-1,01467,00980,test:00980,1,0,2AB,Neck Garden I-II,neck,low,1,,,,ec590e6434efefa9d0653def6e0d236d
+01468_00981.png,test,-1,01468,00981,test:00981,1,0,2AB,Neck Garden I-II,neck,low,1,,,,1de5b58dc470f1d0847f33f886774645
+01488_00995.png,test,-1,01488,00995,test:00995,0,-1,NF,No fracture,none,none,2,01489_00995.png,2,,7f82f4daeb2e8ed8c8f4da642551387a
+01489_00995.png,test,-1,01489,00995,test:00995,2,1,2CD,Neck Garden III-IV,neck,high,2,01488_00995.png,0,,43b7892302c9eba164fcc29bf9a08da5
+01490_00996.png,test,-1,01490,00996,test:00996,1,0,2AB,Neck Garden I-II,neck,low,1,,,,c7491fc89e9c1126c48cbccc21ae9820
+01491_00998.png,test,-1,01491,00998,test:00998,1,0,2AB,Neck Garden I-II,neck,low,1,,,,cc977db6aa5ae40572dbb8fa361eba20

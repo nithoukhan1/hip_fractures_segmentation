@@ -4,6 +4,34 @@ Newest entries at the top. Each entry: what was done, what it produced, what com
 
 ---
 
+## 2026-11-26 · Step 6: Setup merged; first Kaggle run (environment check)
+
+**Done (you)**
+- Merged PR #1 into `main` and made `main` the default branch.
+- Created the Kaggle notebook `hipfx-launcher` and ran `S00_env_check` on main (commit `37d8d0f`).
+
+**Result** (`results/S00_env_check/`, register line 1)
+- Kaggle gives 2 × Tesla T4 (15.6 GB each, about 23–24 fp16 TFLOPs), 4 CPU cores and 32 GB RAM, with Python 3.13, torch 2.11 and CUDA 13.0. timm and albumentations are installed; ultralytics and segmentation-models-pytorch are not.
+- **Surprise:** Kaggle's `val/` folder is not empty. It holds 104 femurs, so train has 939 instead of 1,043, and the split check said "same data False".
+- File-by-file comparison showed:
+  - all 939 Kaggle train files and all 210 test files are pixel- and label-identical to the local copy;
+  - the 104 local training femurs missing from Kaggle's train match Kaggle's val/ in count and labels.
+  - So Kaggle's val/ is part of the official training set, not the paper's missing validation set.
+  - It also splits 57 x-rays between train and val, which would leak if used for validation.
+- Reading an image from Kaggle's input folder takes 98 ms, against 17 ms locally.
+
+**Fix**
+- All code now pools `val/` back into train (`src/femurseg/paths.py`).
+- `scripts/make_splits.py` and `kaggle/env_check.py` use it. The env check also confirms that every file in `splits/folds_v1.csv` is found.
+- Tested on the local data: the CSV is byte-identical to `splits/folds_v1.csv`.
+- Tested on a copy of Kaggle's exact folder layout: same data True, same folds True, all files found True.
+
+**Next**
+- You: merge PR #2, then run `S00_env_check_r2` with Save Version to confirm on the real Kaggle files.
+- Me: Step 1. The data loader caches all images in RAM because of the slow reads. Also the metrics and statistics modules, and the YOLO reproduction runs S01 and S02 with `ultralytics` installed through `kaggle/runs.json`.
+
+---
+
 ## 2026-11-26 · Step 5: Decision for Papers A and B in parallel; execution plan; documentation tools
 
 **Decided (by you)**

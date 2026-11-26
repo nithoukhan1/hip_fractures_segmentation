@@ -16,12 +16,12 @@
 | # | Phase | Status | Output / location | Notes |
 |---|-------|--------|-------------------|-------|
 | 1 | Deep reading of base article | Done (2026-11-26) | `Analysis/01_…` §1 | Methods, numbers, limitations, future work extracted |
-| 2 | Dataset EDA | Done (2026-11-26) | `EDA/` + `Analysis/01_…` §2 | Official val split is empty (local copy and IEEE DataPort comment agree) |
+| 2 | Dataset EDA | Done (2026-11-26) | `EDA/` + `Analysis/01_…` §2 | Official val split is empty (local copy and IEEE DataPort comment agree). The Kaggle copy differs: see phase 7 |
 | 3 | Literature: who has used this dataset, state of the art | Done (2026-11-26) | `research/01_prior_use_and_sota_review.md` | Nobody else has published on HUSJA-UA |
 | 4 | Gap analysis and idea selection | Done (2026-11-26): **A and B in parallel** | `Analysis/02_…` (D1–D9), `Analysis/03_…` (ranking, designs) | |
 | 5 | Execution plan for both papers | Done (2026-11-26) | `Analysis/04_Execution_Plan_A_and_B.md` | Runs, validation rules, compute, dual timeline |
-| 6 | Repository, fixed splits, Kaggle launcher, run register | Done (2026-11-26); **pull request to `main` waiting for your review** | README, `splits/folds_v1.csv`, `kaggle/`, `results/`, `scripts/register_run.py` | 5 grouped, stratified folds; counts match paper Table 1 |
-| 7 | Kaggle environment check `S00_env_check` | **Next: your run on Kaggle** | `results/S00_env_check/` | Confirms data and folds identical to local, GPU type and speed |
+| 6 | Repository, fixed splits, Kaggle launcher, run register | Done; merged into `main` 2026-11-26 (PR #1); default branch = `main` | README, `splits/folds_v1.csv`, `kaggle/`, `results/`, `scripts/register_run.py` | 5 grouped, stratified folds; counts match paper Table 1 |
+| 7 | Kaggle environment check | Run 1 done 2026-11-26: Kaggle's val/ holds 104 training femurs, now pooled into train. **Next: `S00_env_check_r2` to confirm** | `results/S00_env_check/` | 2 × T4, 4 CPU cores, 32 GB RAM; 939 train + 210 test files identical to local |
 | 8 | Data loader, metrics and statistics modules | Not started (Week 1) | `src/femurseg/` | Same code for both papers |
 | 9 | Baselines S1–S9 and core model M0 (5 folds each) | Not started (Weeks 1–2) → **M1** | `results/S*` | M0 = A1 in Paper A = R0 in Paper B |
 
@@ -48,7 +48,7 @@
 ## Milestones
 | ID | Milestone | Target date | Status |
 |---|---|---|---|
-| M0 | Setup merged into `main`, Kaggle environment check passed | 29 Nov 2026 | Waiting for your PR review and Kaggle run |
+| M0 | Setup merged into `main`, Kaggle environment check passed | 29 Nov 2026 | Setup merged; check needs the r2 confirmation |
 | M1 | Baseline table v1 (S1–S9 + M0) | 13 Dec 2026 | |
 | M2-A | SLG-Net frozen | 3 Jan 2027 | |
 | M2-B | RefFrac frozen | 10 Jan 2027 | |
@@ -62,10 +62,10 @@
 ## Compute budget (Kaggle GPU-hours, from Report 04 §6)
 | Block | GPU-hours | Used so far |
 |---|---|---|
-| Shared | 28–34 | 0 |
+| Shared | 28–34 | 0.06 (S00) |
 | Track A only | 35–38 | 0 |
 | Track B only | 55–60 | 0 |
-| **Total** | **120–135** (peak about 20 h in one week) | 0 |
+| **Total** | **120–135** (peak about 20 h in one week) | 0.06 |
 
 ## Key decisions log
 | Date | Decision | Why |
@@ -82,11 +82,12 @@
 | 2026-11-26 | Documentation protocol: every run gets `results/<RUN>/` with `NOTES.md` and a register line; zips go through `results/_inbox/` and `scripts/register_run.py`; local folder = repository | Every number in a paper must trace to a file |
 | 2026-11-26 | Repository layout mirrors the local folder; data, PDFs, zips and weights are not committed | Local folder and repo stay identical; Kaggle clones the repo |
 | 2026-11-26 | `main` created as an empty base branch, so the whole setup can be reviewed in one pull request | The repository started with only the setup branch |
+| 2026-11-26 | **Kaggle's val/ folder (104 of the 1,043 training femurs) is pooled back into train in all code** (`src/femurseg/paths.py`); the folds stay `splits/folds_v1.csv` | Kaggle's val/ is not the paper's missing validation set, it splits 57 x-rays across train and val (leak), and pooling gives the same data and folds on every copy (S00_env_check) |
+| 2026-11-26 | Training scripts load all images into RAM once per session | Reading from /kaggle/input takes 98 ms per image; all 1,253 images take about 2 GB of the 32 GB RAM |
 
 ## Open questions
-- Run `S00_env_check` on Kaggle: Kaggle data identical to the local copy (fingerprint `733a70aa…`)? Data path? GPU type, count and speed?
+- `S00_env_check_r2` on Kaggle: are Kaggle's 104 val/ images pixel-identical to the local ones? (The other 1,149 files are.) Expected: same data True, same folds True, all files found True.
 - Is a T4 x2 session metered like one GPU? Compare your quota before and after one run. If yes, A and B jobs can share one launch.
 - Real hours per run on Kaggle (Week 1), to update the compute table in Report 04 §6.
-- After the pull request is merged: set `main` as the default branch (GitHub → Settings → General → Default branch).
 - Repository visibility: it is public now. Consider making it private until submission, so the methods are not visible before the papers; Kaggle can still clone it with a token (see `kaggle/launcher.ipynb`).
 - Resolved 2026-11-26: `data.yml` codes are `2AB, 2CD, 3AB, 3CDE, 4` (location digit + grade letters); `readme.md` only asks to cite the base paper. No patient, device or DX/CR metadata is in the release.

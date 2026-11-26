@@ -1,0 +1,74 @@
+{
+  "data_root": "/kaggle/input/datasets/utopianstar/dataset/femoral/data",
+  "n_splits": 5,
+  "seed": 2026,
+  "n_rows": 1149,
+  "fingerprint_sha1": "56fa358fda0a9b24ca40e8fe6d9928f7be773a7d",
+  "counts": {
+    "fold0": {
+      "No fracture": 65,
+      "Neck Garden I-II": 10,
+      "Neck Garden III-IV": 45,
+      "Pertroch Evans I-II": 25,
+      "Pertroch Evans III-V": 36,
+      "Subtrochanteric": 7,
+      "TOTAL": 188,
+      "x-rays": 132
+    },
+    "fold1": {
+      "No fracture": 66,
+      "Neck Garden I-II": 10,
+      "Neck Garden III-IV": 44,
+      "Pertroch Evans I-II": 25,
+      "Pertroch Evans III-V": 37,
+      "Subtrochanteric": 6,
+      "TOTAL": 188,
+      "x-rays": 132
+    },
+    "fold2": {
+      "No fracture": 65,
+      "Neck Garden I-II": 10,
+      "Neck Garden III-IV": 45,
+      "Pertroch Evans I-II": 25,
+      "Pertroch Evans III-V": 37,
+      "Subtrochanteric": 6,
+      "TOTAL": 188,
+      "x-rays": 132
+    },
+    "fold3": {
+      "No fracture": 66,
+      "Neck Garden I-II": 10,
+      "Neck Garden III-IV": 44,
+      "Pertroch Evans I-II": 25,
+      "Pertroch Evans III-V": 36,
+      "Subtrochanteric": 7,
+      "TOTAL": 188,
+      "x-rays": 131
+    },
+    "fold4": {
+      "No fracture": 65,
+      "Neck Garden I-II": 10,
+      "Neck Garden III-IV": 45,
+      "Pertroch Evans I-II": 24,
+      "Pertroch Evans III-V": 36,
+      "Subtrochanteric": 7,
+      "TOTAL": 187,
+      "x-rays": 131
+    },
+    "test": {
+      "No fracture": 65,
+      "Neck Garden I-II": 16,
+      "Neck Garden III-IV": 41,
+      "Pertroch Evans I-II": 34,
+      "Pertroch Evans III-V": 42,
+      "Subtrochanteric": 12,
+      "TOTAL": 210
+    }
+  },
+  "duplicates": [
+    [
+      "00397_00261.png",
+      "00399_00262.png"
+    ]
+  ]
+}
