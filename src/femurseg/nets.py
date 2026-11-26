@@ -27,7 +27,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-TOPK = 500  # pixels at 768 x 512 (the smallest training fracture mask has several thousand)
+TOPK = 500  # pixels at 768 x 512; the smallest released fracture mask has 1,722 there (median 23,045)
 
 
 @dataclass(frozen=True)
