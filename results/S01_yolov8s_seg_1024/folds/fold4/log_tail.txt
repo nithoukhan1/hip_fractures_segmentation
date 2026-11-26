@@ -1,0 +1,60 @@
+[K    100/100      5.12G     0.6617      1.352     0.3904      1.051          0          5       1024: 86% ━━━━━━━━━━── 91/105 3.3it/s 27.7s<4.2s
+[K    100/100      5.12G     0.6632      1.353      0.394      1.054          0          7       1024: 87% ━━━━━━━━━━╸─ 92/105 3.3it/s 28.0s<3.9s
+[K    100/100      5.12G     0.6622      1.349     0.3945      1.053          0          4       1024: 88% ━━━━━━━━━━╸─ 93/105 3.3it/s 28.3s<3.6s
+[K    100/100      5.12G       0.66      1.346     0.3941      1.052          0          6       1024: 89% ━━━━━━━━━━╸─ 94/105 3.3it/s 28.6s<3.3s
+[K    100/100      5.12G     0.6614      1.346     0.3941      1.052          0          6       1024: 90% ━━━━━━━━━━╸─ 95/105 3.3it/s 28.9s<3.0s
+[K    100/100      5.12G     0.6603      1.346     0.3948      1.052          0          6       1024: 91% ━━━━━━━━━━╸─ 96/105 3.3it/s 29.2s<2.7s
+[K    100/100      5.12G     0.6594      1.347     0.3947      1.052          0          5       1024: 92% ━━━━━━━━━━━─ 97/105 3.3it/s 29.5s<2.4s
+[K    100/100      5.12G     0.6601      1.345     0.3956      1.052          0          5       1024: 93% ━━━━━━━━━━━─ 98/105 3.3it/s 29.8s<2.1s
+[K    100/100      5.12G     0.6606      1.349     0.3952      1.053          0          3       1024: 94% ━━━━━━━━━━━─ 99/105 3.3it/s 30.1s<1.8s
+[K    100/100      5.12G     0.6626      1.353     0.3974      1.053          0          4       1024: 95% ━━━━━━━━━━━─ 100/105 3.3it/s 30.4s<1.5s
+[K    100/100      5.12G     0.6634      1.355     0.3965      1.052          0          6       1024: 96% ━━━━━━━━━━━╸ 101/105 3.4it/s 30.7s<1.2s
+[K    100/100      5.12G     0.6613      1.352     0.3952       1.05          0          3       1024: 97% ━━━━━━━━━━━╸ 102/105 3.3it/s 31.0s<0.9s
+[K    100/100      5.12G     0.6608       1.35      0.395      1.048          0          3       1024: 98% ━━━━━━━━━━━╸ 103/105 3.3it/s 31.3s<0.6s
+[K    100/100      5.12G     0.6568      1.346     0.3949      1.046          0          2       1024: 99% ━━━━━━━━━━━╸ 104/105 4.7it/s 31.4s<0.2s
+[K    100/100      5.12G     0.6568      1.346     0.3949      1.046          0          2       1024: 100% ━━━━━━━━━━━━ 105/105 3.3it/s 31.4s
+
+[K                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95): 7% ╸─────────── 1/13 5.1s/it 1.5s<1:01
+[K                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95): 15% ━╸────────── 2/13 1.6it/s 1.7s<7.1s
+[K                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95): 23% ━━╸───────── 3/13 2.5it/s 2.0s<4.1s
+[K                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95): 30% ━━━╸──────── 4/13 3.1it/s 2.2s<2.9s
+[K                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95): 38% ━━━━╸─────── 5/13 3.6it/s 2.4s<2.3s
+[K                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95): 46% ━━━━━╸────── 6/13 3.8it/s 2.6s<1.8s
+[K                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95): 53% ━━━━━━────── 7/13 4.0it/s 2.8s<1.5s
+[K                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95): 61% ━━━━━━━───── 8/13 4.1it/s 3.1s<1.2s
+[K                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95): 69% ━━━━━━━━──── 9/13 4.1it/s 3.3s<1.0s
+[K                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95): 76% ━━━━━━━━━─── 10/13 4.0it/s 3.6s<0.7s
+[K                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95): 84% ━━━━━━━━━━── 11/13 4.1it/s 3.8s<0.5s
+[K                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95): 92% ━━━━━━━━━━━─ 12/13 4.3it/s 4.0s<0.2s
+[K                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 13/13 3.1it/s 4.2s
+                   all        208        135      0.674      0.675      0.623      0.296      0.609      0.626      0.557      0.242
+
+100 epochs completed in 0.898 hours.
+Optimizer stripped from /kaggle/working/work/S01_yolov8s_seg_1024/train/fold4/weights/last.pt, 23.9MB
+Optimizer stripped from /kaggle/working/work/S01_yolov8s_seg_1024/train/fold4/weights/best.pt, 23.9MB
+
+Validating /kaggle/working/work/S01_yolov8s_seg_1024/train/fold4/weights/best.pt...
+Ultralytics 8.4.219 🚀 Python-3.13.16 torch-2.11.0+cu130 CUDA:0 (Tesla T4, 14912MiB)
+YOLOv8s-seg summary (fused): 85 layers, 11,781,535 parameters, 0 gradients, 39.9 GFLOPs
+
+[K                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95): 7% ╸─────────── 1/13 1.0it/s 0.3s<11.7s
+[K                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95): 15% ━╸────────── 2/13 2.1it/s 0.5s<5.3s
+[K                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95): 23% ━━╸───────── 3/13 2.8it/s 0.7s<3.5s
+[K                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95): 30% ━━━╸──────── 4/13 3.3it/s 1.0s<2.7s
+[K                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95): 38% ━━━━╸─────── 5/13 3.6it/s 1.2s<2.2s
+[K                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95): 46% ━━━━━╸────── 6/13 3.9it/s 1.4s<1.8s
+[K                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95): 53% ━━━━━━────── 7/13 4.2it/s 1.6s<1.4s
+[K                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95): 61% ━━━━━━━───── 8/13 4.3it/s 1.8s<1.2s
+[K                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95): 69% ━━━━━━━━──── 9/13 4.3it/s 2.1s<0.9s
+[K                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95): 76% ━━━━━━━━━─── 10/13 4.3it/s 2.3s<0.7s
+[K                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95): 84% ━━━━━━━━━━── 11/13 4.3it/s 2.5s<0.5s
+[K                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95): 92% ━━━━━━━━━━━─ 12/13 4.4it/s 2.7s<0.2s
+[K                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 13/13 4.4it/s 3.0s
+                   all        208        135      0.677      0.686      0.626        0.3      0.621      0.626      0.556      0.241
+                   2AB         11         11      0.498      0.542      0.423       0.19      0.328      0.364       0.21     0.0939
+                   2CD         50         50      0.893       0.84      0.848      0.337      0.908       0.86      0.879      0.324
+                   3AB         27         27       0.75      0.704      0.732      0.372      0.747      0.704      0.732      0.301
+                  3CDE         40         40      0.775      0.773      0.801      0.486      0.775      0.775      0.801      0.407
+                     4          7          7      0.471      0.571      0.327      0.115      0.345      0.429       0.16     0.0798
+Speed: 0.3ms preprocess, 10.0ms inference, 0.0ms loss, 1.5ms postprocess per image
+[fold 4] done in 55.45 min

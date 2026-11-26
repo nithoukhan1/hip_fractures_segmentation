@@ -1,0 +1,15 @@
+{
+  "fold": 0,
+  "device": "0",
+  "gpu": "Tesla T4",
+  "n_train": 835,
+  "n_held_out": 208,
+  "n_test": 210,
+  "train_minutes": 58.89,
+  "total_minutes": 60.61,
+  "weights": "/kaggle/working/work/S01_yolov8s_seg_1024/train/fold0/weights/last.pt",
+  "ultralytics": "8.4.219",
+  "torch": "2.11.0+cu130",
+  "python": "3.13.16",
+  "peak_gpu_memory_gb": 5.33
+}

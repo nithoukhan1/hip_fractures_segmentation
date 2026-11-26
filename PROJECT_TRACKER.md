@@ -23,7 +23,7 @@
 | 6 | Repository, fixed splits, Kaggle launcher, run register | Done; merged into `main` 2026-11-26 (PR #1); default branch = `main` | README, `splits/folds_v1.csv`, `kaggle/`, `results/`, `scripts/register_run.py` | 5 grouped, stratified folds; counts match paper Table 1 |
 | 7 | Kaggle environment check | Done 2026-11-26: run 1 found Kaggle's val/ holds 104 training femurs (now pooled into train); `S00_env_check_r2` confirmed same data, same folds, all files found | `results/S00_env_check/`, `results/S00_env_check_r2/` | 2 × T4, 4 CPU cores, 32 GB RAM; all 1,253 files identical to local |
 | 8 | Data loader, metrics and statistics modules | Done 2026-11-26: loader, metrics (13 checks incl. scikit-learn), statistics (9 checks; reproduces the paper's accuracy interval 80.77–90.55 exactly), fold checks, CPU smoke test of the YOLO script and the statistics script | `src/femurseg/data.py`, `metrics.py`, `stats.py`, `scripts/run_stats.py`, `tests/` | Same code for both papers |
-| 9 | Baselines S1–S9 and core model M0 (5 folds each) | In progress: S01 (YOLOv8s-seg @1024) and S02 (YOLOv8s-seg @640) ready on Kaggle (`scripts/train_yolo_seg.py`) → **M1** | `results/S*` | M0 = A1 in Paper A = R0 in Paper B |
+| 9 | Baselines S1–S9 and core model M0 (5 folds each) | In progress: **S01 and S02 done 2026-11-26** (register lines 3–4; analysis `results/analysis/C01_yolo_1024_vs_640/`): classification reproduces the article, Dice .02–.04 lower. S03 (YOLO11s-seg @1024) ready on Kaggle; S04–S09 and M0 need the Step 2 training script → **M1** | `results/S*`, `results/analysis/` | M0 = A1 in Paper A = R0 in Paper B |
 
 ### Track A: Paper 1, SLG-Net
 | # | Phase | Weeks | Status |
@@ -62,10 +62,10 @@
 ## Compute budget (Kaggle GPU-hours, from Report 04 §6)
 | Block | GPU-hours | Used so far |
 |---|---|---|
-| Shared | 28–34 | 0.12 (S00 + S00_r2) |
+| Shared | 28–34 | 4.4 h of session time (S00 + S00_r2 0.12, S01 2.94, S02 1.35; T4 × 2) |
 | Track A only | 35–38 | 0 |
 | Track B only | 55–60 | 0 |
-| **Total** | **120–135** (peak about 20 h in one week) | 0.12 |
+| **Total** | **120–135** (peak about 20 h in one week) | 4.4 |
 
 ## Key decisions log
 | Date | Decision | Why |
@@ -87,10 +87,15 @@
 | 2026-11-26 | YOLO baselines (S01, S02): Ultralytics 8.4.219, COCO weights, 100 epochs, Ultralytics defaults (optimizer auto = AdamW for this data size), final weights with `val=False`; paper rule (fracture = any instance, class and mask of the top-confidence instance); fracture threshold = Youden on OOF (ties → higher sensitivity), plus results at Ultralytics' 0.25; test = mean ± SD of the 5 fold models and their ensemble | Same rules as every other run; the paper kept the best-validation checkpoint and did not report hyper-parameters, so differences are stated |
 | 2026-11-26 | **Correction:** the paper's best-Dice setting is YOLOv8-**small** @640 (test Dice .780), not nano; S02 is `S02_yolov8s_seg_640` | Reports 03 and 04 said nano; fixed |
 | 2026-11-26 | Statistics: 95% intervals by cluster bootstrap over x-rays (2,000 resamples), DeLong for AUC, exact Clopper–Pearson for accuracy; paired tests DeLong (AUC), exact McNemar + mid-p (decisions), randomisation test swapping per x-ray (macro-F1), Wilcoxon signed-rank with Pratt zeros (Dice); Holm within each comparison family | The two femurs of an x-ray are not independent; the paper's own accuracy interval is Clopper–Pearson (181/210 → 80.77–90.55), so our numbers are directly comparable |
+| 2026-11-26 | **S01 (YOLOv8s-seg @1024) is the reference YOLO baseline** for both papers: its 5 fold models (mean ± SD) and their ensemble on the test set, and its pooled OOF predictions for development. The article's final model is quoted beside them | It reproduces the article's accuracy and AUC. The article's selection rule applied to our folds picks a model with 83.8% on test, so one selected run is a noisy estimate |
+| 2026-11-26 | Dice is reported per location, OOF and test side by side; nothing learned from the test set is used to adjust masks | Test neck masks are 35–40% smaller than training neck masks (test labels were reviewed by a committee); every model over-segments them about 2 times on the test set (C01 report §4) |
+| 2026-11-26 | New training code also records NSD at 10 and 20 px | NSD at 2 px is about .05 for every model (median HD95 63–72 px), so it cannot separate methods |
+| 2026-11-26 | S03 = YOLO11s-seg at 1024 px with exactly S01's protocol | 640 vs 1024 px made no significant difference (C01); a like-for-like comparison with S01 isolates the architecture |
+| 2026-11-26 | The article's published numbers live in `src/femurseg/reference.py`, checked by `tests/test_reference.py` | One checked source for every comparison table |
 
 ## Open questions
 - Resolved 2026-11-26 (`S00_env_check_r2`): Kaggle's 104 val/ images are identical to the local ones; data, folds and file list all match.
-- Is a T4 x2 session metered like one GPU? Compare your quota before and after one run. If yes, A and B jobs can share one launch.
-- Real hours per run on Kaggle (Week 1), to update the compute table in Report 04 §6.
+- Is a T4 x2 session metered like one GPU? Steps 0–1 used 4.4 h of session time: if Kaggle shows about 4.4 h used this week, a T4 × 2 session counts once; about 8.8 h means it counts per GPU.
+- Resolved 2026-11-26: real run times on T4 × 2 (two folds at a time): YOLOv8s-seg 2.9 h at 1024 px (about 58 min per fold), 1.35 h at 640 px (about 27 min per fold). The plan's estimates were about twice too high.
 - Repository visibility: it is public now. Consider making it private until submission, so the methods are not visible before the papers; Kaggle can still clone it with a token (see `kaggle/launcher.ipynb`).
 - Resolved 2026-11-26: `data.yml` codes are `2AB, 2CD, 3AB, 3CDE, 4` (location digit + grade letters); `readme.md` only asks to cite the base paper. No patient, device or DX/CR metadata is in the release.
