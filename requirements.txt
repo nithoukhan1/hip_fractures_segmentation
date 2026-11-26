@@ -1,0 +1,18 @@
+# Core analysis (already on Kaggle; also enough to run scripts/make_splits.py locally)
+numpy
+pandas
+pillow
+scipy
+scikit-learn
+matplotlib
+pyyaml
+tqdm
+opencv-python-headless
+
+# Deep learning (Kaggle has torch and torchvision; the launcher installs the rest).
+# Exact versions are pinned after the first Kaggle environment check (kaggle/env_check.py).
+torch
+torchvision
+timm
+segmentation-models-pytorch
+ultralytics

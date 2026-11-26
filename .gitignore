@@ -1,0 +1,38 @@
+# --- Data: never commit the images (CC BY 4.0 dataset, ~800 MB; download from IEEE DataPort / Kaggle)
+/Femoral Fractures/
+/data/
+/datasets/
+*.zip
+*.tar
+*.tar.gz
+
+# --- Papers
+*.pdf
+
+# --- Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.ipynb_checkpoints/
+
+# --- Training outputs: keep metrics in results/, not weights or raw run folders
+runs/
+wandb/
+lightning_logs/
+*.pt
+*.pth
+*.ckpt
+*.onnx
+*.safetensors
+*.npy
+*.npz
+
+# --- Logs, editors, OS files
+*.log
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+desktop.ini

@@ -1,0 +1,7767 @@
+{
+  "n_images_per_split": {
+    "train": 1043,
+    "test": 210
+  },
+  "class_counts": {
+    "test": {
+      "No fracture": 65,
+      "Neck Garden I-II": 16,
+      "Neck Garden III-IV": 41,
+      "Pertroch Evans I-II": 34,
+      "Pertroch Evans III-V": 42,
+      "Subtrochanteric": 12
+    },
+    "train": {
+      "No fracture": 363,
+      "Neck Garden I-II": 57,
+      "Neck Garden III-IV": 254,
+      "Pertroch Evans I-II": 134,
+      "Pertroch Evans III-V": 199,
+      "Subtrochanteric": 36
+    }
+  },
+  "image_shapes": [
+    {
+      "H": 1536,
+      "W": 1024,
+      "n": 1253
+    }
+  ],
+  "dtypes": {
+    "uint8": 1253
+  },
+  "mask_values_vs_yolo_class(mask-cls)": {
+    "1.0": 825
+  },
+  "polys_per_labelled_image": {
+    "1": 825
+  },
+  "multi_class_label_files": 0,
+  "mask_components_fractured": {
+    "1": 824,
+    "2": 1
+  },
+  "nofracture_with_nonempty_mask": 0,
+  "fractured_with_empty_mask": 0,
+  "poly_mask_iou": {
+    "count": 825.0,
+    "mean": 0.9971920288840029,
+    "std": 0.0013142377389996054,
+    "min": 0.9818792927078767,
+    "25%": 0.9967404634350997,
+    "50%": 0.99745530555808,
+    "75%": 0.998003857524278,
+    "max": 0.9988636705245754
+  },
+  "poly_mask_iou_below_0.9": [],
+  "poly_out_of_bounds": 0,
+  "mask_area_frac_by_class": {
+    "Neck Garden I-II": {
+      "count": 73.0,
+      "mean": 0.030025368956126036,
+      "std": 0.014685212556921371,
+      "min": 0.0043061574300130205,
+      "25%": 0.01996612548828125,
+      "50%": 0.026696523030598957,
+      "75%": 0.039326985677083336,
+      "max": 0.07820701599121094
+    },
+    "Neck Garden III-IV": {
+      "count": 295.0,
+      "mean": 0.0473574061851717,
+      "std": 0.018696628458216825,
+      "min": 0.012975692749023438,
+      "25%": 0.03344949086507161,
+      "50%": 0.0444952646891276,
+      "75%": 0.06096680959065755,
+      "max": 0.11496607462565105
+    },
+    "Pertroch Evans I-II": {
+      "count": 168.0,
+      "mean": 0.05840353738693964,
+      "std": 0.02439369387166617,
+      "min": 0.011671702067057291,
+      "25%": 0.039887587229410805,
+      "50%": 0.05451202392578125,
+      "75%": 0.07255713144938152,
+      "max": 0.16213607788085938
+    },
+    "Pertroch Evans III-V": {
+      "count": 241.0,
+      "mean": 0.08597025205155791,
+      "std": 0.025712565381009,
+      "min": 0.023719151814778645,
+      "25%": 0.06695365905761719,
+      "50%": 0.08461507161458333,
+      "75%": 0.10250600179036458,
+      "max": 0.17957750956217447
+    },
+    "Subtrochanteric": {
+      "count": 48.0,
+      "mean": 0.08873083856370716,
+      "std": 0.036595993332277414,
+      "min": 0.014060338338216146,
+      "25%": 0.0693341890970866,
+      "50%": 0.08717759450276694,
+      "75%": 0.10537528991699219,
+      "max": 0.22474988301595053
+    }
+  },
+  "mask_bbox_by_class": {
+    "Neck Garden I-II": {
+      "mask_bw": 0.2555383133561644,
+      "mask_bh": 0.18622467180365296,
+      "mask_cx": 0.49287267441007987,
+      "mask_cy": 0.3867591685799126
+    },
+    "Neck Garden III-IV": {
+      "mask_bw": 0.27037870762711863,
+      "mask_bh": 0.25374293785310736,
+      "mask_cx": 0.49560195297517884,
+      "mask_cy": 0.36459725595682996
+    },
+    "Pertroch Evans I-II": {
+      "mask_bw": 0.2953985305059524,
+      "mask_bh": 0.30347454737103174,
+      "mask_cx": 0.48106520484470366,
+      "mask_cy": 0.41659234466332423
+    },
+    "Pertroch Evans III-V": {
+      "mask_bw": 0.37151111903526973,
+      "mask_bh": 0.3605420124481328,
+      "mask_cx": 0.4946146568757285,
+      "mask_cy": 0.43029079075695537
+    },
+    "Subtrochanteric": {
+      "mask_bw": 0.40032958984375,
+      "mask_bh": 0.3360324435763889,
+      "mask_cx": 0.47302148671937116,
+      "mask_cy": 0.5140637774679526
+    }
+  },
+  "intensity": {
+    "test": {
+      "mean": 88.15269888317775,
+      "std": 89.45748376896526,
+      "p02": 0.009523809523809525,
+      "p98": 252.53809523809525,
+      "frac_black": 0.339753184242854,
+      "frac_white": 0.07842024848574684
+    },
+    "train": {
+      "mean": 91.02584062029509,
+      "std": 90.35910049309193,
+      "p02": 0.0,
+      "p98": 253.20901246404603,
+      "frac_black": 0.32650037846575913,
+      "frac_white": 0.08604064434242918
+    }
+  },
+  "low_contrast_std_lt_30": [],
+  "high_black_fraction_gt_0.2": [
+    {
+      "split": "train",
+      "file": "00000_00000.png",
+      "frac_black": 0.3495012919108073
+    },
+    {
+      "split": "train",
+      "file": "00001_00000.png",
+      "frac_black": 0.3623313903808594
+    },
+    {
+      "split": "train",
+      "file": "00003_00002.png",
+      "frac_black": 0.349887212117513
+    },
+    {
+      "split": "train",
+      "file": "00004_00003.png",
+      "frac_black": 0.3157234191894531
+    },
+    {
+      "split": "train",
+      "file": "00005_00003.png",
+      "frac_black": 0.2860120137532552
+    },
+    {
+      "split": "train",
+      "file": "00006_00005.png",
+      "frac_black": 0.364712397257487
+    },
+    {
+      "split": "train",
+      "file": "00007_00006.png",
+      "frac_black": 0.28818194071451825
+    },
+    {
+      "split": "train",
+      "file": "00008_00006.png",
+      "frac_black": 0.2561321258544922
+    },
+    {
+      "split": "train",
+      "file": "00009_00007.png",
+      "frac_black": 0.41707420349121094
+    },
+    {
+      "split": "train",
+      "file": "00014_00010.png",
+      "frac_black": 0.3401629130045573
+    },
+    {
+      "split": "train",
+      "file": "00015_00010.png",
+      "frac_black": 0.35661888122558594
+    },
+    {
+      "split": "train",
+      "file": "00016_00011.png",
+      "frac_black": 0.34484291076660156
+    },
+    {
+      "split": "train",
+      "file": "00017_00011.png",
+      "frac_black": 0.3750190734863281
+    },
+    {
+      "split": "train",
+      "file": "00018_00012.png",
+      "frac_black": 0.3443450927734375
+    },
+    {
+      "split": "train",
+      "file": "00022_00016.png",
+      "frac_black": 0.4085044860839844
+    },
+    {
+      "split": "train",
+      "file": "00023_00016.png",
+      "frac_black": 0.37335205078125
+    },
+    {
+      "split": "train",
+      "file": "00024_00017.png",
+      "frac_black": 0.48009681701660156
+    },
+    {
+      "split": "train",
+      "file": "00026_00019.png",
+      "frac_black": 0.257754643758138
+    },
+    {
+      "split": "train",
+      "file": "00027_00019.png",
+      "frac_black": 0.29626210530598956
+    },
+    {
+      "split": "train",
+      "file": "00028_00020.png",
+      "frac_black": 0.28816858927408856
+    },
+    {
+      "split": "train",
+      "file": "00029_00020.png",
+      "frac_black": 0.2551155090332031
+    },
+    {
+      "split": "train",
+      "file": "00030_00021.png",
+      "frac_black": 0.2419586181640625
+    },
+    {
+      "split": "train",
+      "file": "00031_00022.png",
+      "frac_black": 0.23024686177571616
+    },
+    {
+      "split": "train",
+      "file": "00033_00023.png",
+      "frac_black": 0.3891747792561849
+    },
+    {
+      "split": "train",
+      "file": "00034_00023.png",
+      "frac_black": 0.37654558817545575
+    },
+    {
+      "split": "train",
+      "file": "00035_00024.png",
+      "frac_black": 0.3336874643961589
+    },
+    {
+      "split": "train",
+      "file": "00038_00026.png",
+      "frac_black": 0.3721739451090495
+    },
+    {
+      "split": "train",
+      "file": "00039_00027.png",
+      "frac_black": 0.3154131571451823
+    },
+    {
+      "split": "train",
+      "file": "00040_00027.png",
+      "frac_black": 0.3836046854654948
+    },
+    {
+      "split": "train",
+      "file": "00041_00028.png",
+      "frac_black": 0.42081133524576825
+    },
+    {
+      "split": "train",
+      "file": "00042_00028.png",
+      "frac_black": 0.4630921681722005
+    },
+    {
+      "split": "train",
+      "file": "00043_00029.png",
+      "frac_black": 0.3691107432047526
+    },
+    {
+      "split": "train",
+      "file": "00044_00030.png",
+      "frac_black": 0.25173505147298175
+    },
+    {
+      "split": "train",
+      "file": "00045_00030.png",
+      "frac_black": 0.32542864481608075
+    },
+    {
+      "split": "train",
+      "file": "00046_00031.png",
+      "frac_black": 0.2090784708658854
+    },
+    {
+      "split": "train",
+      "file": "00048_00032.png",
+      "frac_black": 0.2870432535807292
+    },
+    {
+      "split": "train",
+      "file": "00049_00032.png",
+      "frac_black": 0.31237347920735675
+    },
+    {
+      "split": "train",
+      "file": "00050_00033.png",
+      "frac_black": 0.3140411376953125
+    },
+    {
+      "split": "train",
+      "file": "00051_00034.png",
+      "frac_black": 0.3476327260335286
+    },
+    {
+      "split": "train",
+      "file": "00055_00036.png",
+      "frac_black": 0.3330618540445964
+    },
+    {
+      "split": "train",
+      "file": "00056_00036.png",
+      "frac_black": 0.31672922770182294
+    },
+    {
+      "split": "train",
+      "file": "00058_00038.png",
+      "frac_black": 0.41882578531901044
+    },
+    {
+      "split": "train",
+      "file": "00059_00039.png",
+      "frac_black": 0.38060442606608075
+    },
+    {
+      "split": "train",
+      "file": "00060_00040.png",
+      "frac_black": 0.3366400400797526
+    },
+    {
+      "split": "train",
+      "file": "00061_00040.png",
+      "frac_black": 0.40362993876139325
+    },
+    {
+      "split": "train",
+      "file": "00062_00041.png",
+      "frac_black": 0.23266474405924478
+    },
+    {
+      "split": "train",
+      "file": "00064_00043.png",
+      "frac_black": 0.3117713928222656
+    },
+    {
+      "split": "train",
+      "file": "00066_00044.png",
+      "frac_black": 0.3230520884195964
+    },
+    {
+      "split": "train",
+      "file": "00067_00045.png",
+      "frac_black": 0.34314600626627606
+    },
+    {
+      "split": "train",
+      "file": "00069_00046.png",
+      "frac_black": 0.34885406494140625
+    },
+    {
+      "split": "train",
+      "file": "00070_00047.png",
+      "frac_black": 0.2722155253092448
+    },
+    {
+      "split": "train",
+      "file": "00071_00048.png",
+      "frac_black": 0.3874670664469401
+    },
+    {
+      "split": "train",
+      "file": "00072_00048.png",
+      "frac_black": 0.38670794169108075
+    },
+    {
+      "split": "train",
+      "file": "00076_00051.png",
+      "frac_black": 0.4087677001953125
+    },
+    {
+      "split": "train",
+      "file": "00077_00052.png",
+      "frac_black": 0.2832387288411458
+    },
+    {
+      "split": "train",
+      "file": "00078_00052.png",
+      "frac_black": 0.40938059488932294
+    },
+    {
+      "split": "train",
+      "file": "00079_00053.png",
+      "frac_black": 0.3080565134684245
+    },
+    {
+      "split": "train",
+      "file": "00080_00053.png",
+      "frac_black": 0.2778485616048177
+    },
+    {
+      "split": "train",
+      "file": "00081_00054.png",
+      "frac_black": 0.3084735870361328
+    },
+    {
+      "split": "train",
+      "file": "00082_00054.png",
+      "frac_black": 0.3515307108561198
+    },
+    {
+      "split": "train",
+      "file": "00083_00055.png",
+      "frac_black": 0.33892186482747394
+    },
+    {
+      "split": "train",
+      "file": "00087_00058.png",
+      "frac_black": 0.3825562795003255
+    },
+    {
+      "split": "train",
+      "file": "00089_00059.png",
+      "frac_black": 0.446072260538737
+    },
+    {
+      "split": "train",
+      "file": "00090_00059.png",
+      "frac_black": 0.3991139729817708
+    },
+    {
+      "split": "train",
+      "file": "00091_00060.png",
+      "frac_black": 0.3658746083577474
+    },
+    {
+      "split": "train",
+      "file": "00092_00060.png",
+      "frac_black": 0.3502572377522786
+    },
+    {
+      "split": "train",
+      "file": "00093_00061.png",
+      "frac_black": 0.3116842905680339
+    },
+    {
+      "split": "train",
+      "file": "00094_00062.png",
+      "frac_black": 0.3905099232991536
+    },
+    {
+      "split": "train",
+      "file": "00095_00063.png",
+      "frac_black": 0.3659070332845052
+    },
+    {
+      "split": "train",
+      "file": "00096_00063.png",
+      "frac_black": 0.3285573323567708
+    },
+    {
+      "split": "train",
+      "file": "00099_00065.png",
+      "frac_black": 0.41643524169921875
+    },
+    {
+      "split": "train",
+      "file": "00100_00065.png",
+      "frac_black": 0.3823922475179036
+    },
+    {
+      "split": "train",
+      "file": "00101_00066.png",
+      "frac_black": 0.24160639444986978
+    },
+    {
+      "split": "train",
+      "file": "00102_00067.png",
+      "frac_black": 0.33921559651692706
+    },
+    {
+      "split": "train",
+      "file": "00103_00069.png",
+      "frac_black": 0.3432076772054036
+    },
+    {
+      "split": "train",
+      "file": "00104_00069.png",
+      "frac_black": 0.4354012807210286
+    },
+    {
+      "split": "train",
+      "file": "00105_00070.png",
+      "frac_black": 0.32601483662923175
+    },
+    {
+      "split": "train",
+      "file": "00107_00072.png",
+      "frac_black": 0.412143071492513
+    },
+    {
+      "split": "train",
+      "file": "00108_00073.png",
+      "frac_black": 0.2896582285563151
+    },
+    {
+      "split": "train",
+      "file": "00111_00075.png",
+      "frac_black": 0.3358421325683594
+    },
+    {
+      "split": "train",
+      "file": "00112_00076.png",
+      "frac_black": 0.31362469991048175
+    },
+    {
+      "split": "train",
+      "file": "00113_00077.png",
+      "frac_black": 0.3201128641764323
+    },
+    {
+      "split": "train",
+      "file": "00114_00077.png",
+      "frac_black": 0.24029223124186197
+    },
+    {
+      "split": "train",
+      "file": "00117_00079.png",
+      "frac_black": 0.461612065633138
+    },
+    {
+      "split": "train",
+      "file": "00118_00079.png",
+      "frac_black": 0.43954912821451825
+    },
+    {
+      "split": "train",
+      "file": "00119_00080.png",
+      "frac_black": 0.38193384806315106
+    },
+    {
+      "split": "train",
+      "file": "00120_00081.png",
+      "frac_black": 0.3439210255940755
+    },
+    {
+      "split": "train",
+      "file": "00121_00082.png",
+      "frac_black": 0.4554449717203776
+    },
+    {
+      "split": "train",
+      "file": "00122_00082.png",
+      "frac_black": 0.47085316975911456
+    },
+    {
+      "split": "train",
+      "file": "00126_00085.png",
+      "frac_black": 0.30738258361816406
+    },
+    {
+      "split": "train",
+      "file": "00127_00085.png",
+      "frac_black": 0.24431292215983072
+    },
+    {
+      "split": "train",
+      "file": "00128_00086.png",
+      "frac_black": 0.3209063212076823
+    },
+    {
+      "split": "train",
+      "file": "00129_00086.png",
+      "frac_black": 0.29932276407877606
+    },
+    {
+      "split": "train",
+      "file": "00130_00087.png",
+      "frac_black": 0.3281167348225911
+    },
+    {
+      "split": "train",
+      "file": "00131_00087.png",
+      "frac_black": 0.2563158671061198
+    },
+    {
+      "split": "train",
+      "file": "00132_00088.png",
+      "frac_black": 0.28307851155598956
+    },
+    {
+      "split": "train",
+      "file": "00133_00089.png",
+      "frac_black": 0.36162376403808594
+    },
+    {
+      "split": "train",
+      "file": "00134_00089.png",
+      "frac_black": 0.32342084248860675
+    },
+    {
+      "split": "train",
+      "file": "00135_00090.png",
+      "frac_black": 0.2905286153157552
+    },
+    {
+      "split": "train",
+      "file": "00136_00091.png",
+      "frac_black": 0.35675303141276044
+    },
+    {
+      "split": "train",
+      "file": "00138_00092.png",
+      "frac_black": 0.3797353108723958
+    },
+    {
+      "split": "train",
+      "file": "00139_00092.png",
+      "frac_black": 0.350555419921875
+    },
+    {
+      "split": "train",
+      "file": "00140_00093.png",
+      "frac_black": 0.3186511993408203
+    },
+    {
+      "split": "train",
+      "file": "00144_00096.png",
+      "frac_black": 0.3893006642659505
+    },
+    {
+      "split": "train",
+      "file": "00145_00097.png",
+      "frac_black": 0.3328100840250651
+    },
+    {
+      "split": "train",
+      "file": "00149_00101.png",
+      "frac_black": 0.4038524627685547
+    },
+    {
+      "split": "train",
+      "file": "00150_00101.png",
+      "frac_black": 0.3151988983154297
+    },
+    {
+      "split": "train",
+      "file": "00153_00103.png",
+      "frac_black": 0.3036505381266276
+    },
+    {
+      "split": "train",
+      "file": "00154_00104.png",
+      "frac_black": 0.25551732381184894
+    },
+    {
+      "split": "train",
+      "file": "00155_00104.png",
+      "frac_black": 0.3027445475260417
+    },
+    {
+      "split": "train",
+      "file": "00156_00105.png",
+      "frac_black": 0.3447710673014323
+    },
+    {
+      "split": "train",
+      "file": "00157_00106.png",
+      "frac_black": 0.3867950439453125
+    },
+    {
+      "split": "train",
+      "file": "00158_00106.png",
+      "frac_black": 0.41138331095377606
+    },
+    {
+      "split": "train",
+      "file": "00159_00107.png",
+      "frac_black": 0.3003857930501302
+    },
+    {
+      "split": "train",
+      "file": "00160_00107.png",
+      "frac_black": 0.3190479278564453
+    },
+    {
+      "split": "train",
+      "file": "00161_00108.png",
+      "frac_black": 0.42617162068684894
+    },
+    {
+      "split": "train",
+      "file": "00163_00109.png",
+      "frac_black": 0.37241490681966144
+    },
+    {
+      "split": "train",
+      "file": "00164_00110.png",
+      "frac_black": 0.4053662618001302
+    },
+    {
+      "split": "train",
+      "file": "00166_00111.png",
+      "frac_black": 0.3677419026692708
+    },
+    {
+      "split": "train",
+      "file": "00167_00111.png",
+      "frac_black": 0.3871084849039714
+    },
+    {
+      "split": "train",
+      "file": "00169_00113.png",
+      "frac_black": 0.39571253458658856
+    },
+    {
+      "split": "train",
+      "file": "00170_00113.png",
+      "frac_black": 0.3971106211344401
+    },
+    {
+      "split": "train",
+      "file": "00171_00114.png",
+      "frac_black": 0.3052075703938802
+    },
+    {
+      "split": "train",
+      "file": "00172_00114.png",
+      "frac_black": 0.3215567270914714
+    },
+    {
+      "split": "train",
+      "file": "00174_00116.png",
+      "frac_black": 0.22749455769856772
+    },
+    {
+      "split": "train",
+      "file": "00175_00116.png",
+      "frac_black": 0.2155145009358724
+    },
+    {
+      "split": "train",
+      "file": "00177_00118.png",
+      "frac_black": 0.2560571034749349
+    },
+    {
+      "split": "train",
+      "file": "00186_00123.png",
+      "frac_black": 0.4658864339192708
+    },
+    {
+      "split": "train",
+      "file": "00188_00125.png",
+      "frac_black": 0.3778800964355469
+    },
+    {
+      "split": "train",
+      "file": "00192_00127.png",
+      "frac_black": 0.2036870320638021
+    },
+    {
+      "split": "train",
+      "file": "00197_00130.png",
+      "frac_black": 0.3767662048339844
+    },
+    {
+      "split": "train",
+      "file": "00198_00131.png",
+      "frac_black": 0.32631683349609375
+    },
+    {
+      "split": "train",
+      "file": "00204_00135.png",
+      "frac_black": 0.3726971944173177
+    },
+    {
+      "split": "train",
+      "file": "00205_00136.png",
+      "frac_black": 0.3341356913248698
+    },
+    {
+      "split": "train",
+      "file": "00206_00136.png",
+      "frac_black": 0.2822653452555339
+    },
+    {
+      "split": "train",
+      "file": "00210_00139.png",
+      "frac_black": 0.3487733205159505
+    },
+    {
+      "split": "train",
+      "file": "00211_00139.png",
+      "frac_black": 0.30293718973795575
+    },
+    {
+      "split": "train",
+      "file": "00215_00142.png",
+      "frac_black": 0.2980842590332031
+    },
+    {
+      "split": "train",
+      "file": "00218_00144.png",
+      "frac_black": 0.23749097188313803
+    },
+    {
+      "split": "train",
+      "file": "00223_00147.png",
+      "frac_black": 0.39786656697591144
+    },
+    {
+      "split": "train",
+      "file": "00224_00147.png",
+      "frac_black": 0.3366495768229167
+    },
+    {
+      "split": "train",
+      "file": "00225_00148.png",
+      "frac_black": 0.4902852376302083
+    },
+    {
+      "split": "train",
+      "file": "00226_00149.png",
+      "frac_black": 0.4072755177815755
+    },
+    {
+      "split": "train",
+      "file": "00227_00149.png",
+      "frac_black": 0.3761221567789714
+    },
+    {
+      "split": "train",
+      "file": "00228_00150.png",
+      "frac_black": 0.49514007568359375
+    },
+    {
+      "split": "train",
+      "file": "00229_00151.png",
+      "frac_black": 0.32189051310221356
+    },
+    {
+      "split": "train",
+      "file": "00236_00155.png",
+      "frac_black": 0.27336883544921875
+    },
+    {
+      "split": "train",
+      "file": "00237_00155.png",
+      "frac_black": 0.3540077209472656
+    },
+    {
+      "split": "train",
+      "file": "00240_00157.png",
+      "frac_black": 0.4509894053141276
+    },
+    {
+      "split": "train",
+      "file": "00241_00157.png",
+      "frac_black": 0.43726030985514325
+    },
+    {
+      "split": "train",
+      "file": "00242_00158.png",
+      "frac_black": 0.3799139658610026
+    },
+    {
+      "split": "train",
+      "file": "00243_00159.png",
+      "frac_black": 0.3541266123453776
+    },
+    {
+      "split": "train",
+      "file": "00244_00159.png",
+      "frac_black": 0.3098824818929036
+    },
+    {
+      "split": "train",
+      "file": "00245_00160.png",
+      "frac_black": 0.3164984385172526
+    },
+    {
+      "split": "train",
+      "file": "00246_00160.png",
+      "frac_black": 0.29510943094889325
+    },
+    {
+      "split": "train",
+      "file": "00247_00161.png",
+      "frac_black": 0.34493382771809894
+    },
+    {
+      "split": "train",
+      "file": "00248_00161.png",
+      "frac_black": 0.34193674723307294
+    },
+    {
+      "split": "train",
+      "file": "00250_00162.png",
+      "frac_black": 0.33855565388997394
+    },
+    {
+      "split": "train",
+      "file": "00251_00163.png",
+      "frac_black": 0.3787530263264974
+    },
+    {
+      "split": "train",
+      "file": "00252_00164.png",
+      "frac_black": 0.4001146952311198
+    },
+    {
+      "split": "train",
+      "file": "00253_00164.png",
+      "frac_black": 0.3246771494547526
+    },
+    {
+      "split": "train",
+      "file": "00254_00165.png",
+      "frac_black": 0.26610755920410156
+    },
+    {
+      "split": "train",
+      "file": "00255_00166.png",
+      "frac_black": 0.3152917226155599
+    },
+    {
+      "split": "train",
+      "file": "00256_00166.png",
+      "frac_black": 0.3221549987792969
+    },
+    {
+      "split": "train",
+      "file": "00257_00167.png",
+      "frac_black": 0.3251183827718099
+    },
+    {
+      "split": "train",
+      "file": "00258_00168.png",
+      "frac_black": 0.42516326904296875
+    },
+    {
+      "split": "train",
+      "file": "00259_00168.png",
+      "frac_black": 0.3869406382242839
+    },
+    {
+      "split": "train",
+      "file": "00260_00169.png",
+      "frac_black": 0.35514068603515625
+    },
+    {
+      "split": "train",
+      "file": "00265_00172.png",
+      "frac_black": 0.42466290791829425
+    },
+    {
+      "split": "train",
+      "file": "00268_00174.png",
+      "frac_black": 0.3453540802001953
+    },
+    {
+      "split": "train",
+      "file": "00270_00175.png",
+      "frac_black": 0.2256336212158203
+    },
+    {
+      "split": "train",
+      "file": "00273_00177.png",
+      "frac_black": 0.2454980214436849
+    },
+    {
+      "split": "train",
+      "file": "00274_00177.png",
+      "frac_black": 0.25621922810872394
+    },
+    {
+      "split": "train",
+      "file": "00275_00178.png",
+      "frac_black": 0.41028404235839844
+    },
+    {
+      "split": "train",
+      "file": "00277_00180.png",
+      "frac_black": 0.2582327524820964
+    },
+    {
+      "split": "train",
+      "file": "00278_00181.png",
+      "frac_black": 0.3534781138102214
+    },
+    {
+      "split": "train",
+      "file": "00279_00182.png",
+      "frac_black": 0.3843739827473958
+    },
+    {
+      "split": "train",
+      "file": "00280_00182.png",
+      "frac_black": 0.3187611897786458
+    },
+    {
+      "split": "train",
+      "file": "00281_00183.png",
+      "frac_black": 0.44553565979003906
+    },
+    {
+      "split": "train",
+      "file": "00282_00184.png",
+      "frac_black": 0.2976296742757161
+    },
+    {
+      "split": "train",
+      "file": "00283_00184.png",
+      "frac_black": 0.297335942586263
+    },
+    {
+      "split": "train",
+      "file": "00284_00185.png",
+      "frac_black": 0.4588826497395833
+    },
+    {
+      "split": "train",
+      "file": "00285_00186.png",
+      "frac_black": 0.25783348083496094
+    },
+    {
+      "split": "train",
+      "file": "00286_00187.png",
+      "frac_black": 0.3437875111897786
+    },
+    {
+      "split": "train",
+      "file": "00287_00187.png",
+      "frac_black": 0.3713092803955078
+    },
+    {
+      "split": "train",
+      "file": "00288_00188.png",
+      "frac_black": 0.38967005411783856
+    },
+    {
+      "split": "train",
+      "file": "00289_00189.png",
+      "frac_black": 0.33907636006673175
+    },
+    {
+      "split": "train",
+      "file": "00290_00189.png",
+      "frac_black": 0.30608558654785156
+    },
+    {
+      "split": "train",
+      "file": "00291_00190.png",
+      "frac_black": 0.29285939534505206
+    },
+    {
+      "split": "train",
+      "file": "00292_00190.png",
+      "frac_black": 0.24590237935384116
+    },
+    {
+      "split": "train",
+      "file": "00297_00193.png",
+      "frac_black": 0.3526299794514974
+    },
+    {
+      "split": "train",
+      "file": "00298_00193.png",
+      "frac_black": 0.39124806722005206
+    },
+    {
+      "split": "train",
+      "file": "00301_00195.png",
+      "frac_black": 0.384124755859375
+    },
+    {
+      "split": "train",
+      "file": "00302_00195.png",
+      "frac_black": 0.39081700642903644
+    },
+    {
+      "split": "train",
+      "file": "00303_00196.png",
+      "frac_black": 0.4106458028157552
+    },
+    {
+      "split": "train",
+      "file": "00304_00196.png",
+      "frac_black": 0.35118675231933594
+    },
+    {
+      "split": "train",
+      "file": "00305_00197.png",
+      "frac_black": 0.2962271372477214
+    },
+    {
+      "split": "train",
+      "file": "00306_00198.png",
+      "frac_black": 0.37980079650878906
+    },
+    {
+      "split": "train",
+      "file": "00307_00198.png",
+      "frac_black": 0.38097254435221356
+    },
+    {
+      "split": "train",
+      "file": "00308_00199.png",
+      "frac_black": 0.3469613393147786
+    },
+    {
+      "split": "train",
+      "file": "00309_00200.png",
+      "frac_black": 0.30534934997558594
+    },
+    {
+      "split": "train",
+      "file": "00310_00200.png",
+      "frac_black": 0.2493114471435547
+    },
+    {
+      "split": "train",
+      "file": "00314_00203.png",
+      "frac_black": 0.39542897542317706
+    },
+    {
+      "split": "train",
+      "file": "00315_00203.png",
+      "frac_black": 0.37343724568684894
+    },
+    {
+      "split": "train",
+      "file": "00316_00204.png",
+      "frac_black": 0.4246317545572917
+    },
+    {
+      "split": "train",
+      "file": "00317_00204.png",
+      "frac_black": 0.3920338948567708
+    },
+    {
+      "split": "train",
+      "file": "00318_00205.png",
+      "frac_black": 0.2948926289876302
+    },
+    {
+      "split": "train",
+      "file": "00319_00206.png",
+      "frac_black": 0.25491905212402344
+    },
+    {
+      "split": "train",
+      "file": "00320_00206.png",
+      "frac_black": 0.33025232950846356
+    },
+    {
+      "split": "train",
+      "file": "00323_00208.png",
+      "frac_black": 0.34599939982096356
+    },
+    {
+      "split": "train",
+      "file": "00324_00208.png",
+      "frac_black": 0.3073342641194661
+    },
+    {
+      "split": "train",
+      "file": "00325_00209.png",
+      "frac_black": 0.3120765686035156
+    },
+    {
+      "split": "train",
+      "file": "00326_00210.png",
+      "frac_black": 0.343386967976888
+    },
+    {
+      "split": "train",
+      "file": "00328_00212.png",
+      "frac_black": 0.4431171417236328
+    },
+    {
+      "split": "train",
+      "file": "00329_00212.png",
+      "frac_black": 0.23157246907552084
+    },
+    {
+      "split": "train",
+      "file": "00330_00213.png",
+      "frac_black": 0.26094945271809894
+    },
+    {
+      "split": "train",
+      "file": "00331_00213.png",
+      "frac_black": 0.20830917358398438
+    },
+    {
+      "split": "train",
+      "file": "00332_00214.png",
+      "frac_black": 0.38657188415527344
+    },
+    {
+      "split": "train",
+      "file": "00333_00214.png",
+      "frac_black": 0.34563763936360675
+    },
+    {
+      "split": "train",
+      "file": "00334_00215.png",
+      "frac_black": 0.37586085001627606
+    },
+    {
+      "split": "train",
+      "file": "00338_00218.png",
+      "frac_black": 0.3288434346516927
+    },
+    {
+      "split": "train",
+      "file": "00339_00219.png",
+      "frac_black": 0.28904088338216144
+    },
+    {
+      "split": "train",
+      "file": "00340_00221.png",
+      "frac_black": 0.3441480000813802
+    },
+    {
+      "split": "train",
+      "file": "00341_00221.png",
+      "frac_black": 0.34885533650716144
+    },
+    {
+      "split": "train",
+      "file": "00342_00222.png",
+      "frac_black": 0.3341833750406901
+    },
+    {
+      "split": "train",
+      "file": "00343_00223.png",
+      "frac_black": 0.4498602549235026
+    },
+    {
+      "split": "train",
+      "file": "00344_00224.png",
+      "frac_black": 0.5312296549479166
+    },
+    {
+      "split": "train",
+      "file": "00345_00225.png",
+      "frac_black": 0.2680899302164714
+    },
+    {
+      "split": "train",
+      "file": "00346_00225.png",
+      "frac_black": 0.3704566955566406
+    },
+    {
+      "split": "train",
+      "file": "00351_00229.png",
+      "frac_black": 0.36561330159505206
+    },
+    {
+      "split": "train",
+      "file": "00352_00229.png",
+      "frac_black": 0.3665485382080078
+    },
+    {
+      "split": "train",
+      "file": "00353_00230.png",
+      "frac_black": 0.2927163441975911
+    },
+    {
+      "split": "train",
+      "file": "00354_00230.png",
+      "frac_black": 0.3977120717366536
+    },
+    {
+      "split": "train",
+      "file": "00358_00233.png",
+      "frac_black": 0.4001852671305339
+    },
+    {
+      "split": "train",
+      "file": "00359_00234.png",
+      "frac_black": 0.26031049092610675
+    },
+    {
+      "split": "train",
+      "file": "00361_00235.png",
+      "frac_black": 0.30036481221516925
+    },
+    {
+      "split": "train",
+      "file": "00362_00235.png",
+      "frac_black": 0.34398841857910156
+    },
+    {
+      "split": "train",
+      "file": "00363_00236.png",
+      "frac_black": 0.250918706258138
+    },
+    {
+      "split": "train",
+      "file": "00364_00238.png",
+      "frac_black": 0.38553110758463544
+    },
+    {
+      "split": "train",
+      "file": "00365_00239.png",
+      "frac_black": 0.32756678263346356
+    },
+    {
+      "split": "train",
+      "file": "00367_00240.png",
+      "frac_black": 0.4012025197347005
+    },
+    {
+      "split": "train",
+      "file": "00368_00240.png",
+      "frac_black": 0.39019012451171875
+    },
+    {
+      "split": "train",
+      "file": "00369_00241.png",
+      "frac_black": 0.3856995900472005
+    },
+    {
+      "split": "train",
+      "file": "00370_00242.png",
+      "frac_black": 0.3742961883544922
+    },
+    {
+      "split": "train",
+      "file": "00371_00242.png",
+      "frac_black": 0.40560022989908856
+    },
+    {
+      "split": "train",
+      "file": "00372_00243.png",
+      "frac_black": 0.2958799997965495
+    },
+    {
+      "split": "train",
+      "file": "00376_00246.png",
+      "frac_black": 0.2502282460530599
+    },
+    {
+      "split": "train",
+      "file": "00377_00246.png",
+      "frac_black": 0.35195477803548175
+    },
+    {
+      "split": "train",
+      "file": "00378_00247.png",
+      "frac_black": 0.4100176493326823
+    },
+    {
+      "split": "train",
+      "file": "00381_00250.png",
+      "frac_black": 0.4238821665445964
+    },
+    {
+      "split": "train",
+      "file": "00382_00252.png",
+      "frac_black": 0.3527050018310547
+    },
+    {
+      "split": "train",
+      "file": "00383_00252.png",
+      "frac_black": 0.41266441345214844
+    },
+    {
+      "split": "train",
+      "file": "00388_00255.png",
+      "frac_black": 0.23193486531575522
+    },
+    {
+      "split": "train",
+      "file": "00393_00259.png",
+      "frac_black": 0.27847735087076825
+    },
+    {
+      "split": "train",
+      "file": "00394_00259.png",
+      "frac_black": 0.2965513865152995
+    },
+    {
+      "split": "train",
+      "file": "00395_00260.png",
+      "frac_black": 0.37790807088216144
+    },
+    {
+      "split": "train",
+      "file": "00396_00260.png",
+      "frac_black": 0.3492889404296875
+    },
+    {
+      "split": "train",
+      "file": "00397_00261.png",
+      "frac_black": 0.3434893290201823
+    },
+    {
+      "split": "train",
+      "file": "00398_00261.png",
+      "frac_black": 0.34973398844401044
+    },
+    {
+      "split": "train",
+      "file": "00399_00262.png",
+      "frac_black": 0.3434893290201823
+    },
+    {
+      "split": "train",
+      "file": "00401_00263.png",
+      "frac_black": 0.34200159708658856
+    },
+    {
+      "split": "train",
+      "file": "00403_00264.png",
+      "frac_black": 0.3695494333902995
+    },
+    {
+      "split": "train",
+      "file": "00404_00265.png",
+      "frac_black": 0.448794682820638
+    },
+    {
+      "split": "train",
+      "file": "00406_00266.png",
+      "frac_black": 0.31020482381184894
+    },
+    {
+      "split": "train",
+      "file": "00407_00267.png",
+      "frac_black": 0.3869851430257161
+    },
+    {
+      "split": "train",
+      "file": "00408_00267.png",
+      "frac_black": 0.3951365152994792
+    },
+    {
+      "split": "train",
+      "file": "00409_00268.png",
+      "frac_black": 0.3406365712483724
+    },
+    {
+      "split": "train",
+      "file": "00410_00269.png",
+      "frac_black": 0.30268287658691406
+    },
+    {
+      "split": "train",
+      "file": "00411_00270.png",
+      "frac_black": 0.3866933186848958
+    },
+    {
+      "split": "train",
+      "file": "00412_00271.png",
+      "frac_black": 0.25658607482910156
+    },
+    {
+      "split": "train",
+      "file": "00413_00271.png",
+      "frac_black": 0.31188710530598956
+    },
+    {
+      "split": "train",
+      "file": "00414_00272.png",
+      "frac_black": 0.3826058705647786
+    },
+    {
+      "split": "train",
+      "file": "00415_00273.png",
+      "frac_black": 0.29245948791503906
+    },
+    {
+      "split": "train",
+      "file": "00416_00273.png",
+      "frac_black": 0.4298540751139323
+    },
+    {
+      "split": "train",
+      "file": "00417_00274.png",
+      "frac_black": 0.2562236785888672
+    },
+    {
+      "split": "train",
+      "file": "00419_00275.png",
+      "frac_black": 0.31940269470214844
+    },
+    {
+      "split": "train",
+      "file": "00422_00278.png",
+      "frac_black": 0.32466570536295575
+    },
+    {
+      "split": "train",
+      "file": "00423_00278.png",
+      "frac_black": 0.3049755096435547
+    },
+    {
+      "split": "train",
+      "file": "00425_00279.png",
+      "frac_black": 0.3572807312011719
+    },
+    {
+      "split": "train",
+      "file": "00426_00280.png",
+      "frac_black": 0.3958028157552083
+    },
+    {
+      "split": "train",
+      "file": "00427_00281.png",
+      "frac_black": 0.37869834899902344
+    },
+    {
+      "split": "train",
+      "file": "00428_00281.png",
+      "frac_black": 0.38162803649902344
+    },
+    {
+      "split": "train",
+      "file": "00429_00282.png",
+      "frac_black": 0.31358591715494794
+    },
+    {
+      "split": "train",
+      "file": "00430_00283.png",
+      "frac_black": 0.38532257080078125
+    },
+    {
+      "split": "train",
+      "file": "00433_00285.png",
+      "frac_black": 0.34355608622233075
+    },
+    {
+      "split": "train",
+      "file": "00434_00285.png",
+      "frac_black": 0.33192189534505206
+    },
+    {
+      "split": "train",
+      "file": "00435_00286.png",
+      "frac_black": 0.38869476318359375
+    },
+    {
+      "split": "train",
+      "file": "00436_00287.png",
+      "frac_black": 0.40107091267903644
+    },
+    {
+      "split": "train",
+      "file": "00437_00287.png",
+      "frac_black": 0.3062267303466797
+    },
+    {
+      "split": "train",
+      "file": "00444_00291.png",
+      "frac_black": 0.24710718790690103
+    },
+    {
+      "split": "train",
+      "file": "00445_00292.png",
+      "frac_black": 0.30638567606608075
+    },
+    {
+      "split": "train",
+      "file": "00446_00293.png",
+      "frac_black": 0.39909934997558594
+    },
+    {
+      "split": "train",
+      "file": "00447_00293.png",
+      "frac_black": 0.43395423889160156
+    },
+    {
+      "split": "train",
+      "file": "00450_00295.png",
+      "frac_black": 0.2898273468017578
+    },
+    {
+      "split": "train",
+      "file": "00451_00295.png",
+      "frac_black": 0.3123372395833333
+    },
+    {
+      "split": "train",
+      "file": "00452_00296.png",
+      "frac_black": 0.34389368693033856
+    },
+    {
+      "split": "train",
+      "file": "00453_00296.png",
+      "frac_black": 0.32969220479329425
+    },
+    {
+      "split": "train",
+      "file": "00454_00297.png",
+      "frac_black": 0.4303150177001953
+    },
+    {
+      "split": "train",
+      "file": "00455_00297.png",
+      "frac_black": 0.4041665395100911
+    },
+    {
+      "split": "train",
+      "file": "00456_00298.png",
+      "frac_black": 0.35419654846191406
+    },
+    {
+      "split": "train",
+      "file": "00461_00301.png",
+      "frac_black": 0.383450190226237
+    },
+    {
+      "split": "train",
+      "file": "00463_00302.png",
+      "frac_black": 0.49587376912434894
+    },
+    {
+      "split": "train",
+      "file": "00464_00303.png",
+      "frac_black": 0.3307730356852214
+    },
+    {
+      "split": "train",
+      "file": "00465_00303.png",
+      "frac_black": 0.31162389119466144
+    },
+    {
+      "split": "train",
+      "file": "00466_00304.png",
+      "frac_black": 0.33974774678548175
+    },
+    {
+      "split": "train",
+      "file": "00467_00304.png",
+      "frac_black": 0.3023522694905599
+    },
+    {
+      "split": "train",
+      "file": "00468_00305.png",
+      "frac_black": 0.32339731852213544
+    },
+    {
+      "split": "train",
+      "file": "00471_00308.png",
+      "frac_black": 0.23560078938802084
+    },
+    {
+      "split": "train",
+      "file": "00472_00309.png",
+      "frac_black": 0.3046760559082031
+    },
+    {
+      "split": "train",
+      "file": "00473_00309.png",
+      "frac_black": 0.2850793202718099
+    },
+    {
+      "split": "train",
+      "file": "00474_00310.png",
+      "frac_black": 0.3449859619140625
+    },
+    {
+      "split": "train",
+      "file": "00475_00311.png",
+      "frac_black": 0.3594093322753906
+    },
+    {
+      "split": "train",
+      "file": "00476_00311.png",
+      "frac_black": 0.37421417236328125
+    },
+    {
+      "split": "train",
+      "file": "00479_00313.png",
+      "frac_black": 0.35066477457682294
+    },
+    {
+      "split": "train",
+      "file": "00480_00313.png",
+      "frac_black": 0.37054189046223956
+    },
+    {
+      "split": "train",
+      "file": "00481_00314.png",
+      "frac_black": 0.28528594970703125
+    },
+    {
+      "split": "train",
+      "file": "00482_00314.png",
+      "frac_black": 0.37941551208496094
+    },
+    {
+      "split": "train",
+      "file": "00484_00316.png",
+      "frac_black": 0.3614495595296224
+    },
+    {
+      "split": "train",
+      "file": "00485_00316.png",
+      "frac_black": 0.3613115946451823
+    },
+    {
+      "split": "train",
+      "file": "00486_00317.png",
+      "frac_black": 0.37678273518880206
+    },
+    {
+      "split": "train",
+      "file": "00487_00317.png",
+      "frac_black": 0.3459046681722005
+    },
+    {
+      "split": "train",
+      "file": "00488_00318.png",
+      "frac_black": 0.3421026865641276
+    },
+    {
+      "split": "train",
+      "file": "00489_00319.png",
+      "frac_black": 0.31470362345377606
+    },
+    {
+      "split": "train",
+      "file": "00490_00319.png",
+      "frac_black": 0.3878682454427083
+    },
+    {
+      "split": "train",
+      "file": "00491_00320.png",
+      "frac_black": 0.25481605529785156
+    },
+    {
+      "split": "train",
+      "file": "00492_00322.png",
+      "frac_black": 0.34681256612141925
+    },
+    {
+      "split": "train",
+      "file": "00493_00324.png",
+      "frac_black": 0.22559038798014322
+    },
+    {
+      "split": "train",
+      "file": "00494_00324.png",
+      "frac_black": 0.2131824493408203
+    },
+    {
+      "split": "train",
+      "file": "00497_00326.png",
+      "frac_black": 0.3558673858642578
+    },
+    {
+      "split": "train",
+      "file": "00498_00327.png",
+      "frac_black": 0.29693031311035156
+    },
+    {
+      "split": "train",
+      "file": "00499_00327.png",
+      "frac_black": 0.35671424865722656
+    },
+    {
+      "split": "train",
+      "file": "00500_00328.png",
+      "frac_black": 0.34538841247558594
+    },
+    {
+      "split": "train",
+      "file": "00502_00329.png",
+      "frac_black": 0.3429876963297526
+    },
+    {
+      "split": "train",
+      "file": "00503_00330.png",
+      "frac_black": 0.3311958312988281
+    },
+    {
+      "split": "train",
+      "file": "00504_00331.png",
+      "frac_black": 0.4063866933186849
+    },
+    {
+      "split": "train",
+      "file": "00505_00331.png",
+      "frac_black": 0.3805745442708333
+    },
+    {
+      "split": "train",
+      "file": "00506_00332.png",
+      "frac_black": 0.3430296579996745
+    },
+    {
+      "split": "train",
+      "file": "00507_00332.png",
+      "frac_black": 0.3146788279215495
+    },
+    {
+      "split": "train",
+      "file": "00510_00334.png",
+      "frac_black": 0.2953306833902995
+    },
+    {
+      "split": "train",
+      "file": "00511_00334.png",
+      "frac_black": 0.3826897939046224
+    },
+    {
+      "split": "train",
+      "file": "00512_00335.png",
+      "frac_black": 0.3362725575764974
+    },
+    {
+      "split": "train",
+      "file": "00513_00336.png",
+      "frac_black": 0.36459922790527344
+    },
+    {
+      "split": "train",
+      "file": "00514_00336.png",
+      "frac_black": 0.3863321940104167
+    },
+    {
+      "split": "train",
+      "file": "00515_00337.png",
+      "frac_black": 0.3736743927001953
+    },
+    {
+      "split": "train",
+      "file": "00516_00338.png",
+      "frac_black": 0.35851160685221356
+    },
+    {
+      "split": "train",
+      "file": "00517_00338.png",
+      "frac_black": 0.3147163391113281
+    },
+    {
+      "split": "train",
+      "file": "00519_00340.png",
+      "frac_black": 0.3723958333333333
+    },
+    {
+      "split": "train",
+      "file": "00523_00345.png",
+      "frac_black": 0.3813527425130208
+    },
+    {
+      "split": "train",
+      "file": "00524_00346.png",
+      "frac_black": 0.28122202555338544
+    },
+    {
+      "split": "train",
+      "file": "00525_00346.png",
+      "frac_black": 0.28217824300130206
+    },
+    {
+      "split": "train",
+      "file": "00527_00348.png",
+      "frac_black": 0.2851848602294922
+    },
+    {
+      "split": "train",
+      "file": "00528_00349.png",
+      "frac_black": 0.40708478291829425
+    },
+    {
+      "split": "train",
+      "file": "00529_00349.png",
+      "frac_black": 0.41542625427246094
+    },
+    {
+      "split": "train",
+      "file": "00530_00351.png",
+      "frac_black": 0.34851837158203125
+    },
+    {
+      "split": "train",
+      "file": "00531_00352.png",
+      "frac_black": 0.4178721110026042
+    },
+    {
+      "split": "train",
+      "file": "00532_00352.png",
+      "frac_black": 0.4362010955810547
+    },
+    {
+      "split": "train",
+      "file": "00533_00353.png",
+      "frac_black": 0.4845752716064453
+    },
+    {
+      "split": "train",
+      "file": "00534_00353.png",
+      "frac_black": 0.4499034881591797
+    },
+    {
+      "split": "train",
+      "file": "00536_00354.png",
+      "frac_black": 0.3863061269124349
+    },
+    {
+      "split": "train",
+      "file": "00537_00355.png",
+      "frac_black": 0.20531145731608072
+    },
+    {
+      "split": "train",
+      "file": "00540_00358.png",
+      "frac_black": 0.43422826131184894
+    },
+    {
+      "split": "train",
+      "file": "00541_00358.png",
+      "frac_black": 0.40137163798014325
+    },
+    {
+      "split": "train",
+      "file": "00542_00359.png",
+      "frac_black": 0.30103429158528644
+    },
+    {
+      "split": "train",
+      "file": "00543_00360.png",
+      "frac_black": 0.3669687906901042
+    },
+    {
+      "split": "train",
+      "file": "00544_00360.png",
+      "frac_black": 0.41611162821451825
+    },
+    {
+      "split": "train",
+      "file": "00550_00365.png",
+      "frac_black": 0.3757362365722656
+    },
+    {
+      "split": "train",
+      "file": "00551_00365.png",
+      "frac_black": 0.2587738037109375
+    },
+    {
+      "split": "train",
+      "file": "00556_00369.png",
+      "frac_black": 0.25108782450358075
+    },
+    {
+      "split": "train",
+      "file": "00557_00369.png",
+      "frac_black": 0.3418102264404297
+    },
+    {
+      "split": "train",
+      "file": "00561_00372.png",
+      "frac_black": 0.25777117411295575
+    },
+    {
+      "split": "train",
+      "file": "00565_00375.png",
+      "frac_black": 0.2913824717203776
+    },
+    {
+      "split": "train",
+      "file": "00566_00376.png",
+      "frac_black": 0.31129709879557294
+    },
+    {
+      "split": "train",
+      "file": "00567_00376.png",
+      "frac_black": 0.24818992614746094
+    },
+    {
+      "split": "train",
+      "file": "00568_00377.png",
+      "frac_black": 0.3124097188313802
+    },
+    {
+      "split": "train",
+      "file": "00570_00378.png",
+      "frac_black": 0.30862998962402344
+    },
+    {
+      "split": "train",
+      "file": "00574_00381.png",
+      "frac_black": 0.32430585225423175
+    },
+    {
+      "split": "train",
+      "file": "00575_00381.png",
+      "frac_black": 0.3352165222167969
+    },
+    {
+      "split": "train",
+      "file": "00577_00383.png",
+      "frac_black": 0.33856455485026044
+    },
+    {
+      "split": "train",
+      "file": "00578_00384.png",
+      "frac_black": 0.2559153238932292
+    },
+    {
+      "split": "train",
+      "file": "00580_00385.png",
+      "frac_black": 0.29260889689127606
+    },
+    {
+      "split": "train",
+      "file": "00584_00387.png",
+      "frac_black": 0.35003662109375
+    },
+    {
+      "split": "train",
+      "file": "00585_00387.png",
+      "frac_black": 0.356173833211263
+    },
+    {
+      "split": "train",
+      "file": "00586_00388.png",
+      "frac_black": 0.2538839975992839
+    },
+    {
+      "split": "train",
+      "file": "00587_00389.png",
+      "frac_black": 0.37217140197753906
+    },
+    {
+      "split": "train",
+      "file": "00588_00390.png",
+      "frac_black": 0.3238169352213542
+    },
+    {
+      "split": "train",
+      "file": "00589_00390.png",
+      "frac_black": 0.39393870035807294
+    },
+    {
+      "split": "train",
+      "file": "00590_00391.png",
+      "frac_black": 0.2880992889404297
+    },
+    {
+      "split": "train",
+      "file": "00591_00391.png",
+      "frac_black": 0.255706787109375
+    },
+    {
+      "split": "train",
+      "file": "00592_00392.png",
+      "frac_black": 0.4325218200683594
+    },
+    {
+      "split": "train",
+      "file": "00593_00393.png",
+      "frac_black": 0.36430803934733075
+    },
+    {
+      "split": "train",
+      "file": "00595_00394.png",
+      "frac_black": 0.3955860137939453
+    },
+    {
+      "split": "train",
+      "file": "00600_00397.png",
+      "frac_black": 0.3502082824707031
+    },
+    {
+      "split": "train",
+      "file": "00601_00397.png",
+      "frac_black": 0.3689867655436198
+    },
+    {
+      "split": "train",
+      "file": "00602_00398.png",
+      "frac_black": 0.34419886271158856
+    },
+    {
+      "split": "train",
+      "file": "00605_00401.png",
+      "frac_black": 0.4742908477783203
+    },
+    {
+      "split": "train",
+      "file": "00606_00401.png",
+      "frac_black": 0.2532793680826823
+    },
+    {
+      "split": "train",
+      "file": "00607_00402.png",
+      "frac_black": 0.20851580301920572
+    },
+    {
+      "split": "train",
+      "file": "00609_00403.png",
+      "frac_black": 0.3731282552083333
+    },
+    {
+      "split": "train",
+      "file": "00610_00403.png",
+      "frac_black": 0.3002967834472656
+    },
+    {
+      "split": "train",
+      "file": "00614_00406.png",
+      "frac_black": 0.3705018361409505
+    },
+    {
+      "split": "train",
+      "file": "00615_00407.png",
+      "frac_black": 0.32981618245442706
+    },
+    {
+      "split": "train",
+      "file": "00616_00408.png",
+      "frac_black": 0.4911994934082031
+    },
+    {
+      "split": "train",
+      "file": "00617_00408.png",
+      "frac_black": 0.4336719512939453
+    },
+    {
+      "split": "train",
+      "file": "00621_00411.png",
+      "frac_black": 0.24713261922200522
+    },
+    {
+      "split": "train",
+      "file": "00622_00412.png",
+      "frac_black": 0.3828957875569661
+    },
+    {
+      "split": "train",
+      "file": "00623_00413.png",
+      "frac_black": 0.40281232198079425
+    },
+    {
+      "split": "train",
+      "file": "00624_00413.png",
+      "frac_black": 0.325924555460612
+    },
+    {
+      "split": "train",
+      "file": "00625_00414.png",
+      "frac_black": 0.3861471811930339
+    },
+    {
+      "split": "train",
+      "file": "00626_00414.png",
+      "frac_black": 0.38974761962890625
+    },
+    {
+      "split": "train",
+      "file": "00627_00415.png",
+      "frac_black": 0.2944539388020833
+    },
+    {
+      "split": "train",
+      "file": "00628_00415.png",
+      "frac_black": 0.321624755859375
+    },
+    {
+      "split": "train",
+      "file": "00630_00417.png",
+      "frac_black": 0.20511500040690103
+    },
+    {
+      "split": "train",
+      "file": "00632_00418.png",
+      "frac_black": 0.3385740915934245
+    },
+    {
+      "split": "train",
+      "file": "00633_00418.png",
+      "frac_black": 0.3117052714029948
+    },
+    {
+      "split": "train",
+      "file": "00634_00419.png",
+      "frac_black": 0.45342572530110675
+    },
+    {
+      "split": "train",
+      "file": "00635_00420.png",
+      "frac_black": 0.3332074483235677
+    },
+    {
+      "split": "train",
+      "file": "00636_00420.png",
+      "frac_black": 0.4058920542399089
+    },
+    {
+      "split": "train",
+      "file": "00638_00422.png",
+      "frac_black": 0.3205115000406901
+    },
+    {
+      "split": "train",
+      "file": "00639_00422.png",
+      "frac_black": 0.29029591878255206
+    },
+    {
+      "split": "train",
+      "file": "00643_00425.png",
+      "frac_black": 0.37029393513997394
+    },
+    {
+      "split": "train",
+      "file": "00644_00426.png",
+      "frac_black": 0.32638804117838544
+    },
+    {
+      "split": "train",
+      "file": "00645_00426.png",
+      "frac_black": 0.40270741780598956
+    },
+    {
+      "split": "train",
+      "file": "00647_00428.png",
+      "frac_black": 0.33052825927734375
+    },
+    {
+      "split": "train",
+      "file": "00648_00429.png",
+      "frac_black": 0.26590919494628906
+    },
+    {
+      "split": "train",
+      "file": "00649_00429.png",
+      "frac_black": 0.21125411987304688
+    },
+    {
+      "split": "train",
+      "file": "00650_00430.png",
+      "frac_black": 0.4000841776529948
+    },
+    {
+      "split": "train",
+      "file": "00651_00430.png",
+      "frac_black": 0.3734048207600911
+    },
+    {
+      "split": "train",
+      "file": "00652_00431.png",
+      "frac_black": 0.3488731384277344
+    },
+    {
+      "split": "train",
+      "file": "00653_00431.png",
+      "frac_black": 0.345062255859375
+    },
+    {
+      "split": "train",
+      "file": "00654_00432.png",
+      "frac_black": 0.4001655578613281
+    },
+    {
+      "split": "train",
+      "file": "00656_00433.png",
+      "frac_black": 0.22647730509440103
+    },
+    {
+      "split": "train",
+      "file": "00657_00434.png",
+      "frac_black": 0.3805389404296875
+    },
+    {
+      "split": "train",
+      "file": "00658_00435.png",
+      "frac_black": 0.31562042236328125
+    },
+    {
+      "split": "train",
+      "file": "00659_00436.png",
+      "frac_black": 0.4729881286621094
+    },
+    {
+      "split": "train",
+      "file": "00660_00436.png",
+      "frac_black": 0.463043212890625
+    },
+    {
+      "split": "train",
+      "file": "00661_00437.png",
+      "frac_black": 0.3637962341308594
+    },
+    {
+      "split": "train",
+      "file": "00667_00441.png",
+      "frac_black": 0.2851072947184245
+    },
+    {
+      "split": "train",
+      "file": "00668_00442.png",
+      "frac_black": 0.3201853434244792
+    },
+    {
+      "split": "train",
+      "file": "00669_00442.png",
+      "frac_black": 0.36541302998860675
+    },
+    {
+      "split": "train",
+      "file": "00670_00443.png",
+      "frac_black": 0.33904457092285156
+    },
+    {
+      "split": "train",
+      "file": "00671_00443.png",
+      "frac_black": 0.3890393575032552
+    },
+    {
+      "split": "train",
+      "file": "00672_00444.png",
+      "frac_black": 0.37792523701985675
+    },
+    {
+      "split": "train",
+      "file": "00673_00445.png",
+      "frac_black": 0.4353446960449219
+    },
+    {
+      "split": "train",
+      "file": "00674_00445.png",
+      "frac_black": 0.4099966684977214
+    },
+    {
+      "split": "train",
+      "file": "00681_00450.png",
+      "frac_black": 0.4049091339111328
+    },
+    {
+      "split": "train",
+      "file": "00682_00451.png",
+      "frac_black": 0.4170602162679036
+    },
+    {
+      "split": "train",
+      "file": "00683_00451.png",
+      "frac_black": 0.41883214314778644
+    },
+    {
+      "split": "train",
+      "file": "00685_00453.png",
+      "frac_black": 0.20377222696940103
+    },
+    {
+      "split": "train",
+      "file": "00686_00453.png",
+      "frac_black": 0.32237815856933594
+    },
+    {
+      "split": "train",
+      "file": "00687_00454.png",
+      "frac_black": 0.2583777109781901
+    },
+    {
+      "split": "train",
+      "file": "00688_00454.png",
+      "frac_black": 0.31199073791503906
+    },
+    {
+      "split": "train",
+      "file": "00689_00455.png",
+      "frac_black": 0.3478660583496094
+    },
+    {
+      "split": "train",
+      "file": "00690_00456.png",
+      "frac_black": 0.37405649820963544
+    },
+    {
+      "split": "train",
+      "file": "00691_00456.png",
+      "frac_black": 0.40996233622233075
+    },
+    {
+      "split": "train",
+      "file": "00695_00459.png",
+      "frac_black": 0.48985544840494794
+    },
+    {
+      "split": "train",
+      "file": "00696_00460.png",
+      "frac_black": 0.3897584279378255
+    },
+    {
+      "split": "train",
+      "file": "00697_00460.png",
+      "frac_black": 0.3630504608154297
+    },
+    {
+      "split": "train",
+      "file": "00698_00461.png",
+      "frac_black": 0.3297983805338542
+    },
+    {
+      "split": "train",
+      "file": "00699_00461.png",
+      "frac_black": 0.3071187337239583
+    },
+    {
+      "split": "train",
+      "file": "00700_00462.png",
+      "frac_black": 0.34060923258463544
+    },
+    {
+      "split": "train",
+      "file": "00701_00463.png",
+      "frac_black": 0.3781617482503255
+    },
+    {
+      "split": "train",
+      "file": "00702_00464.png",
+      "frac_black": 0.20317649841308594
+    },
+    {
+      "split": "train",
+      "file": "00703_00464.png",
+      "frac_black": 0.22174199422200522
+    },
+    {
+      "split": "train",
+      "file": "00704_00465.png",
+      "frac_black": 0.46939531962076825
+    },
+    {
+      "split": "train",
+      "file": "00705_00465.png",
+      "frac_black": 0.4572925567626953
+    },
+    {
+      "split": "train",
+      "file": "00706_00466.png",
+      "frac_black": 0.307159423828125
+    },
+    {
+      "split": "train",
+      "file": "00707_00466.png",
+      "frac_black": 0.34573936462402344
+    },
+    {
+      "split": "train",
+      "file": "00708_00467.png",
+      "frac_black": 0.2704048156738281
+    },
+    {
+      "split": "train",
+      "file": "00710_00470.png",
+      "frac_black": 0.35559844970703125
+    },
+    {
+      "split": "train",
+      "file": "00711_00470.png",
+      "frac_black": 0.35298728942871094
+    },
+    {
+      "split": "train",
+      "file": "00712_00471.png",
+      "frac_black": 0.3954168955485026
+    },
+    {
+      "split": "train",
+      "file": "00713_00472.png",
+      "frac_black": 0.2979532877604167
+    },
+    {
+      "split": "train",
+      "file": "00714_00472.png",
+      "frac_black": 0.39307721455891925
+    },
+    {
+      "split": "train",
+      "file": "00715_00473.png",
+      "frac_black": 0.2579841613769531
+    },
+    {
+      "split": "train",
+      "file": "00716_00474.png",
+      "frac_black": 0.287448247273763
+    },
+    {
+      "split": "train",
+      "file": "00717_00474.png",
+      "frac_black": 0.40992991129557294
+    },
+    {
+      "split": "train",
+      "file": "00718_00475.png",
+      "frac_black": 0.3870766957600911
+    },
+    {
+      "split": "train",
+      "file": "00720_00476.png",
+      "frac_black": 0.2729180653889974
+    },
+    {
+      "split": "train",
+      "file": "00721_00476.png",
+      "frac_black": 0.29361597696940106
+    },
+    {
+      "split": "train",
+      "file": "00722_00477.png",
+      "frac_black": 0.47523053487141925
+    },
+    {
+      "split": "train",
+      "file": "00724_00480.png",
+      "frac_black": 0.3835875193277995
+    },
+    {
+      "split": "train",
+      "file": "00725_00480.png",
+      "frac_black": 0.407131830851237
+    },
+    {
+      "split": "train",
+      "file": "00726_00481.png",
+      "frac_black": 0.2565008799235026
+    },
+    {
+      "split": "train",
+      "file": "00733_00484.png",
+      "frac_black": 0.21530278523763022
+    },
+    {
+      "split": "train",
+      "file": "00748_00494.png",
+      "frac_black": 0.2954883575439453
+    },
+    {
+      "split": "train",
+      "file": "00749_00494.png",
+      "frac_black": 0.3403676350911458
+    },
+    {
+      "split": "train",
+      "file": "00750_00495.png",
+      "frac_black": 0.33536529541015625
+    },
+    {
+      "split": "train",
+      "file": "00751_00495.png",
+      "frac_black": 0.42250506083170575
+    },
+    {
+      "split": "train",
+      "file": "00752_00496.png",
+      "frac_black": 0.28693898518880206
+    },
+    {
+      "split": "train",
+      "file": "00753_00496.png",
+      "frac_black": 0.3549003601074219
+    },
+    {
+      "split": "train",
+      "file": "00754_00497.png",
+      "frac_black": 0.46671485900878906
+    },
+    {
+      "split": "train",
+      "file": "00755_00498.png",
+      "frac_black": 0.43247413635253906
+    },
+    {
+      "split": "train",
+      "file": "00756_00499.png",
+      "frac_black": 0.2791423797607422
+    },
+    {
+      "split": "train",
+      "file": "00757_00499.png",
+      "frac_black": 0.4169902801513672
+    },
+    {
+      "split": "train",
+      "file": "00761_00502.png",
+      "frac_black": 0.2948525746663411
+    },
+    {
+      "split": "train",
+      "file": "00762_00503.png",
+      "frac_black": 0.3665320078531901
+    },
+    {
+      "split": "train",
+      "file": "00763_00503.png",
+      "frac_black": 0.34888458251953125
+    },
+    {
+      "split": "train",
+      "file": "00764_00504.png",
+      "frac_black": 0.3722832997639974
+    },
+    {
+      "split": "train",
+      "file": "00765_00504.png",
+      "frac_black": 0.39947255452473956
+    },
+    {
+      "split": "train",
+      "file": "00766_00505.png",
+      "frac_black": 0.37380536397298175
+    },
+    {
+      "split": "train",
+      "file": "00770_00509.png",
+      "frac_black": 0.2895285288492839
+    },
+    {
+      "split": "train",
+      "file": "00771_00509.png",
+      "frac_black": 0.34606043497721356
+    },
+    {
+      "split": "train",
+      "file": "00772_00510.png",
+      "frac_black": 0.3892345428466797
+    },
+    {
+      "split": "train",
+      "file": "00773_00511.png",
+      "frac_black": 0.3304150899251302
+    },
+    {
+      "split": "train",
+      "file": "00774_00511.png",
+      "frac_black": 0.38562901814778644
+    },
+    {
+      "split": "train",
+      "file": "00777_00513.png",
+      "frac_black": 0.2970447540283203
+    },
+    {
+      "split": "train",
+      "file": "00778_00513.png",
+      "frac_black": 0.3697662353515625
+    },
+    {
+      "split": "train",
+      "file": "00779_00514.png",
+      "frac_black": 0.3434073130289714
+    },
+    {
+      "split": "train",
+      "file": "00780_00515.png",
+      "frac_black": 0.39122581481933594
+    },
+    {
+      "split": "train",
+      "file": "00781_00515.png",
+      "frac_black": 0.3869304656982422
+    },
+    {
+      "split": "train",
+      "file": "00782_00516.png",
+      "frac_black": 0.37338511149088544
+    },
+    {
+      "split": "train",
+      "file": "00783_00516.png",
+      "frac_black": 0.3604138692220052
+    },
+    {
+      "split": "train",
+      "file": "00786_00518.png",
+      "frac_black": 0.3145529429117839
+    },
+    {
+      "split": "train",
+      "file": "00787_00518.png",
+      "frac_black": 0.3467140197753906
+    },
+    {
+      "split": "train",
+      "file": "00788_00519.png",
+      "frac_black": 0.39569664001464844
+    },
+    {
+      "split": "train",
+      "file": "00789_00520.png",
+      "frac_black": 0.38809458414713544
+    },
+    {
+      "split": "train",
+      "file": "00790_00520.png",
+      "frac_black": 0.41675885518391925
+    },
+    {
+      "split": "train",
+      "file": "00791_00521.png",
+      "frac_black": 0.2857062021891276
+    },
+    {
+      "split": "train",
+      "file": "00792_00522.png",
+      "frac_black": 0.287228266398112
+    },
+    {
+      "split": "train",
+      "file": "00796_00524.png",
+      "frac_black": 0.31067466735839844
+    },
+    {
+      "split": "train",
+      "file": "00800_00527.png",
+      "frac_black": 0.3197485605875651
+    },
+    {
+      "split": "train",
+      "file": "00801_00528.png",
+      "frac_black": 0.38991228739420575
+    },
+    {
+      "split": "train",
+      "file": "00802_00528.png",
+      "frac_black": 0.3827018737792969
+    },
+    {
+      "split": "train",
+      "file": "00804_00529.png",
+      "frac_black": 0.2737566630045573
+    },
+    {
+      "split": "train",
+      "file": "00805_00530.png",
+      "frac_black": 0.2764752705891927
+    },
+    {
+      "split": "train",
+      "file": "00815_00537.png",
+      "frac_black": 0.3979104359944661
+    },
+    {
+      "split": "train",
+      "file": "00816_00538.png",
+      "frac_black": 0.2708568572998047
+    },
+    {
+      "split": "train",
+      "file": "00817_00538.png",
+      "frac_black": 0.3435618082682292
+    },
+    {
+      "split": "train",
+      "file": "00818_00539.png",
+      "frac_black": 0.5232798258463541
+    },
+    {
+      "split": "train",
+      "file": "00819_00540.png",
+      "frac_black": 0.40271568298339844
+    },
+    {
+      "split": "train",
+      "file": "00820_00540.png",
+      "frac_black": 0.36296717325846356
+    },
+    {
+      "split": "train",
+      "file": "00821_00541.png",
+      "frac_black": 0.3995787302652995
+    },
+    {
+      "split": "train",
+      "file": "00822_00542.png",
+      "frac_black": 0.2155303955078125
+    },
+    {
+      "split": "train",
+      "file": "00823_00543.png",
+      "frac_black": 0.24438031514485678
+    },
+    {
+      "split": "train",
+      "file": "00824_00543.png",
+      "frac_black": 0.26486968994140625
+    },
+    {
+      "split": "train",
+      "file": "00825_00544.png",
+      "frac_black": 0.32489458719889325
+    },
+    {
+      "split": "train",
+      "file": "00826_00544.png",
+      "frac_black": 0.37377357482910156
+    },
+    {
+      "split": "train",
+      "file": "00827_00545.png",
+      "frac_black": 0.3598734537760417
+    },
+    {
+      "split": "train",
+      "file": "00828_00546.png",
+      "frac_black": 0.36917750040690106
+    },
+    {
+      "split": "train",
+      "file": "00829_00546.png",
+      "frac_black": 0.23900477091471353
+    },
+    {
+      "split": "train",
+      "file": "00832_00548.png",
+      "frac_black": 0.22852261861165366
+    },
+    {
+      "split": "train",
+      "file": "00836_00551.png",
+      "frac_black": 0.2984231313069661
+    },
+    {
+      "split": "train",
+      "file": "00837_00552.png",
+      "frac_black": 0.3077551523844401
+    },
+    {
+      "split": "train",
+      "file": "00838_00552.png",
+      "frac_black": 0.28543726603190106
+    },
+    {
+      "split": "train",
+      "file": "00839_00553.png",
+      "frac_black": 0.2474536895751953
+    },
+    {
+      "split": "train",
+      "file": "00840_00554.png",
+      "frac_black": 0.23770523071289062
+    },
+    {
+      "split": "train",
+      "file": "00841_00555.png",
+      "frac_black": 0.34620094299316406
+    },
+    {
+      "split": "train",
+      "file": "00842_00556.png",
+      "frac_black": 0.3834654490152995
+    },
+    {
+      "split": "train",
+      "file": "00843_00556.png",
+      "frac_black": 0.4148260752360026
+    },
+    {
+      "split": "train",
+      "file": "00844_00557.png",
+      "frac_black": 0.31665992736816406
+    },
+    {
+      "split": "train",
+      "file": "00845_00557.png",
+      "frac_black": 0.34760157267252606
+    },
+    {
+      "split": "train",
+      "file": "00846_00558.png",
+      "frac_black": 0.2902037302652995
+    },
+    {
+      "split": "train",
+      "file": "00847_00558.png",
+      "frac_black": 0.38300196329752606
+    },
+    {
+      "split": "train",
+      "file": "00848_00559.png",
+      "frac_black": 0.24285062154134116
+    },
+    {
+      "split": "train",
+      "file": "00849_00560.png",
+      "frac_black": 0.29769325256347656
+    },
+    {
+      "split": "train",
+      "file": "00850_00561.png",
+      "frac_black": 0.3509667714436849
+    },
+    {
+      "split": "train",
+      "file": "00851_00563.png",
+      "frac_black": 0.44066492716471356
+    },
+    {
+      "split": "train",
+      "file": "00852_00564.png",
+      "frac_black": 0.3827616373697917
+    },
+    {
+      "split": "train",
+      "file": "00853_00564.png",
+      "frac_black": 0.3813660939534505
+    },
+    {
+      "split": "train",
+      "file": "00854_00565.png",
+      "frac_black": 0.32663917541503906
+    },
+    {
+      "split": "train",
+      "file": "00855_00565.png",
+      "frac_black": 0.3082110087076823
+    },
+    {
+      "split": "train",
+      "file": "00856_00566.png",
+      "frac_black": 0.3437614440917969
+    },
+    {
+      "split": "train",
+      "file": "00858_00568.png",
+      "frac_black": 0.36307334899902344
+    },
+    {
+      "split": "train",
+      "file": "00869_00575.png",
+      "frac_black": 0.23207728068033853
+    },
+    {
+      "split": "train",
+      "file": "00870_00576.png",
+      "frac_black": 0.40906715393066406
+    },
+    {
+      "split": "train",
+      "file": "00871_00576.png",
+      "frac_black": 0.34867095947265625
+    },
+    {
+      "split": "train",
+      "file": "00872_00577.png",
+      "frac_black": 0.3730608622233073
+    },
+    {
+      "split": "train",
+      "file": "00873_00578.png",
+      "frac_black": 0.41108957926432294
+    },
+    {
+      "split": "train",
+      "file": "00874_00578.png",
+      "frac_black": 0.4047616322835286
+    },
+    {
+      "split": "train",
+      "file": "00876_00581.png",
+      "frac_black": 0.263760248819987
+    },
+    {
+      "split": "train",
+      "file": "00877_00582.png",
+      "frac_black": 0.25242360432942706
+    },
+    {
+      "split": "train",
+      "file": "00881_00584.png",
+      "frac_black": 0.31232134501139325
+    },
+    {
+      "split": "train",
+      "file": "00883_00585.png",
+      "frac_black": 0.3827959696451823
+    },
+    {
+      "split": "train",
+      "file": "00884_00586.png",
+      "frac_black": 0.2882830301920573
+    },
+    {
+      "split": "train",
+      "file": "00885_00587.png",
+      "frac_black": 0.27504412333170575
+    },
+    {
+      "split": "train",
+      "file": "00886_00587.png",
+      "frac_black": 0.35582605997721356
+    },
+    {
+      "split": "train",
+      "file": "00890_00590.png",
+      "frac_black": 0.3716729482014974
+    },
+    {
+      "split": "train",
+      "file": "00891_00590.png",
+      "frac_black": 0.3929157257080078
+    },
+    {
+      "split": "train",
+      "file": "00892_00591.png",
+      "frac_black": 0.3511823018391927
+    },
+    {
+      "split": "train",
+      "file": "00893_00592.png",
+      "frac_black": 0.22359784444173178
+    },
+    {
+      "split": "train",
+      "file": "00896_00594.png",
+      "frac_black": 0.36922645568847656
+    },
+    {
+      "split": "train",
+      "file": "00897_00595.png",
+      "frac_black": 0.3517163594563802
+    },
+    {
+      "split": "train",
+      "file": "00898_00596.png",
+      "frac_black": 0.26385752360026044
+    },
+    {
+      "split": "train",
+      "file": "00899_00596.png",
+      "frac_black": 0.2776050567626953
+    },
+    {
+      "split": "train",
+      "file": "00900_00597.png",
+      "frac_black": 0.3619550069173177
+    },
+    {
+      "split": "train",
+      "file": "00901_00598.png",
+      "frac_black": 0.49678929646809894
+    },
+    {
+      "split": "train",
+      "file": "00902_00599.png",
+      "frac_black": 0.4564628601074219
+    },
+    {
+      "split": "train",
+      "file": "00903_00599.png",
+      "frac_black": 0.4174658457438151
+    },
+    {
+      "split": "train",
+      "file": "00904_00600.png",
+      "frac_black": 0.27875836690266925
+    },
+    {
+      "split": "train",
+      "file": "00907_00602.png",
+      "frac_black": 0.35057322184244794
+    },
+    {
+      "split": "train",
+      "file": "00908_00602.png",
+      "frac_black": 0.3841126759847005
+    },
+    {
+      "split": "train",
+      "file": "00909_00603.png",
+      "frac_black": 0.3862450917561849
+    },
+    {
+      "split": "train",
+      "file": "00912_00605.png",
+      "frac_black": 0.4222036997477214
+    },
+    {
+      "split": "train",
+      "file": "00913_00605.png",
+      "frac_black": 0.380581537882487
+    },
+    {
+      "split": "train",
+      "file": "00914_00606.png",
+      "frac_black": 0.2360668182373047
+    },
+    {
+      "split": "train",
+      "file": "00916_00607.png",
+      "frac_black": 0.34104029337565106
+    },
+    {
+      "split": "train",
+      "file": "00917_00607.png",
+      "frac_black": 0.3694693247477214
+    },
+    {
+      "split": "train",
+      "file": "00919_00608.png",
+      "frac_black": 0.2608489990234375
+    },
+    {
+      "split": "train",
+      "file": "00922_00610.png",
+      "frac_black": 0.27342987060546875
+    },
+    {
+      "split": "train",
+      "file": "00929_00616.png",
+      "frac_black": 0.3034108479817708
+    },
+    {
+      "split": "train",
+      "file": "00930_00617.png",
+      "frac_black": 0.26604143778483075
+    },
+    {
+      "split": "train",
+      "file": "00931_00617.png",
+      "frac_black": 0.28667767842610675
+    },
+    {
+      "split": "train",
+      "file": "00935_00622.png",
+      "frac_black": 0.3003050486246745
+    },
+    {
+      "split": "train",
+      "file": "00936_00622.png",
+      "frac_black": 0.36321449279785156
+    },
+    {
+      "split": "train",
+      "file": "00937_00623.png",
+      "frac_black": 0.32961146036783856
+    },
+    {
+      "split": "train",
+      "file": "00938_00623.png",
+      "frac_black": 0.2637583414713542
+    },
+    {
+      "split": "train",
+      "file": "00940_00625.png",
+      "frac_black": 0.36914316813151044
+    },
+    {
+      "split": "train",
+      "file": "00941_00625.png",
+      "frac_black": 0.37516212463378906
+    },
+    {
+      "split": "train",
+      "file": "00942_00626.png",
+      "frac_black": 0.31984710693359375
+    },
+    {
+      "split": "train",
+      "file": "00945_00628.png",
+      "frac_black": 0.2955919901529948
+    },
+    {
+      "split": "train",
+      "file": "00949_00631.png",
+      "frac_black": 0.274166742960612
+    },
+    {
+      "split": "train",
+      "file": "00950_00631.png",
+      "frac_black": 0.37061436971028644
+    },
+    {
+      "split": "train",
+      "file": "00951_00632.png",
+      "frac_black": 0.22440401713053384
+    },
+    {
+      "split": "train",
+      "file": "00954_00634.png",
+      "frac_black": 0.346347173055013
+    },
+    {
+      "split": "train",
+      "file": "00955_00635.png",
+      "frac_black": 0.3621056874593099
+    },
+    {
+      "split": "train",
+      "file": "00956_00635.png",
+      "frac_black": 0.33080482482910156
+    },
+    {
+      "split": "train",
+      "file": "00957_00636.png",
+      "frac_black": 0.40622393290201825
+    },
+    {
+      "split": "train",
+      "file": "00960_00638.png",
+      "frac_black": 0.28474998474121094
+    },
+    {
+      "split": "train",
+      "file": "00961_00638.png",
+      "frac_black": 0.37486839294433594
+    },
+    {
+      "split": "train",
+      "file": "00967_00643.png",
+      "frac_black": 0.29259999593098956
+    },
+    {
+      "split": "train",
+      "file": "00974_00647.png",
+      "frac_black": 0.22995567321777344
+    },
+    {
+      "split": "train",
+      "file": "00975_00648.png",
+      "frac_black": 0.29744720458984375
+    },
+    {
+      "split": "train",
+      "file": "00976_00648.png",
+      "frac_black": 0.35756556193033856
+    },
+    {
+      "split": "train",
+      "file": "00977_00649.png",
+      "frac_black": 0.25037701924641925
+    },
+    {
+      "split": "train",
+      "file": "00978_00650.png",
+      "frac_black": 0.31512705485026044
+    },
+    {
+      "split": "train",
+      "file": "00979_00651.png",
+      "frac_black": 0.29055150349934894
+    },
+    {
+      "split": "train",
+      "file": "00981_00652.png",
+      "frac_black": 0.3288338979085286
+    },
+    {
+      "split": "train",
+      "file": "00983_00655.png",
+      "frac_black": 0.3369973500569661
+    },
+    {
+      "split": "train",
+      "file": "00984_00655.png",
+      "frac_black": 0.41891225179036456
+    },
+    {
+      "split": "train",
+      "file": "00985_00656.png",
+      "frac_black": 0.23740196228027344
+    },
+    {
+      "split": "train",
+      "file": "00986_00656.png",
+      "frac_black": 0.2871723175048828
+    },
+    {
+      "split": "train",
+      "file": "00987_00657.png",
+      "frac_black": 0.40757115681966144
+    },
+    {
+      "split": "train",
+      "file": "00988_00658.png",
+      "frac_black": 0.3073851267496745
+    },
+    {
+      "split": "train",
+      "file": "00989_00658.png",
+      "frac_black": 0.2936286926269531
+    },
+    {
+      "split": "train",
+      "file": "00990_00659.png",
+      "frac_black": 0.3663628896077474
+    },
+    {
+      "split": "train",
+      "file": "00991_00660.png",
+      "frac_black": 0.23110453287760416
+    },
+    {
+      "split": "train",
+      "file": "00992_00661.png",
+      "frac_black": 0.44118817647298175
+    },
+    {
+      "split": "train",
+      "file": "00993_00661.png",
+      "frac_black": 0.4291941324869792
+    },
+    {
+      "split": "train",
+      "file": "00997_00664.png",
+      "frac_black": 0.26330820719401044
+    },
+    {
+      "split": "train",
+      "file": "00998_00665.png",
+      "frac_black": 0.34964434305826825
+    },
+    {
+      "split": "train",
+      "file": "00999_00667.png",
+      "frac_black": 0.41877301534016925
+    },
+    {
+      "split": "train",
+      "file": "01000_00667.png",
+      "frac_black": 0.3580252329508464
+    },
+    {
+      "split": "train",
+      "file": "01001_00668.png",
+      "frac_black": 0.20616594950358072
+    },
+    {
+      "split": "train",
+      "file": "01003_00669.png",
+      "frac_black": 0.3775978088378906
+    },
+    {
+      "split": "train",
+      "file": "01004_00670.png",
+      "frac_black": 0.3952980041503906
+    },
+    {
+      "split": "train",
+      "file": "01005_00670.png",
+      "frac_black": 0.29385121663411456
+    },
+    {
+      "split": "train",
+      "file": "01008_00672.png",
+      "frac_black": 0.33763376871744794
+    },
+    {
+      "split": "train",
+      "file": "01010_00673.png",
+      "frac_black": 0.2969830830891927
+    },
+    {
+      "split": "train",
+      "file": "01011_00673.png",
+      "frac_black": 0.31570688883463544
+    },
+    {
+      "split": "train",
+      "file": "01012_00674.png",
+      "frac_black": 0.4465688069661458
+    },
+    {
+      "split": "train",
+      "file": "01016_00677.png",
+      "frac_black": 0.3345527648925781
+    },
+    {
+      "split": "train",
+      "file": "01017_00678.png",
+      "frac_black": 0.3527037302652995
+    },
+    {
+      "split": "train",
+      "file": "01018_00678.png",
+      "frac_black": 0.3601462046305339
+    },
+    {
+      "split": "train",
+      "file": "01019_00679.png",
+      "frac_black": 0.2613035837809245
+    },
+    {
+      "split": "train",
+      "file": "01020_00679.png",
+      "frac_black": 0.3483498891194661
+    },
+    {
+      "split": "train",
+      "file": "01021_00680.png",
+      "frac_black": 0.2654126485188802
+    },
+    {
+      "split": "train",
+      "file": "01024_00682.png",
+      "frac_black": 0.38881556193033856
+    },
+    {
+      "split": "train",
+      "file": "01025_00683.png",
+      "frac_black": 0.4076525370279948
+    },
+    {
+      "split": "train",
+      "file": "01026_00683.png",
+      "frac_black": 0.46237436930338544
+    },
+    {
+      "split": "train",
+      "file": "01028_00685.png",
+      "frac_black": 0.33069737752278644
+    },
+    {
+      "split": "train",
+      "file": "01029_00685.png",
+      "frac_black": 0.3165753682454427
+    },
+    {
+      "split": "train",
+      "file": "01032_00687.png",
+      "frac_black": 0.3179283142089844
+    },
+    {
+      "split": "train",
+      "file": "01033_00687.png",
+      "frac_black": 0.3168455759684245
+    },
+    {
+      "split": "train",
+      "file": "01038_00691.png",
+      "frac_black": 0.40603192647298175
+    },
+    {
+      "split": "train",
+      "file": "01039_00692.png",
+      "frac_black": 0.3119373321533203
+    },
+    {
+      "split": "train",
+      "file": "01040_00693.png",
+      "frac_black": 0.3283863067626953
+    },
+    {
+      "split": "train",
+      "file": "01041_00693.png",
+      "frac_black": 0.3860759735107422
+    },
+    {
+      "split": "train",
+      "file": "01042_00694.png",
+      "frac_black": 0.27724583943684894
+    },
+    {
+      "split": "train",
+      "file": "01044_00695.png",
+      "frac_black": 0.305941899617513
+    },
+    {
+      "split": "train",
+      "file": "01045_00696.png",
+      "frac_black": 0.2964375813802083
+    },
+    {
+      "split": "train",
+      "file": "01049_00699.png",
+      "frac_black": 0.36880747477213544
+    },
+    {
+      "split": "train",
+      "file": "01050_00700.png",
+      "frac_black": 0.37176958719889325
+    },
+    {
+      "split": "train",
+      "file": "01051_00700.png",
+      "frac_black": 0.40996360778808594
+    },
+    {
+      "split": "train",
+      "file": "01052_00701.png",
+      "frac_black": 0.41185887654622394
+    },
+    {
+      "split": "train",
+      "file": "01053_00701.png",
+      "frac_black": 0.3811492919921875
+    },
+    {
+      "split": "train",
+      "file": "01054_00702.png",
+      "frac_black": 0.5361900329589844
+    },
+    {
+      "split": "train",
+      "file": "01055_00702.png",
+      "frac_black": 0.5199057261149088
+    },
+    {
+      "split": "train",
+      "file": "01056_00703.png",
+      "frac_black": 0.3540808359781901
+    },
+    {
+      "split": "train",
+      "file": "01057_00704.png",
+      "frac_black": 0.3270823160807292
+    },
+    {
+      "split": "train",
+      "file": "01058_00704.png",
+      "frac_black": 0.35552724202473956
+    },
+    {
+      "split": "train",
+      "file": "01059_00705.png",
+      "frac_black": 0.31566619873046875
+    },
+    {
+      "split": "train",
+      "file": "01060_00705.png",
+      "frac_black": 0.3426310221354167
+    },
+    {
+      "split": "train",
+      "file": "01061_00706.png",
+      "frac_black": 0.3383668263753255
+    },
+    {
+      "split": "train",
+      "file": "01062_00707.png",
+      "frac_black": 0.46093114217122394
+    },
+    {
+      "split": "train",
+      "file": "01063_00707.png",
+      "frac_black": 0.45871734619140625
+    },
+    {
+      "split": "train",
+      "file": "01066_00709.png",
+      "frac_black": 0.43349456787109375
+    },
+    {
+      "split": "train",
+      "file": "01067_00710.png",
+      "frac_black": 0.3726507822672526
+    },
+    {
+      "split": "train",
+      "file": "01068_00710.png",
+      "frac_black": 0.32814470926920575
+    },
+    {
+      "split": "train",
+      "file": "01069_00711.png",
+      "frac_black": 0.35655848185221356
+    },
+    {
+      "split": "train",
+      "file": "01070_00711.png",
+      "frac_black": 0.45363426208496094
+    },
+    {
+      "split": "train",
+      "file": "01076_00715.png",
+      "frac_black": 0.2545770009358724
+    },
+    {
+      "split": "train",
+      "file": "01077_00717.png",
+      "frac_black": 0.3266137440999349
+    },
+    {
+      "split": "train",
+      "file": "01078_00717.png",
+      "frac_black": 0.3586718241373698
+    },
+    {
+      "split": "train",
+      "file": "01079_00718.png",
+      "frac_black": 0.4139251708984375
+    },
+    {
+      "split": "train",
+      "file": "01080_00720.png",
+      "frac_black": 0.4049224853515625
+    },
+    {
+      "split": "train",
+      "file": "01081_00721.png",
+      "frac_black": 0.2776044209798177
+    },
+    {
+      "split": "train",
+      "file": "01082_00721.png",
+      "frac_black": 0.3699137369791667
+    },
+    {
+      "split": "train",
+      "file": "01085_00723.png",
+      "frac_black": 0.322909673055013
+    },
+    {
+      "split": "train",
+      "file": "01086_00724.png",
+      "frac_black": 0.4540659586588542
+    },
+    {
+      "split": "train",
+      "file": "01087_00724.png",
+      "frac_black": 0.4821268717447917
+    },
+    {
+      "split": "train",
+      "file": "01088_00725.png",
+      "frac_black": 0.31480662027994794
+    },
+    {
+      "split": "train",
+      "file": "01089_00725.png",
+      "frac_black": 0.3430398305257161
+    },
+    {
+      "split": "train",
+      "file": "01090_00726.png",
+      "frac_black": 0.4422473907470703
+    },
+    {
+      "split": "train",
+      "file": "01091_00727.png",
+      "frac_black": 0.47035980224609375
+    },
+    {
+      "split": "train",
+      "file": "01092_00727.png",
+      "frac_black": 0.4954210917154948
+    },
+    {
+      "split": "train",
+      "file": "01093_00728.png",
+      "frac_black": 0.3682212829589844
+    },
+    {
+      "split": "train",
+      "file": "01094_00728.png",
+      "frac_black": 0.3010508219401042
+    },
+    {
+      "split": "train",
+      "file": "01095_00729.png",
+      "frac_black": 0.4003454844156901
+    },
+    {
+      "split": "train",
+      "file": "01096_00730.png",
+      "frac_black": 0.40644200642903644
+    },
+    {
+      "split": "train",
+      "file": "01097_00730.png",
+      "frac_black": 0.4073174794514974
+    },
+    {
+      "split": "train",
+      "file": "01098_00731.png",
+      "frac_black": 0.33952585856119794
+    },
+    {
+      "split": "train",
+      "file": "01099_00731.png",
+      "frac_black": 0.41750526428222656
+    },
+    {
+      "split": "train",
+      "file": "01100_00732.png",
+      "frac_black": 0.3950570424397786
+    },
+    {
+      "split": "train",
+      "file": "01102_00733.png",
+      "frac_black": 0.4353160858154297
+    },
+    {
+      "split": "train",
+      "file": "01103_00734.png",
+      "frac_black": 0.47382481892903644
+    },
+    {
+      "split": "train",
+      "file": "01104_00735.png",
+      "frac_black": 0.301699956258138
+    },
+    {
+      "split": "train",
+      "file": "01105_00735.png",
+      "frac_black": 0.33225059509277344
+    },
+    {
+      "split": "train",
+      "file": "01108_00737.png",
+      "frac_black": 0.4667498270670573
+    },
+    {
+      "split": "train",
+      "file": "01109_00737.png",
+      "frac_black": 0.4124978383382161
+    },
+    {
+      "split": "train",
+      "file": "01115_00741.png",
+      "frac_black": 0.3713976542154948
+    },
+    {
+      "split": "train",
+      "file": "01116_00742.png",
+      "frac_black": 0.3932628631591797
+    },
+    {
+      "split": "train",
+      "file": "01117_00742.png",
+      "frac_black": 0.4038861592610677
+    },
+    {
+      "split": "train",
+      "file": "01119_00744.png",
+      "frac_black": 0.30662091573079425
+    },
+    {
+      "split": "train",
+      "file": "01120_00744.png",
+      "frac_black": 0.354458491007487
+    },
+    {
+      "split": "train",
+      "file": "01121_00745.png",
+      "frac_black": 0.45882225036621094
+    },
+    {
+      "split": "train",
+      "file": "01122_00745.png",
+      "frac_black": 0.41884930928548175
+    },
+    {
+      "split": "train",
+      "file": "01123_00746.png",
+      "frac_black": 0.4049142201741536
+    },
+    {
+      "split": "train",
+      "file": "01124_00747.png",
+      "frac_black": 0.3121814727783203
+    },
+    {
+      "split": "train",
+      "file": "01125_00747.png",
+      "frac_black": 0.3161080678304036
+    },
+    {
+      "split": "train",
+      "file": "01126_00748.png",
+      "frac_black": 0.3831933339436849
+    },
+    {
+      "split": "train",
+      "file": "01127_00748.png",
+      "frac_black": 0.357269287109375
+    },
+    {
+      "split": "train",
+      "file": "01128_00749.png",
+      "frac_black": 0.3497765858968099
+    },
+    {
+      "split": "train",
+      "file": "01133_00753.png",
+      "frac_black": 0.39002736409505206
+    },
+    {
+      "split": "train",
+      "file": "01138_00756.png",
+      "frac_black": 0.3118604024251302
+    },
+    {
+      "split": "train",
+      "file": "01139_00757.png",
+      "frac_black": 0.280337651570638
+    },
+    {
+      "split": "train",
+      "file": "01140_00757.png",
+      "frac_black": 0.2750193277994792
+    },
+    {
+      "split": "train",
+      "file": "01141_00758.png",
+      "frac_black": 0.31972185770670575
+    },
+    {
+      "split": "train",
+      "file": "01142_00760.png",
+      "frac_black": 0.2987721761067708
+    },
+    {
+      "split": "train",
+      "file": "01152_00767.png",
+      "frac_black": 0.23444557189941406
+    },
+    {
+      "split": "train",
+      "file": "01153_00767.png",
+      "frac_black": 0.2587820688883464
+    },
+    {
+      "split": "train",
+      "file": "01154_00768.png",
+      "frac_black": 0.2909406026204427
+    },
+    {
+      "split": "train",
+      "file": "01155_00769.png",
+      "frac_black": 0.29444313049316406
+    },
+    {
+      "split": "train",
+      "file": "01158_00771.png",
+      "frac_black": 0.294189453125
+    },
+    {
+      "split": "train",
+      "file": "01159_00771.png",
+      "frac_black": 0.402187983194987
+    },
+    {
+      "split": "train",
+      "file": "01161_00772.png",
+      "frac_black": 0.2538839975992839
+    },
+    {
+      "split": "train",
+      "file": "01162_00773.png",
+      "frac_black": 0.30101458231608075
+    },
+    {
+      "split": "train",
+      "file": "01163_00773.png",
+      "frac_black": 0.3424835205078125
+    },
+    {
+      "split": "train",
+      "file": "01164_00775.png",
+      "frac_black": 0.33886273701985675
+    },
+    {
+      "split": "train",
+      "file": "01165_00775.png",
+      "frac_black": 0.37946446736653644
+    },
+    {
+      "split": "train",
+      "file": "01171_00779.png",
+      "frac_black": 0.37699254353841144
+    },
+    {
+      "split": "train",
+      "file": "01172_00780.png",
+      "frac_black": 0.3529834747314453
+    },
+    {
+      "split": "train",
+      "file": "01173_00781.png",
+      "frac_black": 0.32453155517578125
+    },
+    {
+      "split": "train",
+      "file": "01174_00781.png",
+      "frac_black": 0.3959128061930339
+    },
+    {
+      "split": "train",
+      "file": "01177_00784.png",
+      "frac_black": 0.27575047810872394
+    },
+    {
+      "split": "train",
+      "file": "01178_00785.png",
+      "frac_black": 0.2554314931233724
+    },
+    {
+      "split": "train",
+      "file": "01179_00786.png",
+      "frac_black": 0.3225046793619792
+    },
+    {
+      "split": "train",
+      "file": "01180_00786.png",
+      "frac_black": 0.4292926788330078
+    },
+    {
+      "split": "train",
+      "file": "01181_00787.png",
+      "frac_black": 0.31781895955403644
+    },
+    {
+      "split": "train",
+      "file": "01182_00788.png",
+      "frac_black": 0.32895851135253906
+    },
+    {
+      "split": "train",
+      "file": "01183_00788.png",
+      "frac_black": 0.3182322184244792
+    },
+    {
+      "split": "train",
+      "file": "01184_00789.png",
+      "frac_black": 0.35289955139160156
+    },
+    {
+      "split": "train",
+      "file": "01192_00795.png",
+      "frac_black": 0.37530962626139325
+    },
+    {
+      "split": "train",
+      "file": "01193_00795.png",
+      "frac_black": 0.41488393147786456
+    },
+    {
+      "split": "train",
+      "file": "01194_00796.png",
+      "frac_black": 0.2517038981119792
+    },
+    {
+      "split": "train",
+      "file": "01195_00797.png",
+      "frac_black": 0.36611493428548175
+    },
+    {
+      "split": "train",
+      "file": "01196_00798.png",
+      "frac_black": 0.34366416931152344
+    },
+    {
+      "split": "train",
+      "file": "01197_00799.png",
+      "frac_black": 0.39420636494954425
+    },
+    {
+      "split": "train",
+      "file": "01198_00799.png",
+      "frac_black": 0.39594459533691406
+    },
+    {
+      "split": "train",
+      "file": "01202_00801.png",
+      "frac_black": 0.37741343180338544
+    },
+    {
+      "split": "train",
+      "file": "01203_00802.png",
+      "frac_black": 0.32663536071777344
+    },
+    {
+      "split": "train",
+      "file": "01204_00802.png",
+      "frac_black": 0.30284881591796875
+    },
+    {
+      "split": "train",
+      "file": "01209_00805.png",
+      "frac_black": 0.2958119710286458
+    },
+    {
+      "split": "train",
+      "file": "01210_00806.png",
+      "frac_black": 0.3015626271565755
+    },
+    {
+      "split": "train",
+      "file": "01211_00806.png",
+      "frac_black": 0.2989737192789714
+    },
+    {
+      "split": "train",
+      "file": "01216_00809.png",
+      "frac_black": 0.27715428670247394
+    },
+    {
+      "split": "train",
+      "file": "01217_00809.png",
+      "frac_black": 0.30533727010091144
+    },
+    {
+      "split": "train",
+      "file": "01218_00810.png",
+      "frac_black": 0.361453374226888
+    },
+    {
+      "split": "train",
+      "file": "01219_00811.png",
+      "frac_black": 0.2802925109863281
+    },
+    {
+      "split": "train",
+      "file": "01220_00812.png",
+      "frac_black": 0.32002512613932294
+    },
+    {
+      "split": "train",
+      "file": "01221_00812.png",
+      "frac_black": 0.39101537068684894
+    },
+    {
+      "split": "train",
+      "file": "01222_00813.png",
+      "frac_black": 0.36667124430338544
+    },
+    {
+      "split": "train",
+      "file": "01224_00814.png",
+      "frac_black": 0.34868303934733075
+    },
+    {
+      "split": "train",
+      "file": "01225_00815.png",
+      "frac_black": 0.22545178731282553
+    },
+    {
+      "split": "train",
+      "file": "01226_00815.png",
+      "frac_black": 0.32641029357910156
+    },
+    {
+      "split": "train",
+      "file": "01227_00816.png",
+      "frac_black": 0.3325964609781901
+    },
+    {
+      "split": "train",
+      "file": "01228_00816.png",
+      "frac_black": 0.25919659932454425
+    },
+    {
+      "split": "train",
+      "file": "01230_00817.png",
+      "frac_black": 0.403476079305013
+    },
+    {
+      "split": "train",
+      "file": "01231_00819.png",
+      "frac_black": 0.35640907287597656
+    },
+    {
+      "split": "train",
+      "file": "01232_00819.png",
+      "frac_black": 0.3054981231689453
+    },
+    {
+      "split": "train",
+      "file": "01236_00822.png",
+      "frac_black": 0.3209673563639323
+    },
+    {
+      "split": "train",
+      "file": "01237_00823.png",
+      "frac_black": 0.3918711344401042
+    },
+    {
+      "split": "train",
+      "file": "01238_00823.png",
+      "frac_black": 0.4183050791422526
+    },
+    {
+      "split": "train",
+      "file": "01239_00824.png",
+      "frac_black": 0.4067344665527344
+    },
+    {
+      "split": "train",
+      "file": "01243_00827.png",
+      "frac_black": 0.35410435994466144
+    },
+    {
+      "split": "train",
+      "file": "01255_00835.png",
+      "frac_black": 0.3062610626220703
+    },
+    {
+      "split": "train",
+      "file": "01256_00835.png",
+      "frac_black": 0.3781553904215495
+    },
+    {
+      "split": "train",
+      "file": "01257_00836.png",
+      "frac_black": 0.3542467753092448
+    },
+    {
+      "split": "train",
+      "file": "01258_00837.png",
+      "frac_black": 0.3153603871663411
+    },
+    {
+      "split": "train",
+      "file": "01260_00838.png",
+      "frac_black": 0.3861401875813802
+    },
+    {
+      "split": "train",
+      "file": "01261_00838.png",
+      "frac_black": 0.406918207804362
+    },
+    {
+      "split": "train",
+      "file": "01262_00839.png",
+      "frac_black": 0.3019415537516276
+    },
+    {
+      "split": "train",
+      "file": "01263_00840.png",
+      "frac_black": 0.3519611358642578
+    },
+    {
+      "split": "train",
+      "file": "01264_00841.png",
+      "frac_black": 0.304901123046875
+    },
+    {
+      "split": "train",
+      "file": "01265_00842.png",
+      "frac_black": 0.35486412048339844
+    },
+    {
+      "split": "train",
+      "file": "01268_00844.png",
+      "frac_black": 0.3103828430175781
+    },
+    {
+      "split": "train",
+      "file": "01269_00845.png",
+      "frac_black": 0.326419194539388
+    },
+    {
+      "split": "train",
+      "file": "01271_00846.png",
+      "frac_black": 0.27631060282389325
+    },
+    {
+      "split": "train",
+      "file": "01272_00846.png",
+      "frac_black": 0.33927663167317706
+    },
+    {
+      "split": "train",
+      "file": "01273_00847.png",
+      "frac_black": 0.2589575449625651
+    },
+    {
+      "split": "train",
+      "file": "01274_00848.png",
+      "frac_black": 0.33368492126464844
+    },
+    {
+      "split": "train",
+      "file": "01276_00849.png",
+      "frac_black": 0.3313636779785156
+    },
+    {
+      "split": "train",
+      "file": "01279_00851.png",
+      "frac_black": 0.34043248494466144
+    },
+    {
+      "split": "train",
+      "file": "01280_00851.png",
+      "frac_black": 0.3770713806152344
+    },
+    {
+      "split": "train",
+      "file": "01281_00852.png",
+      "frac_black": 0.23069381713867188
+    },
+    {
+      "split": "train",
+      "file": "01284_00854.png",
+      "frac_black": 0.336029052734375
+    },
+    {
+      "split": "train",
+      "file": "01285_00854.png",
+      "frac_black": 0.38516998291015625
+    },
+    {
+      "split": "train",
+      "file": "01286_00855.png",
+      "frac_black": 0.3358618418375651
+    },
+    {
+      "split": "train",
+      "file": "01287_00856.png",
+      "frac_black": 0.4408855438232422
+    },
+    {
+      "split": "train",
+      "file": "01288_00857.png",
+      "frac_black": 0.3009376525878906
+    },
+    {
+      "split": "train",
+      "file": "01292_00860.png",
+      "frac_black": 0.20674705505371094
+    },
+    {
+      "split": "train",
+      "file": "01293_00861.png",
+      "frac_black": 0.3362693786621094
+    },
+    {
+      "split": "train",
+      "file": "01294_00861.png",
+      "frac_black": 0.3555043538411458
+    },
+    {
+      "split": "train",
+      "file": "01295_00862.png",
+      "frac_black": 0.29864947001139325
+    },
+    {
+      "split": "train",
+      "file": "01296_00862.png",
+      "frac_black": 0.3053518931070964
+    },
+    {
+      "split": "train",
+      "file": "01300_00865.png",
+      "frac_black": 0.2966314951578776
+    },
+    {
+      "split": "train",
+      "file": "01301_00865.png",
+      "frac_black": 0.2680594126383464
+    },
+    {
+      "split": "train",
+      "file": "01302_00866.png",
+      "frac_black": 0.3500652313232422
+    },
+    {
+      "split": "train",
+      "file": "01303_00866.png",
+      "frac_black": 0.41440773010253906
+    },
+    {
+      "split": "train",
+      "file": "01304_00867.png",
+      "frac_black": 0.2819925944010417
+    },
+    {
+      "split": "train",
+      "file": "01305_00868.png",
+      "frac_black": 0.3682473500569661
+    },
+    {
+      "split": "train",
+      "file": "01307_00869.png",
+      "frac_black": 0.37826792399088544
+    },
+    {
+      "split": "train",
+      "file": "01315_00875.png",
+      "frac_black": 0.3372732798258464
+    },
+    {
+      "split": "train",
+      "file": "01316_00876.png",
+      "frac_black": 0.313385009765625
+    },
+    {
+      "split": "train",
+      "file": "01317_00876.png",
+      "frac_black": 0.3513711293538411
+    },
+    {
+      "split": "train",
+      "file": "01318_00877.png",
+      "frac_black": 0.34165700276692706
+    },
+    {
+      "split": "train",
+      "file": "01319_00878.png",
+      "frac_black": 0.43185997009277344
+    },
+    {
+      "split": "train",
+      "file": "01320_00878.png",
+      "frac_black": 0.42220624287923175
+    },
+    {
+      "split": "train",
+      "file": "01324_00881.png",
+      "frac_black": 0.39601389567057294
+    },
+    {
+      "split": "train",
+      "file": "01328_00884.png",
+      "frac_black": 0.37410736083984375
+    },
+    {
+      "split": "train",
+      "file": "01329_00884.png",
+      "frac_black": 0.3855133056640625
+    },
+    {
+      "split": "train",
+      "file": "01330_00885.png",
+      "frac_black": 0.342013676961263
+    },
+    {
+      "split": "train",
+      "file": "01333_00887.png",
+      "frac_black": 0.3231029510498047
+    },
+    {
+      "split": "train",
+      "file": "01334_00887.png",
+      "frac_black": 0.36196454366048175
+    },
+    {
+      "split": "train",
+      "file": "01335_00888.png",
+      "frac_black": 0.35130564371744794
+    },
+    {
+      "split": "train",
+      "file": "01336_00888.png",
+      "frac_black": 0.3327471415201823
+    },
+    {
+      "split": "train",
+      "file": "01337_00889.png",
+      "frac_black": 0.3590507507324219
+    },
+    {
+      "split": "train",
+      "file": "01339_00890.png",
+      "frac_black": 0.28319549560546875
+    },
+    {
+      "split": "train",
+      "file": "01340_00891.png",
+      "frac_black": 0.3985188802083333
+    },
+    {
+      "split": "train",
+      "file": "01350_00897.png",
+      "frac_black": 0.2881921132405599
+    },
+    {
+      "split": "train",
+      "file": "01351_00897.png",
+      "frac_black": 0.28103383382161456
+    },
+    {
+      "split": "train",
+      "file": "01352_00898.png",
+      "frac_black": 0.30025990804036456
+    },
+    {
+      "split": "train",
+      "file": "01353_00898.png",
+      "frac_black": 0.3503093719482422
+    },
+    {
+      "split": "train",
+      "file": "01354_00899.png",
+      "frac_black": 0.3776772816975911
+    },
+    {
+      "split": "train",
+      "file": "01361_00904.png",
+      "frac_black": 0.3516063690185547
+    },
+    {
+      "split": "train",
+      "file": "01362_00904.png",
+      "frac_black": 0.3309987386067708
+    },
+    {
+      "split": "train",
+      "file": "01365_00906.png",
+      "frac_black": 0.399258295694987
+    },
+    {
+      "split": "train",
+      "file": "01366_00907.png",
+      "frac_black": 0.2238006591796875
+    },
+    {
+      "split": "train",
+      "file": "01370_00910.png",
+      "frac_black": 0.3141358693440755
+    },
+    {
+      "split": "train",
+      "file": "01372_00911.png",
+      "frac_black": 0.3030446370442708
+    },
+    {
+      "split": "train",
+      "file": "01373_00911.png",
+      "frac_black": 0.4117819468180339
+    },
+    {
+      "split": "train",
+      "file": "01374_00912.png",
+      "frac_black": 0.28118133544921875
+    },
+    {
+      "split": "train",
+      "file": "01375_00912.png",
+      "frac_black": 0.264462153116862
+    },
+    {
+      "split": "train",
+      "file": "01378_00914.png",
+      "frac_black": 0.29324976603190106
+    },
+    {
+      "split": "train",
+      "file": "01379_00915.png",
+      "frac_black": 0.28582127888997394
+    },
+    {
+      "split": "train",
+      "file": "01380_00916.png",
+      "frac_black": 0.3298219045003255
+    },
+    {
+      "split": "train",
+      "file": "01381_00916.png",
+      "frac_black": 0.3181285858154297
+    },
+    {
+      "split": "train",
+      "file": "01384_00919.png",
+      "frac_black": 0.3286552429199219
+    },
+    {
+      "split": "train",
+      "file": "01385_00919.png",
+      "frac_black": 0.391330083211263
+    },
+    {
+      "split": "train",
+      "file": "01387_00921.png",
+      "frac_black": 0.4183432261149089
+    },
+    {
+      "split": "train",
+      "file": "01388_00921.png",
+      "frac_black": 0.30809656778971356
+    },
+    {
+      "split": "train",
+      "file": "01389_00922.png",
+      "frac_black": 0.21873982747395834
+    },
+    {
+      "split": "train",
+      "file": "01390_00923.png",
+      "frac_black": 0.37340736389160156
+    },
+    {
+      "split": "train",
+      "file": "01393_00925.png",
+      "frac_black": 0.2821057637532552
+    },
+    {
+      "split": "train",
+      "file": "01401_00931.png",
+      "frac_black": 0.342501958211263
+    },
+    {
+      "split": "train",
+      "file": "01402_00932.png",
+      "frac_black": 0.39275232950846356
+    },
+    {
+      "split": "train",
+      "file": "01403_00932.png",
+      "frac_black": 0.47109540303548175
+    },
+    {
+      "split": "train",
+      "file": "01404_00933.png",
+      "frac_black": 0.26795387268066406
+    },
+    {
+      "split": "train",
+      "file": "01406_00935.png",
+      "frac_black": 0.305362065633138
+    },
+    {
+      "split": "train",
+      "file": "01407_00935.png",
+      "frac_black": 0.3045037587483724
+    },
+    {
+      "split": "train",
+      "file": "01408_00936.png",
+      "frac_black": 0.34018198649088544
+    },
+    {
+      "split": "train",
+      "file": "01410_00937.png",
+      "frac_black": 0.23528416951497397
+    },
+    {
+      "split": "train",
+      "file": "01411_00938.png",
+      "frac_black": 0.29988352457682294
+    },
+    {
+      "split": "train",
+      "file": "01414_00941.png",
+      "frac_black": 0.3454672495524089
+    },
+    {
+      "split": "train",
+      "file": "01415_00941.png",
+      "frac_black": 0.31501007080078125
+    },
+    {
+      "split": "train",
+      "file": "01416_00942.png",
+      "frac_black": 0.2848656972249349
+    },
+    {
+      "split": "train",
+      "file": "01417_00942.png",
+      "frac_black": 0.30205345153808594
+    },
+    {
+      "split": "train",
+      "file": "01419_00943.png",
+      "frac_black": 0.2600866953531901
+    },
+    {
+      "split": "train",
+      "file": "01420_00944.png",
+      "frac_black": 0.2963854471842448
+    },
+    {
+      "split": "train",
+      "file": "01422_00945.png",
+      "frac_black": 0.38030115763346356
+    },
+    {
+      "split": "train",
+      "file": "01423_00946.png",
+      "frac_black": 0.3111165364583333
+    },
+    {
+      "split": "train",
+      "file": "01424_00946.png",
+      "frac_black": 0.3183034261067708
+    },
+    {
+      "split": "train",
+      "file": "01425_00947.png",
+      "frac_black": 0.2873554229736328
+    },
+    {
+      "split": "train",
+      "file": "01426_00947.png",
+      "frac_black": 0.24541727701822916
+    },
+    {
+      "split": "train",
+      "file": "01427_00948.png",
+      "frac_black": 0.23266156514485678
+    },
+    {
+      "split": "train",
+      "file": "01428_00948.png",
+      "frac_black": 0.27364476521809894
+    },
+    {
+      "split": "train",
+      "file": "01429_00949.png",
+      "frac_black": 0.2706127166748047
+    },
+    {
+      "split": "train",
+      "file": "01430_00950.png",
+      "frac_black": 0.3421001434326172
+    },
+    {
+      "split": "train",
+      "file": "01431_00950.png",
+      "frac_black": 0.3271808624267578
+    },
+    {
+      "split": "train",
+      "file": "01432_00951.png",
+      "frac_black": 0.26955922444661456
+    },
+    {
+      "split": "train",
+      "file": "01433_00952.png",
+      "frac_black": 0.34781964619954425
+    },
+    {
+      "split": "train",
+      "file": "01434_00952.png",
+      "frac_black": 0.42902183532714844
+    },
+    {
+      "split": "train",
+      "file": "01435_00954.png",
+      "frac_black": 0.22609774271647134
+    },
+    {
+      "split": "train",
+      "file": "01436_00955.png",
+      "frac_black": 0.39865684509277344
+    },
+    {
+      "split": "train",
+      "file": "01437_00955.png",
+      "frac_black": 0.2836462656656901
+    },
+    {
+      "split": "train",
+      "file": "01438_00956.png",
+      "frac_black": 0.5143833160400391
+    },
+    {
+      "split": "train",
+      "file": "01439_00957.png",
+      "frac_black": 0.3492279052734375
+    },
+    {
+      "split": "train",
+      "file": "01445_00961.png",
+      "frac_black": 0.33669598897298175
+    },
+    {
+      "split": "train",
+      "file": "01446_00962.png",
+      "frac_black": 0.4584808349609375
+    },
+    {
+      "split": "train",
+      "file": "01447_00962.png",
+      "frac_black": 0.3862679799397786
+    },
+    {
+      "split": "train",
+      "file": "01450_00965.png",
+      "frac_black": 0.36827977498372394
+    },
+    {
+      "split": "train",
+      "file": "01451_00965.png",
+      "frac_black": 0.3479633331298828
+    },
+    {
+      "split": "train",
+      "file": "01452_00966.png",
+      "frac_black": 0.27810096740722656
+    },
+    {
+      "split": "train",
+      "file": "01457_00970.png",
+      "frac_black": 0.3454551696777344
+    },
+    {
+      "split": "train",
+      "file": "01460_00973.png",
+      "frac_black": 0.363616943359375
+    },
+    {
+      "split": "train",
+      "file": "01461_00973.png",
+      "frac_black": 0.326022466023763
+    },
+    {
+      "split": "train",
+      "file": "01464_00976.png",
+      "frac_black": 0.25742340087890625
+    },
+    {
+      "split": "train",
+      "file": "01465_00976.png",
+      "frac_black": 0.2560780843098958
+    },
+    {
+      "split": "train",
+      "file": "01466_00977.png",
+      "frac_black": 0.31983311971028644
+    },
+    {
+      "split": "train",
+      "file": "01469_00982.png",
+      "frac_black": 0.20911471048990884
+    },
+    {
+      "split": "train",
+      "file": "01470_00982.png",
+      "frac_black": 0.24682998657226562
+    },
+    {
+      "split": "train",
+      "file": "01472_00984.png",
+      "frac_black": 0.33913548787434894
+    },
+    {
+      "split": "train",
+      "file": "01473_00985.png",
+      "frac_black": 0.5009225209554037
+    },
+    {
+      "split": "train",
+      "file": "01474_00986.png",
+      "frac_black": 0.3430747985839844
+    },
+    {
+      "split": "train",
+      "file": "01475_00986.png",
+      "frac_black": 0.32014211018880206
+    },
+    {
+      "split": "train",
+      "file": "01477_00988.png",
+      "frac_black": 0.3685766855875651
+    },
+    {
+      "split": "train",
+      "file": "01478_00988.png",
+      "frac_black": 0.32005945841471356
+    },
+    {
+      "split": "train",
+      "file": "01479_00989.png",
+      "frac_black": 0.49767812093098956
+    },
+    {
+      "split": "train",
+      "file": "01481_00991.png",
+      "frac_black": 0.3527139027913411
+    },
+    {
+      "split": "train",
+      "file": "01482_00991.png",
+      "frac_black": 0.3605047861735026
+    },
+    {
+      "split": "train",
+      "file": "01483_00992.png",
+      "frac_black": 0.2867209116617839
+    },
+    {
+      "split": "train",
+      "file": "01484_00992.png",
+      "frac_black": 0.3200632731119792
+    },
+    {
+      "split": "train",
+      "file": "01485_00993.png",
+      "frac_black": 0.43643760681152344
+    },
+    {
+      "split": "train",
+      "file": "01492_01000.png",
+      "frac_black": 0.2779070536295573
+    },
+    {
+      "split": "train",
+      "file": "01493_01000.png",
+      "frac_black": 0.37231890360514325
+    },
+    {
+      "split": "train",
+      "file": "01494_01001.png",
+      "frac_black": 0.2376073201497396
+    },
+    {
+      "split": "train",
+      "file": "01495_01002.png",
+      "frac_black": 0.3881003061930339
+    },
+    {
+      "split": "train",
+      "file": "01496_01002.png",
+      "frac_black": 0.3567015329996745
+    },
+    {
+      "split": "train",
+      "file": "01497_01003.png",
+      "frac_black": 0.27963829040527344
+    },
+    {
+      "split": "train",
+      "file": "01498_01003.png",
+      "frac_black": 0.3028481801350911
+    },
+    {
+      "split": "train",
+      "file": "01499_01004.png",
+      "frac_black": 0.308993657430013
+    },
+    {
+      "split": "train",
+      "file": "01500_01005.png",
+      "frac_black": 0.20272254943847656
+    },
+    {
+      "split": "train",
+      "file": "01501_01005.png",
+      "frac_black": 0.24578221638997397
+    },
+    {
+      "split": "train",
+      "file": "01502_01006.png",
+      "frac_black": 0.2791436513264974
+    },
+    {
+      "split": "train",
+      "file": "01503_01006.png",
+      "frac_black": 0.31745020548502606
+    },
+    {
+      "split": "train",
+      "file": "01504_01008.png",
+      "frac_black": 0.302490234375
+    },
+    {
+      "split": "train",
+      "file": "01507_01010.png",
+      "frac_black": 0.26001866658528644
+    },
+    {
+      "split": "train",
+      "file": "01509_01011.png",
+      "frac_black": 0.43132591247558594
+    },
+    {
+      "split": "train",
+      "file": "01510_01012.png",
+      "frac_black": 0.3874950408935547
+    },
+    {
+      "split": "train",
+      "file": "01512_01013.png",
+      "frac_black": 0.33575693766276044
+    },
+    {
+      "split": "train",
+      "file": "01514_01014.png",
+      "frac_black": 0.3539740244547526
+    },
+    {
+      "split": "train",
+      "file": "01515_01014.png",
+      "frac_black": 0.3668969472249349
+    },
+    {
+      "split": "train",
+      "file": "01516_01015.png",
+      "frac_black": 0.3273779551188151
+    },
+    {
+      "split": "train",
+      "file": "01518_01016.png",
+      "frac_black": 0.4172522226969401
+    },
+    {
+      "split": "train",
+      "file": "01520_01017.png",
+      "frac_black": 0.2426319122314453
+    },
+    {
+      "split": "train",
+      "file": "01523_01019.png",
+      "frac_black": 0.25606218973795575
+    },
+    {
+      "split": "train",
+      "file": "01524_01019.png",
+      "frac_black": 0.2914021809895833
+    },
+    {
+      "split": "train",
+      "file": "01525_01020.png",
+      "frac_black": 0.2925910949707031
+    },
+    {
+      "split": "train",
+      "file": "01526_01021.png",
+      "frac_black": 0.23529497782389322
+    },
+    {
+      "split": "train",
+      "file": "01528_01022.png",
+      "frac_black": 0.3349437713623047
+    },
+    {
+      "split": "train",
+      "file": "01529_01022.png",
+      "frac_black": 0.352078119913737
+    },
+    {
+      "split": "train",
+      "file": "01532_01024.png",
+      "frac_black": 0.24481328328450522
+    },
+    {
+      "split": "train",
+      "file": "01533_01025.png",
+      "frac_black": 0.389678955078125
+    },
+    {
+      "split": "test",
+      "file": "00012_00009.png",
+      "frac_black": 0.27291234334309894
+    },
+    {
+      "split": "test",
+      "file": "00013_00009.png",
+      "frac_black": 0.28116798400878906
+    },
+    {
+      "split": "test",
+      "file": "00037_00025.png",
+      "frac_black": 0.2711111704508464
+    },
+    {
+      "split": "test",
+      "file": "00053_00035.png",
+      "frac_black": 0.2745361328125
+    },
+    {
+      "split": "test",
+      "file": "00054_00035.png",
+      "frac_black": 0.332180658976237
+    },
+    {
+      "split": "test",
+      "file": "00063_00042.png",
+      "frac_black": 0.35659154256184894
+    },
+    {
+      "split": "test",
+      "file": "00085_00056.png",
+      "frac_black": 0.2322228749593099
+    },
+    {
+      "split": "test",
+      "file": "00086_00057.png",
+      "frac_black": 0.21690241495768228
+    },
+    {
+      "split": "test",
+      "file": "00097_00064.png",
+      "frac_black": 0.3529930114746094
+    },
+    {
+      "split": "test",
+      "file": "00098_00064.png",
+      "frac_black": 0.417935053507487
+    },
+    {
+      "split": "test",
+      "file": "00106_00071.png",
+      "frac_black": 0.39131418863932294
+    },
+    {
+      "split": "test",
+      "file": "00123_00083.png",
+      "frac_black": 0.29944928487141925
+    },
+    {
+      "split": "test",
+      "file": "00124_00084.png",
+      "frac_black": 0.3285776774088542
+    },
+    {
+      "split": "test",
+      "file": "00125_00084.png",
+      "frac_black": 0.3321940104166667
+    },
+    {
+      "split": "test",
+      "file": "00181_00120.png",
+      "frac_black": 0.3023802439371745
+    },
+    {
+      "split": "test",
+      "file": "00182_00120.png",
+      "frac_black": 0.3270142873128255
+    },
+    {
+      "split": "test",
+      "file": "00183_00121.png",
+      "frac_black": 0.306912104288737
+    },
+    {
+      "split": "test",
+      "file": "00184_00122.png",
+      "frac_black": 0.3097146352132161
+    },
+    {
+      "split": "test",
+      "file": "00185_00122.png",
+      "frac_black": 0.30324681599934894
+    },
+    {
+      "split": "test",
+      "file": "00187_00124.png",
+      "frac_black": 0.35729090372721356
+    },
+    {
+      "split": "test",
+      "file": "00194_00128.png",
+      "frac_black": 0.435122807820638
+    },
+    {
+      "split": "test",
+      "file": "00195_00129.png",
+      "frac_black": 0.39450645446777344
+    },
+    {
+      "split": "test",
+      "file": "00196_00129.png",
+      "frac_black": 0.3729565938313802
+    },
+    {
+      "split": "test",
+      "file": "00201_00133.png",
+      "frac_black": 0.3489805857340495
+    },
+    {
+      "split": "test",
+      "file": "00202_00134.png",
+      "frac_black": 0.4006233215332031
+    },
+    {
+      "split": "test",
+      "file": "00203_00134.png",
+      "frac_black": 0.4082724253336589
+    },
+    {
+      "split": "test",
+      "file": "00207_00137.png",
+      "frac_black": 0.3594716389973958
+    },
+    {
+      "split": "test",
+      "file": "00208_00137.png",
+      "frac_black": 0.4157829284667969
+    },
+    {
+      "split": "test",
+      "file": "00209_00138.png",
+      "frac_black": 0.4526538848876953
+    },
+    {
+      "split": "test",
+      "file": "00212_00140.png",
+      "frac_black": 0.44434229532877606
+    },
+    {
+      "split": "test",
+      "file": "00213_00141.png",
+      "frac_black": 0.34897295633951825
+    },
+    {
+      "split": "test",
+      "file": "00216_00143.png",
+      "frac_black": 0.3535626729329427
+    },
+    {
+      "split": "test",
+      "file": "00217_00143.png",
+      "frac_black": 0.3226979573567708
+    },
+    {
+      "split": "test",
+      "file": "00220_00145.png",
+      "frac_black": 0.3271840413411458
+    },
+    {
+      "split": "test",
+      "file": "00262_00170.png",
+      "frac_black": 0.3549022674560547
+    },
+    {
+      "split": "test",
+      "file": "00263_00171.png",
+      "frac_black": 0.45215479532877606
+    },
+    {
+      "split": "test",
+      "file": "00264_00171.png",
+      "frac_black": 0.4918842315673828
+    },
+    {
+      "split": "test",
+      "file": "00276_00179.png",
+      "frac_black": 0.37987200419108075
+    },
+    {
+      "split": "test",
+      "file": "00299_00194.png",
+      "frac_black": 0.2561486562093099
+    },
+    {
+      "split": "test",
+      "file": "00300_00194.png",
+      "frac_black": 0.36434173583984375
+    },
+    {
+      "split": "test",
+      "file": "00327_00211.png",
+      "frac_black": 0.29434967041015625
+    },
+    {
+      "split": "test",
+      "file": "00335_00216.png",
+      "frac_black": 0.2759844462076823
+    },
+    {
+      "split": "test",
+      "file": "00336_00217.png",
+      "frac_black": 0.37753868103027344
+    },
+    {
+      "split": "test",
+      "file": "00337_00217.png",
+      "frac_black": 0.27631187438964844
+    },
+    {
+      "split": "test",
+      "file": "00347_00226.png",
+      "frac_black": 0.3308601379394531
+    },
+    {
+      "split": "test",
+      "file": "00348_00227.png",
+      "frac_black": 0.5075607299804688
+    },
+    {
+      "split": "test",
+      "file": "00349_00227.png",
+      "frac_black": 0.4903545379638672
+    },
+    {
+      "split": "test",
+      "file": "00350_00228.png",
+      "frac_black": 0.30376243591308594
+    },
+    {
+      "split": "test",
+      "file": "00355_00231.png",
+      "frac_black": 0.33339818318684894
+    },
+    {
+      "split": "test",
+      "file": "00356_00232.png",
+      "frac_black": 0.26152928670247394
+    },
+    {
+      "split": "test",
+      "file": "00357_00232.png",
+      "frac_black": 0.23619524637858072
+    },
+    {
+      "split": "test",
+      "file": "00379_00248.png",
+      "frac_black": 0.42289161682128906
+    },
+    {
+      "split": "test",
+      "file": "00384_00253.png",
+      "frac_black": 0.4181620279947917
+    },
+    {
+      "split": "test",
+      "file": "00385_00253.png",
+      "frac_black": 0.4439398447672526
+    },
+    {
+      "split": "test",
+      "file": "00420_00276.png",
+      "frac_black": 0.3540159861246745
+    },
+    {
+      "split": "test",
+      "file": "00421_00277.png",
+      "frac_black": 0.2955392201741536
+    },
+    {
+      "split": "test",
+      "file": "00438_00288.png",
+      "frac_black": 0.396484375
+    },
+    {
+      "split": "test",
+      "file": "00439_00288.png",
+      "frac_black": 0.32503700256347656
+    },
+    {
+      "split": "test",
+      "file": "00448_00294.png",
+      "frac_black": 0.3723640441894531
+    },
+    {
+      "split": "test",
+      "file": "00449_00294.png",
+      "frac_black": 0.27704302469889325
+    },
+    {
+      "split": "test",
+      "file": "00458_00299.png",
+      "frac_black": 0.2880973815917969
+    },
+    {
+      "split": "test",
+      "file": "00459_00300.png",
+      "frac_black": 0.23082097371419272
+    },
+    {
+      "split": "test",
+      "file": "00460_00300.png",
+      "frac_black": 0.20375442504882812
+    },
+    {
+      "split": "test",
+      "file": "00469_00306.png",
+      "frac_black": 0.40250905354817706
+    },
+    {
+      "split": "test",
+      "file": "00470_00307.png",
+      "frac_black": 0.354458491007487
+    },
+    {
+      "split": "test",
+      "file": "00522_00343.png",
+      "frac_black": 0.3476575215657552
+    },
+    {
+      "split": "test",
+      "file": "00538_00357.png",
+      "frac_black": 0.41199620564778644
+    },
+    {
+      "split": "test",
+      "file": "00539_00357.png",
+      "frac_black": 0.3953857421875
+    },
+    {
+      "split": "test",
+      "file": "00562_00373.png",
+      "frac_black": 0.3446661631266276
+    },
+    {
+      "split": "test",
+      "file": "00564_00374.png",
+      "frac_black": 0.36771901448567706
+    },
+    {
+      "split": "test",
+      "file": "00572_00380.png",
+      "frac_black": 0.412021001180013
+    },
+    {
+      "split": "test",
+      "file": "00573_00380.png",
+      "frac_black": 0.4543921152750651
+    },
+    {
+      "split": "test",
+      "file": "00576_00382.png",
+      "frac_black": 0.35895220438639325
+    },
+    {
+      "split": "test",
+      "file": "00618_00409.png",
+      "frac_black": 0.22486114501953125
+    },
+    {
+      "split": "test",
+      "file": "00640_00423.png",
+      "frac_black": 0.41798655192057294
+    },
+    {
+      "split": "test",
+      "file": "00641_00424.png",
+      "frac_black": 0.3575814565022786
+    },
+    {
+      "split": "test",
+      "file": "00642_00424.png",
+      "frac_black": 0.41674550374348956
+    },
+    {
+      "split": "test",
+      "file": "00664_00439.png",
+      "frac_black": 0.46894391377766925
+    },
+    {
+      "split": "test",
+      "file": "00665_00439.png",
+      "frac_black": 0.4879449208577474
+    },
+    {
+      "split": "test",
+      "file": "00666_00440.png",
+      "frac_black": 0.5211003621419271
+    },
+    {
+      "split": "test",
+      "file": "00675_00446.png",
+      "frac_black": 0.4216925303141276
+    },
+    {
+      "split": "test",
+      "file": "00676_00446.png",
+      "frac_black": 0.3797893524169922
+    },
+    {
+      "split": "test",
+      "file": "00680_00449.png",
+      "frac_black": 0.3432731628417969
+    },
+    {
+      "split": "test",
+      "file": "00692_00457.png",
+      "frac_black": 0.4556763966878255
+    },
+    {
+      "split": "test",
+      "file": "00693_00457.png",
+      "frac_black": 0.4495245615641276
+    },
+    {
+      "split": "test",
+      "file": "00694_00458.png",
+      "frac_black": 0.40316327412923175
+    },
+    {
+      "split": "test",
+      "file": "00709_00469.png",
+      "frac_black": 0.3294366200764974
+    },
+    {
+      "split": "test",
+      "file": "00728_00482.png",
+      "frac_black": 0.3562812805175781
+    },
+    {
+      "split": "test",
+      "file": "00729_00482.png",
+      "frac_black": 0.37815284729003906
+    },
+    {
+      "split": "test",
+      "file": "00730_00483.png",
+      "frac_black": 0.32421112060546875
+    },
+    {
+      "split": "test",
+      "file": "00731_00483.png",
+      "frac_black": 0.3472493489583333
+    },
+    {
+      "split": "test",
+      "file": "00740_00489.png",
+      "frac_black": 0.22559165954589844
+    },
+    {
+      "split": "test",
+      "file": "00741_00489.png",
+      "frac_black": 0.2726523081461589
+    },
+    {
+      "split": "test",
+      "file": "00743_00490.png",
+      "frac_black": 0.32493336995442706
+    },
+    {
+      "split": "test",
+      "file": "00758_00500.png",
+      "frac_black": 0.31317392985026044
+    },
+    {
+      "split": "test",
+      "file": "00760_00501.png",
+      "frac_black": 0.3399798075358073
+    },
+    {
+      "split": "test",
+      "file": "00767_00506.png",
+      "frac_black": 0.26549212137858075
+    },
+    {
+      "split": "test",
+      "file": "00768_00507.png",
+      "frac_black": 0.23458290100097656
+    },
+    {
+      "split": "test",
+      "file": "00769_00508.png",
+      "frac_black": 0.3464794158935547
+    },
+    {
+      "split": "test",
+      "file": "00775_00512.png",
+      "frac_black": 0.20201619466145834
+    },
+    {
+      "split": "test",
+      "file": "00776_00512.png",
+      "frac_black": 0.34455235799153644
+    },
+    {
+      "split": "test",
+      "file": "00810_00534.png",
+      "frac_black": 0.26792017618815106
+    },
+    {
+      "split": "test",
+      "file": "00811_00535.png",
+      "frac_black": 0.21241633097330728
+    },
+    {
+      "split": "test",
+      "file": "00830_00547.png",
+      "frac_black": 0.28679529825846356
+    },
+    {
+      "split": "test",
+      "file": "00860_00569.png",
+      "frac_black": 0.3291314442952474
+    },
+    {
+      "split": "test",
+      "file": "00861_00570.png",
+      "frac_black": 0.3403778076171875
+    },
+    {
+      "split": "test",
+      "file": "00862_00570.png",
+      "frac_black": 0.3029950459798177
+    },
+    {
+      "split": "test",
+      "file": "00863_00571.png",
+      "frac_black": 0.4118531545003255
+    },
+    {
+      "split": "test",
+      "file": "00864_00571.png",
+      "frac_black": 0.4061819712320964
+    },
+    {
+      "split": "test",
+      "file": "00866_00572.png",
+      "frac_black": 0.4335397084554036
+    },
+    {
+      "split": "test",
+      "file": "00867_00573.png",
+      "frac_black": 0.40373484293619794
+    },
+    {
+      "split": "test",
+      "file": "00868_00574.png",
+      "frac_black": 0.39766693115234375
+    },
+    {
+      "split": "test",
+      "file": "00875_00579.png",
+      "frac_black": 0.3328959147135417
+    },
+    {
+      "split": "test",
+      "file": "00895_00593.png",
+      "frac_black": 0.3443991343180339
+    },
+    {
+      "split": "test",
+      "file": "00932_00619.png",
+      "frac_black": 0.5579535166422526
+    },
+    {
+      "split": "test",
+      "file": "00943_00627.png",
+      "frac_black": 0.411319096883138
+    },
+    {
+      "split": "test",
+      "file": "00944_00627.png",
+      "frac_black": 0.4968255360921224
+    },
+    {
+      "split": "test",
+      "file": "00963_00640.png",
+      "frac_black": 0.3313090006510417
+    },
+    {
+      "split": "test",
+      "file": "00964_00640.png",
+      "frac_black": 0.2629648844401042
+    },
+    {
+      "split": "test",
+      "file": "00966_00641.png",
+      "frac_black": 0.45354461669921875
+    },
+    {
+      "split": "test",
+      "file": "00970_00645.png",
+      "frac_black": 0.33870824178059894
+    },
+    {
+      "split": "test",
+      "file": "00971_00646.png",
+      "frac_black": 0.3120911916097005
+    },
+    {
+      "split": "test",
+      "file": "00972_00646.png",
+      "frac_black": 0.3603941599527995
+    },
+    {
+      "split": "test",
+      "file": "00994_00663.png",
+      "frac_black": 0.2563355763753255
+    },
+    {
+      "split": "test",
+      "file": "00995_00663.png",
+      "frac_black": 0.3376884460449219
+    },
+    {
+      "split": "test",
+      "file": "01034_00688.png",
+      "frac_black": 0.39024607340494794
+    },
+    {
+      "split": "test",
+      "file": "01035_00689.png",
+      "frac_black": 0.3855406443277995
+    },
+    {
+      "split": "test",
+      "file": "01036_00689.png",
+      "frac_black": 0.3840262095133464
+    },
+    {
+      "split": "test",
+      "file": "01075_00714.png",
+      "frac_black": 0.3450145721435547
+    },
+    {
+      "split": "test",
+      "file": "01083_00722.png",
+      "frac_black": 0.3882439931233724
+    },
+    {
+      "split": "test",
+      "file": "01106_00736.png",
+      "frac_black": 0.37151463826497394
+    },
+    {
+      "split": "test",
+      "file": "01107_00736.png",
+      "frac_black": 0.38686243693033856
+    },
+    {
+      "split": "test",
+      "file": "01129_00750.png",
+      "frac_black": 0.5897000630696615
+    },
+    {
+      "split": "test",
+      "file": "01130_00751.png",
+      "frac_black": 0.4408378601074219
+    },
+    {
+      "split": "test",
+      "file": "01136_00755.png",
+      "frac_black": 0.3518028259277344
+    },
+    {
+      "split": "test",
+      "file": "01137_00755.png",
+      "frac_black": 0.298031489054362
+    },
+    {
+      "split": "test",
+      "file": "01143_00761.png",
+      "frac_black": 0.38706207275390625
+    },
+    {
+      "split": "test",
+      "file": "01144_00762.png",
+      "frac_black": 0.4091478983561198
+    },
+    {
+      "split": "test",
+      "file": "01145_00762.png",
+      "frac_black": 0.35365041097005206
+    },
+    {
+      "split": "test",
+      "file": "01146_00763.png",
+      "frac_black": 0.3870391845703125
+    },
+    {
+      "split": "test",
+      "file": "01150_00766.png",
+      "frac_black": 0.2585150400797526
+    },
+    {
+      "split": "test",
+      "file": "01151_00766.png",
+      "frac_black": 0.3779150644938151
+    },
+    {
+      "split": "test",
+      "file": "01168_00777.png",
+      "frac_black": 0.30185699462890625
+    },
+    {
+      "split": "test",
+      "file": "01169_00777.png",
+      "frac_black": 0.32128143310546875
+    },
+    {
+      "split": "test",
+      "file": "01170_00778.png",
+      "frac_black": 0.32841046651204425
+    },
+    {
+      "split": "test",
+      "file": "01185_00790.png",
+      "frac_black": 0.3777751922607422
+    },
+    {
+      "split": "test",
+      "file": "01186_00791.png",
+      "frac_black": 0.3944346110026042
+    },
+    {
+      "split": "test",
+      "file": "01187_00792.png",
+      "frac_black": 0.3193785349527995
+    },
+    {
+      "split": "test",
+      "file": "01188_00793.png",
+      "frac_black": 0.3274854024251302
+    },
+    {
+      "split": "test",
+      "file": "01189_00793.png",
+      "frac_black": 0.2902030944824219
+    },
+    {
+      "split": "test",
+      "file": "01205_00803.png",
+      "frac_black": 0.3684978485107422
+    },
+    {
+      "split": "test",
+      "file": "01206_00803.png",
+      "frac_black": 0.37171173095703125
+    },
+    {
+      "split": "test",
+      "file": "01212_00807.png",
+      "frac_black": 0.446194330851237
+    },
+    {
+      "split": "test",
+      "file": "01213_00807.png",
+      "frac_black": 0.39788373311360675
+    },
+    {
+      "split": "test",
+      "file": "01250_00832.png",
+      "frac_black": 0.4615135192871094
+    },
+    {
+      "split": "test",
+      "file": "01251_00832.png",
+      "frac_black": 0.4606342315673828
+    },
+    {
+      "split": "test",
+      "file": "01277_00850.png",
+      "frac_black": 0.24477386474609375
+    },
+    {
+      "split": "test",
+      "file": "01282_00853.png",
+      "frac_black": 0.2642739613850911
+    },
+    {
+      "split": "test",
+      "file": "01283_00853.png",
+      "frac_black": 0.35407765706380206
+    },
+    {
+      "split": "test",
+      "file": "01291_00858.png",
+      "frac_black": 0.2228851318359375
+    },
+    {
+      "split": "test",
+      "file": "01297_00863.png",
+      "frac_black": 0.34035491943359375
+    },
+    {
+      "split": "test",
+      "file": "01298_00863.png",
+      "frac_black": 0.3860219319661458
+    },
+    {
+      "split": "test",
+      "file": "01299_00864.png",
+      "frac_black": 0.3956158955891927
+    },
+    {
+      "split": "test",
+      "file": "01313_00874.png",
+      "frac_black": 0.31467310587565106
+    },
+    {
+      "split": "test",
+      "file": "01314_00874.png",
+      "frac_black": 0.36053721110026044
+    },
+    {
+      "split": "test",
+      "file": "01342_00892.png",
+      "frac_black": 0.3717053731282552
+    },
+    {
+      "split": "test",
+      "file": "01343_00892.png",
+      "frac_black": 0.3247063954671224
+    },
+    {
+      "split": "test",
+      "file": "01344_00893.png",
+      "frac_black": 0.4733880360921224
+    },
+    {
+      "split": "test",
+      "file": "01345_00894.png",
+      "frac_black": 0.42094167073567706
+    },
+    {
+      "split": "test",
+      "file": "01346_00895.png",
+      "frac_black": 0.45539601643880206
+    },
+    {
+      "split": "test",
+      "file": "01363_00905.png",
+      "frac_black": 0.2914314270019531
+    },
+    {
+      "split": "test",
+      "file": "01364_00905.png",
+      "frac_black": 0.2540702819824219
+    },
+    {
+      "split": "test",
+      "file": "01367_00908.png",
+      "frac_black": 0.339080810546875
+    },
+    {
+      "split": "test",
+      "file": "01376_00913.png",
+      "frac_black": 0.4489574432373047
+    },
+    {
+      "split": "test",
+      "file": "01377_00913.png",
+      "frac_black": 0.39432207743326825
+    },
+    {
+      "split": "test",
+      "file": "01386_00920.png",
+      "frac_black": 0.3572044372558594
+    },
+    {
+      "split": "test",
+      "file": "01394_00926.png",
+      "frac_black": 0.28487205505371094
+    },
+    {
+      "split": "test",
+      "file": "01395_00926.png",
+      "frac_black": 0.2916647593180339
+    },
+    {
+      "split": "test",
+      "file": "01396_00927.png",
+      "frac_black": 0.2976493835449219
+    },
+    {
+      "split": "test",
+      "file": "01397_00928.png",
+      "frac_black": 0.31237157185872394
+    },
+    {
+      "split": "test",
+      "file": "01398_00928.png",
+      "frac_black": 0.37082354227701825
+    },
+    {
+      "split": "test",
+      "file": "01399_00929.png",
+      "frac_black": 0.46829668680826825
+    },
+    {
+      "split": "test",
+      "file": "01405_00934.png",
+      "frac_black": 0.3320414225260417
+    },
+    {
+      "split": "test",
+      "file": "01412_00939.png",
+      "frac_black": 0.35154978434244794
+    },
+    {
+      "split": "test",
+      "file": "01413_00940.png",
+      "frac_black": 0.37015406290690106
+    },
+    {
+      "split": "test",
+      "file": "01448_00963.png",
+      "frac_black": 0.28773943583170575
+    },
+    {
+      "split": "test",
+      "file": "01449_00964.png",
+      "frac_black": 0.34763654073079425
+    },
+    {
+      "split": "test",
+      "file": "01458_00972.png",
+      "frac_black": 0.3591423034667969
+    },
+    {
+      "split": "test",
+      "file": "01459_00972.png",
+      "frac_black": 0.289120356241862
+    },
+    {
+      "split": "test",
+      "file": "01462_00974.png",
+      "frac_black": 0.2764110565185547
+    },
+    {
+      "split": "test",
+      "file": "01463_00974.png",
+      "frac_black": 0.3450965881347656
+    },
+    {
+      "split": "test",
+      "file": "01467_00980.png",
+      "frac_black": 0.32584381103515625
+    },
+    {
+      "split": "test",
+      "file": "01468_00981.png",
+      "frac_black": 0.2869453430175781
+    },
+    {
+      "split": "test",
+      "file": "01488_00995.png",
+      "frac_black": 0.26901817321777344
+    },
+    {
+      "split": "test",
+      "file": "01489_00995.png",
+      "frac_black": 0.34850311279296875
+    },
+    {
+      "split": "test",
+      "file": "01490_00996.png",
+      "frac_black": 0.3158302307128906
+    },
+    {
+      "split": "test",
+      "file": "01491_00998.png",
+      "frac_black": 0.3287760416666667
+    }
+  ],
+  "femurs_per_xray": {
+    "('test', 1)": 82,
+    "('test', 2)": 64,
+    "('train', 1)": 361,
+    "('train', 2)": 341
+  },
+  "unique_xray_ids_per_split": {
+    "test": 146,
+    "train": 702
+  },
+  "leakage": {
+    "exact_duplicate_groups": [
+      [
+        "00397_00261.png",
+        "00399_00262.png"
+      ]
+    ],
+    "near_duplicate_pairs_ahash_le8": [
+      [
+        "train/00022_00016.png",
+        "train/00164_00110.png",
+        7
+      ],
+      [
+        "train/00022_00016.png",
+        "train/00673_00445.png",
+        6
+      ],
+      [
+        "train/00023_00016.png",
+        "train/00241_00157.png",
+        4
+      ],
+      [
+        "train/00023_00016.png",
+        "train/01493_01000.png",
+        5
+      ],
+      [
+        "train/00023_00016.png",
+        "test/00694_00458.png",
+        7
+      ],
+      [
+        "train/00023_00016.png",
+        "test/00861_00570.png",
+        6
+      ],
+      [
+        "train/00026_00019.png",
+        "train/01192_00795.png",
+        7
+      ],
+      [
+        "train/00027_00019.png",
+        "train/00103_00069.png",
+        7
+      ],
+      [
+        "train/00027_00019.png",
+        "train/00154_00104.png",
+        8
+      ],
+      [
+        "train/00029_00020.png",
+        "train/00103_00069.png",
+        5
+      ],
+      [
+        "train/00029_00020.png",
+        "train/00154_00104.png",
+        6
+      ],
+      [
+        "train/00029_00020.png",
+        "train/00524_00346.png",
+        8
+      ],
+      [
+        "train/00029_00020.png",
+        "train/00998_00665.png",
+        8
+      ],
+      [
+        "train/00030_00021.png",
+        "train/00103_00069.png",
+        8
+      ],
+      [
+        "train/00031_00022.png",
+        "train/00713_00472.png",
+        7
+      ],
+      [
+        "train/00031_00022.png",
+        "train/00829_00546.png",
+        8
+      ],
+      [
+        "train/00032_00022.png",
+        "test/00563_00374.png",
+        8
+      ],
+      [
+        "train/00041_00028.png",
+        "train/00319_00206.png",
+        5
+      ],
+      [
+        "train/00041_00028.png",
+        "train/00752_00496.png",
+        8
+      ],
+      [
+        "train/00041_00028.png",
+        "train/01422_00945.png",
+        8
+      ],
+      [
+        "train/00041_00028.png",
+        "test/01343_00892.png",
+        7
+      ],
+      [
+        "train/00070_00047.png",
+        "train/01450_00965.png",
+        7
+      ],
+      [
+        "train/00077_00052.png",
+        "train/00580_00385.png",
+        8
+      ],
+      [
+        "train/00077_00052.png",
+        "train/00823_00543.png",
+        8
+      ],
+      [
+        "train/00077_00052.png",
+        "train/01203_00802.png",
+        8
+      ],
+      [
+        "train/00077_00052.png",
+        "train/01293_00861.png",
+        7
+      ],
+      [
+        "train/00077_00052.png",
+        "train/01333_00887.png",
+        6
+      ],
+      [
+        "train/00077_00052.png",
+        "train/01524_01019.png",
+        8
+      ],
+      [
+        "train/00077_00052.png",
+        "test/00355_00231.png",
+        7
+      ],
+      [
+        "train/00081_00054.png",
+        "test/01206_00803.png",
+        8
+      ],
+      [
+        "train/00081_00054.png",
+        "test/01459_00972.png",
+        8
+      ],
+      [
+        "train/00082_00054.png",
+        "train/00673_00445.png",
+        8
+      ],
+      [
+        "train/00082_00054.png",
+        "train/00881_00584.png",
+        7
+      ],
+      [
+        "train/00082_00054.png",
+        "train/01040_00693.png",
+        8
+      ],
+      [
+        "train/00082_00054.png",
+        "test/00810_00534.png",
+        8
+      ],
+      [
+        "train/00083_00055.png",
+        "train/00342_00222.png",
+        7
+      ],
+      [
+        "train/00087_00058.png",
+        "train/00089_00059.png",
+        8
+      ],
+      [
+        "train/00095_00063.png",
+        "train/00319_00206.png",
+        7
+      ],
+      [
+        "train/00095_00063.png",
+        "train/00472_00309.png",
+        7
+      ],
+      [
+        "train/00095_00063.png",
+        "train/00609_00403.png",
+        8
+      ],
+      [
+        "train/00095_00063.png",
+        "train/00770_00509.png",
+        7
+      ],
+      [
+        "train/00095_00063.png",
+        "train/01081_00721.png",
+        7
+      ],
+      [
+        "train/00095_00063.png",
+        "test/01343_00892.png",
+        7
+      ],
+      [
+        "train/00096_00063.png",
+        "train/00986_00656.png",
+        5
+      ],
+      [
+        "train/00096_00063.png",
+        "train/01109_00737.png",
+        6
+      ],
+      [
+        "train/00096_00063.png",
+        "test/01298_00863.png",
+        7
+      ],
+      [
+        "train/00102_00067.png",
+        "train/00616_00408.png",
+        8
+      ],
+      [
+        "train/00102_00067.png",
+        "train/00673_00445.png",
+        8
+      ],
+      [
+        "train/00102_00067.png",
+        "train/01457_00970.png",
+        7
+      ],
+      [
+        "train/00102_00067.png",
+        "test/01212_00807.png",
+        5
+      ],
+      [
+        "train/00103_00069.png",
+        "train/00154_00104.png",
+        3
+      ],
+      [
+        "train/00103_00069.png",
+        "train/00341_00221.png",
+        8
+      ],
+      [
+        "train/00103_00069.png",
+        "train/00524_00346.png",
+        7
+      ],
+      [
+        "train/00103_00069.png",
+        "train/00975_00648.png",
+        8
+      ],
+      [
+        "train/00103_00069.png",
+        "train/00998_00665.png",
+        7
+      ],
+      [
+        "train/00104_00069.png",
+        "train/00197_00130.png",
+        5
+      ],
+      [
+        "train/00104_00069.png",
+        "train/00617_00408.png",
+        4
+      ],
+      [
+        "train/00104_00069.png",
+        "train/01029_00685.png",
+        8
+      ],
+      [
+        "train/00104_00069.png",
+        "test/01363_00905.png",
+        8
+      ],
+      [
+        "train/00107_00072.png",
+        "train/00149_00101.png",
+        8
+      ],
+      [
+        "train/00107_00072.png",
+        "train/01210_00806.png",
+        8
+      ],
+      [
+        "train/00118_00079.png",
+        "train/01067_00710.png",
+        8
+      ],
+      [
+        "train/00122_00082.png",
+        "train/01231_00819.png",
+        8
+      ],
+      [
+        "train/00130_00087.png",
+        "train/01096_00730.png",
+        6
+      ],
+      [
+        "train/00132_00088.png",
+        "train/00848_00559.png",
+        6
+      ],
+      [
+        "train/00132_00088.png",
+        "train/01422_00945.png",
+        8
+      ],
+      [
+        "train/00132_00088.png",
+        "train/01523_01019.png",
+        8
+      ],
+      [
+        "train/00136_00091.png",
+        "train/01211_00806.png",
+        8
+      ],
+      [
+        "train/00138_00092.png",
+        "train/00781_00515.png",
+        6
+      ],
+      [
+        "train/00138_00092.png",
+        "test/00106_00071.png",
+        8
+      ],
+      [
+        "train/00139_00092.png",
+        "train/00610_00403.png",
+        8
+      ],
+      [
+        "train/00139_00092.png",
+        "train/00616_00408.png",
+        6
+      ],
+      [
+        "train/00149_00101.png",
+        "train/01210_00806.png",
+        8
+      ],
+      [
+        "train/00149_00101.png",
+        "test/01342_00892.png",
+        8
+      ],
+      [
+        "train/00153_00103.png",
+        "train/00672_00444.png",
+        6
+      ],
+      [
+        "train/00153_00103.png",
+        "test/01459_00972.png",
+        8
+      ],
+      [
+        "train/00154_00104.png",
+        "train/00365_00239.png",
+        8
+      ],
+      [
+        "train/00154_00104.png",
+        "train/00475_00311.png",
+        6
+      ],
+      [
+        "train/00154_00104.png",
+        "train/00524_00346.png",
+        6
+      ],
+      [
+        "train/00155_00104.png",
+        "test/01206_00803.png",
+        8
+      ],
+      [
+        "train/00197_00130.png",
+        "train/00617_00408.png",
+        5
+      ],
+      [
+        "train/00198_00131.png",
+        "train/00376_00246.png",
+        8
+      ],
+      [
+        "train/00198_00131.png",
+        "train/00674_00445.png",
+        6
+      ],
+      [
+        "train/00198_00131.png",
+        "test/00861_00570.png",
+        6
+      ],
+      [
+        "train/00198_00131.png",
+        "test/01468_00981.png",
+        7
+      ],
+      [
+        "train/00204_00135.png",
+        "test/01363_00905.png",
+        5
+      ],
+      [
+        "train/00215_00142.png",
+        "train/00377_00246.png",
+        7
+      ],
+      [
+        "train/00223_00147.png",
+        "train/00482_00314.png",
+        7
+      ],
+      [
+        "train/00226_00149.png",
+        "train/01284_00854.png",
+        8
+      ],
+      [
+        "train/00241_00157.png",
+        "train/01493_01000.png",
+        5
+      ],
+      [
+        "train/00247_00161.png",
+        "train/01183_00788.png",
+        7
+      ],
+      [
+        "train/00247_00161.png",
+        "test/01143_00761.png",
+        7
+      ],
+      [
+        "train/00247_00161.png",
+        "test/01206_00803.png",
+        8
+      ],
+      [
+        "train/00253_00164.png",
+        "train/00498_00327.png",
+        8
+      ],
+      [
+        "train/00253_00164.png",
+        "train/00624_00413.png",
+        4
+      ],
+      [
+        "train/00253_00164.png",
+        "train/01497_01003.png",
+        8
+      ],
+      [
+        "train/00253_00164.png",
+        "test/00449_00294.png",
+        7
+      ],
+      [
+        "train/00261_00169.png",
+        "test/01278_00850.png",
+        7
+      ],
+      [
+        "train/00279_00182.png",
+        "train/00589_00390.png",
+        8
+      ],
+      [
+        "train/00282_00184.png",
+        "test/01266_00843.png",
+        5
+      ],
+      [
+        "train/00283_00184.png",
+        "train/00837_00552.png",
+        8
+      ],
+      [
+        "train/00283_00184.png",
+        "train/01497_01003.png",
+        7
+      ],
+      [
+        "train/00319_00206.png",
+        "train/00777_00513.png",
+        8
+      ],
+      [
+        "train/00319_00206.png",
+        "train/01422_00945.png",
+        7
+      ],
+      [
+        "train/00319_00206.png",
+        "train/01429_00949.png",
+        7
+      ],
+      [
+        "train/00323_00208.png",
+        "train/00437_00287.png",
+        6
+      ],
+      [
+        "train/00323_00208.png",
+        "train/00490_00319.png",
+        8
+      ],
+      [
+        "train/00323_00208.png",
+        "train/00690_00456.png",
+        8
+      ],
+      [
+        "train/00323_00208.png",
+        "train/01210_00806.png",
+        7
+      ],
+      [
+        "train/00323_00208.png",
+        "train/01477_00988.png",
+        8
+      ],
+      [
+        "train/00323_00208.png",
+        "train/01516_01015.png",
+        8
+      ],
+      [
+        "train/00324_00208.png",
+        "train/00713_00472.png",
+        8
+      ],
+      [
+        "train/00326_00210.png",
+        "train/00471_00308.png",
+        8
+      ],
+      [
+        "train/00333_00214.png",
+        "train/00404_00265.png",
+        1
+      ],
+      [
+        "train/00333_00214.png",
+        "train/00787_00518.png",
+        5
+      ],
+      [
+        "train/00333_00214.png",
+        "test/01298_00863.png",
+        4
+      ],
+      [
+        "train/00333_00214.png",
+        "test/01299_00864.png",
+        8
+      ],
+      [
+        "train/00341_00221.png",
+        "train/00475_00311.png",
+        7
+      ],
+      [
+        "train/00341_00221.png",
+        "train/00524_00346.png",
+        7
+      ],
+      [
+        "train/00341_00221.png",
+        "train/00975_00648.png",
+        8
+      ],
+      [
+        "train/00353_00230.png",
+        "train/00617_00408.png",
+        8
+      ],
+      [
+        "train/00353_00230.png",
+        "train/00988_00658.png",
+        6
+      ],
+      [
+        "train/00353_00230.png",
+        "train/01195_00797.png",
+        7
+      ],
+      [
+        "train/00353_00230.png",
+        "test/00767_00506.png",
+        7
+      ],
+      [
+        "train/00371_00242.png",
+        "test/00895_00593.png",
+        6
+      ],
+      [
+        "train/00372_00243.png",
+        "test/01468_00981.png",
+        8
+      ],
+      [
+        "train/00376_00246.png",
+        "test/01206_00803.png",
+        7
+      ],
+      [
+        "train/00376_00246.png",
+        "test/01459_00972.png",
+        7
+      ],
+      [
+        "train/00397_00261.png",
+        "train/00399_00262.png",
+        0
+      ],
+      [
+        "train/00404_00265.png",
+        "train/00787_00518.png",
+        4
+      ],
+      [
+        "train/00404_00265.png",
+        "train/00796_00524.png",
+        8
+      ],
+      [
+        "train/00404_00265.png",
+        "test/01298_00863.png",
+        3
+      ],
+      [
+        "train/00404_00265.png",
+        "test/01299_00864.png",
+        7
+      ],
+      [
+        "train/00412_00271.png",
+        "train/01271_00846.png",
+        8
+      ],
+      [
+        "train/00412_00271.png",
+        "train/01516_01015.png",
+        8
+      ],
+      [
+        "train/00412_00271.png",
+        "test/00336_00217.png",
+        8
+      ],
+      [
+        "train/00433_00285.png",
+        "test/01169_00777.png",
+        5
+      ],
+      [
+        "train/00437_00287.png",
+        "train/01516_01015.png",
+        8
+      ],
+      [
+        "train/00464_00303.png",
+        "train/00673_00445.png",
+        7
+      ],
+      [
+        "train/00471_00308.png",
+        "train/01271_00846.png",
+        4
+      ],
+      [
+        "train/00472_00309.png",
+        "train/00770_00509.png",
+        8
+      ],
+      [
+        "train/00472_00309.png",
+        "train/01081_00721.png",
+        8
+      ],
+      [
+        "train/00475_00311.png",
+        "train/00524_00346.png",
+        4
+      ],
+      [
+        "train/00475_00311.png",
+        "train/00610_00403.png",
+        8
+      ],
+      [
+        "train/00475_00311.png",
+        "train/00823_00543.png",
+        4
+      ],
+      [
+        "train/00475_00311.png",
+        "train/01193_00795.png",
+        8
+      ],
+      [
+        "train/00475_00311.png",
+        "train/01393_00925.png",
+        8
+      ],
+      [
+        "train/00475_00311.png",
+        "train/01524_01019.png",
+        8
+      ],
+      [
+        "train/00489_00319.png",
+        "train/01493_01000.png",
+        6
+      ],
+      [
+        "train/00489_00319.png",
+        "test/00385_00253.png",
+        7
+      ],
+      [
+        "train/00498_00327.png",
+        "train/00624_00413.png",
+        8
+      ],
+      [
+        "train/00498_00327.png",
+        "train/01437_00955.png",
+        5
+      ],
+      [
+        "train/00499_00327.png",
+        "train/01094_00728.png",
+        7
+      ],
+      [
+        "train/00499_00327.png",
+        "test/01298_00863.png",
+        8
+      ],
+      [
+        "train/00500_00328.png",
+        "train/00718_00475.png",
+        7
+      ],
+      [
+        "train/00505_00331.png",
+        "test/00694_00458.png",
+        8
+      ],
+      [
+        "train/00511_00334.png",
+        "train/01094_00728.png",
+        7
+      ],
+      [
+        "train/00511_00334.png",
+        "train/01288_00857.png",
+        8
+      ],
+      [
+        "train/00515_00337.png",
+        "train/00516_00338.png",
+        2
+      ],
+      [
+        "train/00524_00346.png",
+        "train/00823_00543.png",
+        8
+      ],
+      [
+        "train/00566_00376.png",
+        "train/01293_00861.png",
+        6
+      ],
+      [
+        "train/00566_00376.png",
+        "test/00355_00231.png",
+        8
+      ],
+      [
+        "train/00580_00385.png",
+        "train/01124_00747.png",
+        8
+      ],
+      [
+        "train/00580_00385.png",
+        "train/01333_00887.png",
+        8
+      ],
+      [
+        "train/00593_00393.png",
+        "train/00786_00518.png",
+        7
+      ],
+      [
+        "train/00593_00393.png",
+        "train/01192_00795.png",
+        7
+      ],
+      [
+        "train/00595_00394.png",
+        "train/01095_00729.png",
+        7
+      ],
+      [
+        "train/00595_00394.png",
+        "train/01097_00730.png",
+        8
+      ],
+      [
+        "train/00601_00397.png",
+        "train/01081_00721.png",
+        6
+      ],
+      [
+        "train/00601_00397.png",
+        "train/01105_00735.png",
+        7
+      ],
+      [
+        "train/00601_00397.png",
+        "train/01306_00869.png",
+        5
+      ],
+      [
+        "train/00609_00403.png",
+        "train/01478_00988.png",
+        8
+      ],
+      [
+        "train/00609_00403.png",
+        "test/01343_00892.png",
+        7
+      ],
+      [
+        "train/00610_00403.png",
+        "train/00616_00408.png",
+        8
+      ],
+      [
+        "train/00610_00403.png",
+        "train/01193_00795.png",
+        8
+      ],
+      [
+        "train/00610_00403.png",
+        "train/01393_00925.png",
+        8
+      ],
+      [
+        "train/00610_00403.png",
+        "test/00336_00217.png",
+        8
+      ],
+      [
+        "train/00615_00407.png",
+        "train/01097_00730.png",
+        8
+      ],
+      [
+        "train/00616_00408.png",
+        "train/01333_00887.png",
+        8
+      ],
+      [
+        "train/00616_00408.png",
+        "test/01212_00807.png",
+        5
+      ],
+      [
+        "train/00617_00408.png",
+        "train/01029_00685.png",
+        8
+      ],
+      [
+        "train/00617_00408.png",
+        "test/00767_00506.png",
+        7
+      ],
+      [
+        "train/00617_00408.png",
+        "test/01363_00905.png",
+        8
+      ],
+      [
+        "train/00622_00412.png",
+        "train/00623_00413.png",
+        8
+      ],
+      [
+        "train/00624_00413.png",
+        "train/01497_01003.png",
+        6
+      ],
+      [
+        "train/00624_00413.png",
+        "test/00449_00294.png",
+        7
+      ],
+      [
+        "train/00645_00426.png",
+        "test/01144_00762.png",
+        8
+      ],
+      [
+        "train/00652_00431.png",
+        "train/01353_00898.png",
+        7
+      ],
+      [
+        "train/00669_00442.png",
+        "train/01193_00795.png",
+        8
+      ],
+      [
+        "train/00673_00445.png",
+        "train/00881_00584.png",
+        7
+      ],
+      [
+        "train/00673_00445.png",
+        "test/00810_00534.png",
+        8
+      ],
+      [
+        "train/00674_00445.png",
+        "train/01407_00935.png",
+        8
+      ],
+      [
+        "train/00700_00462.png",
+        "train/01303_00866.png",
+        5
+      ],
+      [
+        "train/00700_00462.png",
+        "test/01206_00803.png",
+        8
+      ],
+      [
+        "train/00700_00462.png",
+        "test/01459_00972.png",
+        8
+      ],
+      [
+        "train/00713_00472.png",
+        "train/01138_00756.png",
+        8
+      ],
+      [
+        "train/00727_00481.png",
+        "train/01207_00804.png",
+        8
+      ],
+      [
+        "train/00752_00496.png",
+        "train/01081_00721.png",
+        7
+      ],
+      [
+        "train/00752_00496.png",
+        "train/01306_00869.png",
+        8
+      ],
+      [
+        "train/00753_00496.png",
+        "test/00300_00194.png",
+        7
+      ],
+      [
+        "train/00756_00499.png",
+        "train/01293_00861.png",
+        8
+      ],
+      [
+        "train/00756_00499.png",
+        "train/01451_00965.png",
+        8
+      ],
+      [
+        "train/00756_00499.png",
+        "train/01525_01020.png",
+        8
+      ],
+      [
+        "train/00770_00509.png",
+        "train/01081_00721.png",
+        8
+      ],
+      [
+        "train/00786_00518.png",
+        "train/01192_00795.png",
+        8
+      ],
+      [
+        "train/00786_00518.png",
+        "train/01264_00841.png",
+        8
+      ],
+      [
+        "train/00787_00518.png",
+        "test/01298_00863.png",
+        3
+      ],
+      [
+        "train/00787_00518.png",
+        "test/01299_00864.png",
+        5
+      ],
+      [
+        "train/00788_00519.png",
+        "train/01104_00735.png",
+        8
+      ],
+      [
+        "train/00788_00519.png",
+        "train/01109_00737.png",
+        5
+      ],
+      [
+        "train/00788_00519.png",
+        "test/01298_00863.png",
+        8
+      ],
+      [
+        "train/00796_00524.png",
+        "train/01109_00737.png",
+        6
+      ],
+      [
+        "train/00823_00543.png",
+        "train/01193_00795.png",
+        6
+      ],
+      [
+        "train/00824_00543.png",
+        "test/01459_00972.png",
+        7
+      ],
+      [
+        "train/00829_00546.png",
+        "train/01497_01003.png",
+        8
+      ],
+      [
+        "train/00837_00552.png",
+        "train/01523_01019.png",
+        8
+      ],
+      [
+        "train/00839_00553.png",
+        "train/01027_00684.png",
+        8
+      ],
+      [
+        "train/00839_00553.png",
+        "test/01266_00843.png",
+        8
+      ],
+      [
+        "train/00843_00556.png",
+        "train/00940_00625.png",
+        8
+      ],
+      [
+        "train/00843_00556.png",
+        "test/00728_00482.png",
+        8
+      ],
+      [
+        "train/00848_00559.png",
+        "train/01422_00945.png",
+        8
+      ],
+      [
+        "train/00848_00559.png",
+        "train/01523_01019.png",
+        8
+      ],
+      [
+        "train/00881_00584.png",
+        "train/01258_00837.png",
+        8
+      ],
+      [
+        "train/00940_00625.png",
+        "test/00728_00482.png",
+        8
+      ],
+      [
+        "train/00950_00631.png",
+        "train/01203_00802.png",
+        8
+      ],
+      [
+        "train/00975_00648.png",
+        "train/01203_00802.png",
+        7
+      ],
+      [
+        "train/00975_00648.png",
+        "train/01293_00861.png",
+        6
+      ],
+      [
+        "train/00975_00648.png",
+        "test/00355_00231.png",
+        4
+      ],
+      [
+        "train/00988_00658.png",
+        "test/00767_00506.png",
+        5
+      ],
+      [
+        "train/00988_00658.png",
+        "test/01206_00803.png",
+        8
+      ],
+      [
+        "train/00999_00667.png",
+        "test/01314_00874.png",
+        7
+      ],
+      [
+        "train/01004_00670.png",
+        "test/01458_00972.png",
+        6
+      ],
+      [
+        "train/01010_00673.png",
+        "test/00385_00253.png",
+        6
+      ],
+      [
+        "train/01029_00685.png",
+        "test/01363_00905.png",
+        8
+      ],
+      [
+        "train/01081_00721.png",
+        "train/01306_00869.png",
+        7
+      ],
+      [
+        "train/01081_00721.png",
+        "test/01343_00892.png",
+        4
+      ],
+      [
+        "train/01095_00729.png",
+        "train/01097_00730.png",
+        3
+      ],
+      [
+        "train/01095_00729.png",
+        "train/01274_00848.png",
+        6
+      ],
+      [
+        "train/01097_00730.png",
+        "train/01274_00848.png",
+        7
+      ],
+      [
+        "train/01099_00731.png",
+        "test/01467_00980.png",
+        8
+      ],
+      [
+        "train/01104_00735.png",
+        "test/01298_00863.png",
+        8
+      ],
+      [
+        "train/01109_00737.png",
+        "test/01298_00863.png",
+        7
+      ],
+      [
+        "train/01158_00771.png",
+        "test/00830_00547.png",
+        7
+      ],
+      [
+        "train/01171_00779.png",
+        "train/01407_00935.png",
+        5
+      ],
+      [
+        "train/01171_00779.png",
+        "test/01386_00920.png",
+        5
+      ],
+      [
+        "train/01203_00802.png",
+        "train/01524_01019.png",
+        8
+      ],
+      [
+        "train/01203_00802.png",
+        "test/00355_00231.png",
+        5
+      ],
+      [
+        "train/01210_00806.png",
+        "test/01298_00863.png",
+        8
+      ],
+      [
+        "train/01239_00824.png",
+        "test/01467_00980.png",
+        8
+      ],
+      [
+        "train/01271_00846.png",
+        "test/00336_00217.png",
+        8
+      ],
+      [
+        "train/01272_00846.png",
+        "train/01493_01000.png",
+        8
+      ],
+      [
+        "train/01274_00848.png",
+        "test/01386_00920.png",
+        8
+      ],
+      [
+        "train/01293_00861.png",
+        "train/01451_00965.png",
+        6
+      ],
+      [
+        "train/01293_00861.png",
+        "train/01524_01019.png",
+        7
+      ],
+      [
+        "train/01293_00861.png",
+        "test/00355_00231.png",
+        8
+      ],
+      [
+        "train/01303_00866.png",
+        "test/00693_00457.png",
+        8
+      ],
+      [
+        "train/01333_00887.png",
+        "test/01205_00803.png",
+        6
+      ],
+      [
+        "train/01407_00935.png",
+        "test/01386_00920.png",
+        6
+      ],
+      [
+        "train/01431_00950.png",
+        "train/01434_00952.png",
+        8
+      ],
+      [
+        "train/01433_00952.png",
+        "test/01314_00874.png",
+        8
+      ],
+      [
+        "train/01451_00965.png",
+        "train/01525_01020.png",
+        6
+      ],
+      [
+        "train/01474_00986.png",
+        "test/01136_00755.png",
+        8
+      ],
+      [
+        "train/01477_00988.png",
+        "test/00895_00593.png",
+        8
+      ],
+      [
+        "train/01493_01000.png",
+        "test/00694_00458.png",
+        8
+      ],
+      [
+        "train/01523_01019.png",
+        "test/01297_00863.png",
+        6
+      ],
+      [
+        "test/00181_00120.png",
+        "test/00185_00122.png",
+        4
+      ],
+      [
+        "test/00182_00120.png",
+        "test/00184_00122.png",
+        5
+      ],
+      [
+        "test/00729_00482.png",
+        "test/01396_00927.png",
+        6
+      ],
+      [
+        "test/00860_00569.png",
+        "test/01206_00803.png",
+        6
+      ],
+      [
+        "test/00895_00593.png",
+        "test/01299_00864.png",
+        7
+      ],
+      [
+        "test/00970_00645.png",
+        "test/00972_00646.png",
+        6
+      ],
+      [
+        "test/01298_00863.png",
+        "test/01299_00864.png",
+        6
+      ],
+      [
+        "test/01342_00892.png",
+        "test/01344_00893.png",
+        8
+      ]
+    ],
+    "near_duplicate_cross_split": [
+      [
+        "train/00023_00016.png",
+        "test/00694_00458.png",
+        7
+      ],
+      [
+        "train/00023_00016.png",
+        "test/00861_00570.png",
+        6
+      ],
+      [
+        "train/00032_00022.png",
+        "test/00563_00374.png",
+        8
+      ],
+      [
+        "train/00041_00028.png",
+        "test/01343_00892.png",
+        7
+      ],
+      [
+        "train/00077_00052.png",
+        "test/00355_00231.png",
+        7
+      ],
+      [
+        "train/00081_00054.png",
+        "test/01206_00803.png",
+        8
+      ],
+      [
+        "train/00081_00054.png",
+        "test/01459_00972.png",
+        8
+      ],
+      [
+        "train/00082_00054.png",
+        "test/00810_00534.png",
+        8
+      ],
+      [
+        "train/00095_00063.png",
+        "test/01343_00892.png",
+        7
+      ],
+      [
+        "train/00096_00063.png",
+        "test/01298_00863.png",
+        7
+      ],
+      [
+        "train/00102_00067.png",
+        "test/01212_00807.png",
+        5
+      ],
+      [
+        "train/00104_00069.png",
+        "test/01363_00905.png",
+        8
+      ],
+      [
+        "train/00138_00092.png",
+        "test/00106_00071.png",
+        8
+      ],
+      [
+        "train/00149_00101.png",
+        "test/01342_00892.png",
+        8
+      ],
+      [
+        "train/00153_00103.png",
+        "test/01459_00972.png",
+        8
+      ],
+      [
+        "train/00155_00104.png",
+        "test/01206_00803.png",
+        8
+      ],
+      [
+        "train/00198_00131.png",
+        "test/00861_00570.png",
+        6
+      ],
+      [
+        "train/00198_00131.png",
+        "test/01468_00981.png",
+        7
+      ],
+      [
+        "train/00204_00135.png",
+        "test/01363_00905.png",
+        5
+      ],
+      [
+        "train/00247_00161.png",
+        "test/01143_00761.png",
+        7
+      ],
+      [
+        "train/00247_00161.png",
+        "test/01206_00803.png",
+        8
+      ],
+      [
+        "train/00253_00164.png",
+        "test/00449_00294.png",
+        7
+      ],
+      [
+        "train/00261_00169.png",
+        "test/01278_00850.png",
+        7
+      ],
+      [
+        "train/00282_00184.png",
+        "test/01266_00843.png",
+        5
+      ],
+      [
+        "train/00333_00214.png",
+        "test/01298_00863.png",
+        4
+      ],
+      [
+        "train/00333_00214.png",
+        "test/01299_00864.png",
+        8
+      ],
+      [
+        "train/00353_00230.png",
+        "test/00767_00506.png",
+        7
+      ],
+      [
+        "train/00371_00242.png",
+        "test/00895_00593.png",
+        6
+      ],
+      [
+        "train/00372_00243.png",
+        "test/01468_00981.png",
+        8
+      ],
+      [
+        "train/00376_00246.png",
+        "test/01206_00803.png",
+        7
+      ],
+      [
+        "train/00376_00246.png",
+        "test/01459_00972.png",
+        7
+      ],
+      [
+        "train/00404_00265.png",
+        "test/01298_00863.png",
+        3
+      ],
+      [
+        "train/00404_00265.png",
+        "test/01299_00864.png",
+        7
+      ],
+      [
+        "train/00412_00271.png",
+        "test/00336_00217.png",
+        8
+      ],
+      [
+        "train/00433_00285.png",
+        "test/01169_00777.png",
+        5
+      ],
+      [
+        "train/00489_00319.png",
+        "test/00385_00253.png",
+        7
+      ],
+      [
+        "train/00499_00327.png",
+        "test/01298_00863.png",
+        8
+      ],
+      [
+        "train/00505_00331.png",
+        "test/00694_00458.png",
+        8
+      ],
+      [
+        "train/00566_00376.png",
+        "test/00355_00231.png",
+        8
+      ],
+      [
+        "train/00609_00403.png",
+        "test/01343_00892.png",
+        7
+      ],
+      [
+        "train/00610_00403.png",
+        "test/00336_00217.png",
+        8
+      ],
+      [
+        "train/00616_00408.png",
+        "test/01212_00807.png",
+        5
+      ],
+      [
+        "train/00617_00408.png",
+        "test/00767_00506.png",
+        7
+      ],
+      [
+        "train/00617_00408.png",
+        "test/01363_00905.png",
+        8
+      ],
+      [
+        "train/00624_00413.png",
+        "test/00449_00294.png",
+        7
+      ],
+      [
+        "train/00645_00426.png",
+        "test/01144_00762.png",
+        8
+      ],
+      [
+        "train/00673_00445.png",
+        "test/00810_00534.png",
+        8
+      ],
+      [
+        "train/00700_00462.png",
+        "test/01206_00803.png",
+        8
+      ],
+      [
+        "train/00700_00462.png",
+        "test/01459_00972.png",
+        8
+      ],
+      [
+        "train/00753_00496.png",
+        "test/00300_00194.png",
+        7
+      ],
+      [
+        "train/00787_00518.png",
+        "test/01298_00863.png",
+        3
+      ],
+      [
+        "train/00787_00518.png",
+        "test/01299_00864.png",
+        5
+      ],
+      [
+        "train/00788_00519.png",
+        "test/01298_00863.png",
+        8
+      ],
+      [
+        "train/00824_00543.png",
+        "test/01459_00972.png",
+        7
+      ],
+      [
+        "train/00839_00553.png",
+        "test/01266_00843.png",
+        8
+      ],
+      [
+        "train/00843_00556.png",
+        "test/00728_00482.png",
+        8
+      ],
+      [
+        "train/00940_00625.png",
+        "test/00728_00482.png",
+        8
+      ],
+      [
+        "train/00975_00648.png",
+        "test/00355_00231.png",
+        4
+      ],
+      [
+        "train/00988_00658.png",
+        "test/00767_00506.png",
+        5
+      ],
+      [
+        "train/00988_00658.png",
+        "test/01206_00803.png",
+        8
+      ],
+      [
+        "train/00999_00667.png",
+        "test/01314_00874.png",
+        7
+      ],
+      [
+        "train/01004_00670.png",
+        "test/01458_00972.png",
+        6
+      ],
+      [
+        "train/01010_00673.png",
+        "test/00385_00253.png",
+        6
+      ],
+      [
+        "train/01029_00685.png",
+        "test/01363_00905.png",
+        8
+      ],
+      [
+        "train/01081_00721.png",
+        "test/01343_00892.png",
+        4
+      ],
+      [
+        "train/01099_00731.png",
+        "test/01467_00980.png",
+        8
+      ],
+      [
+        "train/01104_00735.png",
+        "test/01298_00863.png",
+        8
+      ],
+      [
+        "train/01109_00737.png",
+        "test/01298_00863.png",
+        7
+      ],
+      [
+        "train/01158_00771.png",
+        "test/00830_00547.png",
+        7
+      ],
+      [
+        "train/01171_00779.png",
+        "test/01386_00920.png",
+        5
+      ],
+      [
+        "train/01203_00802.png",
+        "test/00355_00231.png",
+        5
+      ],
+      [
+        "train/01210_00806.png",
+        "test/01298_00863.png",
+        8
+      ],
+      [
+        "train/01239_00824.png",
+        "test/01467_00980.png",
+        8
+      ],
+      [
+        "train/01271_00846.png",
+        "test/00336_00217.png",
+        8
+      ],
+      [
+        "train/01274_00848.png",
+        "test/01386_00920.png",
+        8
+      ],
+      [
+        "train/01293_00861.png",
+        "test/00355_00231.png",
+        8
+      ],
+      [
+        "train/01303_00866.png",
+        "test/00693_00457.png",
+        8
+      ],
+      [
+        "train/01333_00887.png",
+        "test/01205_00803.png",
+        6
+      ],
+      [
+        "train/01407_00935.png",
+        "test/01386_00920.png",
+        6
+      ],
+      [
+        "train/01433_00952.png",
+        "test/01314_00874.png",
+        8
+      ],
+      [
+        "train/01474_00986.png",
+        "test/01136_00755.png",
+        8
+      ],
+      [
+        "train/01477_00988.png",
+        "test/00895_00593.png",
+        8
+      ],
+      [
+        "train/01493_01000.png",
+        "test/00694_00458.png",
+        8
+      ],
+      [
+        "train/01523_01019.png",
+        "test/01297_00863.png",
+        6
+      ]
+    ],
+    "xray_ids_in_multiple_splits": []
+  }
+}
