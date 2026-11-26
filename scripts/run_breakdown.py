@@ -14,7 +14,7 @@ For each run it reports, at the run's OOF (Youden) fracture threshold:
     and its final model (Fig. 3 confusion matrix), from src/femurseg/reference.py.
 
 Reads only filed run folders (per-case CSVs, metrics.json, config.json), so it never changes a run. Writes
-results/analysis/<name>/breakdown.json and breakdown.md. Needs numpy only.
+results/analysis/<name>/breakdown.json and breakdown.md. Needs numpy and scipy (as src/femurseg/metrics.py).
 
   python scripts/run_breakdown.py S01_yolov8s_seg_1024 S02_yolov8s_seg_640 --name C01_yolo_1024_vs_640
 """

@@ -1,4 +1,4 @@
-"""Checks of scripts/run_breakdown.py on hand-made per-case rows (numpy only).
+"""Checks of scripts/run_breakdown.py on hand-made per-case rows (needs numpy and scipy).
 
 Run with ``python tests/test_breakdown.py`` or pytest.
 """
