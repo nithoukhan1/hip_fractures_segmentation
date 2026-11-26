@@ -2,7 +2,12 @@
 
 **Date:** 2026-11-26
 **Builds on:** `Analysis/01_Base_Article_and_EDA_Report.md` (article + EDA), `Analysis/02_How_to_Use_the_Dataset.md` (D1–D9), `research/01_prior_use_and_sota_review.md` (who has used the data).
-**Status:** proposal. Nothing is implemented beyond the data split until you choose an option (Section 11).
+**Status:** options analysis.
+
+> **Decision, 26 Nov 2026:** you chose to run **Option A and Option B in parallel, as two papers**.
+> - The adopted plan is **`Analysis/04_Execution_Plan_A_and_B.md`**. It replaces §8 (compute) and §9 (timeline) below.
+> - It adds the no-clinician constraint, the full Paper B plan and the validation rules.
+> - Run names changed there: baselines B1–B9 below are **S1–S9** (shared), and Paper B runs are **R1–R7**.
 
 ---
 
@@ -145,7 +150,7 @@ Chain rule (always gives valid, consistent 6-class probabilities):
 | C4 | Hierarchical heads (fracture → location → grade), trained conditionally | Flat 6-way labels ignore the label hierarchy (G3) | Ablation: flat 6-way head vs hierarchy; error-type table |
 | C5 | Shared "severity" trunk for the neck and pertrochanteric grades | Rare Garden I–II can borrow strength from "stable" Evans I–II (both low displacement) | Ablation: separate vs shared grade heads; Garden I–II recall |
 | C6 | Logit adjustment at each node (Menon et al. 2021) | Rare classes: 57 and 36 training femurs (G2) | Balanced accuracy, per-class recall |
-| C7 | Teacher forcing: the heads start from the reference mask and move to the predicted mask during training | Bad early masks would confuse the heads | Training stability; "oracle mask" analysis |
+| C7 | Teacher forcing: the heads start from the released (ground-truth) mask and move to the predicted mask during training | Bad early masks would confuse the heads | Training stability; "oracle mask" analysis |
 | C8 | 5-fold deep ensemble + temperature scaling + mask uncertainty | No calibration or uncertainty (G7) | ECE, Brier, reliability plots, risk–coverage curves |
 
 **Losses:** L = L_seg (Dice + BCE, on all femurs; healthy femurs teach an empty mask) + L_fracture (BCE) + L_location (cross-entropy, fractured femurs only) + L_grade (BCE, neck and pertrochanteric fractures only) + 0.5 · L_joint (negative log-likelihood of the chain-rule 6-class probability, keeps the parts consistent).
@@ -153,7 +158,7 @@ Chain rule (always gives valid, consistent 6-class probabilities):
 **What is novel, stated the way the paper will state it:**
 1. The first network that uses a predicted fracture-region mask as the explicit intermediate step for location → grade decisions on hip x-rays (earlier hierarchical work used classifier cascades or boxes, never masks).
 2. A differentiable region-geometry descriptor, motivated by our finding that mask geometry alone carries grade information (AUC up to 0.84).
-3. A controlled answer to "does segmentation help grading?", including an **oracle experiment** (heads fed the reference mask), which shows how much better grading could get with perfect masks.
+3. A controlled answer to "does segmentation help grading?", including an **oracle experiment** (heads fed the released ground-truth mask), which shows how much better grading could get with perfect masks.
 4. The first independent benchmark on HUSJA-UA, with the first per-class segmentation metrics, 5-fold out-of-fold statistics and calibrated uncertainty.
 
 ### 3.5 Risks and how we handle them
@@ -206,7 +211,7 @@ Radiologists compare the painful hip with the other side. RefFrac gives the netw
 1. **Official test set (210 femurs) is frozen.** It is used once per final configuration and never for tuning.
 2. **Train (1,043 femurs) is split into 5 folds,** grouped by x-ray ID so both femurs of one radiograph stay together, and stratified by the 6 classes. The duplicate image pair is merged into one group (both are in fold 0).
 3. **Done today:** `scripts/make_splits.py` ran on your local data and wrote `splits/folds_v1.csv`. Each fold has 208–209 femurs from 139–141 x-rays (close to the paper's 201-femur validation set), with 11–12 Garden I–II and 7–8 subtrochanteric cases per fold. The class counts match the paper's Table 1 exactly. Fingerprint `733a70aa…`, which lets us confirm the Kaggle copy is identical.
-4. **Each configuration trains 5 models** (fold k held out for early stopping and calibration). We report (a) out-of-fold results on all 1,043 training femurs, (b) test mean ± SD over the 5 models, and (c) the 5-model ensemble on test (headline number).
+4. **Each configuration trains 5 models** (fold k held out). Training length is fixed in advance, and thresholds and calibration come from the pooled out-of-fold predictions (rules in Report 04 §3.4). We report (a) out-of-fold results on all 1,043 training femurs, (b) test mean ± SD over the 5 models, and (c) the 5-model ensemble on test (headline number).
 5. **Pre-processing:** resize to 768×512, random horizontal flip (so left and right femurs need no mirroring), small rotation and scale, brightness, contrast and gamma, and mild noise or blur to mimic old CR images. No vertical flips (anatomy).
 
 ## 7. Step 7: Experiment plan (Option A)
@@ -233,11 +238,11 @@ Radiologists compare the painful hip with the other side. RefFrac gives the netw
 | A4 | + hierarchical heads (C4) | Does location → grade help? |
 | A5 | + shared severity trunk (C5) | Does sharing help Garden I–II? |
 | A6 | + logit adjustment (C6) = **full SLG-Net** | Rare-class effect |
-| Oracle | A6 with the reference mask at test time | Upper bound: how much better with perfect masks |
+| Oracle | A6 with the released (ground-truth) mask at test time | Upper bound: how much better with perfect masks |
 | Sens. | Second backbone (EfficientNetV2-S); higher input (1152×768) | Gains are not tied to one setting |
 
 ### 7.3 Metrics (chosen following *Metrics Reloaded*, Maier-Hein et al. 2024)
-- **Detection:** AUC, sensitivity, specificity, binary accuracy (threshold fixed on validation).
+- **Detection:** AUC, sensitivity, specificity, binary accuracy (threshold fixed on the out-of-fold predictions).
 - **6-class:** accuracy (to compare with the paper's 86.2%), **macro-F1**, balanced accuracy, per-class recall and precision, confusion matrix, and the **error-type split** (detection / location / grade errors, as in the paper's discussion).
 - **Segmentation (fractured femurs only; a missed fracture counts as Dice 0):** Dice and IoU per class, **HD95**, **NSD** (boundary tolerance fixed in pixels), predicted-to-reference area ratio, and false-positive mask rate on healthy femurs. The base paper never stated how these cases were counted, so we state it.
 - **Calibration and uncertainty:** ECE, Brier score, reliability diagrams, risk–coverage curves (AURC), and the correlation between mask uncertainty and per-case Dice.

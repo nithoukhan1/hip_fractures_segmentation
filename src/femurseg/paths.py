@@ -14,7 +14,7 @@ def find_data_root(start: str | os.PathLike, max_depth: int = 6) -> Path:
     start = Path(start)
     if (start / "train" / "images").is_dir() and (start / "test" / "images").is_dir():
         return start
-    for dirpath, dirnames, _ in os.walk(start):
+    for dirpath, dirnames, _ in os.walk(start, followlinks=True):  # Kaggle may mount inputs via symlinks
         here = Path(dirpath)
         if len(here.relative_to(start).parts) >= max_depth:
             dirnames[:] = []

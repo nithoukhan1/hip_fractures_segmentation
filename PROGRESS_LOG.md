@@ -4,6 +4,37 @@ Newest entries at the top. Each entry: what was done, what it produced, what com
 
 ---
 
+## 2026-11-26 · Step 5: Decision for Papers A and B in parallel; execution plan; documentation tools
+
+**Decided (by you)**
+- Run **Option A (SLG-Net)** and **Option B (RefFrac)** in parallel, as two papers.
+- No radiologist or other clinician is available.
+- Every experiment and its result must be documented in the local folder and in the repository.
+
+**Done**
+1. Wrote `Analysis/04_Execution_Plan_A_and_B.md`:
+   - **Shared foundation:** split, loader, metrics, baselines S1–S9 and the core model M0. M0 is Paper A's ablation A1 and Paper B's "no reference" model R0, so it is trained once and used twice.
+   - **No-clinician plan:** no reader study, re-annotation or clinical claims. Interpretability is shown by five measurable tests (oracle, region deletion, geometry consistency, pointing game, risk–coverage). Technical and informatics journals are the targets.
+   - **5-fold out-of-fold validation** explained step by step, with four honesty rules.
+   - **Track B:** research questions RQ-B1 to RQ-B4. Main method: retrieved healthy references, k = 3, from the fold's own training bank. Runs R1–R7, with the contralateral shortcut study and swap tests. Primary endpoints: Dice on fractured femurs and Garden I–II recall.
+   - **Compute:** A + B ≈ 120–135 GPU-h (A alone ≈ 65–72), about 4–4.5 weeks of free quota spread over 10 weeks, with a peak of about 20 h per week.
+   - **Timeline:** Paper A submission about 21 Feb 2027, Paper B about 14 Mar 2027, each with a 2-week buffer.
+2. Updated Report 03: decision banner, new run names (baselines B1–B9 are now S1–S9), and validation wording matching Report 04.
+3. Documentation tools:
+   - `results/RUN_NOTES_TEMPLATE.md`, the per-run notes: why, what changed, result, what we learnt, decision.
+   - `results/_inbox/` for zips downloaded from Kaggle.
+   - `scripts/register_run.py`, which files a zip into `results/<RUN>/`, creates `NOTES.md`, appends the register line and moves the zip to `_inbox/filed/`. It was tested on a mock run zip.
+   - `results/EXPERIMENTS.md` restructured: planned runs on top, the register at the bottom.
+4. Kaggle: the environment check is now run `S00_env_check`. Updated the launcher, `runs.json` and `kaggle/README.md`.
+5. Updated README, `results/README.md` and `PROJECT_TRACKER.md` (shared / Track A / Track B phases, milestones for both papers, decisions log).
+6. Created an empty `main` branch as the base, and opened a pull request with the whole setup for your review.
+
+**Next**
+- You: review and merge the pull request, then run `S00_env_check` on Kaggle and put `results_S00_env_check.zip` in `results/_inbox/`.
+- Me (Step 1, shared): data loader, metrics and statistics modules, then the YOLO reproduction runs S01 and S02.
+
+---
+
 ## 2026-11-26 · Step 4: Ranking the directions, research plan, repository set-up
 
 **Done**

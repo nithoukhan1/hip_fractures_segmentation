@@ -1,11 +1,15 @@
 {
-  "env_check": {
+  "S00_env_check": {
     "step": "0",
     "script": "kaggle/env_check.py",
-    "args": ["--input", "/kaggle/input"],
+    "args": [
+      "--input",
+      "/kaggle/input"
+    ],
     "pip": [],
     "gpu": "any (T4 or P100)",
     "expected_minutes": 3,
-    "about": "Check GPU, packages and internet, find the dataset, confirm val/ is empty, and confirm the Kaggle data and folds are identical to splits/folds_v1.csv."
+    "about": "Check GPU, packages and internet, find the dataset, confirm val/ is empty, and confirm the Kaggle data and folds are identical to splits/folds_v1.csv.",
+    "track": "Shared"
   }
 }
