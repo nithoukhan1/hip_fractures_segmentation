@@ -111,6 +111,22 @@ def test_seg_metrics_keys():
     assert s["area_pred"] == a.sum() and s["area_gt"] == b.sum()
 
 
+def test_seg_metrics_several_tolerances():
+    z = np.zeros((30, 30), bool)
+    for _ in range(10):
+        a, b = random_pair()
+        s = M.seg_metrics(a, b, (2, 10, 20))
+        assert {"nsd2", "nsd10", "nsd20"} <= set(s)
+        assert s["hd95"] == M.hd95(a, b) and s["dice"] == M.dice(a, b)
+        for t in (2, 10, 20):
+            assert s[f"nsd{t}"] == M.nsd(a, b, t)
+    s = M.seg_metrics(z, z, (2, 10))
+    assert (s["hd95"], s["nsd2"], s["nsd10"]) == (0.0, 1.0, 1.0)
+    a, _ = random_pair()
+    s = M.seg_metrics(z, a[:30, :30] | True, (2, 10))  # nothing predicted, fracture present
+    assert np.isnan(s["hd95"]) and (s["dice"], s["nsd2"], s["nsd10"]) == (0.0, 0.0, 0.0)
+
+
 # ----------------------------------------------------------------------------------------- classification
 
 

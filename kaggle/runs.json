@@ -107,5 +107,210 @@
     ],
     "expected_minutes": 185,
     "about": "Baseline 3: the newer YOLO11-small-seg at 1024 px with exactly S01's protocol (100 epochs, batch 8, Ultralytics defaults, final weights, OOF threshold), so it differs from S01 only in the architecture. Answers the reviewer question whether a newer YOLO closes the gap."
+  },
+  "S00_net_check": {
+    "step": "2",
+    "script": "scripts/train_net.py",
+    "pip": [
+      "segmentation-models-pytorch==0.6.0"
+    ],
+    "gpu": "T4 x2 (two networks at a time)",
+    "track": "Shared",
+    "args": [
+      "--check-nets",
+      "cls:densenet121.tv_in1k,cls:efficientnet_b4.ra2_in1k,cls:convnext_tiny.fb_in22k_ft_in1k,seg:Unet:resnet34,seg:DeepLabV3Plus:resnet34,seg:Segformer:mit_b2,m0:convnext_tiny.fb_in22k_ft_in1k",
+      "--size",
+      "768x512",
+      "--batch",
+      "16",
+      "--epochs",
+      "60",
+      "--gpus",
+      "0,1"
+    ],
+    "expected_minutes": 15,
+    "about": "Pre-flight of the 7 networks of S04-S10 on the real GPUs, before any of them is trained: downloads the ImageNet weights, finds the largest micro-batch that fits in a T4 (gradients are accumulated to the batch of 16), times a training step, and estimates the minutes per fold and per run. Also builds the resized image cache once and times it. Trains nothing."
+  },
+  "S04_densenet121": {
+    "step": "2",
+    "script": "scripts/train_net.py",
+    "pip": [
+      "segmentation-models-pytorch==0.6.0"
+    ],
+    "gpu": "T4 x2 (two folds at a time)",
+    "track": "Shared",
+    "args": [
+      "--net",
+      "cls:densenet121.tv_in1k",
+      "--size",
+      "768x512",
+      "--epochs",
+      "60",
+      "--batch",
+      "16",
+      "--folds",
+      "0,1,2,3,4",
+      "--gpus",
+      "0,1"
+    ],
+    "expected_minutes": 75,
+    "about": "Baseline 4: DenseNet121 image classifier (6 classes), the article's best classifier (test AUC .993, 6-class accuracy 83.8%, Table 3), retrained on our 5 folds with the shared recipe (768 x 512 px, 60 epochs, AdamW, final weights, OOF threshold).",
+    "estimate_note": "first guess; replaced by the S00_net_check measurement"
+  },
+  "S05_efficientnet_b4": {
+    "step": "2",
+    "script": "scripts/train_net.py",
+    "pip": [
+      "segmentation-models-pytorch==0.6.0"
+    ],
+    "gpu": "T4 x2 (two folds at a time)",
+    "track": "Shared",
+    "args": [
+      "--net",
+      "cls:efficientnet_b4.ra2_in1k",
+      "--size",
+      "768x512",
+      "--epochs",
+      "60",
+      "--batch",
+      "16",
+      "--folds",
+      "0,1,2,3,4",
+      "--gpus",
+      "0,1"
+    ],
+    "expected_minutes": 90,
+    "about": "Baseline 5: EfficientNet-B4 image classifier, an article baseline (test AUC .990, accuracy 79.0%, Table 3), same recipe as S04.",
+    "estimate_note": "first guess; replaced by the S00_net_check measurement"
+  },
+  "S06_convnext_tiny": {
+    "step": "2",
+    "script": "scripts/train_net.py",
+    "pip": [
+      "segmentation-models-pytorch==0.6.0"
+    ],
+    "gpu": "T4 x2 (two folds at a time)",
+    "track": "Shared",
+    "args": [
+      "--net",
+      "cls:convnext_tiny.fb_in22k_ft_in1k",
+      "--size",
+      "768x512",
+      "--epochs",
+      "60",
+      "--batch",
+      "16",
+      "--folds",
+      "0,1,2,3,4",
+      "--gpus",
+      "0,1"
+    ],
+    "expected_minutes": 75,
+    "about": "Baseline 6 = A0 of Paper A: ConvNeXt-Tiny image classifier, the backbone of M0 and of both papers' models, same recipe as S04. Separates the effect of the new heads (Paper A) and of the reference image (Paper B) from the backbone.",
+    "estimate_note": "first guess; replaced by the S00_net_check measurement"
+  },
+  "S07_unet_r34": {
+    "step": "2",
+    "script": "scripts/train_net.py",
+    "pip": [
+      "segmentation-models-pytorch==0.6.0"
+    ],
+    "gpu": "T4 x2 (two folds at a time)",
+    "track": "Shared",
+    "args": [
+      "--net",
+      "seg:Unet:resnet34",
+      "--size",
+      "768x512",
+      "--epochs",
+      "60",
+      "--batch",
+      "16",
+      "--folds",
+      "0,1,2,3,4",
+      "--gpus",
+      "0,1"
+    ],
+    "expected_minutes": 80,
+    "about": "Baseline 7: U-Net with a ResNet34 encoder, semantic segmentation into the 6 classes (class of a femur = class of its predicted fracture region), same recipe. Standard segmentation baseline for the Dice comparison with YOLO (RQ1).",
+    "estimate_note": "first guess; replaced by the S00_net_check measurement"
+  },
+  "S08_deeplabv3p_r34": {
+    "step": "2",
+    "script": "scripts/train_net.py",
+    "pip": [
+      "segmentation-models-pytorch==0.6.0"
+    ],
+    "gpu": "T4 x2 (two folds at a time)",
+    "track": "Shared",
+    "args": [
+      "--net",
+      "seg:DeepLabV3Plus:resnet34",
+      "--size",
+      "768x512",
+      "--epochs",
+      "60",
+      "--batch",
+      "16",
+      "--folds",
+      "0,1,2,3,4",
+      "--gpus",
+      "0,1"
+    ],
+    "expected_minutes": 80,
+    "about": "Baseline 8: DeepLabV3+ with a ResNet34 encoder, same task and recipe as S07.",
+    "estimate_note": "first guess; replaced by the S00_net_check measurement"
+  },
+  "S09_segformer_b2": {
+    "step": "2",
+    "script": "scripts/train_net.py",
+    "pip": [
+      "segmentation-models-pytorch==0.6.0"
+    ],
+    "gpu": "T4 x2 (two folds at a time)",
+    "track": "Shared",
+    "args": [
+      "--net",
+      "seg:Segformer:mit_b2",
+      "--size",
+      "768x512",
+      "--epochs",
+      "60",
+      "--batch",
+      "16",
+      "--folds",
+      "0,1,2,3,4",
+      "--gpus",
+      "0,1"
+    ],
+    "expected_minutes": 90,
+    "about": "Baseline 9: SegFormer (MiT-B2 transformer encoder), same task and recipe as S07.",
+    "estimate_note": "first guess; replaced by the S00_net_check measurement"
+  },
+  "S10_m0_convnext_unet": {
+    "step": "2",
+    "script": "scripts/train_net.py",
+    "pip": [
+      "segmentation-models-pytorch==0.6.0"
+    ],
+    "gpu": "T4 x2 (two folds at a time)",
+    "track": "Shared",
+    "args": [
+      "--net",
+      "m0:convnext_tiny.fb_in22k_ft_in1k",
+      "--size",
+      "768x512",
+      "--epochs",
+      "60",
+      "--batch",
+      "16",
+      "--folds",
+      "0,1,2,3,4",
+      "--gpus",
+      "0,1"
+    ],
+    "expected_minutes": 110,
+    "about": "Core model M0 (= A1 of Paper A = R0 of Paper B): U-Net with the ConvNeXt-Tiny encoder of S06, a binary fracture mask and the same 6-class head on the encoder's last features. Differs from S06 only by the decoder and its mask loss, so S06 vs S10 answers whether segmentation as an extra task helps.",
+    "estimate_note": "first guess; replaced by the S00_net_check measurement"
   }
 }

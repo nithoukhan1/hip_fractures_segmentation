@@ -32,16 +32,11 @@ Examples
 from __future__ import annotations
 
 import argparse
-import csv
 import json
 import os
 import platform
-import queue
 import shutil
-import statistics
-import subprocess
 import sys
-import threading
 import time
 from pathlib import Path
 
@@ -53,12 +48,11 @@ from femurseg import metrics as M  # noqa: E402
 from femurseg import reference as REF  # noqa: E402
 from femurseg.classes import CLASSES  # noqa: E402
 from femurseg.data import DEFAULT_FOLDS_CSV, ImageStore, fold_split, load_records, read_png  # noqa: E402
+from femurseg.evaluation import evaluate, read_csv, scalar_summary, seg_case, write_csv  # noqa: E402
+from femurseg.runner import argv_without, file_md5, git_commit, run_folds  # noqa: E402
 
 YOLO_NAMES = {c.yolo_id: c.code for c in CLASSES if c.yolo_id >= 0}  # {0: '2AB', 1: '2CD', 2: '3AB', 3: '3CDE', 4: '4'}
 DEFAULT_TAU = 0.25  # Ultralytics' default confidence threshold
-CASE_COLS = ["file", "split", "fold", "model", "cls6_true", "n_det", "score", "conf_1", "conf_2", "conf_3", "conf_4",
-             "conf_5", "top_cls6", "top_conf", "area_gt", "area_top", "dice_top", "iou_top", "hd95_top", "nsd2_top",
-             "dice_union025", "area_union025"]
 
 
 # ----------------------------------------------------------------------------------------------- arguments
@@ -225,74 +219,12 @@ def predict_cases(model, store: ImageStore, recs, args, device, k: int, mask_dir
             union = masks[conf >= DEFAULT_TAU].any(axis=0) if n else np.zeros_like(gt)
             row["area_gt"], row["area_top"], row["area_union025"] = int(gt.sum()), int(top_mask.sum()), int(union.sum())
             if gt.any():
-                s = M.seg_metrics(top_mask, gt)
-                row.update(dice_top=round(s["dice"], 6), iou_top=round(s["iou"], 6), hd95_top=s["hd95"],
-                           nsd2_top=round(s["nsd2"], 6), dice_union025=round(M.dice(union, gt), 6))
+                row.update(seg_case(top_mask, gt), dice_union025=round(M.dice(union, gt), 6))
             rows.append(row)
     return rows
 
 
 # --------------------------------------------------------------------------------------------- evaluation
-
-
-def write_csv(path: Path, rows: list[dict]) -> None:
-    with open(path, "w", newline="") as f:
-        w = csv.DictWriter(f, fieldnames=CASE_COLS, extrasaction="ignore")
-        w.writeheader()
-        for r in rows:
-            w.writerow({c: r.get(c, "") for c in CASE_COLS})
-
-
-def read_csv(path: Path) -> list[dict]:
-    with open(path, newline="") as f:
-        rows = list(csv.DictReader(f))
-    for r in rows:
-        for c in CASE_COLS:
-            if c in ("file", "split", "model"):
-                continue
-            v = r.get(c, "")
-            r[c] = float(v) if v not in ("", "nan") else (float("nan") if v == "nan" else None)
-        r["cls6_true"], r["top_cls6"], r["fold"] = int(r["cls6_true"]), int(r["top_cls6"]), int(r["fold"])
-    return rows
-
-
-def evaluate(rows: list[dict], tau: float) -> dict:
-    """All headline metrics for a set of per-case rows at fracture threshold ``tau``."""
-    y = np.array([r["cls6_true"] for r in rows])
-    score = np.array([r["score"] for r in rows])
-    pred = np.array([r["top_cls6"] if r["top_conf"] >= tau else 0 for r in rows])
-    out: dict = {"n": len(rows), "threshold": round(float(tau), 6), "auc_fracture": M.roc_auc(y > 0, score)}
-    out.update({f"fracture_{k}": v for k, v in M.binary_metrics(y > 0, pred > 0).items()})
-    mc = M.multiclass_metrics(y, pred)
-    out.update(accuracy_6class=mc["accuracy"], macro_f1=mc["macro_f1"], balanced_accuracy=mc["balanced_accuracy"],
-               kappa=mc["kappa"], garden12_recall=mc["per_class"]["2AB"]["recall"],
-               garden12_detected=float(np.mean(pred[y == 1] > 0)) if (y == 1).any() else float("nan"),
-               errors=M.error_breakdown(y, pred), per_class=mc["per_class"], confusion_matrix=mc["confusion_matrix"])
-    fx = [r for r in rows if r["cls6_true"] > 0]
-    det = [r for r in fx if r["top_conf"] >= tau]
-    dice_fx = [r["dice_top"] if r["top_conf"] >= tau else 0.0 for r in fx]
-    out.update(
-        dice_fractured_mean=float(np.mean(dice_fx)) if fx else float("nan"),
-        dice_fractured_median=float(np.median(dice_fx)) if fx else float("nan"),
-        dice_detected_mean=float(np.mean([r["dice_top"] for r in det])) if det else float("nan"),
-        iou_fractured_mean=float(np.mean([r["iou_top"] if r["top_conf"] >= tau else 0.0 for r in fx])) if fx else float("nan"),
-        nsd2_fractured_mean=float(np.mean([r["nsd2_top"] if r["top_conf"] >= tau else 0.0 for r in fx])) if fx else float("nan"),
-        hd95_detected_median=float(np.nanmedian([r["hd95_top"] for r in det])) if det else float("nan"),
-        n_fractured=len(fx), n_fractured_missed=len(fx) - len(det),
-        dice_per_class={CLASSES[c].code: float(np.mean([d for d, r in zip(dice_fx, fx) if r["cls6_true"] == c]))
-                        for c in range(1, 6) if any(r["cls6_true"] == c for r in fx)},
-    )
-    probs = np.array([[1 - r["score"]] + [r[f"conf_{c}"] for c in range(1, 6)] for r in rows])
-    probs = probs / np.clip(probs.sum(axis=1, keepdims=True), 1e-9, None)
-    out.update(ece_derived=M.expected_calibration_error(probs, y), brier_derived=M.brier_score(probs, y))
-    return out
-
-
-def scalar_summary(ms: list[dict]) -> tuple[dict, dict]:
-    keys = [k for k, v in ms[0].items() if isinstance(v, (int, float)) and not isinstance(v, bool)]
-    mean = {k: float(np.nanmean([m[k] for m in ms])) for k in keys}
-    sd = {k: float(np.nanstd([m[k] for m in ms], ddof=1)) if len(ms) > 1 else float("nan") for k in keys}
-    return mean, sd
 
 
 def ensemble_rows(test_by_model: dict[int, list[dict]], store: ImageStore, recs_by_file: dict, mask_root: Path,
@@ -323,8 +255,7 @@ def ensemble_rows(test_by_model: dict[int, list[dict]], store: ImageStore, recs_
         ens_mask = votes >= max(n_vote, 1) / 2
         row["area_gt"], row["area_top"] = int(gt.sum()), int(ens_mask.sum())
         if gt.any():
-            s = M.seg_metrics(ens_mask, gt)
-            row.update(dice_top=s["dice"], iou_top=s["iou"], hd95_top=s["hd95"], nsd2_top=s["nsd2"])
+            row.update(seg_case(ens_mask, gt, nd=None))
         rows.append(row)
     return rows
 
@@ -423,7 +354,7 @@ def main(argv=None) -> int:
     n_par = max(1, len(args.gpu_list))
     if args.workers <= 0:
         args.workers = max(1, min(8, (os.cpu_count() or 2) // n_par))
-    git = subprocess.run(["git", "-C", str(REPO), "rev-parse", "HEAD"], capture_output=True, text=True).stdout.strip()
+    git = git_commit(REPO)
     weights = args.model if args.export_only else prepare_ultralytics(args.model, args.work / "start_weights")
     config = {k: (str(v) if isinstance(v, Path) else v) for k, v in vars(args).items()}
     config.update(git_commit=git, started_utc=time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
@@ -439,56 +370,9 @@ def main(argv=None) -> int:
             print(f"fold {k}: {len(train)} train ({n_lab} with a fracture polygon), {len(held)} val -> {y}")
         return 0
 
-    todo: queue.Queue = queue.Queue()
-    for k in args.fold_list:
-        todo.put(k)
-    done, skipped, failed, durations = [], [], [], []
-    lock = threading.Lock()
-    budget = args.time_budget_h * 3600
-
-    def gpu_worker(gpu: str) -> None:
-        while True:
-            try:
-                k = todo.get_nowait()
-            except queue.Empty:
-                return
-            with lock:
-                est = statistics.mean(durations) if durations else args.est_fold_min * 60
-                if time.time() - t0 + 1.15 * est > budget:
-                    skipped.append(k)
-                    print(f"[guard] fold {k} not started: {(time.time() - t0) / 3600:.1f} h used, "
-                          f"about {est / 3600:.1f} h needed, budget {args.time_budget_h} h", flush=True)
-                    continue
-            env = dict(os.environ)
-            device = "cpu"
-            if gpu != "cpu":
-                env["CUDA_VISIBLE_DEVICES"] = gpu
-                device = "0"
-            cmd = [sys.executable, str(Path(__file__).resolve()), "--worker", "--fold", str(k), "--device", device,
-                   *sys_argv_without_control(argv), "--model", weights, "--workers", str(args.workers)]
-            log = args.work / "logs" / f"fold{k}.log"
-            log.parent.mkdir(parents=True, exist_ok=True)
-            ts = time.time()
-            print(f"[fold {k}] started on {'GPU ' + gpu if gpu != 'cpu' else 'CPU'}; log {log}", flush=True)
-            with open(log, "w") as lf:
-                rc = subprocess.run(cmd, stdout=lf, stderr=subprocess.STDOUT, env=env).returncode
-            tail = log.read_text(errors="replace").splitlines()[-60:]
-            (args.out / "folds" / f"fold{k}").mkdir(parents=True, exist_ok=True)
-            (args.out / "folds" / f"fold{k}" / "log_tail.txt").write_text("\n".join(tail) + "\n")
-            with lock:
-                if rc == 0:
-                    done.append(k)
-                    durations.append(time.time() - ts)
-                else:
-                    failed.append(k)
-            print(f"[fold {k}] {'finished' if rc == 0 else f'FAILED (exit {rc})'} after "
-                  f"{(time.time() - ts) / 60:.1f} min", flush=True)
-
-    threads = [threading.Thread(target=gpu_worker, args=(g,)) for g in args.gpu_list]
-    for t in threads:
-        t.start()
-    for t in threads:
-        t.join()
+    worker_args = [*argv_without(argv), "--model", weights, "--workers", str(args.workers)]
+    done, skipped, failed = run_folds(Path(__file__).resolve(), worker_args, args.fold_list, args.gpu_list, args.out,
+                                      args.work, t0, args.time_budget_h, args.est_fold_min)
 
     res = aggregate(args, done, skipped, failed, t0)
     (args.out / "metrics.json").write_text(json.dumps(res, indent=2, default=float))
@@ -516,30 +400,6 @@ def prepare_ultralytics(model: str, dest: Path) -> str:
         dest.mkdir(parents=True, exist_ok=True)
         p = Path(attempt_download_asset(str(dest / p.name)))  # official Ultralytics release asset
     return str(p.resolve())
-
-
-def file_md5(path: str) -> str:
-    import hashlib
-
-    p = Path(path)
-    return hashlib.md5(p.read_bytes()).hexdigest() if p.is_file() else ""
-
-
-def sys_argv_without_control(argv) -> list[str]:
-    """The controller's own arguments, minus --folds and --gpus, passed on to each worker."""
-    src = list(sys.argv[1:] if argv is None else argv)
-    out, skip = [], False
-    for a in src:
-        if skip:
-            skip = False
-            continue
-        if a in ("--folds", "--gpus"):
-            skip = True
-            continue
-        if a.startswith("--folds=") or a.startswith("--gpus="):
-            continue
-        out.append(a)
-    return out
 
 
 if __name__ == "__main__":
