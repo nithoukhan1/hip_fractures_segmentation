@@ -162,7 +162,7 @@ The full design is in Report 03 §3 and §7. The only changes are:
 
 | Block | What | GPU-hours |
 |---|---|---|
-| Shared | env check; S1 YOLOv8s-seg @1024; S2 YOLOv8s-seg @640 (the paper's best Dice, .780; earlier drafts said nano); S3 YOLO11s-seg; S4–S6 classifiers; S7–S9 segmenters; M0 (5 folds each) | **≈ 28–34** |
+| Shared | env check; S1 YOLOv8s-seg @1024; S2 YOLOv8s-seg @640 (the paper's best Dice, .780; earlier drafts said nano); S3 YOLO11s-seg @1024; S4–S6 classifiers; S7–S9 segmenters; M0 (5 folds each) | **≈ 28–34** |
 | Track A only | development (fold 0); A2–A5; A6 final; sensitivity; oracle and deletion tests | **≈ 35–38** |
 | Track B only | development (fold 0); R1–R7 (5 folds each); sensitivity; retrieval and swap tests | **≈ 55–60** |
 | **A + B total** | | **≈ 120–135** |
