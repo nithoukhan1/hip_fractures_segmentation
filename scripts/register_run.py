@@ -58,7 +58,11 @@ def key_result(run_dir: Path) -> tuple[str, str]:
     if check.exists():  # S00_net_check: pre-flight of several networks
         rep = json.loads(check.read_text())
         nets = rep.get("nets") or []
-        gpu = gpu or ", ".join(sorted({str(n.get("gpu")) for n in nets if n.get("gpu")}))
+        if not gpu:  # e.g. "Tesla T4 x2" when the networks ran on two GPUs of the same kind (config.json gpu_list)
+            names = sorted({str(n.get("gpu")) for n in nets if n.get("gpu")})
+            cfg = run_dir / "config.json"
+            n_dev = len(json.loads(cfg.read_text()).get("gpu_list") or []) if cfg.exists() else 0
+            gpu = ", ".join(names) + (f" x{n_dev}" if n_dev > 1 and len(names) == 1 else "")
         ok = [n for n in nets if n.get("ok")]
         parts.append(f"networks ok: {len(ok)}/{len(nets)}")
         parts += [f"{n['net']}: micro-batch {n['micro_batch']}x{n['accumulation']}, {n.get('peak_gb')} GB, "
