@@ -4,7 +4,8 @@
 Networks (--net, see src/femurseg/nets.py):
   cls:<timm model>           S04 densenet121.tv_in1k, S05 efficientnet_b4.ra2_in1k, S06 convnext_tiny.fb_in22k_ft_in1k (= A0)
   seg:<smp arch>:<encoder>   S07 Unet:resnet34, S08 DeepLabV3Plus:resnet34, S09 Segformer:mit_b2
-  m0:<timm model>            S10 = M0: U-Net with a ConvNeXt-T encoder, binary mask + 6-class head (= A1 = R0)
+  m0:<timm model>            S10 = M0: U-Net with a ConvNeXt-T encoder, binary mask + 6-class head (= A1 = R0);
+                             --extra-tests deletion adds the region-deletion test (run A1_m0_deletion, Analysis/06 §13)
   slg:<timm model>:<A2..A6>  Paper A, SLG-Net and its ablation chain (src/femurseg/slg.py; protocol Analysis/06):
                              M0 + region pooling (A2), + geometry (A3), + location -> grade hierarchy (A4), + shared
                              severity trunk (A5), + logit adjustment (A6). Teacher forcing over the first --tf-epochs
@@ -37,8 +38,8 @@ step. The estimate feeds the time guard. With --check-nets, only the pre-flight 
 Outputs
   results/<RUN>/  config.json, preflight.json, metrics.json, summary.md, per_case_oof.csv, per_case_test.csv,
                   per_case_test_ensemble.csv, folds/fold<k>/ (per-fold CSVs, train_curve.csv, fold_meta.json, log tail);
-                  SLG-Net with --extra-tests: the same per-case files with the suffix _oracle, _deletion and
-                  _deletion_control, and their metrics under "tests" in metrics.json;
+                  SLG-Net and M0 with --extra-tests: the same per-case files with the suffix _oracle (SLG-Net only),
+                  _deletion and _deletion_control, and their metrics under "tests" in metrics.json;
                   RefFrac: the same per-case files for every test mode (_self, _random, ...), and
                   per_case_<oof|test>_references.csv: the references each femur got in each mode and the pointing
                   game of the difference map (base mode)
@@ -89,6 +90,7 @@ from femurseg.torchdata import Cache, FemurDataset, RefFemurDataset, build_cache
 
 PLAIN_TAU = 0.5
 EXTRA_TESTS = {"slg": ("oracle", "deletion"),       # SLG-Net; "deletion" also writes "deletion_control"
+               "m0": ("deletion",),                 # M0: deletion only (its head never sees the mask, so no oracle)
                "ref": tuple(RN.TEST_POLICY)}         # RefFrac: self, random, fractured, retrieved, blind
 TEST_MODES = {"oracle": ("oracle",), "deletion": ("deletion", "deletion_control"), **{t: (t,) for t in RN.TEST_POLICY}}
 REF_TABLES = REPO / "results" / "R00_reference_bank_r2"  # the fixed reference table of step B-1 (Analysis/07 §9)
@@ -123,8 +125,9 @@ def parse_args(argv=None) -> argparse.Namespace:
     ap.add_argument("--joint-weight", type=float, default=0.5,
                     help="SLG-Net A4-A6: weight of the chain-rule 6-class likelihood in the loss")
     ap.add_argument("--extra-tests", default="", help="SLG-Net: comma list of oracle, deletion (interpretability "
-                                                      "tests on the held-out fold and the test set); RefFrac: of "
-                                                      "self, random, fractured, retrieved, blind (other references)")
+                                                      "tests on the held-out fold and the test set); M0: deletion; "
+                                                      "RefFrac: of self, random, fractured, retrieved, blind (other "
+                                                      "references)")
     ap.add_argument("--ref-table", default=str(REF_TABLES / "references.csv"),
                     help="RefFrac: the reference table of step B-1 (references.csv)")
     ap.add_argument("--pairs-table", default=str(REF_TABLES / "pairs.csv"), help="RefFrac: the pair index (pairs.csv)")
@@ -176,7 +179,8 @@ def parse_args(argv=None) -> argparse.Namespace:
     bad = [t for t in args.test_list if t not in allowed]
     if bad:
         ap.error(f"--extra-tests {bad}: " + (f"choose from {', '.join(allowed)}" if allowed else
-                                             "only SLG-Net (--net slg:...) and RefFrac (--net ref:...) have tests"))
+                                             "only SLG-Net (--net slg:...), M0 (--net m0:..., deletion) and "
+                                             "RefFrac (--net ref:...) have tests"))
     args.modes = ["base"] + [m for t in args.test_list for m in TEST_MODES[t]]
     if kind == "ref":
         try:
@@ -373,6 +377,8 @@ def run_fold(args) -> None:
                     "pairs_table": str(args.pairs_table), "pairs_table_md5": file_md5(args.pairs_table),
                     "train_sources": dict(train_sources), "train_counts": {str(c): counts[c] for c in range(6)},
                     "extra_tests": args.test_list}
+    if spec.kind == "m0" and args.test_list:
+        slg_meta = {"extra_tests": args.test_list}
     meta = {"fold": k, "net": spec.text, "device": str(dev), **slg_meta,
             "gpu": torch.cuda.get_device_name(dev) if dev.type == "cuda" else "cpu",
             "n_train": len(train), "n_held_out": len(held), "n_test": 0 if args.no_test else len(test),
@@ -391,9 +397,10 @@ def predict_cases(model, spec, cache: Cache, recs, args, dev, k: int, map_dir: P
     """One row of per-case numbers per femur (src/femurseg/evaluation.py) for every mode in args.modes, and the
     saved probability maps (base mode only; RefFrac: every mode, in prob_maps/<part>_<mode>/).
 
-    Modes: "base" = the model as it is used; SLG-Net tests (Analysis/06 §5): "oracle" = the heads get the released
-    mask (the network's own mask and its Dice are unchanged, so they are copied from base); "deletion" = the predicted
-    region (fracture probability >= 0.5, dilated) is replaced by a blurred copy of the image; "deletion_control" =
+    Modes: "base" = the model as it is used; SLG-Net and M0 tests (Analysis/06 §5 and §13; M0 has no oracle):
+    "oracle" = the heads get the released mask (the network's own mask and its Dice are unchanged, so they are
+    copied from base); "deletion" = the predicted region (fracture probability >= 0.5, dilated) is replaced by a
+    blurred copy of the image; "deletion_control" =
     the same region shape blurred at another place of the image (see deletion_images; where the control went is
     appended to ``info_out``, one dict per femur). RefFrac tests (Analysis/08 §2.6): the same femurs with other
     references from ``table`` (refnet.TEST_POLICY: self, random, fractured, retrieved = nearest, blind); the
@@ -985,7 +992,8 @@ def write_summary(args, res: dict) -> None:
                          f"{e.get('n_correct_base', 'n/a')} |" + test_col(blk))
     elif res.get("tests"):
         test_col = (lambda blk: f" {f(blk, 'test_ensemble', 'accuracy_6class', 100, 1)} |") if has_test else (lambda blk: "")
-        lines += ["", "## Interpretability tests (SLG-Net, Analysis/06 §5), at the OOF threshold", "",
+        lines += ["", "## Interpretability tests (" + ("SLG-Net, Analysis/06 §5" if spec.kind == "slg" else
+                                                    "M0, Analysis/06 §13") + "), at the OOF threshold", "",
                   "| Mode | OOF 6-class accuracy (%) | OOF macro-F1 | OOF Garden I-II recall | Change of P(true class), "
                   "fractured | Correct fractured femurs that become wrong |" + (" Test ensemble accuracy (%) |" if has_test else ""),
                   "|---|---|---|---|---|---|" + ("---|" if has_test else ""),

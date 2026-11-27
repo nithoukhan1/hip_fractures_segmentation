@@ -1065,5 +1065,33 @@
     "expected_minutes": 255,
     "about": "Paper B final run R6b (Analysis/08 §1, §2 and §5; settings frozen by analysis C12: 60 epochs, M0's recipe, the references of R00_reference_bank_r2, local window ±1/8 of the image height, no margin loss unless the variant has one): as R4 with one global affine alignment per reference instead of local cross-attention: local or global alignment? With the reference tests self and random. 5 folds and the test set. Launch from the tag B-v1-frozen (BRANCH = \"B-v1-frozen\").",
     "estimate_note": "measured: an R4 fold took 81 min on one T4 in the development runs (81 s per epoch; register lines 27-30), so 3 rounds of folds on T4 x2 + the test set in 3 modes + set-up"
+  },
+  "A1_m0_deletion": {
+    "step": "3",
+    "script": "scripts/train_net.py",
+    "pip": [
+      "segmentation-models-pytorch==0.6.0"
+    ],
+    "gpu": "T4 x2 (two folds at a time)",
+    "track": "Paper A",
+    "args": [
+      "--net",
+      "m0:convnext_tiny.fb_in22k_ft_in1k",
+      "--size",
+      "768x512",
+      "--epochs",
+      "60",
+      "--batch",
+      "16",
+      "--folds",
+      "0,1,2,3,4",
+      "--gpus",
+      "0,1",
+      "--extra-tests",
+      "deletion"
+    ],
+    "expected_minutes": 175,
+    "about": "Paper A, analysis C08: M0 (= A1) trained again exactly as S10 (same settings and seed), now with the region-deletion test of Analysis/06 §5, so that SLG-Net's deletion result can be compared with M0's by the rule of Analysis/06 §13, fixed before this run. M0's head never sees the mask, so it has no oracle test. 5 folds and the test set. Launch from main (BRANCH = \"main\") after the pull request that adds it.",
+    "estimate_note": "S10 took 140 min on T4 x2 (register line 8); the deletion test predicts every held-out and test femur twice more, which cost A6 about 30 min (A6 175 min with both tests, A5 145 min with the oracle test only)"
   }
 }
