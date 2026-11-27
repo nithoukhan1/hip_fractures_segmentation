@@ -23,12 +23,12 @@
 | 6 | Repository, fixed splits, Kaggle launcher, run register | Done; merged into `main` 2026-11-26 (PR #1); default branch = `main` | README, `splits/folds_v1.csv`, `kaggle/`, `results/`, `scripts/register_run.py` | 5 grouped, stratified folds; counts match paper Table 1 |
 | 7 | Kaggle environment check | Done 2026-11-26: run 1 found Kaggle's val/ holds 104 training femurs (now pooled into train); `S00_env_check_r2` confirmed same data, same folds, all files found | `results/S00_env_check/`, `results/S00_env_check_r2/` | 2 × T4, 4 CPU cores, 32 GB RAM; all 1,253 files identical to local |
 | 8 | Data loader, metrics and statistics modules | Done 2026-11-26: loader, metrics (13 checks incl. scikit-learn), statistics (9 checks; reproduces the paper's accuracy interval 80.77–90.55 exactly), fold checks, CPU smoke test of the YOLO script and the statistics script | `src/femurseg/data.py`, `metrics.py`, `stats.py`, `scripts/run_stats.py`, `tests/` | Same code for both papers |
-| 9 | Baselines S1–S9 and core model M0 (5 folds each) | In progress: **S01 and S02 done 2026-11-26** (register lines 3–4; analysis `results/analysis/C01_yolo_1024_vs_640/`): classification reproduces the article, Dice .02–.04 lower. **Step 2 code merged 2026-11-26 (PR #5):** `scripts/train_net.py` for S04–S10 (protocol `Analysis/05_…`); **S00_net_check done** (register line 5). **S03, S06 and S10 done 2026-11-27** (register lines 6–8): YOLO11 = YOLOv8 (C02); the mask task helps classification (C05: OOF accuracy +2.0 points, macro-F1 +.042, Holm p ≤ .03); M0's Dice is above YOLO's. Next S07, S04, S08, S09, S05 (about 10 h) → C03, C04 → **M1** | `results/S*`, `results/analysis/` | M0 = run S10 = A1 in Paper A = R0 in Paper B |
+| 9 | Baselines S1–S9 and core model M0 (5 folds each) | In progress: **S01 and S02 done 2026-11-26** (register lines 3–4; analysis `results/analysis/C01_yolo_1024_vs_640/`): classification reproduces the article, Dice .02–.04 lower. **Step 2 code merged 2026-11-26 (PR #5):** `scripts/train_net.py` for S04–S10 (protocol `Analysis/05_…`); **S00_net_check done** (register line 5). **S03, S06 and S10 done 2026-11-27** (register lines 6–8, PR #7 merged): YOLO11 = YOLOv8 (C02); the mask task helps classification (C05: OOF accuracy +2.0 points, macro-F1 +.042, Holm p ≤ .03); M0's Dice is above YOLO's. Next S07, S04, S08, S09, S05 (about 10 h) → C03, C04 → **M1** | `results/S*`, `results/analysis/` | M0 = run S10 = A1 in Paper A = R0 in Paper B |
 
 ### Track A: Paper 1, SLG-Net
 | # | Phase | Weeks | Status |
 |---|-------|-------|--------|
-| A-1 | Build region pooling, geometry and location → grade heads; fold-0 development | 3–4 | Not started |
+| A-1 | Build region pooling, geometry and location → grade heads; fold-0 development | 3–4 | In progress: protocol (`Analysis/06_Step3_PaperA_Protocol.md`) and code (`src/femurseg/slg.py`, variants A2–A6, oracle and deletion tests) done and tested on the CPU 2026-11-27; fold-0 development runs `A_dev_round1` and `A_dev_round2` ready to launch → analysis C06 |
 | A-2 | Rare classes, calibration; freeze the method (git tag) → **M2-A** | 5 | Not started |
 | A-3 | Final runs and ablations A2–A6, oracle and region-deletion tests, sensitivity → **M3-A** | 6–7 | Not started |
 | A-4 | Statistics and figures → **M4-A** | 8 | Not started |
@@ -62,10 +62,10 @@
 ## Compute budget (Kaggle GPU-hours, from Report 04 §6)
 | Block | GPU-hours | Used so far |
 |---|---|---|
-| Shared | 28–34 | 4.4 h of session time (S00 + S00_r2 0.12, S01 2.94, S02 1.35; T4 × 2) |
+| Shared | 28–34 | 11.2 h of session time (S00 + S00_r2 0.12, S01 2.94, S02 1.35, S00_net_check 0.06, S03 2.96, S06 1.46, S10 2.33; T4 × 2) |
 | Track A only | 35–38 | 0 |
 | Track B only | 55–60 | 0 |
-| **Total** | **120–135** (peak about 20 h in one week) | 4.4 |
+| **Total** | **120–135** (peak about 20 h in one week) | 11.2 |
 
 ## Key decisions log
 | Date | Decision | Why |
@@ -98,11 +98,15 @@
 | 2026-11-26 | Use one Kaggle account; run parallel sessions on it, or on a colleague's own account | Kaggle allows one account per person; a second own account risks a ban of both |
 | 2026-11-27 | YOLO11s-seg (S03) adds nothing over YOLOv8s-seg (C02, smallest Holm p = .72): S01 stays the YOLO baseline; no further YOLO variants | The article's own model is the fairer reference; saves quota |
 | 2026-11-27 | The mask task helps classification (C05: S10 vs S06, OOF accuracy +2.0 points, Holm p = .026; macro-F1 +.042, Holm p = .013; same direction on the test set): M0 stays the starting point of both papers | Confirms step A0 → A1; grade errors (65 of M0's 121 OOF errors) and calibration (OOF threshold .018, ECE .108) are what A2–A6 must fix |
+| 2026-11-27 | **Paper A protocol fixed before any SLG-Net result** (`Analysis/06_Step3_PaperA_Protocol.md`): A2–A6 each add one component on top of M0 (region pooling, geometry, location → grade hierarchy, shared grade trunk, logit adjustment) with the Step 2 recipe unchanged; loss weights, τ = 1, teacher forcing 1 → 0 over 30 epochs and pooling at 1/16 + 1/32 fixed now | Each step of the ablation answers one question, and nothing is tuned after seeing results |
+| 2026-11-27 | Fold-0 development = three questions (D1 teacher forcing, D2 detached mask, D3 pooling at 1/32 only), one alternative run each against the A6 base, compared with M0's own fold-0 model (macro-F1 .822). A default changes only if macro-F1 rises by ≥ .02 with Dice down by ≤ .01; if the A6 base scores below .79, the design is reviewed first | Fold 0 has 208 femurs: even M0's gain over S06 (+.026) has p = .51 there, so only clear effects may change a default |
+| 2026-11-27 | The oracle and region-deletion tests are run by the training run itself (`--extra-tests`), with per-case files per test; the deletion control is the same shape at a random place on equally bright tissue, seeded by the file name | One code path for every variant; analysis C08 needs no extra runs |
+| 2026-11-27 | Fold-0 development runs share a Kaggle session, one per T4 (parallel groups `A_dev_round1`, `A_dev_round2`) | A one-fold run uses one GPU, so two of them fit one session |
 | 2026-11-26 | Micro-batches set by the pre-flight (`S00_net_check`): 16 × 1 for DenseNet121, ConvNeXt-T, U-Net, DeepLabV3+ and M0; 8 × 2 for EfficientNet-B4 and SegFormer | The protocol's rule (largest micro-batch under 85% of a T4); the optimiser still sees 16 images per update |
 
 ## Open questions
 - Resolved 2026-11-26 (`S00_env_check_r2`): Kaggle's 104 val/ images are identical to the local ones; data, folds and file list all match.
-- Is a T4 x2 session metered like one GPU? Steps 0–1 used 4.4 h of session time: if Kaggle shows about 4.4 h used this week, a T4 × 2 session counts once; about 8.8 h means it counts per GPU.
+- Is a T4 x2 session metered like one GPU? All runs to 2026-11-27 took 11.2 h of session time: if Kaggle shows about 11 h used, a T4 × 2 session counts once; about 22 h means it counts per GPU.
 - Resolved 2026-11-26: real run times on T4 × 2 (two folds at a time): YOLOv8s-seg 2.9 h at 1024 px (about 58 min per fold), 1.35 h at 640 px (about 27 min per fold). The plan's estimates were about twice too high.
 - Repository visibility: it is public now. Consider making it private until submission, so the methods are not visible before the papers; Kaggle can still clone it with a token (see `kaggle/launcher.ipynb`).
 - Resolved 2026-11-26: `data.yml` codes are `2AB, 2CD, 3AB, 3CDE, 4` (location digit + grade letters); `readme.md` only asks to cite the base paper. No patient, device or DX/CR metadata is in the release.

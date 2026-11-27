@@ -10,9 +10,14 @@ Paired comparisons (same femurs): DeLong for AUC, exact McNemar (and mid-p) for 
 randomisation test that swaps the two runs' predictions per x-ray for macro-F1, and Wilcoxon signed-rank (Pratt)
 for per-femur Dice; Holm-adjusted p-values over the comparisons of each scope.
 
+With --folds (fold-0 development, Analysis/06 §4): only the out-of-fold femurs of those folds are used, the test
+set is skipped, and each run's fracture threshold is fitted again (Youden) on exactly those femurs, so a
+development run trained on fold 0 only and a 5-fold run are compared on equal terms.
+
 Examples
   python scripts/run_stats.py S01_yolov8s_seg_1024
   python scripts/run_stats.py S01_yolov8s_seg_1024 S02_yolov8s_seg_640 --compare --name C01_yolo_1024_vs_640
+  python scripts/run_stats.py S10_m0_convnext_unet A6_dev_base A6_dev_no_tf --compare --folds 0 --name C06_dev_round1
 """
 from __future__ import annotations
 
@@ -140,9 +145,15 @@ def compare(da: dict, db: dict, groups: np.ndarray, n_boot: int, n_perm: int, se
 # ------------------------------------------------------------------------------------------------------- main
 
 
-def load_run(results: Path, run: str) -> tuple[dict, dict]:
+def load_run(results: Path, run: str, folds: list[int] | None = None) -> tuple[dict, dict]:
     d = results / run
     met = json.loads((d / "metrics.json").read_text())
+    if folds:
+        rows = [r for r in read_cases(d / SCOPES["oof"]) if int(float(r["fold"])) in folds]
+        if not rows:
+            raise SystemExit(f"{run}: no out-of-fold femurs in folds {folds}")
+        tau = M.youden_threshold([int(r["cls6_true"]) > 0 for r in rows], [_num(r["score"]) for r in rows])
+        return {"tau": tau, "metrics": met, "threshold_refitted_on_folds": folds}, {"oof": decisions(rows, tau)}
     tau = (met.get("thresholds") or {}).get("oof_youden")
     if tau is None:
         raise SystemExit(f"{run}: metrics.json has no OOF threshold")
@@ -165,15 +176,18 @@ def main(argv=None) -> int:
     ap.add_argument("--n-boot", type=int, default=2000)
     ap.add_argument("--n-perm", type=int, default=5000)
     ap.add_argument("--seed", type=int, default=2026)
+    ap.add_argument("--folds", default="", help="only the OOF femurs of these folds (e.g. 0); no test set; "
+                                                "thresholds refitted on them")
     a = ap.parse_args(argv)
+    folds = [int(v) for v in a.folds.split(",") if v.strip()]
     results = Path(a.results)
     group_of = {(r.split, r.file): r.group for r in load_records(a.folds_csv)}
     out_dir = results / "analysis" / (a.name or a.runs[0])
     out_dir.mkdir(parents=True, exist_ok=True)
 
     report: dict = {"runs": a.runs, "n_boot": a.n_boot, "n_perm": a.n_perm, "seed": a.seed, "intervals": {},
-                    "comparisons": {}}
-    loaded = {run: load_run(results, run) for run in a.runs}
+                    "comparisons": {}, "folds": folds or "all"}
+    loaded = {run: load_run(results, run, folds) for run in a.runs}
     for run, (info, scopes) in loaded.items():
         report["intervals"][run] = {"threshold": info["tau"]}
         for sc, dec in scopes.items():
@@ -201,7 +215,9 @@ def main(argv=None) -> int:
     (out_dir / "stats.json").write_text(json.dumps(report, indent=2, default=float))
     lines = [f"# Statistics: {', '.join(a.runs)}", "",
              f"95% intervals: cluster bootstrap over x-rays ({a.n_boot} resamples, seed {a.seed}); AUC also DeLong; "
-             "6-class accuracy also exact (Clopper-Pearson). Decisions use each run's OOF threshold.", ""]
+             "6-class accuracy also exact (Clopper-Pearson). Decisions use each run's OOF threshold"
+             + (f", fitted again on the femurs of fold(s) {', '.join(map(str, folds))} only (test set not used)."
+                if folds else "."), ""]
     for run, blocks in report["intervals"].items():
         for sc in SCOPES:
             if sc not in blocks:

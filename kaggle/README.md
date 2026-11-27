@@ -5,7 +5,7 @@
 |---|---|
 | `launcher.ipynb` | The only notebook you need. Import it into Kaggle once, then change `RUN` for each run. |
 | `runs.json` | The list of runs: script, arguments, extra packages, expected time. New runs are added here, not in the notebook. |
-| `run.py` | Starts one run from `runs.json`, writes `run_meta.json` (git commit, command, runtime, exit code). |
+| `run.py` | Starts one run from `runs.json`, or a *parallel group* of runs (one per GPU, see below), and writes `run_meta.json` (git commit, command, runtime, exit code). |
 | `env_check.py` | Step 0 (`S00_env_check`): checks GPU, packages, internet and data, and confirms the Kaggle data and folds match `splits/folds_v1.csv`. |
 
 ## One-time set-up (about 5 minutes)
@@ -20,7 +20,7 @@
 1. In the settings cell, set `RUN` to a name from `runs.json` (first time: `S00_env_check`). Keep `BRANCH = "main"` (before the setup pull request is merged, use `claude/project-thread-kges8j`), or use a tag such as `A-v1-frozen` for final runs.
 2. Click **Save Version** → choose **Save & Run All (Commit)** → **Save**. Kaggle runs the whole notebook in the background (up to 12 hours) and you can close the browser.
 3. When the version shows *Complete*, open it → **Output** → download `results_<RUN>.zip`.
-4. Put the zip in `results/_inbox/` in your local folder and tell Claude, or run `python scripts/register_run.py results/_inbox/results_<RUN>.zip --version <n>`. It files the run into `results/<RUN>/`, adds a notes stub and a line to `results/EXPERIMENTS.md`. Then the same files go to the repository.
+4. Put the zip in `results/_inbox/` in your local folder and tell Claude, or run `python scripts/register_run.py results/_inbox/results_<RUN>.zip --version <n>`. It files the run into `results/<RUN>/`, adds a notes stub and a line to `results/EXPERIMENTS.md`. The zip of a parallel group is filed as separate runs, each with its own line. Then the same files go to the repository.
 
 ## Runs available now
 | RUN | Step | GPU time | What it does |
@@ -38,10 +38,20 @@
 | `S08_deeplabv3p_r34` | 2 | ~1.5 h (S00_net_check) | Baseline 8: DeepLabV3+ (ResNet34) |
 | `S09_segformer_b2` | 2 | ~3.3 h (S00_net_check) | Baseline 9: SegFormer (MiT-B2) |
 | `S10_m0_convnext_unet` | 2 | 2.33 h (measured) | Core model M0 (= A1 = R0): S06's ConvNeXt-T + U-Net decoder (binary mask) + the same 6-class head (done 2026-11-27, register line 8) |
+| `A_dev_round1` | 3 | ~55 min (estimate) | Paper A, fold-0 development round 1 (`Analysis/06_Step3_PaperA_Protocol.md` §4), a parallel group: `A6_dev_base` (SLG-Net A6 with the base settings) on GPU 0 and `A6_dev_no_tf` (question D1: no teacher forcing) on GPU 1. Fold 0 only, no test-set predictions, with the oracle test |
+| `A_dev_round2` | 3 | ~55 min (estimate) | Round 2, a parallel group: `A6_dev_detach` (D2: the decision losses do not reach the mask) on GPU 0 and `A6_dev_scale32` (D3: region pooling at 1/32 only) on GPU 1 |
 
 **About Kaggle's val/ folder:** the Kaggle copy moved 104 of the 1,043 training femurs into `val/`, without keeping both femurs of an x-ray together. All code pools `val/` back into train (`src/femurseg/paths.py`), so Kaggle and the local copy give the same 1,043 training femurs and the same 5 folds.
 
-Run names: **S** = shared (baselines S1–S9, core model M0 = run S10), **A** = Paper A (SLG-Net), **R** = Paper B (RefFrac). S01–S03 use `scripts/train_yolo_seg.py`; S04–S10 use `scripts/train_net.py` (protocol: `Analysis/05_Step2_Baselines_Protocol.md`).
+Run names: **S** = shared (baselines S1–S9, core model M0 = run S10), **A** = Paper A (SLG-Net), **R** = Paper B (RefFrac). S01–S03 use `scripts/train_yolo_seg.py`; S04–S10 and the A runs use `scripts/train_net.py` (protocols: `Analysis/05_Step2_Baselines_Protocol.md` and `Analysis/06_Step3_PaperA_Protocol.md`). `A6_dev_*` are fold-0 development runs of A6; the final runs will be named after their variant (A2–A6).
+
+## Two runs in one session (parallel groups)
+A development run trains one fold, so it needs only one of the session's two T4s. A *parallel group* in `runs.json` (for example `A_dev_round1`) starts two such runs at the same time, one per GPU:
+1. Set `RUN` to the group's name (`A_dev_round1`), exactly like a single run, and Save Version.
+2. Each run gets one GPU and half of the 4 CPU cores. The image cache is built once: the second run waits for the first, then reads the same files.
+3. The log shows both runs, each line prefixed by its name (`[A6_dev_base] ...`). Each run's own log is also saved as `controller_log.txt` in its results folder.
+4. Download the one zip, `results_A_dev_round1.zip`. It holds both runs; `register_run.py` files them as `results/A6_dev_base/` and `results/A6_dev_no_tf/`, with one register line each.
+5. If one run fails, the other still finishes and is filed; the group's `group_meta.json` lists each run's exit code.
 
 ## Good habits that save quota
 - Kaggle's free GPU quota is commonly reported as about 30 h per week, with 12 h per session. Your exact remaining quota is shown in your Kaggle account settings.
