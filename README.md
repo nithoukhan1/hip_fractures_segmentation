@@ -49,11 +49,11 @@ Details: [`PROJECT_TRACKER.md`](PROJECT_TRACKER.md) (overall) and [`PROGRESS_LOG
 │                           and image cache (torchdata.py)
 ├── scripts/                command-line tools: make_splits.py, register_run.py, train_yolo_seg.py (S01–S03),
 │                           train_net.py (S04–S10: classifiers, segmenters, M0; S00_net_check; SLG-Net A2–A6),
-│                           run_stats.py (95% intervals and paired comparisons of filed runs),
+│                           run_stats.py (95% intervals, paired comparisons and calibration of filed runs),
 │                           run_breakdown.py (per class, mean ± SD over folds, comparison with the article)
 ├── tests/                  checks of metrics, statistics, folds, the article's numbers, the breakdown, the
-│                           networks and SLG-Net, and CPU smoke tests of both training scripts, both analysis
-│                           scripts and the Kaggle launcher's parallel groups
+│                           networks and SLG-Net, the Kaggle launcher's data check, and CPU smoke tests of both
+│                           training scripts, both analysis scripts and the launcher's parallel groups
 ├── configs/                one YAML file per experiment
 ├── kaggle/                 Kaggle launcher notebook, run list and Kaggle-only scripts
 ├── results/                every run's metrics, notes and small outputs (no model weights)

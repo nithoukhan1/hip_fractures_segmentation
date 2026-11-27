@@ -14,6 +14,13 @@ With --folds (fold-0 development, Analysis/06 §4): only the out-of-fold femurs 
 set is skipped, and each run's fracture threshold is fitted again (Youden) on exactly those femurs, so a
 development run trained on fold 0 only and a 5-fold run are compared on equal terms.
 
+Calibration (Analysis/06 §6): one temperature per run is fitted on its pooled OOF femurs by negative log-likelihood
+(temperature scaling of the 6-class probabilities, Guo et al. 2017) and applied unchanged to the test set. ECE,
+Brier score and NLL are reported before and after: on the OOF femurs (where the temperature was fitted), on the test
+ensemble, and as mean ± SD over the fold models on the test set. Decisions and all other metrics are unchanged.
+Not applicable when some OOF femur's true class has probability exactly 0 (YOLO gives no probability to a class
+without a detected instance): the NLL is then undefined, so only the values before are reported.
+
 Examples
   python scripts/run_stats.py S01_yolov8s_seg_1024
   python scripts/run_stats.py S01_yolov8s_seg_1024 S02_yolov8s_seg_640 --compare --name C01_yolo_1024_vs_640
@@ -34,6 +41,7 @@ sys.path.insert(0, str(REPO / "src"))
 from femurseg import metrics as M  # noqa: E402
 from femurseg import stats as S  # noqa: E402
 from femurseg.data import DEFAULT_FOLDS_CSV, load_records  # noqa: E402
+from femurseg.evaluation import case_probs  # noqa: E402
 
 SCOPES = {"oof": "per_case_oof.csv", "test_ensemble": "per_case_test_ensemble.csv"}
 METRICS = ("auc_fracture", "fracture_sensitivity", "fracture_specificity", "accuracy_6class", "macro_f1",
@@ -161,6 +169,55 @@ def load_run(results: Path, run: str, folds: list[int] | None = None) -> tuple[d
     return {"tau": tau, "metrics": met}, scopes
 
 
+def _calib(probs: np.ndarray, y: np.ndarray, t: float | None) -> dict:
+    """ECE, Brier and NLL before and after temperature t (after = None when t is None, i.e. not applicable)."""
+    zero = bool((probs[np.arange(len(y)), y] == 0).any())
+    out = {"n": int(len(y)), "ece_before": M.expected_calibration_error(probs, y),
+           "brier_before": M.brier_score(probs, y), "nll_before": None if zero else M.nll(probs, y)}
+    after = M.apply_temperature(probs, t) if t is not None else None
+    out.update(ece_after=None if after is None else M.expected_calibration_error(after, y),
+               brier_after=None if after is None else M.brier_score(after, y),
+               nll_after=None if after is None else M.nll(after, y))
+    return out
+
+
+def calibration(results: Path, run: str, folds: list[int] | None = None) -> dict:
+    """Temperature fitted on the run's OOF femurs (of ``folds`` only, if given); ECE, Brier and NLL before and after
+    on the OOF femurs, the test ensemble and the test fold models (mean ± SD; not with ``folds``)."""
+    d = results / run
+    oof = read_cases(d / SCOPES["oof"])
+    if folds:
+        oof = [r for r in oof if int(float(r["fold"])) in folds]
+    probs, y = case_probs(oof)
+    zero = int((probs[np.arange(len(y)), y] == 0).sum())
+    t = None if zero else M.fit_temperature(probs, y)
+    out = {"temperature": t, "fitted_on": f"{len(y)} OOF femurs" + (f" of folds {folds}" if folds else ""),
+           "oof": _calib(probs, y, t)}
+    if zero:
+        out["not_applicable"] = (f"{zero} of {len(y)} OOF femurs give their true class probability 0, so the NLL is "
+                                 "undefined (YOLO-style confidences: no probability for a class without an instance)")
+    lo, hi = M.TEMPERATURE_RANGE
+    if t is not None and not lo * 1.01 < t < hi / 1.01:
+        out["at_search_bound"] = (f"the temperature lies at the end of the search range {lo:g}-{hi:g}, so read the "
+                                  "values after with care (near 100: the probabilities are hardly better than 1/6 each)")
+    if folds:
+        return out
+    if (d / SCOPES["test_ensemble"]).exists():
+        rows = read_cases(d / SCOPES["test_ensemble"])
+        if rows:
+            out["test_ensemble"] = _calib(*case_probs(rows), t)
+    if (d / "per_case_test.csv").exists():
+        rows = read_cases(d / "per_case_test.csv")
+        per_model = [_calib(*case_probs([r for r in rows if r["model"] == m]), t) for m in sorted({r["model"] for r in rows})]
+        if per_model:
+            keys = [k for k in per_model[0] if k != "n" and all(b[k] is not None for b in per_model)]
+            out["test_models"] = {"n_models": len(per_model),
+                                  "mean": {k: float(np.mean([b[k] for b in per_model])) for k in keys},
+                                  "sd": {k: float(np.std([b[k] for b in per_model], ddof=1)) if len(per_model) > 1
+                                         else float("nan") for k in keys}}
+    return out
+
+
 def fmt(v: dict, key="estimate", nd=3) -> str:
     x = v.get(key)
     return "n/a" if x is None or (isinstance(x, float) and np.isnan(x)) else f"{x:.{nd}f}"
@@ -188,6 +245,7 @@ def main(argv=None) -> int:
     report: dict = {"runs": a.runs, "n_boot": a.n_boot, "n_perm": a.n_perm, "seed": a.seed, "intervals": {},
                     "comparisons": {}, "folds": folds or "all"}
     loaded = {run: load_run(results, run, folds) for run in a.runs}
+    report["calibration"] = {run: calibration(results, run, folds) for run in a.runs}
     for run, (info, scopes) in loaded.items():
         report["intervals"][run] = {"threshold": info["tau"]}
         for sc, dec in scopes.items():
@@ -231,6 +289,25 @@ def main(argv=None) -> int:
                          f"{fmt(b['auc_fracture_delong'], 'lo')}–{fmt(b['auc_fracture_delong'], 'hi')} |")
             e = b["accuracy_6class_exact"]
             lines += [f"| accuracy_6class (exact) | {e['correct']}/{e['n']} = {fmt(e)} | {fmt(e, 'lo')}–{fmt(e, 'hi')} |", ""]
+    lines += ["## Calibration: temperature scaling fitted on each run's OOF femurs", "",
+              "| Run | Temperature | Femurs | ECE before → after | Brier before → after | NLL before → after |",
+              "|---|---|---|---|---|---|"]
+    for run, cal in report["calibration"].items():
+        for sc, label in (("oof", "OOF (fitted here)"), ("test_ensemble", "test ensemble"), ("test_models", "test fold models")):
+            if sc not in cal:
+                continue
+            b = cal[sc] if sc != "test_models" else cal[sc]["mean"]
+            sd = cal[sc]["sd"] if sc == "test_models" else {}
+            v = lambda blk, k: "n/a" if blk.get(k) is None else f"{blk[k]:.3f}"  # noqa: E731
+            cell = (lambda k: f"{v(b, k + '_before')} → {v(b, k + '_after')}"
+                    + (f" (SD {v(sd, k + '_before')} → {v(sd, k + '_after')})" if sd else ""))
+            n = cal[sc]["n"] if sc != "test_models" else f"{cal[sc]['n_models']} models"
+            temp = "n/a" if cal["temperature"] is None else f"{cal['temperature']:.2f}"
+            lines.append(f"| {run} | {temp} | {label}: {n} | {cell('ece')} | {cell('brier')} | {cell('nll')} |")
+    lines += ["", "ECE: 15 equal-width bins of the top-class probability. The temperature keeps each femur's most "
+              "probable class, and no threshold or decision uses it: it is reported only."]
+    lines += [f"{run}: {'not applicable, ' if k == 'not_applicable' else ''}{cal[k]}." for run, cal in
+              report["calibration"].items() for k in ("not_applicable", "at_search_bound") if cal.get(k)] + [""]
     for key, scopes in report["comparisons"].items():
         for sc, res in scopes.items():
             lines += [f"## {key}: {sc}", "", "| Endpoint | Test | Difference (A − B) | p | p (Holm) |", "|---|---|---|---|---|"]

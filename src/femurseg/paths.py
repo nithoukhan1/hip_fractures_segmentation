@@ -34,7 +34,26 @@ def find_data_root(start: str | os.PathLike, max_depth: int = 6) -> Path:
         if (here / "train" / "images").is_dir() and (here / "test" / "images").is_dir():
             return here
         dirnames[:] = [d for d in dirnames if d not in ("images", "labels", "masks")]
-    raise FileNotFoundError(f"no folder with train/images and test/images found under {start}")
+    raise FileNotFoundError(f"no folder with train/images and test/images found under {start}: {describe_folder(start)}")
+
+
+def describe_folder(start: str | os.PathLike, depth: int = 3, limit: int = 15) -> str:
+    """What a folder holds, for error messages: on Kaggle an empty /kaggle/input means no dataset is attached."""
+    start = Path(start)
+    if not start.is_dir():
+        return f"{start} does not exist (on Kaggle: no dataset is attached to the notebook)"
+    found: list[str] = []
+    for dirpath, dirnames, filenames in os.walk(start, followlinks=True):
+        rel = Path(dirpath).relative_to(start)
+        dirnames.sort()
+        found += [(rel / d).as_posix() + "/" for d in dirnames] + [(rel / f).as_posix() for f in sorted(filenames)]
+        if len(rel.parts) + 1 >= depth:  # entries down to ``depth`` levels below start
+            dirnames[:] = []
+        if len(found) > limit:
+            break
+    if not found:
+        return f"{start} is empty (on Kaggle: no dataset is attached to the notebook)"
+    return "it holds " + ", ".join(found[:limit]) + (" ..." if len(found) > limit else "")
 
 
 def build_index(root: str | os.PathLike) -> dict[tuple[str, str], dict]:

@@ -10,7 +10,9 @@ What it does, step by step:
      run_meta.json (written by kaggle/run.py). The zip of a parallel group (two runs in one session, see
      kaggle/run.py) holds one run folder per run; each is filed separately, with its own register line.
   2. Copies that folder to results/<RUN>/. It refuses to overwrite an existing run: a re-run must
-     get a new name (for example S01_yolov8s_seg_1024_r2).
+     get a new name (for example S01_yolov8s_seg_1024_r2). A run that never started (no dataset attached, or it ended
+     within a minute without any output) is not filed, so it can be run again under the same name; in a parallel
+     group the other runs are still filed.
   3. Creates results/<RUN>/NOTES.md from results/RUN_NOTES_TEMPLATE.md, unless the run already has one.
   4. Appends one line to the register table at the end of results/EXPERIMENTS.md: date, run, track,
      step, git commit, Kaggle version, GPU, runtime, exit code and the key result.
@@ -100,15 +102,25 @@ def main() -> None:
 
     with zipfile.ZipFile(zpath) as zf, tempfile.TemporaryDirectory() as tmp:
         metas = sorted(n for n in zf.namelist() if n.endswith("run_meta.json"))
-        if not metas:
-            sys.exit(f"no run_meta.json in {zpath.name}")
-        found = []
+        if not metas:  # a parallel group stopped by kaggle/run.py's data check holds only group_meta.json
+            errors = [json.loads(zf.read(n)).get("error") for n in zf.namelist() if n.endswith("group_meta.json")]
+            why = next((e for e in errors if e), None)
+            sys.exit(f"{zpath.name}: the parallel group did not start ({why}). {NOT_FILED}" if why
+                     else f"no run_meta.json in {zpath.name}")
+        found, not_started = [], []
         for m in metas:
             prefix = m[: -len("run_meta.json")]
             meta = json.loads(zf.read(m))
             if len(metas) > 1 and not meta.get("group"):
                 sys.exit(f"{zpath.name} holds {len(metas)} runs, but {m} is not part of a parallel group")
+            if never_started(meta, [n for n in zf.namelist() if n.startswith(prefix) and not n.endswith("/")]):
+                reason = meta.get("error") or (f"exit code {meta.get('exit_code')} after "
+                                               f"{meta.get('runtime_minutes')} min, no outputs")
+                not_started.append(f"run {meta.get('run') or Path(prefix).name} did not start ({reason})")
+                continue
             found.append((prefix, meta))
+        if not found:
+            sys.exit(f"{zpath.name}: {'; '.join(not_started)}. {NOT_FILED}")
         names = [meta.get("run") or Path(prefix).name for prefix, meta in found]
         clash = [n for n in names if (RESULTS / n).exists()]
         if clash:
@@ -119,6 +131,8 @@ def main() -> None:
 
     for (prefix, meta), run in zip(found, names):
         file_run(run, meta, args)
+    for msg in not_started:  # e.g. one run of a parallel group crashed at once while the other ran
+        print(f"not filed: {msg}. Fix the cause and run it again under the same name.")
 
     filed = zpath.parent / "filed"
     try:
@@ -128,6 +142,17 @@ def main() -> None:
     except OSError as e:  # e.g. no permission to move; filing still succeeded
         moved = f"could not move the zip ({e}); you can move it to results/_inbox/filed/ by hand"
     print(moved)
+
+
+NOT_FILED = "Nothing was filed: fix the cause and run it again under the same name."
+
+
+def never_started(meta: dict, files: list[str]) -> bool:
+    """True for a run the launcher stopped before training (no dataset: an "error" in run_meta.json), or one that
+    ended within a minute without writing anything but its run_meta.json and log. A run that wrote nothing after
+    longer is still filed, with its exit code, so the failure keeps its register line."""
+    no_outputs = all(n.endswith(("run_meta.json", "controller_log.txt")) for n in files)
+    return bool(meta.get("error")) or (no_outputs and float(meta.get("runtime_minutes") or 0) < 1.0)
 
 
 def file_run(run: str, meta: dict, args) -> None:

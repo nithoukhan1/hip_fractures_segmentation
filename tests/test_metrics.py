@@ -204,6 +204,35 @@ def test_calibration_known_values():
     assert abs(M.brier_score(probs, y) - 0.37) < 1e-12
 
 
+def test_temperature_scaling_recovers_overconfidence():
+    rng = np.random.default_rng(0)
+    z = rng.normal(0, 1.5, (20000, 6))
+    soft = lambda v: np.exp(v - v.max(1, keepdims=True)) / np.exp(v - v.max(1, keepdims=True)).sum(1, keepdims=True)  # noqa: E731
+    p_true = soft(z)
+    y = (p_true.cumsum(1) < rng.random((len(z), 1))).sum(1)  # one draw per row from its true probabilities
+    over = soft(3 * z)  # over-confident: logits 3 x too large
+    t = M.fit_temperature(over, y)
+    assert abs(t - 3) < 0.15, t
+    cal = M.apply_temperature(over, t)
+    assert np.allclose(M.apply_temperature(over, 3.0), p_true, atol=1e-4)  # the inverse at t = 3 (up to the 1e-12 floor)
+    assert np.allclose(M.apply_temperature(over, 1.0), over) and (cal.argmax(1) == over.argmax(1)).all()
+    assert M.expected_calibration_error(cal, y) < M.expected_calibration_error(over, y) / 3
+    assert M.nll(cal, y) < M.nll(over, y) and M.brier_score(cal, y) < M.brier_score(over, y)
+    assert abs(M.fit_temperature(p_true, y) - 1) < 0.05  # already calibrated: t stays near 1
+
+
+def test_case_probs_from_numbers_or_csv_strings():
+    from femurseg.evaluation import case_probs
+
+    rows = [{"score": 0.8, "conf_1": 0.1, "conf_2": 0.6, "conf_3": 0.0, "conf_4": 0.0, "conf_5": 0.1, "cls6_true": 2},
+            {"score": 0.1, "conf_1": 0.0, "conf_2": 0.0, "conf_3": 0.05, "conf_4": 0.0, "conf_5": 0.0, "cls6_true": 0}]
+    p, y = case_probs(rows)
+    p2, y2 = case_probs([{k: str(v) for k, v in r.items()} for r in rows])
+    assert np.allclose(p, p2) and (y == y2).all() and np.allclose(p.sum(1), 1)
+    assert np.allclose(p[0], [0.2, 0.1, 0.6, 0, 0, 0.1]) and list(y) == [2, 0]
+    assert np.allclose(p[1], np.array([0.9, 0, 0, 0.05, 0, 0]) / 0.95)  # YOLO-style rows need normalising
+
+
 def test_youden_threshold():
     y = np.array([0, 0, 1, 1])
     s = np.array([0.1, 0.4, 0.35, 0.8])

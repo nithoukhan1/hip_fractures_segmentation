@@ -4,6 +4,42 @@ Newest entries at the top. Each entry: what was done, what it produced, what com
 
 ---
 
+## 2026-11-27 · Step 13: S09's failed launch, a data check in the launcher, and calibration
+
+**Done (you)**
+- Merged PR #8 (`f342b8a`). Started six Kaggle sessions at the same time: `S07_unet_r34`, `S04_densenet121`, `S08_deeplabv3p_r34`, `S05_efficientnet_b4`, `A_dev_round1` and `A_dev_round2`.
+- `S09_segformer_b2` stopped at once with "no folder with train/images and test/images found under /kaggle/input" (exit code 1, 0.0 min, commit `4820f6b`).
+
+**Done (me)**
+1. **Why S09 failed:** that session found no dataset under `/kaggle/input`, most likely because no dataset was attached to its notebook. The code is not at fault: the other sessions find the data, and nothing was trained. The zip holds only `run_meta.json`. It is renamed `results/_inbox/filed/results_S09_segformer_b2_failed_no_data.zip` and not filed, so the name `S09_segformer_b2` stays free for the relaunch.
+2. **The launcher now checks the data first** (`kaggle/run.py`):
+   - before installing anything, a training run (or a parallel group) looks for `train/images` and `test/images`;
+   - if they are missing, the log shows **NO DATASET FOUND**, what `/kaggle/input` holds, and how to attach the dataset; the run stops within seconds with exit code 2, and `run_meta.json` records the reason;
+   - `scripts/register_run.py` does not file a run that never started; in a parallel group, the other run is still filed;
+   - 6 new tests (`tests/test_kaggle_run.py`).
+3. **Calibration** (`scripts/run_stats.py`, protocol `Analysis/06_…` §6):
+   - one temperature per run, fitted on its out-of-fold femurs, then applied unchanged to the test set;
+   - ECE, Brier score and NLL are reported before and after, for the OOF femurs, the test ensemble and the fold models;
+   - it is reported only: no threshold or decision uses it, and each femur keeps its most probable class.
+4. **First calibration values** (from the filed runs, no new training):
+
+   | Run | Temperature | ECE, OOF | ECE, test ensemble | ECE, test fold models |
+   |---|---|---|---|---|
+   | S06 (ConvNeXt-T) | 3.43 | .127 → .046 | .102 → .066 | .156 → .066 |
+   | S10 (M0) | 3.14 | .108 → .040 | .103 → .064 | .131 → .062 |
+
+   - Both models are over-confident by about the same factor, and one temperature fitted on OOF also works on the test set.
+   - Not applicable to the YOLO runs: YOLO gives probability 0 to every class without a detected instance. For 73–99 of the 1,043 OOF femurs that is the true class, so the NLL is undefined. Their ECE and Brier are reported before calibration only.
+5. **Checks:**
+   - 8 new unit tests (6 launcher, 2 calibration); all 57 unit tests pass.
+   - The CPU smoke test now also checks calibration in both statistics steps, and every step passed. One new check was too strict (it did not allow the note for a temperature at the end of its search range); it was corrected and holds on the same outputs.
+
+**Next**
+- You: in the S09 notebook, open the right panel → **Input** → **Add Input**, add `utopianstar/dataset`, keep `RUN = "S09_segformer_b2"` and `BRANCH = "main"`, and Save Version (about 3.3 h). Put each zip in `results/_inbox/` as it finishes.
+- Me: file each zip; C03 and C04 → **M1**; C06 from the two development rounds; meanwhile Paper B step B-1 (protocol for the pair index and the retrieval bank).
+
+---
+
 ## 2026-11-27 · Step 12: Paper A's protocol (Step 3) and SLG-Net code, tested on the CPU
 
 **Done (you)**
