@@ -19,7 +19,7 @@ Sources:
 | Fixed 5-fold split of the training set | Done (`splits/folds_v1.csv`) |
 | Kaggle environment check | Done: data and folds on Kaggle are identical to `splits/folds_v1.csv` (Kaggle's val/ pooled into train) |
 | Data loader, metrics, statistics, tests | Done (`src/femurseg/data.py`, `metrics.py`, `stats.py`, `tests/`) |
-| Shared baselines S1–S9 and core model M0 | In progress: S01 and S02 (YOLOv8s-seg) done and analysed: they reproduce the article's accuracy and AUC (`results/analysis/C01_yolo_1024_vs_640/report.md`). S03 (YOLO11s-seg) running on Kaggle. Step 2 code for S04–S10 (classifiers, segmenters, M0) merged; `S00_net_check` showed all 7 networks fit on Kaggle's T4s (about 14.6 h of runs). Next: S10 (M0) and S06. Protocol in `Analysis/05_Step2_Baselines_Protocol.md` |
+| Shared baselines S1–S9 and core model M0 | In progress: S01 and S02 (YOLOv8s-seg) done and analysed: they reproduce the article's accuracy and AUC (`results/analysis/C01_yolo_1024_vs_640/report.md`). S03 (YOLO11s-seg) adds nothing over YOLOv8s-seg (`results/analysis/C02_yolov8_vs_yolo11/report.md`). The core model M0 (S10) classifies better than the ConvNeXt-T classifier S06 and segments better than YOLO (`results/analysis/C05_mask_task_s06_vs_s10/report.md`). Next: S07, S04, S08, S09, S05. Protocol in `Analysis/05_Step2_Baselines_Protocol.md` |
 | Paper A and Paper B methods, experiments, manuscripts | Not started |
 
 Details: [`PROJECT_TRACKER.md`](PROJECT_TRACKER.md) (overall) and [`PROGRESS_LOG.md`](PROGRESS_LOG.md) (step by step).

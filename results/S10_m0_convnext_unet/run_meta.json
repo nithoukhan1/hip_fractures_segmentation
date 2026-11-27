@@ -1,0 +1,9 @@
+{
+  "run": "S10_m0_convnext_unet",
+  "step": "2",
+  "git_commit": "18e4774fca7d1332a30b7596aa1a39f53aea33ad",
+  "command": "/usr/bin/python3 /tmp/code/scripts/train_net.py --net m0:convnext_tiny.fb_in22k_ft_in1k --size 768x512 --epochs 60 --batch 16 --folds 0,1,2,3,4 --gpus 0,1 --out /kaggle/working/results/S10_m0_convnext_unet",
+  "started_utc": "2026-11-26T17:14:40Z",
+  "runtime_minutes": 140.06,
+  "exit_code": 0
+}

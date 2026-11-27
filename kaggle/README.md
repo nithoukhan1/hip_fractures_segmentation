@@ -29,15 +29,15 @@
 | `S00_env_check_r2` | 0 | ~4 min | Same check after pooling val/ back into train: data, folds and file list must now be identical to `splits/folds_v1.csv` |
 | `S01_yolov8s_seg_1024` | 1 | 2.9 h (measured) | Baseline 1: the paper's final model, YOLOv8-small-seg at 1024 px, retrained on our 5 folds (100 epochs, Ultralytics defaults, batch 8). Two folds run at a time, one per T4. Writes out-of-fold and test predictions, `metrics.json` and `summary.md` (done 2026-11-26, register line 3) |
 | `S02_yolov8s_seg_640` | 1 | 1.35 h (measured) | Baseline 2: the paper's best-Dice setting, YOLOv8-small-seg at 640 px (batch 16), same protocol (done 2026-11-26, register line 4) |
-| `S03_yolo11s_seg_1024` | 2 | ~3 h | Baseline 3: YOLO11-small-seg at 1024 px with exactly S01's protocol, so it differs from S01 only in the architecture |
+| `S03_yolo11s_seg_1024` | 2 | 2.96 h (measured) | Baseline 3: YOLO11-small-seg at 1024 px with exactly S01's protocol, so it differs from S01 only in the architecture (done 2026-11-27, register line 6) |
 | `S00_net_check` | 2 | 3.5 min (measured) | Pre-flight of the 7 Step 2 networks (S04–S10) on the T4s: downloads their ImageNet weights, finds the largest micro-batch that fits (gradients are accumulated to 16), times a step, estimates minutes per fold. Trains nothing (done 2026-11-26, register line 5: all 7 fit; S05 and S09 use micro-batch 8 × 2) |
 | `S04_densenet121` | 2 | ~1.6 h (S00_net_check) | Baseline 4: DenseNet121 classifier (the article's best classifier), `scripts/train_net.py`, 768 × 512 px, 60 epochs |
 | `S05_efficientnet_b4` | 2 | ~2.1 h (S00_net_check) | Baseline 5: EfficientNet-B4 classifier (an article baseline) |
-| `S06_convnext_tiny` | 2 | ~1.7 h (S00_net_check) | Baseline 6 = A0: ConvNeXt-T classifier, the backbone of M0 and of both papers |
+| `S06_convnext_tiny` | 2 | 1.46 h (measured) | Baseline 6 = A0: ConvNeXt-T classifier, the backbone of M0 and of both papers (done 2026-11-27, register line 7) |
 | `S07_unet_r34` | 2 | ~1.7 h (S00_net_check) | Baseline 7: U-Net (ResNet34), 6-class semantic segmentation |
 | `S08_deeplabv3p_r34` | 2 | ~1.5 h (S00_net_check) | Baseline 8: DeepLabV3+ (ResNet34) |
 | `S09_segformer_b2` | 2 | ~3.3 h (S00_net_check) | Baseline 9: SegFormer (MiT-B2) |
-| `S10_m0_convnext_unet` | 2 | ~2.8 h (S00_net_check) | Core model M0 (= A1 = R0): S06's ConvNeXt-T + U-Net decoder (binary mask) + the same 6-class head |
+| `S10_m0_convnext_unet` | 2 | 2.33 h (measured) | Core model M0 (= A1 = R0): S06's ConvNeXt-T + U-Net decoder (binary mask) + the same 6-class head (done 2026-11-27, register line 8) |
 
 **About Kaggle's val/ folder:** the Kaggle copy moved 104 of the 1,043 training femurs into `val/`, without keeping both femurs of an x-ray together. All code pools `val/` back into train (`src/femurseg/paths.py`), so Kaggle and the local copy give the same 1,043 training femurs and the same 5 folds.
 

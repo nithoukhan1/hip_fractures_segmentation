@@ -4,6 +4,28 @@ Newest entries at the top. Each entry: what was done, what it produced, what com
 
 ---
 
+## 2026-11-27 · Step 11: S03, S06 and S10 filed; analyses C02 and C05
+
+**Done (you)**
+- Merged PR #6 (`18e4774`) and ran `S03_yolo11s_seg_1024` (from `b1a2719`, 178 min), `S10_m0_convnext_unet` (140 min) and `S06_convnext_tiny` (88 min) on Kaggle. All 5 folds of each finished with exit code 0.
+
+**Done (me)**
+1. Filed the three runs with `scripts/register_run.py` (register lines 6–8) and wrote their `NOTES.md`. Checked each run: every training femur is predicted once, by the model that did not train on it, and `metrics.json` equals a re-evaluation of the per-case files.
+2. **C02, YOLO11s-seg (S03) vs YOLOv8s-seg (S01)** (`results/analysis/C02_yolov8_vs_yolo11/report.md`): no difference on any endpoint (smallest Holm-corrected p = .72). S01 stays the YOLO baseline.
+3. **C05, does learning the mask help the classifier? (S06 vs S10)** (`results/analysis/C05_mask_task_s06_vs_s10/report.md`):
+   - Yes on the 1,043 OOF femurs: accuracy 86.4% → 88.4% (Holm p = .026), macro-F1 .784 → .825 (Holm p = .013). M0 is better on all 5 held-out folds.
+   - Same direction on the 210 test femurs (fold models 83.5% → 86.0%), not significant.
+   - The gain comes from fewer detection and location errors. Grade errors are unchanged (65 of M0's 121 OOF errors), with Garden I-II the weakest class.
+   - M0's mask is already better than YOLO's: Dice on fractured femurs .777 against .740 OOF (formal test in C04).
+   - Both ConvNeXt models are over-confident (M0's OOF threshold .018), so calibration matters.
+4. `scripts/run_breakdown.py` now reports classifier and segmenter runs cleanly. Their header names the network, they are compared with the article's final model (and with its own DenseNet121 or EfficientNet-B4 where it has one), and "n/a" replaces "nan". C01's report is unchanged.
+
+**Next**
+- You: run the remaining 5 baselines, two at a time: `S07_unet_r34` and `S04_densenet121` first, then `S08_deeplabv3p_r34` and `S09_segformer_b2`, then `S05_efficientnet_b4` (about 10 h in all). Put each zip in `results/_inbox/`.
+- Me: file them, then C03 (classifiers vs YOLO) and C04 (segmenters vs YOLO), which complete the baseline table (milestone M1). Meanwhile, Step 3 code: Paper A's SLG-Net heads on top of M0 (A2–A6, tested on the CPU).
+
+---
+
 ## 2026-11-26 · Step 10: S00_net_check filed; measured run times for S04–S10
 
 **Done (you)**
