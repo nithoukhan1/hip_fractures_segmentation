@@ -21,7 +21,7 @@ Sources:
 | Data loader, metrics, statistics, tests | Done (`src/femurseg/data.py`, `metrics.py`, `stats.py`, `tests/`) |
 | Shared baselines S1–S9 and core model M0 | **Done (milestone M1, 2026-11-27):** baseline table v1 in `results/analysis/M1_baseline_table/report.md`. S01 and S02 (YOLOv8s-seg) reproduce the article's accuracy and AUC (`results/analysis/C01_yolo_1024_vs_640/report.md`); S03 (YOLO11s-seg) adds nothing (`C02_yolov8_vs_yolo11`). The image classifiers S04–S06 classify better than YOLO out of fold and reproduce the article's DenseNet121 and EfficientNet-B4 (`C03_classifiers_vs_yolo`). The core model M0 (S10) classifies better than the ConvNeXt-T classifier S06 and segments better than YOLO (`C05_mask_task_s06_vs_s10`). Among the segmenters (`C04_segmenters_vs_yolo`), M0 has the best Dice: out of fold it beats YOLO and every standard segmenter; on the test set its lead over YOLO is not significant. SegFormer (S09) is the best standard segmenter. Protocol in `Analysis/05_Step2_Baselines_Protocol.md` |
 | Paper A (SLG-Net) | Fold-0 development done (`results/analysis/C06_paperA_dev_fold0/report.md`): the base setting missed the go/no-go line (macro-F1 .776 < .79); the design review traced this to the 1/16 region features, and region pooling at 1/32 only reaches M0's level (.827). **Freeze approved 2026-11-27** (teacher forcing over 30 epochs, end-to-end mask, region pooling at 1/32 only; tag `A-v1-frozen`). The five final runs A2–A6 start from the tag; a second-seed check of the base and of 1/32 pooling (`A_dev_seed2`) runs alongside, with its rule fixed in advance (`Analysis/06` §10) |
-| Paper B (RefFrac) | Step B-1 (`Analysis/07_Step4_PaperB_Reference_Bank_Protocol.md`): pair index and bank of healthy reference femurs built (R00). Its mirror check failed because ImageNet features hardly see left and right; version 2 of the orientation rule reads the pelvis side from the image (the two femurs of an x-ray get opposite sides in 402 of 405 x-rays, `results/analysis/C10_paperB_orientation_review/`) and passes as `R00_reference_bank_r2` (804 of 810 partners, 99.3%): **step B-1 is complete** (`Analysis/07` §9). Next: the protocol of step B-2 (the Siamese RefFrac model) |
+| Paper B (RefFrac) | Step B-1 (`Analysis/07_Step4_PaperB_Reference_Bank_Protocol.md`): pair index and bank of healthy reference femurs built (R00). Its mirror check failed because ImageNet features hardly see left and right; version 2 of the orientation rule reads the pelvis side from the image (the two femurs of an x-ray get opposite sides in 402 of 405 x-rays, `results/analysis/C10_paperB_orientation_review/`) and passes as `R00_reference_bank_r2` (804 of 810 partners, 99.3%): **step B-1 is complete** (`Analysis/07` §9). **Step B-2 started 2026-11-27:** the protocol was written before any R run (`Analysis/08_Step5_PaperB_RefFrac_Protocol.md`: the Siamese RefFrac model, runs R1–R7, the reference tests and a fold-0 decision rule), the model is coded (`src/femurseg/refnet.py`) and tested on the CPU, and two fold-0 development sessions (`R_dev_round1`, `R_dev_round2`) are ready to launch |
 
 Details: [`PROJECT_TRACKER.md`](PROJECT_TRACKER.md) (overall) and [`PROGRESS_LOG.md`](PROGRESS_LOG.md) (step by step).
 
@@ -39,7 +39,8 @@ Details: [`PROJECT_TRACKER.md`](PROJECT_TRACKER.md) (overall) and [`PROGRESS_LOG
 │   ├── 04_Execution_Plan_A_and_B.md         A and B in parallel: runs, validation, compute, timeline
 │   ├── 05_Step2_Baselines_Protocol.md       how S04–S10 (classifiers, segmenters, M0) are trained and scored
 │   ├── 06_Step3_PaperA_Protocol.md          Paper A: runs A2–A6, fold-0 development, interpretability tests
-│   └── 07_Step4_PaperB_Reference_Bank_Protocol.md   Paper B, step B-1: pair index and bank of healthy references
+│   ├── 07_Step4_PaperB_Reference_Bank_Protocol.md   Paper B, step B-1: pair index and bank of healthy references
+│   └── 08_Step5_PaperB_RefFrac_Protocol.md          Paper B, step B-2: RefFrac model, runs R1–R7, fold-0 development
 ├── research/               literature notes
 ├── EDA/                    EDA script, per-image statistics, figures
 ├── splits/                 fixed train folds (official val folder is empty; test is untouched)
@@ -47,17 +48,19 @@ Details: [`PROJECT_TRACKER.md`](PROJECT_TRACKER.md) (overall) and [`PROGRESS_LOG
 │                           confidence intervals and paired tests (stats.py), the article's numbers (reference.py),
 │                           per-case files and scoring shared by all models (evaluation.py), parallel folds with
 │                           a time guard (runner.py), PyTorch networks (nets.py), SLG-Net of Paper A (slg.py),
-│                           Paper B's pair index and reference bank (refbank.py) and image cache (torchdata.py)
+│                           Paper B's pair index and reference bank (refbank.py), RefFrac of Paper B (refnet.py)
+│                           and image cache (torchdata.py)
 ├── scripts/                command-line tools: make_splits.py, register_run.py, train_yolo_seg.py (S01–S03),
-│                           train_net.py (S04–S10: classifiers, segmenters, M0; S00_net_check; SLG-Net A2–A6),
+│                           train_net.py (S04–S10: classifiers, segmenters, M0; S00_net_check; SLG-Net A2–A6;
+│                           RefFrac R1–R7),
 │                           run_stats.py (95% intervals, paired comparisons and calibration of filed runs),
 │                           run_breakdown.py (per class, mean ± SD over folds, comparison with the article),
 │                           build_reference_bank.py (R00: Paper B's reference femurs),
 │                           check_orientation.py (C10: Paper B's orientation review; runs on a laptop)
 ├── tests/                  checks of metrics, statistics, folds, the article's numbers, the breakdown, the
-│                           networks and SLG-Net, Paper B's reference bank, the Kaggle launcher's data check, and
-│                           CPU smoke tests of both training scripts, both analysis scripts, the reference bank
-│                           and the launcher's parallel groups
+│                           networks, SLG-Net and RefFrac, Paper B's reference bank, the Kaggle launcher's data
+│                           check, and CPU smoke tests of both training scripts, both analysis scripts, the
+│                           reference bank, RefFrac and the launcher's parallel groups
 ├── configs/                one YAML file per experiment
 ├── kaggle/                 Kaggle launcher notebook, run list and Kaggle-only scripts
 ├── results/                every run's metrics, notes and small outputs (no model weights)

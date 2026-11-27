@@ -4,6 +4,51 @@ Newest entries at the top. Each entry: what was done, what it produced, what com
 
 ---
 
+## 2026-11-27 · Step 17: Paper B step B-2: the RefFrac protocol, the model and the fold-0 development runs
+
+**Done (you)**
+- Merged PR #12 (`f96f84c`) and created the tag `A-v1-frozen` on it, so Paper A's final runs start from the frozen code.
+
+**Done (me)**
+1. **The B-2 protocol, written before any R run** (`Analysis/08_Step5_PaperB_RefFrac_Protocol.md`):
+   - **the runs R1–R7** (§1): each differs from R4 (RefFrac, the main method) in one component, and all use M0's recipe unchanged;
+   - **the model exactly** (§2):
+     - the references go through the same encoder, without gradients;
+     - alignment at 1/16 and 1/32: local cross-attention, none, or a global affine transform;
+     - fusion [T, T − R̃, |T − R̃|] or concatenation, started as the identity, so the untrained network computes M0's function;
+     - R1 = AASN adapted to femur crops (its margin loss on projected features);
+     - R7 = the patient's own healthy hip, tested with five kinds of reference to measure the pairing shortcut;
+   - **the reference tests** every run records (§2.6): the target as its own reference (`self`) and a random healthy femur (`random`); R7 instead `blind`, `retrieved`, `random` and `fractured`; and a pointing game for the difference map;
+   - **a fact from the reference table alone:** fractured femurs get less similar references than healthy ones (nearest centred cosine .574 vs .612 out of fold), the signal RefFrac is meant to use;
+   - the honesty rules (§3), the fold-0 development and its decision rule (§4), the final runs, analyses C12–C16 and compute (§5), and the known limitations (§6).
+2. **The code** (`src/femurseg/refnet.py`, new; `--net ref:<timm model>:R1..R7` in `scripts/train_net.py`):
+   - the reference table is checked against the fold file and the bank rules before training;
+   - the references are loaded and mirrored as the table says, flipped with the target, and augmented on their own;
+   - each reference test writes its own per-case files and probability maps; the summary adds the tests and the pointing game.
+   - **M0 and SLG-Net are untouched:** on the smoke data their outputs are byte-identical to `main` (`f96f84c`). So `A_dev_seed2`, launched from `main`, trains the same code before or after this PR.
+3. **Tests on the CPU:**
+   - 11 new unit tests (`tests/test_refnet.py`): the untrained RefFrac equals M0, no gradient reaches the references, the attention window, the alignments, the losses, the reference policies, bad tables refused, the references flipped with the target, and the pointing game. **All 73 unit tests pass** (every file except `tests/test_data.py`, which needs the dataset);
+   - **the end-to-end smoke test passed** (`tests/smoke_train_refnet.py`, 9 min): the pre-flight of all 8 variants with their references; a 5-fold R4 run and a 5-fold R7 run with their reference tests; a development group run through the Kaggle launcher, filed by `register_run.py` and compared with M0 by `run_stats.py --folds 0`.
+4. **Fold-0 development runs** in `kaggle/runs.json` (Analysis/08 §4), about 80 min per session, `BRANCH = "main"`:
+   - `R_dev_round1` = `R4_dev_base` (GPU 0) + `R4_dev_base_s2` (the same with seed 2027, GPU 1);
+   - `R_dev_round2` = `R4_dev_global` (D1: attention over the whole reference) + `R4_dev_margin` (D2: plus AASN's margin loss).
+   - **The rule was written before the runs** (analysis C12):
+     - base = the mean of the two seeds; go/no-go: Dice on fractured femurs ≥ .739 and macro-F1 ≥ .79 (M0's fold 0: .749 and .822);
+     - an alternative is adopted only if its Dice beats the base by ≥ .01 and by more than the seed noise, with macro-F1 at most .02 lower.
+5. **Trackers:** `kaggle/README.md`, `results/EXPERIMENTS.md` (planned runs; analyses C12–C16), `PROJECT_TRACKER.md` (B-2 in progress, M2-A reached with the tag, two decisions), `README.md`.
+
+**Next**
+- You:
+  1. merge this PR;
+  2. keep Paper A first: `A_dev_seed2` (`BRANCH = "main"`) and the five final runs (`BRANCH = "A-v1-frozen"`);
+  3. then launch `R_dev_round1` and `R_dev_round2` (`BRANCH = "main"`), as your GPU quota allows;
+  4. send the zips as they finish.
+- Me:
+  - C11 as soon as `A_dev_seed2` is filed, then C07–C09 when the final runs are in;
+  - C12 when both R_dev rounds are filed; then the freeze of RefFrac (tag `B-v1-frozen`, made by you) and the final runs R1–R7 in `kaggle/runs.json`.
+
+---
+
 ## 2026-11-27 · Step 16: S09 and R00_r2 filed; C04; baseline table v1 (M1); Paper A's freeze approved; second-seed check
 
 **Done (you)**

@@ -9,6 +9,11 @@ Networks (--net, see src/femurseg/nets.py):
                              M0 + region pooling (A2), + geometry (A3), + location -> grade hierarchy (A4), + shared
                              severity trunk (A5), + logit adjustment (A6). Teacher forcing over the first --tf-epochs
                              epochs; --extra-tests oracle,deletion adds the interpretability tests of the A6 models.
+  ref:<timm model>:<R1..R7>  Paper B, RefFrac and its comparisons (src/femurseg/refnet.py; protocol Analysis/08): M0 plus
+                             healthy reference femurs from the fixed table of step B-1 (--ref-table, --pairs-table),
+                             encoded by the same encoder, aligned to the target and fused at 1/16 and 1/32.
+                             --extra-tests self,random,fractured,retrieved,blind predicts the held-out fold and the test
+                             set again with other references (Analysis/08 §2.6).
 
 Protocol (the rules of S01/S02, Analysis/04 §3.4):
   * one model per fold, fixed training length (--epochs) and FINAL weights; the held-out fold is never used
@@ -33,9 +38,13 @@ Outputs
   results/<RUN>/  config.json, preflight.json, metrics.json, summary.md, per_case_oof.csv, per_case_test.csv,
                   per_case_test_ensemble.csv, folds/fold<k>/ (per-fold CSVs, train_curve.csv, fold_meta.json, log tail);
                   SLG-Net with --extra-tests: the same per-case files with the suffix _oracle, _deletion and
-                  _deletion_control, and their metrics under "tests" in metrics.json
+                  _deletion_control, and their metrics under "tests" in metrics.json;
+                  RefFrac: the same per-case files for every test mode (_self, _random, ...), and
+                  per_case_<oof|test>_references.csv: the references each femur got in each mode and the pointing
+                  game of the difference map (base mode)
   work/<RUN>/     weights/fold<k>.pt; fracture-probability maps prob_maps/<oof|test>/fold<k>/<file> (768 x 512 PNG,
-                  value = 255 x probability); logs. Kept in the Kaggle version output, not committed to git.
+                  value = 255 x probability; RefFrac also prob_maps/<oof|test>_<mode>/); logs. Kept in the Kaggle
+                  version output, not committed to git.
 
 Examples
   python scripts/train_net.py --net cls:convnext_tiny.fb_in22k_ft_in1k --out /kaggle/working/results/S06_convnext_tiny
@@ -43,6 +52,8 @@ Examples
   python scripts/train_net.py --check-nets cls:densenet121.tv_in1k,seg:Unet:resnet34 --out .../S00_net_check
   python scripts/train_net.py --net slg:convnext_tiny.fb_in22k_ft_in1k:A6 --folds 0 --no-test --extra-tests oracle \
       --out .../A6_dev_base                                                          # fold-0 development (Analysis/06)
+  python scripts/train_net.py --net ref:convnext_tiny.fb_in22k_ft_in1k:R4 --folds 0 --no-test --extra-tests self,random \
+      --out .../R4_dev_base                                                          # fold-0 development (Analysis/08)
 """
 from __future__ import annotations
 
@@ -68,16 +79,21 @@ REPO = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO / "src"))
 from femurseg import metrics as M  # noqa: E402
 from femurseg import reference as REF  # noqa: E402
+from femurseg import refnet as RN  # noqa: E402
 from femurseg.data import DEFAULT_FOLDS_CSV, fold_split, load_records, read_png  # noqa: E402
 from femurseg.evaluation import evaluate, read_csv, scalar_summary, seg_case, write_csv  # noqa: E402
 from femurseg.nets import TOPK, build_net, make_loss, param_groups, parse_net, postprocess  # noqa: E402
-from femurseg.runner import argv_without, git_commit, run_folds  # noqa: E402
+from femurseg.runner import argv_without, file_md5, git_commit, run_folds  # noqa: E402
 from femurseg.slg import priors_from_counts  # noqa: E402
-from femurseg.torchdata import Cache, FemurDataset, build_cache, normalize, worker_init_fn  # noqa: E402
+from femurseg.torchdata import Cache, FemurDataset, RefFemurDataset, build_cache, normalize, worker_init_fn  # noqa: E402
 
 PLAIN_TAU = 0.5
-EXTRA_TESTS = ("oracle", "deletion")                # SLG-Net only; "deletion" also writes "deletion_control"
-TEST_MODES = {"oracle": ("oracle",), "deletion": ("deletion", "deletion_control")}
+EXTRA_TESTS = {"slg": ("oracle", "deletion"),       # SLG-Net; "deletion" also writes "deletion_control"
+               "ref": tuple(RN.TEST_POLICY)}         # RefFrac: self, random, fractured, retrieved, blind
+TEST_MODES = {"oracle": ("oracle",), "deletion": ("deletion", "deletion_control"), **{t: (t,) for t in RN.TEST_POLICY}}
+REF_TABLES = REPO / "results" / "R00_reference_bank_r2"  # the fixed reference table of step B-1 (Analysis/07 §9)
+REF_COLS = ["file", "split", "fold", "model", "cls6_true", "mode", "source", "refs", "diff_hit", "diff_chance",
+            "diff_peak_y", "diff_peak_x"]
 DELETE_DILATE_PX, DELETE_SIGMA_PX = 8, 16           # at 768 x 512; scaled with the input height otherwise
 PAPER_TABLE3 = {"densenet121": "DenseNet121", "efficientnet_b4": "EfficientNetB4"}  # same architecture in the article
 
@@ -107,7 +123,16 @@ def parse_args(argv=None) -> argparse.Namespace:
     ap.add_argument("--joint-weight", type=float, default=0.5,
                     help="SLG-Net A4-A6: weight of the chain-rule 6-class likelihood in the loss")
     ap.add_argument("--extra-tests", default="", help="SLG-Net: comma list of oracle, deletion (interpretability "
-                                                      "tests on the held-out fold and the test set)")
+                                                      "tests on the held-out fold and the test set); RefFrac: of "
+                                                      "self, random, fractured, retrieved, blind (other references)")
+    ap.add_argument("--ref-table", default=str(REF_TABLES / "references.csv"),
+                    help="RefFrac: the reference table of step B-1 (references.csv)")
+    ap.add_argument("--pairs-table", default=str(REF_TABLES / "pairs.csv"), help="RefFrac: the pair index (pairs.csv)")
+    ap.add_argument("--ref-k", type=int, default=0, help="RefFrac: number of references; 0 = the variant's")
+    ap.add_argument("--ref-window", type=float, default=RN.DEFAULT_WINDOW,
+                    help="RefFrac: half-width of the attention window as a fraction of the image height (0 = global)")
+    ap.add_argument("--ref-margin", type=float, default=None,
+                    help="RefFrac: weight of AASN's margin loss; default = the variant's (0.5 in R1, 0 otherwise)")
     ap.add_argument("--clip", type=float, default=1.0, help="gradient-norm clipping")
     ap.add_argument("--topk", type=int, default=TOPK, help="segmenters: pixels averaged for the fracture score")
     ap.add_argument("--no-pretrained", action="store_true", help="random initialisation (tests only)")
@@ -146,23 +171,49 @@ def parse_args(argv=None) -> argparse.Namespace:
     args.size_hw = (h, w)
     args.slg_scale_list = tuple(int(v) for v in str(args.slg_scales).split(",") if v.strip())
     args.test_list = [t.strip() for t in str(args.extra_tests).split(",") if t.strip()]
-    bad = [t for t in args.test_list if t not in EXTRA_TESTS]
+    kind = args.net.split(":")[0] if args.net else ""
+    allowed = EXTRA_TESTS.get(kind, ())
+    bad = [t for t in args.test_list if t not in allowed]
     if bad:
-        ap.error(f"--extra-tests: unknown {bad}; choose from {', '.join(EXTRA_TESTS)}")
-    if args.test_list and not args.net.startswith("slg:"):
-        ap.error("--extra-tests needs an SLG-Net (--net slg:...)")
+        ap.error(f"--extra-tests {bad}: " + (f"choose from {', '.join(allowed)}" if allowed else
+                                             "only SLG-Net (--net slg:...) and RefFrac (--net ref:...) have tests"))
     args.modes = ["base"] + [m for t in args.test_list for m in TEST_MODES[t]]
+    if kind == "ref":
+        try:
+            ref_cfg(args, parse_net(args.net))
+        except ValueError as e:
+            ap.error(str(e))
     return args
 
 
 def net_options(args) -> dict:
     """Keyword arguments of nets.build_net for this run."""
-    return {"slg_scales": args.slg_scale_list, "slg_detach": args.slg_detach}
+    return {"slg_scales": args.slg_scale_list, "slg_detach": args.slg_detach, "ref_k": args.ref_k,
+            "ref_margin": args.ref_margin, "ref_window": args.ref_window}
 
 
-def model_inputs(spec, gt=None, tf_prob: float = 0.0) -> dict:
-    """Extra forward arguments: SLG-Net gets the released mask for teacher forcing or the oracle test."""
-    return {"gt": gt, "tf_prob": tf_prob} if spec.kind == "slg" and gt is not None else {}
+def ref_cfg(args, spec) -> dict:
+    """RefFrac: the variant's settings with this run's overrides (refnet.variant_config)."""
+    return RN.variant_config(spec.variant, args.ref_k, args.ref_margin, args.ref_window)
+
+
+def model_inputs(spec, gt=None, tf_prob: float = 0.0, refs=None) -> dict:
+    """Extra forward arguments: SLG-Net gets the released mask for teacher forcing or the oracle test; RefFrac gets
+    the reference images (B k, 3, H, W)."""
+    if spec.kind == "slg" and gt is not None:
+        return {"gt": gt, "tf_prob": tf_prob}
+    if spec.kind == "ref" and refs is not None:
+        return {"refs": refs}
+    return {}
+
+
+def reference_batch(cache: Cache, srcs: list[list[tuple[tuple[str, str], bool]]], dev):
+    """RefFrac at prediction time: the references of several femurs, as cached (mirrored where the table says),
+    stacked femur by femur and normalised: (B k, 3, H, W)."""
+    import torch
+
+    imgs = np.stack([np.stack([RN.reference_image(cache.images, cache.row[key], mir) for key, mir in s]) for s in srcs])
+    return normalize(torch.from_numpy(imgs).flatten(0, 1)[:, None], dev)
 
 
 def fold_records(args, k: int):
@@ -220,7 +271,19 @@ def run_fold(args) -> None:
     accum = max(1, args.batch // micro)
     gen = torch.Generator()
     gen.manual_seed(args.seed + k)
-    ds = FemurDataset(cache, cache.rows(train), augment=True, seed=args.seed + k)
+    table, rcfg, train_sources = None, {}, Counter()
+    if spec.kind == "ref":  # RefFrac: each training femur's references, from the fixed table (Analysis/08 §2.1)
+        rcfg = ref_cfg(args, spec)
+        table = RN.RefTable(args.ref_table, args.pairs_table, recs)
+        if k not in table.fold_models:
+            raise ValueError(f"the reference table has no rows for fold model {k}")
+        srcs = [table.sources(k, r, rcfg["policy"], rcfg["k"]) for r in train]
+        train_sources = Counter(table.source_name(r, rcfg["policy"], s) for r, s in zip(train, srcs))
+        ds = RefFemurDataset(cache, cache.rows(train), [[(cache.row[key], mir) for key, mir in s] for s in srcs],
+                             augment=True, seed=args.seed + k)
+        print(f"[fold {k}] RefFrac {spec.variant}: {rcfg}; training references {dict(train_sources)}", flush=True)
+    else:
+        ds = FemurDataset(cache, cache.rows(train), augment=True, seed=args.seed + k)
     dl = DataLoader(ds, batch_size=micro, shuffle=True, drop_last=True, num_workers=args.workers,
                     pin_memory=dev.type == "cuda", persistent_workers=args.workers > 0, worker_init_fn=worker_init_fn,
                     generator=gen)
@@ -232,18 +295,21 @@ def run_fold(args) -> None:
         opt, lambda s: (s + 1) / warm if s < warm else 0.5 * (1 + math.cos(math.pi * (s - warm) / max(1, total - warm))))
     amp = dev.type == "cuda" and not args.no_amp
     scaler = torch.amp.GradScaler("cuda", enabled=amp)
-    loss_fn = make_loss(spec, args.seg_weight, priors=priors, la_tau=args.la_tau, joint_weight=args.joint_weight)
+    loss_fn = make_loss(spec, args.seg_weight, priors=priors, la_tau=args.la_tau, joint_weight=args.joint_weight,
+                        ref_margin=rcfg.get("margin", 0.0))
     tf_steps = args.tf_epochs * len(dl)  # teacher forcing (SLG-Net): micro-steps until the heads see only own masks
     curve, micro_step, tf_prob = [], 0, 0.0
     for epoch in range(1, args.epochs + 1):
         model.train()
         te, sums, n = time.time(), defaultdict(float), 0
         opt.zero_grad(set_to_none=True)
-        for i, (x, m, y) in enumerate(dl):
+        for i, batch in enumerate(dl):
+            x, m, y = batch[0], batch[1], batch[2]
             x = normalize(x, dev)
             m, y = m.to(dev, non_blocking=True).long(), y.to(dev, non_blocking=True).long()
+            refs = normalize(batch[3].flatten(0, 1), dev) if len(batch) > 3 else None  # RefFrac: (B k, 3, H, W)
             tf_prob = max(0.0, 1.0 - micro_step / tf_steps) if tf_steps > 0 else 0.0
-            extra = model_inputs(spec, (m > 0).unsqueeze(1).float(), tf_prob)
+            extra = model_inputs(spec, (m > 0).unsqueeze(1).float(), tf_prob, refs)
             micro_step += 1
             with torch.autocast(device_type=dev.type, dtype=torch.float16, enabled=amp):
                 out = model(x, **extra)
@@ -282,7 +348,9 @@ def run_fold(args) -> None:
     for part, rs in parts:
         map_dir = None if (args.no_maps or not spec.has_mask) else args.work / "prob_maps" / part / f"fold{k}"
         infos: list[dict] = []
-        rows = predict_cases(model, spec, cache, rs, args, dev, k, map_dir, amp, info_out=infos)
+        ref_infos: list[dict] = []
+        rows = predict_cases(model, spec, cache, rs, args, dev, k, map_dir, amp, info_out=infos, table=table,
+                             ref_out=ref_infos)
         for mode, mode_rows in rows.items():
             write_csv(fold_out / (f"{part}.csv" if mode == "base" else f"{part}_{mode}.csv"), mode_rows)
         if infos:  # where the deletion test's control region went, per femur
@@ -290,10 +358,21 @@ def run_fold(args) -> None:
                 wr = csv.DictWriter(fh, fieldnames=list(infos[0]))
                 wr.writeheader()
                 wr.writerows(infos)
+        if ref_infos:  # RefFrac: the references of every femur in every mode, and the pointing game
+            write_ref_csv(fold_out / f"{part}_references.csv", ref_infos)
     slg_meta = {} if spec.kind != "slg" else {
         "variant": spec.variant, "tf_epochs": args.tf_epochs, "slg_scales": list(args.slg_scale_list),
         "slg_detach": args.slg_detach, "la_tau": args.la_tau, "joint_weight": args.joint_weight,
         "train_counts": {str(c): counts[c] for c in range(6)}, "priors": priors, "extra_tests": args.test_list}
+    if spec.kind == "ref":
+        h, w = args.size_hw
+        slg_meta = {"variant": spec.variant, **rcfg,
+                    "window_cells": {f"1/{s}": RN.window_cells(rcfg["window"], h // s) for s in (16, 32)}
+                    if rcfg["align"] == "attention" else None,
+                    "reference_table": str(args.ref_table), "reference_table_md5": file_md5(args.ref_table),
+                    "pairs_table": str(args.pairs_table), "pairs_table_md5": file_md5(args.pairs_table),
+                    "train_sources": dict(train_sources), "train_counts": {str(c): counts[c] for c in range(6)},
+                    "extra_tests": args.test_list}
     meta = {"fold": k, "net": spec.text, "device": str(dev), **slg_meta,
             "gpu": torch.cuda.get_device_name(dev) if dev.type == "cuda" else "cpu",
             "n_train": len(train), "n_held_out": len(held), "n_test": 0 if args.no_test else len(test),
@@ -307,15 +386,19 @@ def run_fold(args) -> None:
 
 
 def predict_cases(model, spec, cache: Cache, recs, args, dev, k: int, map_dir: Path | None,
-                  amp: bool, info_out: list | None = None) -> dict[str, list[dict]]:
+                  amp: bool, info_out: list | None = None, table=None, ref_out: list | None = None
+                  ) -> dict[str, list[dict]]:
     """One row of per-case numbers per femur (src/femurseg/evaluation.py) for every mode in args.modes, and the
-    saved probability maps (base mode only).
+    saved probability maps (base mode only; RefFrac: every mode, in prob_maps/<part>_<mode>/).
 
     Modes: "base" = the model as it is used; SLG-Net tests (Analysis/06 §5): "oracle" = the heads get the released
     mask (the network's own mask and its Dice are unchanged, so they are copied from base); "deletion" = the predicted
     region (fracture probability >= 0.5, dilated) is replaced by a blurred copy of the image; "deletion_control" =
     the same region shape blurred at another place of the image (see deletion_images; where the control went is
-    appended to ``info_out``, one dict per femur)."""
+    appended to ``info_out``, one dict per femur). RefFrac tests (Analysis/08 §2.6): the same femurs with other
+    references from ``table`` (refnet.TEST_POLICY: self, random, fractured, retrieved = nearest, blind); the
+    references every femur got in every mode, and the pointing game of the base mode's difference map, are appended
+    to ``ref_out``."""
     import cv2
     import torch
 
@@ -325,10 +408,19 @@ def predict_cases(model, spec, cache: Cache, recs, args, dev, k: int, map_dir: P
     full_h, full_w = cache.full_hw
     bs = max(1, args.micro_batch or args.batch)
     rows: dict[str, list[dict]] = {m: [] for m in args.modes}
+    rcfg = ref_cfg(args, spec) if spec.kind == "ref" else {}
 
     def run(x, **kw):
         with torch.autocast(device_type=dev.type, dtype=torch.float16, enabled=amp):
             return postprocess(spec, model(x, **kw), args.topk)
+
+    def mode_dir(mode: str) -> Path | None:
+        """prob_maps/<part>/fold<k> for the base mode, prob_maps/<part>_<mode>/fold<k> for a RefFrac test mode."""
+        if map_dir is None or mode == "base":
+            return map_dir
+        d = map_dir.parent.parent / f"{map_dir.parent.name}_{mode}" / map_dir.name
+        d.mkdir(parents=True, exist_ok=True)
+        return d
 
     def add(mode: str, pp: dict, chunk, idx, save_maps: bool, copy_seg_from: list[dict] | None = None) -> list[dict]:
         conf, score = pp["conf"].cpu().numpy(), pp["score"].cpu().numpy()
@@ -348,7 +440,7 @@ def predict_cases(model, spec, cache: Cache, recs, args, dev, k: int, map_dir: P
             elif fmap is not None:
                 f = fmap[j].astype(np.float32)
                 if save_maps and map_dir is not None:
-                    cv2.imwrite(str(map_dir / rec.file), np.round(f * 255).astype(np.uint8))
+                    cv2.imwrite(str(mode_dir(mode) / rec.file), np.round(f * 255).astype(np.uint8))
                 mask = cv2.resize(f, (full_w, full_h), interpolation=cv2.INTER_LINEAR) >= 0.5
                 row["area_top"] = int(mask.sum())
                 if gt.any():
@@ -363,6 +455,22 @@ def predict_cases(model, spec, cache: Cache, recs, args, dev, k: int, map_dir: P
             idx = cache.rows(chunk)
             imgs = np.stack([cache.images[j] for j in idx])
             x = normalize(torch.from_numpy(imgs)[:, None], dev)
+            if spec.kind == "ref":  # every mode = the same femurs with other references
+                for mode in args.modes:
+                    policy = rcfg["policy"] if mode == "base" else RN.TEST_POLICY[mode]
+                    srcs = [table.sources(k, rec, policy, rcfg["k"]) for rec in chunk]
+                    pp = run(x, refs=reference_batch(cache, srcs, dev))
+                    add(mode, pp, chunk, idx, save_maps=True)
+                    diff = pp["diff16"].float().cpu().numpy() if mode == "base" else None
+                    for j, rec in enumerate(chunk):
+                        info = {"file": rec.file, "split": rec.split, "fold": rec.fold, "model": k,
+                                "cls6_true": rec.cls6, "mode": mode, "source": table.source_name(rec, policy, srcs[j]),
+                                "refs": ";".join(f"{sp}/{f}" + (" mirrored" if mir else "") for (sp, f), mir in srcs[j])}
+                        if diff is not None and rec.cls6 > 0:
+                            info.update(RN.pointing_game(diff[j], np.asarray(cache.masks[idx[j]])))
+                        if ref_out is not None:
+                            ref_out.append(info)
+                continue
             pp = run(x)
             base = add("base", pp, chunk, idx, save_maps=True)
             if "oracle" in rows:
@@ -423,6 +531,14 @@ def deletion_images(img: np.ndarray, region: np.ndarray, key: str) -> tuple[np.n
     return deleted, control, {"region_px": int(reg.sum()), "control": placed}
 
 
+def write_ref_csv(path: Path, rows: list[dict]) -> None:
+    """RefFrac: one row per femur, model and mode with the references it got (REF_COLS)."""
+    with open(path, "w", newline="") as fh:
+        wr = csv.DictWriter(fh, fieldnames=REF_COLS, restval="", extrasaction="ignore")
+        wr.writeheader()
+        wr.writerows(rows)
+
+
 # ---------------------------------------------------------------------------------------------- pre-flight
 
 
@@ -443,8 +559,12 @@ def run_preflight(args) -> dict:
         model = model.to(dev).to(memory_format=torch.channels_last)
         torch.backends.cudnn.benchmark = True
         amp = dev.type == "cuda" and not args.no_amp
-        loss_fn = make_loss(spec, args.seg_weight, joint_weight=args.joint_weight)
+        rk = ref_cfg(args, spec)["k"] if spec.kind == "ref" else 0
+        loss_fn = make_loss(spec, args.seg_weight, joint_weight=args.joint_weight,
+                            ref_margin=ref_cfg(args, spec)["margin"] if spec.kind == "ref" else 0.0)
         opt = torch.optim.AdamW(param_groups(model, args.weight_decay), lr=1e-7)
+        if rk:
+            res["references_per_femur"] = rk
         h, w = args.size_hw
         total_gb = torch.cuda.get_device_properties(dev).total_memory / 1e9 if dev.type == "cuda" else None
         cands = [args.micro_batch] if args.micro_batch else [b for b in (16, 8, 4, 2, 1) if b <= args.batch]
@@ -475,11 +595,12 @@ def run_preflight(args) -> dict:
         model.eval()
         with torch.no_grad():
             x = normalize(torch.randint(0, 256, (mb, 1, h, w), dtype=torch.uint8), dev)
+            refs = normalize(torch.randint(0, 256, (mb * rk, 1, h, w), dtype=torch.uint8), dev) if rk else None
             times = []
             for _ in range(4):
                 ts = time.time()
                 with torch.autocast(device_type=dev.type, dtype=torch.float16, enabled=amp):
-                    postprocess(spec, model(x), args.topk)
+                    postprocess(spec, model(x, **model_inputs(spec, refs=refs)), args.topk)
                 if dev.type == "cuda":
                     torch.cuda.synchronize(dev)
                 times.append(time.time() - ts)
@@ -518,6 +639,8 @@ def _timed_steps(model, loss_fn, opt, amp: bool, dev, mb: int, args) -> dict:
     scaler = torch.amp.GradScaler("cuda", enabled=amp)  # fresh per try: a failed step can leave it half-way
     gen = torch.Generator().manual_seed(0)
     x = torch.randint(0, 256, (mb, 1, h, w), dtype=torch.uint8, generator=gen)
+    rk = ref_cfg(args, spec)["k"] if spec.kind == "ref" else 0
+    refs = torch.randint(0, 256, (mb * rk, 1, h, w), dtype=torch.uint8, generator=gen) if rk else None
     y = torch.randint(0, 6, (mb,), generator=gen)
     m = torch.zeros(mb, h, w, dtype=torch.long)
     for b in range(mb):  # a fracture-sized blob for the fractured examples
@@ -531,7 +654,8 @@ def _timed_steps(model, loss_fn, opt, amp: bool, dev, mb: int, args) -> dict:
     for _ in range(max(3, args.preflight_steps)):
         ts = time.time()
         with torch.autocast(device_type=dev.type, dtype=torch.float16, enabled=amp):
-            out = model(normalize(x, dev), **model_inputs(spec, (m > 0).unsqueeze(1).float().to(dev), 0.5))
+            out = model(normalize(x, dev), **model_inputs(spec, (m > 0).unsqueeze(1).float().to(dev), 0.5,
+                                                          normalize(refs, dev) if refs is not None else None))
         loss, _ = loss_fn(out, m.to(dev), y.to(dev))
         scaler.scale(loss).backward()
         scaler.unscale_(opt)
@@ -654,10 +778,11 @@ def ensemble_rows(test_by_model: dict[int, list[dict]], cache: Cache, map_root: 
     return rows
 
 
-def test_effects(base: list[dict], other: list[dict], tau: float) -> dict:
-    """How an SLG-Net test mode changes the decisions on the fractured femurs (rows matched by file and model):
-    mean change of the fracture probability and of the probability of the true class, the share of correctly
-    classified femurs that become wrong, and the share of wrong ones that become right."""
+def test_effects(base: list[dict], other: list[dict], tau: float, fractured: bool = True) -> dict:
+    """How a test mode changes the decisions on the fractured femurs (or, with fractured=False, the healthy ones;
+    rows matched by file and model): mean change of the fracture probability and of the probability of the true
+    class, the share of correctly classified femurs that become wrong, and the share of wrong ones that become
+    right. (The keys keep the name n_fractured for either group.)"""
     def key(r):
         return r["file"], str(r["model"])
 
@@ -665,16 +790,18 @@ def test_effects(base: list[dict], other: list[dict], tau: float) -> dict:
         return (r["top_cls6"] if r["top_conf"] >= tau else 0) == r["cls6_true"]
 
     ob = {key(r): r for r in other}
-    fx = [r for r in base if r["cls6_true"] > 0 and key(r) in ob]
+    fx = [r for r in base if (r["cls6_true"] > 0) == fractured and key(r) in ob]
     ok, bad = [r for r in fx if correct(r)], [r for r in fx if not correct(r)]
 
     def mean(v):
         return float(np.mean(v)) if len(v) else float("nan")
 
+    def p_true(r):  # probability of the true class; for a healthy femur 1 - P(fracture)
+        return r[f"conf_{r['cls6_true']}"] if r["cls6_true"] > 0 else 1.0 - r["score"]
+
     return {"n_fractured": len(fx), "n_correct_base": len(ok),
             "mean_change_fracture_prob": mean([ob[key(r)]["score"] - r["score"] for r in fx]),
-            "mean_change_true_class_prob": mean([ob[key(r)][f"conf_{r['cls6_true']}"] - r[f"conf_{r['cls6_true']}"]
-                                                 for r in fx]),
+            "mean_change_true_class_prob": mean([p_true(ob[key(r)]) - p_true(r) for r in fx]),
             "share_correct_lost": mean([not correct(ob[key(r)]) for r in ok]),
             "share_wrong_fixed": mean([correct(ob[key(r)]) for r in bad])}
 
@@ -724,17 +851,23 @@ def aggregate(args, cache: Cache, done: list[int], skipped: list[int], failed: l
     write_csv(args.out / "per_case_test.csv", [r for k in sorted(test_by_model) for r in test_by_model[k]])
     if ens:
         write_csv(args.out / "per_case_test_ensemble.csv", ens)
-    if modes:  # SLG-Net interpretability tests, at the run's own OOF threshold (Analysis/06 §5)
+    if modes:  # tests, at the run's own OOF threshold (SLG-Net: Analysis/06 §5; RefFrac: Analysis/08 §2.6)
         res["tests"] = {}
         for m in modes:
             blk: dict = {"oof": evaluate(oof_m[m], tau_oof), "effects_oof": test_effects(oof, oof_m[m], tau_oof)}
+            if spec.kind == "ref":  # a reference can also make a healthy femur look fractured
+                blk["effects_healthy_oof"] = test_effects(oof, oof_m[m], tau_oof, fractured=False)
             write_csv(args.out / f"per_case_oof_{m}.csv", oof_m[m])
             if test_m[m]:
                 write_csv(args.out / f"per_case_test_{m}.csv", [r for k in sorted(test_m[m]) for r in test_m[m][k]])
                 if len(test_m[m]) >= 2 and ens:
-                    ens_m = ensemble_rows(test_m[m], cache, None)  # classification only: no maps in test modes
+                    # SLG-Net: classification only (no maps in its test modes); RefFrac saves maps in every mode
+                    mode_maps = maps.parent / f"test_{m}" if (spec.kind == "ref" and maps is not None) else None
+                    ens_m = ensemble_rows(test_m[m], cache, mode_maps)
                     blk["test_ensemble"] = evaluate(ens_m, tau_oof)
                     blk["effects_test_ensemble"] = test_effects(ens, ens_m, tau_oof)
+                    if spec.kind == "ref":
+                        blk["effects_healthy_test_ensemble"] = test_effects(ens, ens_m, tau_oof, fractured=False)
                     write_csv(args.out / f"per_case_test_ensemble_{m}.csv", ens_m)
             res["tests"][m] = blk
         if "deletion_control" in res["tests"]:
@@ -745,7 +878,32 @@ def aggregate(args, cache: Cache, done: list[int], skipped: list[int], failed: l
                     with open(f, newline="") as fh:
                         placed.update(r["control"] for r in csv.DictReader(fh))
             res["tests"]["deletion_control"]["control_placement_oof"] = dict(placed)
+    if spec.kind == "ref":
+        res["reference"] = reference_summary(args, done)
     return res
+
+
+def reference_summary(args, done: list[int]) -> dict:
+    """RefFrac: per_case_<oof|test>_references.csv (all folds), the pointing game of the difference map (base mode,
+    fractured femurs: does the 1/16 cell with the largest |T - R~| touch the released mask?) and which references the
+    femurs got in each mode."""
+    out: dict = {}
+    for part in ("oof", "test"):
+        rows: list[dict] = []
+        for k in sorted(done):
+            f = args.out / "folds" / f"fold{k}" / f"{part}_references.csv"
+            if f.exists():
+                with open(f, newline="") as fh:
+                    rows += list(csv.DictReader(fh))
+        if not rows:
+            continue
+        write_ref_csv(args.out / f"per_case_{part}_references.csv", rows)
+        pg = [r for r in rows if r["mode"] == "base" and r["diff_hit"] != ""]
+        out[part] = {"pointing_game": {"n": len(pg),
+                                       "hit_rate": float(np.mean([int(r["diff_hit"]) for r in pg])) if pg else float("nan"),
+                                       "chance": float(np.mean([float(r["diff_chance"]) for r in pg])) if pg else float("nan")},
+                     "sources": dict(sorted(Counter(f"{r['mode']}: {r['source']}" for r in rows).items()))}
+    return out
 
 
 def write_summary(args, res: dict) -> None:
@@ -784,6 +942,13 @@ def write_summary(args, res: dict) -> None:
         + " and 1/".join(str(v) for v in args.slg_scale_list)
         + (", mask detached from the decision losses" if args.slg_detach else "")
         + (f", logit adjustment tau {args.la_tau:g}" if spec.variant == "A6" else "") + ".")
+    if spec.kind == "ref":
+        rc = ref_cfg(args, spec)
+        slg_text = (f" RefFrac {spec.variant}: {rc['k']} reference(s) per femur ({rc['policy']}), alignment "
+                    f"{rc['align']}" + (f" (window +-{rc['window']:g} of the image height)" if rc["align"] == "attention"
+                                        and rc["window"] > 0 else (" (global)" if rc["align"] == "attention" else ""))
+                    + f", fusion {rc['fusion']}" + (f", margin loss {rc['margin']:g}" if rc["margin"] > 0 else "")
+                    + "; references encoded by the shared encoder without gradient.")
     lines = [f"# {res['run']}: summary", "",
              f"Network `{spec.text}`, input {args.size_hw[0]} x {args.size_hw[1]}, {args.epochs} epochs, batch "
              f"{args.batch} (micro-batch {res.get('micro_batch')} x {res.get('accumulation')}), lr {args.lr}, "
@@ -802,7 +967,23 @@ def write_summary(args, res: dict) -> None:
         for label, key, scale, nd, p in rows:
             lines.append(f"| {label} | {f(src, 'oof', key, scale, nd)} | {f(src, 'test_models_mean', key, scale, nd)} ± "
                          f"{f(src, 'test_models_sd', key, scale, nd)} | {f(src, 'test_ensemble', key, scale, nd)} | {p} |")
-    if res.get("tests"):
+    if res.get("tests") and spec.kind == "ref":
+        test_col = (lambda blk: f" {f(blk, 'test_ensemble', 'dice_fractured_mean')} |") if has_test else (lambda blk: "")
+        lines += ["", "## Reference tests (RefFrac, Analysis/08 §2.6), at the OOF threshold", "",
+                  "| Mode | OOF Dice, fractured | OOF macro-F1 | OOF Garden I-II recall | Change of P(fracture), "
+                  "fractured | Change of P(fracture), healthy | Healthy femurs that become fractured |"
+                  + (" Test ensemble Dice, fractured |" if has_test else ""),
+                  "|---|---|---|---|---|---|---|" + ("---|" if has_test else ""),
+                  f"| as used | {f(res, 'oof', 'dice_fractured_mean')} | {f(res, 'oof', 'macro_f1')} | "
+                  f"{f(res, 'oof', 'garden12_recall')} | | | |" + test_col(res)]
+        for m, blk in res["tests"].items():
+            e = blk.get("effects_healthy_oof") or {}
+            lines.append(f"| {m} | {f(blk, 'oof', 'dice_fractured_mean')} | {f(blk, 'oof', 'macro_f1')} "
+                         f"| {f(blk, 'oof', 'garden12_recall')} | {f(blk, 'effects_oof', 'mean_change_fracture_prob')} "
+                         f"| {f(blk, 'effects_healthy_oof', 'mean_change_fracture_prob')} "
+                         f"| {f(blk, 'effects_healthy_oof', 'share_correct_lost', 100, 1)}% of "
+                         f"{e.get('n_correct_base', 'n/a')} |" + test_col(blk))
+    elif res.get("tests"):
         test_col = (lambda blk: f" {f(blk, 'test_ensemble', 'accuracy_6class', 100, 1)} |") if has_test else (lambda blk: "")
         lines += ["", "## Interpretability tests (SLG-Net, Analysis/06 §5), at the OOF threshold", "",
                   "| Mode | OOF 6-class accuracy (%) | OOF macro-F1 | OOF Garden I-II recall | Change of P(true class), "
@@ -816,6 +997,13 @@ def write_summary(args, res: dict) -> None:
                          f"| {f(blk, 'oof', 'garden12_recall')} | {f(blk, 'effects_oof', 'mean_change_true_class_prob')} "
                          f"| {f(blk, 'effects_oof', 'share_correct_lost', 100, 1)}% of {e.get('n_correct_base', 'n/a')} |"
                          + test_col(blk))
+    pgs = [(part, (blk or {}).get("pointing_game") or {}) for part, blk in (res.get("reference") or {}).items()]
+    if pgs:
+        lines += ["", "Pointing game of the difference map |T - R~| at 1/16 (base mode, fractured femurs: the cell "
+                  "with the largest difference touches the released mask): "
+                  + "; ".join(f"{'OOF' if part == 'oof' else 'test (fold models)'} {pg.get('hit_rate', float('nan')):.3f} "
+                              f"(chance {pg.get('chance', float('nan')):.3f}, n = {pg.get('n')})" for part, pg in pgs)
+                  + "."]
     if has_test:
         lines += ["", "Paper column: González et al. 2025 (Table 3; their final model's Dice is the mean over detected "
                   "fractures, definition not stated). Their classifiers and YOLO models were trained on one split, ours "

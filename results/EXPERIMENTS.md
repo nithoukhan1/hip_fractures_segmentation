@@ -9,9 +9,10 @@ Every Kaggle run gets one line in the table at the **bottom** of this file. `scr
   - C06 = Paper A's fold-0 development runs vs M0;
   - C10 = review of Paper B's orientation rule (`scripts/check_orientation.py`, no run).
   - Planned: C11 (Paper A's second-seed check, `Analysis/06_Step3_PaperA_Protocol.md` §10) and C07–C09 (Paper A's final runs; §7).
+  - Planned for Paper B (`Analysis/08_Step5_PaperB_RefFrac_Protocol.md` §4–§5): C12 (fold-0 development of R4 vs M0), C13 (RQ-B1: M0, R2, R3, R4), C14 (R7: RQ-B2 and RQ-B3), C15 (RQ-B4: R4 vs R1, R5, R6a, R6b) and C16 (Paper B's main table).
 - Details of each run are in `results/<RUN>/NOTES.md`.
 
-## Planned next runs (from Analysis/04 §7 and Analysis/06)
+## Planned next runs (from Analysis/04 §7, Analysis/06 and Analysis/08)
 | RUN | Track | Step | What | Expected GPU time |
 |---|---|---|---|---|
 | ~~S00_env_check~~ | Shared | 0 | Done 2026-11-26 (register line 1) | ~4 min |
@@ -30,6 +31,9 @@ Every Kaggle run gets one line in the table at the **bottom** of this file. `scr
 | ~~R00_reference_bank_r2~~ | Paper B | 4 | Done 2026-11-27 (register line 19): check 1 = 804 of 810 (99.3%), as predicted; step B-1 is complete (Analysis/07 §9). Its tables feed every R run | 2.65 min measured |
 | A_dev_seed2 = A6_dev_base_s2 + A6_dev_scale32_s2 | Paper A | 3 | Second-seed check (seed 2027) of the base and of pooling at 1/32 only, asked for by the person on 2026-11-27 with the final runs. Rule fixed before the runs (Analysis/06 §10): 1/32 stays if the mean of the two seeds beats the base by ≥ .02 macro-F1, loses ≤ .01 Dice and reaches ≥ .79; otherwise the freeze goes back to the person. Analysis C11. Launch from `main` | about 55 min (estimate), T4 x2 |
 | A2_region, A3_geometry, A4_hierarchy, A5_shared_grade, A6_slgnet | Paper A | 3 | Final runs of the ablation chain with the settings frozen by C06 (teacher forcing 30 epochs, end-to-end mask, pooling at 1/32 only), 5 folds and the test set; oracle test (A6: oracle and deletion). **Freeze approved by the person on 2026-11-27 (Analysis/06 §10). Launch from the tag `A-v1-frozen`**, which the person creates on GitHub; results are analysed after C11 | about 2.6 h each (A6 2.8 h), about 13 h in all (estimate) |
+| R_dev_round1 = R4_dev_base + R4_dev_base_s2 | Paper B | 5 | Fold-0 development of RefFrac R4 (Analysis/08 §4): the base settings (3 nearest healthy references, local cross-attention within ±1/8 of the image height, difference fusion, no margin loss) with seeds 2026 and 2027; tests `self` and `random`, no test set. Their mean is C12's base and their Dice difference its seed noise. Launch from `main` | about 80 min (estimate), T4 x2 |
+| R_dev_round2 = R4_dev_global + R4_dev_margin | Paper B | 5 | D1: attention over the whole reference (no window); D2: plus AASN's margin loss (weight 0.5). Rule fixed before the runs (Analysis/08 §4): an alternative is adopted only if its fold-0 Dice beats the base by ≥ .01 and by more than the seed noise, with macro-F1 no more than .02 lower; go/no-go: the base needs Dice ≥ .739 and macro-F1 ≥ .79. Analysis C12. Launch from `main` | about 80 min (estimate), T4 x2 |
+| R1–R7 (8 runs: R1, R2, R3, R4, R5, R6a, R6b, R7) | Paper B | 5 | Final runs after C12 and the freeze (tag `B-v1-frozen`, made by the person), 5 folds and the test set, each with the reference tests (Analysis/08 §1 and §5); analyses C13–C16. Not yet in `kaggle/runs.json` | about 26 h in all (estimate) |
 
 ## Register
 | # | Date | RUN | Track | Step | Git commit | Kaggle version | GPU | Runtime (min) | Exit | Key result | Purpose / decision |
