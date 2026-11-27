@@ -1,0 +1,24 @@
+{
+  "net": "cls:convnext_tiny.fb_in22k_ft_in1k",
+  "ok": true,
+  "device": "cuda:0",
+  "gpu": "Tesla T4",
+  "pretrained": true,
+  "build_seconds": 5.6,
+  "params_m": 27.82,
+  "tried": [
+    {
+      "micro_batch": 16,
+      "s_per_step": 0.5483,
+      "peak_gb": 8.3
+    }
+  ],
+  "micro_batch": 16,
+  "accumulation": 1,
+  "s_per_micro_step": 0.5483,
+  "peak_gb": 8.3,
+  "gpu_total_gb": 15.6,
+  "s_per_image_inference": 0.0118,
+  "est_fold_min": 32.4,
+  "log_tail": []
+}

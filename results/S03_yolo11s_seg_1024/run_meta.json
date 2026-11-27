@@ -1,0 +1,9 @@
+{
+  "run": "S03_yolo11s_seg_1024",
+  "step": "2",
+  "git_commit": "b1a2719b42e5495efc722c0963550400e2a1bd52",
+  "command": "/usr/bin/python3 /tmp/code/scripts/train_yolo_seg.py --model yolo11s-seg.pt --imgsz 1024 --epochs 100 --batch 8 --folds 0,1,2,3,4 --gpus 0,1 --est-fold-min 65 --out /kaggle/working/results/S03_yolo11s_seg_1024",
+  "started_utc": "2026-11-26T14:56:42Z",
+  "runtime_minutes": 177.57,
+  "exit_code": 0
+}

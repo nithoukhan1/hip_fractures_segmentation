@@ -70,6 +70,10 @@ TABLE3 = {
 }
 
 
+# timm architectures of our baselines that the article also trained (its Table 3 rows)
+TIMM_TO_TABLE3 = {"densenet121": "DenseNet121", "efficientnet_b4": "EfficientNetB4"}
+
+
 def grid(size: str, imgsz: int) -> dict:
     """Table 2 entry for a model size ('nano', 'small', 'medium') and image size (320, 640, 1024, 1536)."""
     return GRID[(size, imgsz)]

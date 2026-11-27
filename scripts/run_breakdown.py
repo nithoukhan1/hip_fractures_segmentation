@@ -124,6 +124,7 @@ def evaluate(rows: list[dict], tau: float) -> dict:
     out["confusion_matrix"] = mc["confusion_matrix"]
 
     inter = np.where(det, np.nan_to_num(dice) * (a_top + a_gt) / 2, 0.0)  # intersection recovered from Dice and areas
+    has_ratio = bool(det.any()) and not np.isnan(ratio[det]).all()  # False for image classifiers (no masks)
     nf_score = np.where(called[~fx], 0.0, 1.0)  # no-fracture femur: 1 if nothing is called, else 0
     out["seg"] = {
         "dice_detected_mean": _mean(dice[det]),
@@ -132,8 +133,8 @@ def evaluate(rows: list[dict], tau: float) -> dict:
         "dice_all_femurs_mean": _mean(np.r_[dice_fx[fx], nf_score]),
         "dice_global": float(2 * inter[fx].sum() / (np.where(det, a_top, 0)[fx].sum() + a_gt[fx].sum())),
         "area_ratio_median": _median(ratio[det]),
-        "area_ratio_q25": float(np.nanpercentile(ratio[det], 25)) if det.any() else float("nan"),
-        "area_ratio_q75": float(np.nanpercentile(ratio[det], 75)) if det.any() else float("nan"),
+        "area_ratio_q25": float(np.nanpercentile(ratio[det], 25)) if has_ratio else float("nan"),
+        "area_ratio_q75": float(np.nanpercentile(ratio[det], 75)) if has_ratio else float("nan"),
         "hd95_detected_median": _median(col(rows, "hd95_top")[det]),
         "nsd2_detected_mean": _mean(col(rows, "nsd2_top")[det]),
         "n_fractured": int(fx.sum()), "n_detected": int(det.sum()),
@@ -187,6 +188,7 @@ def analyse_run(results: Path, run: str) -> dict:
     best = max(folds, key=lambda k: (per_fold[k]["accuracy_6class"], -k))
     out = {
         "run": run, "threshold": tau, "model": cfg.get("model", ""), "imgsz": cfg.get("imgsz"),
+        "net": cfg.get("net", ""), "size": cfg.get("size", ""),  # scripts/train_net.py runs (S04-S10)
         "oof": evaluate(oof, tau),
         "oof_folds": {str(k): v for k, v in per_fold.items()},
         "oof_folds_mean_sd": mean_sd(list(per_fold.values())),
@@ -222,6 +224,11 @@ def analyse_run(results: Path, run: str) -> dict:
     size = SIZES.get(Path(str(cfg.get("model", ""))).name.split("-")[0][-1:], "")
     out["paper_setting"] = {"size": size, "imgsz": cfg.get("imgsz"),
                             "grid": REF.GRID.get((size, cfg.get("imgsz"))) if size else None}
+    if out["net"]:  # not a YOLO run: compare with the article's final model, and with its own run of the same
+        # classifier where Table 3 has one (DenseNet121, EfficientNet-B4)
+        arch = out["net"].split(":")[1].split(".")[0] if out["net"].count(":") >= 1 else ""
+        name = REF.TIMM_TO_TABLE3.get(arch) if out["net"].startswith("cls:") else None
+        out["paper_setting"].update(final_model=True, table3=name, table3_row=REF.TABLE3.get(name) if name else None)
     return out
 
 
@@ -286,8 +293,10 @@ HEADLINE = [("auc_fracture", "Fracture AUC", 3, 1.0), ("fracture_sensitivity", "
 def run_section(r: dict, final: dict) -> list[str]:
     o, of, tm, en, sel = r["oof"], r["oof_folds_mean_sd"], r["test_models_mean_sd"], r["test_ensemble"], r["selected_model"]
     nf, nt = o["n"], en["n"]
+    what = (f"Network `{r['net']}` at {r['size']} px" if r.get("net")
+            else f"Model `{Path(str(r['model'])).name}` at {r['imgsz']} px")
     L = [f"## {r['run']}", "",
-         f"Model `{Path(str(r['model'])).name}` at {r['imgsz']} px; fracture threshold {r['threshold']:.4f} (Youden on the "
+         f"{what}; fracture threshold {r['threshold']:.4f} (Youden on the "
          f"pooled OOF predictions). The fold model the article's selection rule picks (best accuracy on its own "
          f"held-out fold, {pct(sel['held_out_accuracy'])}%) is fold {sel['fold']}.", "",
          "### Headline metrics", "",
@@ -330,10 +339,12 @@ def paper_section(runs: list[dict], final: dict) -> list[str]:
     for r in runs:
         g, tm, sel, en = (r["paper_setting"]["grid"] or {}), r["test_models_mean_sd"], r["selected_model"]["test"], r["test_ensemble"]
         s = r["paper_setting"]
-        L += [f"### {r['run']} vs the article's YOLOv8-seg {s['size']} @ {s['imgsz']}", "",
+        title = (f"### {r['run']} vs the article's final model (YOLOv8s-seg @1024)" if s.get("final_model")
+                 else f"### {r['run']} vs the article's YOLOv8-seg {s['size']} @ {s['imgsz']}")
+        L += [title, "",
               "| Metric (test set) | Article, 6 runs mean ± SD | Ours, 5 fold models mean ± SD | Article, final model | Ours, selected fold model | Ours, 5-model ensemble |",
               "|---|---|---|---|---|---|"]
-        is_final = (s["size"], s["imgsz"]) == ("small", 1024)
+        is_final = (s["size"], s["imgsz"]) == ("small", 1024) or bool(s.get("final_model"))
         fin = (lambda v, nd=3, sc=1.0: f"{sc * v:.{nd}f}") if is_final else (lambda v, nd=3, sc=1.0: "(other setting)")
         gm = (lambda k, nd=3, sc=1.0: f"{sc * g[k][0]:.{nd}f} ± {sc * g[k][1]:.{nd}f}" if k in g else "n/a")
         L.append(f"| Fracture AUC | {gm('auc')} | {pm(tm, 'auc_fracture')} | {fin(final['auc'])} | "
@@ -359,6 +370,11 @@ def paper_section(runs: list[dict], final: dict) -> list[str]:
         L.append(f"| Errors: total | n/a | {pm(tm, 'n_errors', 1)} | {fin(sum(final['errors'].values()), 0)} | "
                  f"{sel['n_errors']} | {en['n_errors']} |")
         L.append("")
+        t3 = s.get("table3_row")
+        if t3:
+            L += [f"The article's own {s['table3']} (Table 3, one run on the same test set): fracture AUC "
+                  f"{t3['auc']:.3f} ({t3['auc_ci'][0]:.3f}–{t3['auc_ci'][1]:.3f}), 6-class accuracy "
+                  f"{100 * t3['accuracy_6class']:.1f}% ({100 * t3['accuracy_ci'][0]:.1f}–{100 * t3['accuracy_ci'][1]:.1f}).", ""]
     L += ["Article's final model, confusion matrix (Fig. 3):", ""] + cm_table(final["confusion_matrix"]) + [""]
     return L
 
@@ -379,10 +395,12 @@ def dice_section(runs: list[dict], final: dict) -> list[str]:
             ("Global (pooled pixels over fractured femurs)", "seg.dice_global")]
     for label, key in rows:
         L.append(f"| {label} | " + " | ".join(pm(r["test_models_mean_sd"], key) for r in runs) + " |")
+    def spread(seg: dict) -> str:
+        m, sd = seg["dice_detected_mean"], seg["dice_detected_sd"]
+        return "n/a" if math.isnan(m) or math.isnan(sd) else f"{m - 1.96 * sd:.2f}–{min(1.0, m + 1.96 * sd):.2f} (ensemble)"
+
     L.append("| Per-femur spread, detected only: mean ± 1.96 SD (compare the article's 0.56–0.98) | " + " | ".join(
-        f"{r['test_ensemble']['seg']['dice_detected_mean'] - 1.96 * r['test_ensemble']['seg']['dice_detected_sd']:.2f}–"
-        f"{min(1.0, r['test_ensemble']['seg']['dice_detected_mean'] + 1.96 * r['test_ensemble']['seg']['dice_detected_sd']):.2f} (ensemble)"
-        for r in runs) + " |")
+        spread(r["test_ensemble"]["seg"]) for r in runs) + " |")
     L.append("")
     L += ["## OOF versus test segmentation", "",
           "| Run | Dice detected, OOF pooled | Dice detected, test models | Predicted / true area, OOF (median, IQR) | Predicted / true area, test models (median, IQR, pooled over models) |",
@@ -390,9 +408,10 @@ def dice_section(runs: list[dict], final: dict) -> list[str]:
     for r in runs:
         o = r["oof"]["seg"]
         tq = r["test_models_pooled_area"]
+        iqr = (lambda m, a, b: "n/a" if math.isnan(m) else f"{m:.2f} ({a:.2f}–{b:.2f})")
         L.append(f"| {r['run']} | {f3(o['dice_detected_mean'])} | {pm(r['test_models_mean_sd'], 'seg.dice_detected_mean')} | "
-                 f"{o['area_ratio_median']:.2f} ({o['area_ratio_q25']:.2f}–{o['area_ratio_q75']:.2f}) | "
-                 f"{tq['median']:.2f} ({tq['q25']:.2f}–{tq['q75']:.2f}) |")
+                 f"{iqr(o['area_ratio_median'], o['area_ratio_q25'], o['area_ratio_q75'])} | "
+                 f"{iqr(tq['median'], tq['q25'], tq['q75'])} |")
     L += ["", "Median mask area in pixels by class: true masks of the training femurs and of the test femurs (the "
           "article says its test labels were reviewed by a committee), and the masks the models predict for called "
           "fractures (OOF; test pooled over the 5 fold models).", "",
@@ -403,10 +422,14 @@ def dice_section(runs: list[dict], final: dict) -> list[str]:
         a0 = runs[0]["areas"][code]
         L.append(f"| {code} {NAMES[code]} | {a0['true_train_median']:,.0f} | {a0['true_test_median']:,.0f} | "
                  f"{a0['true_test_median'] / a0['true_train_median']:.2f} | " + " | ".join(
-                     f"{r['areas'][code]['pred_oof_median']:,.0f} | {r['areas'][code]['pred_test_median']:,.0f}"
+                     f"{px(r['areas'][code]['pred_oof_median'])} | {px(r['areas'][code]['pred_test_median'])}"
                      for r in runs) + " |")
     L.append("")
     return L
+
+
+def px(x) -> str:
+    return "n/a" if x is None or (isinstance(x, float) and math.isnan(x)) else f"{x:,.0f}"
 
 
 def compare_section(runs: list[dict]) -> list[str]:
@@ -420,7 +443,7 @@ def compare_section(runs: list[dict]) -> list[str]:
     keys += [(f"per_class.{c}.dice", f"Dice {c}", 3, 1.0) for c in CODES[1:]]
     for key, label, nd, sc in keys:
         L.append(f"| {label} | " + " | ".join(
-            f"{pm(r['test_models_mean_sd'], key, nd, sc)} ({sc * get(r['oof'], key):.{nd}f})" for r in runs) + " |")
+            f"{pm(r['test_models_mean_sd'], key, nd, sc)} ({f3(sc * get(r['oof'], key), nd)})" for r in runs) + " |")
     L += ["", "Paired tests between the runs (same femurs) are in `stats.md` of the same folder, if it was made with "
           "`scripts/run_stats.py ... --compare`.", ""]
     return L
