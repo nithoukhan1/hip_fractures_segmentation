@@ -10,7 +10,8 @@ writes three arrays to a local folder (default /tmp/femurseg_cache, never the Ka
   meta.json      file list, sizes, and the fingerprint of the inputs
 
 The fold processes open these arrays memory-mapped (shared, nothing is copied), so two folds on two GPUs and their
-data-loader workers all read the same pages.
+data-loader workers all read the same pages. Two runs started at the same time in one Kaggle session (a parallel
+group of kaggle/run.py) share the cache too: a lock file makes the second wait while the first builds it.
 
 Augmentations (training only; Report 03 §6): horizontal flip, small affine (scale 0.9-1.1, rotation +-10 degrees,
 shift +-5%), brightness/contrast, gamma, and mild noise or blur. No vertical flip (anatomy). The image stays uint8
@@ -18,6 +19,7 @@ until it reaches the GPU, where normalize() turns it into the 3-channel ImageNet
 """
 from __future__ import annotations
 
+import contextlib
 import hashlib
 import json
 import time
@@ -58,6 +60,23 @@ def cache_key(root: Path, records: list[FemurRecord], size_hw: tuple[int, int]) 
     return hashlib.md5(text.encode()).hexdigest()[:12]
 
 
+@contextlib.contextmanager
+def _cache_lock(cache_dir: Path):
+    """Exclusive lock on <cache_dir>/.lock while a cache is checked and built (POSIX; a no-op elsewhere)."""
+    cache_dir.mkdir(parents=True, exist_ok=True)
+    try:
+        import fcntl
+    except ImportError:  # Windows: one process at a time is the only use there
+        yield
+        return
+    with open(cache_dir / ".lock", "w") as fh:
+        fcntl.flock(fh, fcntl.LOCK_EX)
+        try:
+            yield
+        finally:
+            fcntl.flock(fh, fcntl.LOCK_UN)
+
+
 def build_cache(data_root: str | Path, records: list[FemurRecord], size_hw: tuple[int, int], cache_dir: str | Path,
                 threads: int = 8) -> Path:
     """Write the resized cache for ``records`` (unless it already exists) and return its folder."""
@@ -65,6 +84,13 @@ def build_cache(data_root: str | Path, records: list[FemurRecord], size_hw: tupl
     folder = Path(cache_dir) / f"{size_hw[0]}x{size_hw[1]}_{cache_key(root, records, size_hw)}"
     if (folder / "meta.json").exists():
         return folder
+    with _cache_lock(Path(cache_dir)):
+        if (folder / "meta.json").exists():  # built by another run while this one waited
+            return folder
+        return _write_cache(root, folder, records, size_hw, threads)
+
+
+def _write_cache(root: Path, folder: Path, records: list[FemurRecord], size_hw: tuple[int, int], threads: int) -> Path:
     t0 = time.time()
     index = build_index(root)
     missing = [r.key for r in records if r.key not in index]

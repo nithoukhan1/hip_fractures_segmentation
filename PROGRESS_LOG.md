@@ -4,6 +4,34 @@ Newest entries at the top. Each entry: what was done, what it produced, what com
 
 ---
 
+## 2026-11-27 · Step 12: Paper A's protocol (Step 3) and SLG-Net code, tested on the CPU
+
+**Done (you)**
+- Merged PR #7 (`4820f6b`), which filed S03, S06 and S10 with analyses C02 and C05. The baselines S07, S04, S08, S09 and S05 are next on Kaggle.
+
+**Done (me)**
+1. **Protocol** `Analysis/06_Step3_PaperA_Protocol.md`, fixed before any SLG-Net result:
+   - what each of A2–A6 adds on top of M0, with the Step 2 recipe unchanged;
+   - three fold-0 development questions: D1 teacher forcing, D2 a detached mask, D3 region pooling at 1/32 only;
+   - their decision rule against M0's own fold-0 model, the freeze (tag `A-v1-frozen`), the interpretability tests, and the final runs and analyses C06–C09.
+2. **SLG-Net code** `src/femurseg/slg.py`, used as `--net slg:convnext_tiny.fb_in22k_ft_in1k:<A2..A6>` in `scripts/train_net.py`:
+   - region pooling inside the predicted mask at 1/16 and 1/32, weighted by the mask confidence;
+   - 8 geometry numbers of the mask (area, centroid, height, width, orientation, confidence);
+   - fracture → location → grade heads whose 6-class probabilities come from the chain rule; one grade trunk per location (A4) or a shared one (A5, A6); logit adjustment with the training fold's priors (A6, training only);
+   - teacher forcing: the heads get the released mask with a probability that falls from 1 to 0 over the first 30 epochs.
+3. **Interpretability tests inside the training run** (`--extra-tests oracle,deletion`): every held-out and test femur is predicted again with the released mask (oracle), with the predicted region blurred out (deletion), and with the same shape blurred elsewhere (control). Each test gets its own per-case files and metrics.
+4. **Kaggle:** `kaggle/run.py` can start two runs in one session, one per T4 (a *parallel group*, for example `A_dev_round1`). Their image cache is built once. `register_run.py` files the group's zip as separate runs, and `run_stats.py --folds 0` compares runs on fold 0 alone.
+5. **Checks:**
+   - 10 new unit tests (`tests/test_slg.py`): chain-rule probabilities, the geometry of a drawn ellipse, region pooling, logit adjustment, teacher forcing, a detached mask, the deletion images. The 39 earlier unit tests still pass.
+   - The CPU smoke test now also trains SLG-Net A6 on 5 folds with both tests, runs a parallel group of two fold-0 runs, files the group's zip and compares the runs with M0 on fold 0. It passed.
+6. **M0's fold-0 reference** (from the filed S10, no new run): macro-F1 .822 (.735–.889), accuracy 88.5% (184 of 208), Dice on fractured femurs .749.
+
+**Next**
+- You: continue the baselines (S07 + S04, then S08 + S09, then S05). After this PR is merged, run `A_dev_round1` and then `A_dev_round2` (about 55 min each) whenever a session is free; they do not depend on the baselines.
+- Me: file each zip; C03 and C04 → **M1**; C06 decides D1–D3 → freeze → **M2-A**.
+
+---
+
 ## 2026-11-27 · Step 11: S03, S06 and S10 filed; analyses C02 and C05
 
 **Done (you)**

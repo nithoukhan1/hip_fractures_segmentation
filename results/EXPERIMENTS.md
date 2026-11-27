@@ -3,10 +3,10 @@
 Every Kaggle run gets one line in the table at the **bottom** of this file. `scripts/register_run.py` appends the line automatically when a run is filed from `results/_inbox/`.
 - **Track:** Shared (S runs), Paper A (A runs, SLG-Net), Paper B (R runs, RefFrac).
 - **Metrics** are out-of-fold or validation, unless the run is a frozen *final* run or a fixed baseline (then test-set results are included).
-- **Analyses** that combine runs (intervals, paired tests, per-class breakdowns) are in `results/analysis/<name>/`: C01 = S01 vs S02, C02 = S01 vs S03, C05 = S06 vs S10.
+- **Analyses** that combine runs (intervals, paired tests, per-class breakdowns) are in `results/analysis/<name>/`: C01 = S01 vs S02, C02 = S01 vs S03, C05 = S06 vs S10. Planned: C03 and C04 (baselines vs S01), C06 (Paper A's fold-0 development runs vs M0), C07–C09 (Paper A's final runs; `Analysis/06_Step3_PaperA_Protocol.md` §7).
 - Details of each run are in `results/<RUN>/NOTES.md`.
 
-## Planned next runs (from Analysis/04 §7)
+## Planned next runs (from Analysis/04 §7 and Analysis/06)
 | RUN | Track | Step | What | Expected GPU time |
 |---|---|---|---|---|
 | ~~S00_env_check~~ | Shared | 0 | Done 2026-11-26 (register line 1) | ~4 min |
@@ -19,6 +19,8 @@ Every Kaggle run gets one line in the table at the **bottom** of this file. `scr
 | S04_densenet121, S05_efficientnet_b4 | Shared | 2 | Classifiers DenseNet121 and EfficientNet-B4, 768 × 512 input, `scripts/train_net.py` (protocol: `Analysis/05_Step2_Baselines_Protocol.md`); with S06 they make analysis C03 | S04 1.6 h, S05 2.1 h (measured by S00_net_check) |
 | S07_unet_r34, S08_deeplabv3p_r34, S09_segformer_b2 | Shared | 2 | Segmenters U-Net, DeepLabV3+ (ResNet34), SegFormer (MiT-B2), 768 × 512 input; with S10 they make analysis C04 | S07 1.7 h, S08 1.5 h, S09 3.3 h (measured by S00_net_check) |
 | ~~S10_m0_convnext_unet~~ | Shared | 2 | Done 2026-11-27 (register line 8): M0 classifies better than S06 (C05) and segments better than S01 | 2.33 h measured |
+| A_dev_round1 = A6_dev_base + A6_dev_no_tf | Paper A | 3 | Fold-0 development of SLG-Net (A6), question D1 (teacher forcing); two runs in one session, one per T4; fold 0 only, no test set; analysis C06 against M0's fold-0 model (`Analysis/06_Step3_PaperA_Protocol.md` §4) | ~55 min (estimate) |
+| A_dev_round2 = A6_dev_detach + A6_dev_scale32 | Paper A | 3 | Questions D2 (detached mask) and D3 (region pooling at 1/32 only); same set-up | ~55 min (estimate) |
 
 ## Register
 | # | Date | RUN | Track | Step | Git commit | Kaggle version | GPU | Runtime (min) | Exit | Key result | Purpose / decision |

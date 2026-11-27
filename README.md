@@ -20,7 +20,8 @@ Sources:
 | Kaggle environment check | Done: data and folds on Kaggle are identical to `splits/folds_v1.csv` (Kaggle's val/ pooled into train) |
 | Data loader, metrics, statistics, tests | Done (`src/femurseg/data.py`, `metrics.py`, `stats.py`, `tests/`) |
 | Shared baselines S1–S9 and core model M0 | In progress: S01 and S02 (YOLOv8s-seg) done and analysed: they reproduce the article's accuracy and AUC (`results/analysis/C01_yolo_1024_vs_640/report.md`). S03 (YOLO11s-seg) adds nothing over YOLOv8s-seg (`results/analysis/C02_yolov8_vs_yolo11/report.md`). The core model M0 (S10) classifies better than the ConvNeXt-T classifier S06 and segments better than YOLO (`results/analysis/C05_mask_task_s06_vs_s10/report.md`). Next: S07, S04, S08, S09, S05. Protocol in `Analysis/05_Step2_Baselines_Protocol.md` |
-| Paper A and Paper B methods, experiments, manuscripts | Not started |
+| Paper A (SLG-Net) | Step 3 protocol (`Analysis/06_Step3_PaperA_Protocol.md`) and code (`src/femurseg/slg.py`: variants A2–A6, oracle and region-deletion tests) done and tested on the CPU; fold-0 development runs ready to launch |
+| Paper B (RefFrac) | Not started |
 
 Details: [`PROJECT_TRACKER.md`](PROJECT_TRACKER.md) (overall) and [`PROGRESS_LOG.md`](PROGRESS_LOG.md) (step by step).
 
@@ -36,25 +37,28 @@ Details: [`PROJECT_TRACKER.md`](PROJECT_TRACKER.md) (overall) and [`PROGRESS_LOG
 │   ├── 02_How_to_Use_the_Dataset.md        nine directions D1–D9
 │   ├── 03_Idea_Ranking_and_Research_Plan.md ranking, Option A and B designs
 │   ├── 04_Execution_Plan_A_and_B.md         A and B in parallel: runs, validation, compute, timeline
-│   └── 05_Step2_Baselines_Protocol.md       how S04–S10 (classifiers, segmenters, M0) are trained and scored
+│   ├── 05_Step2_Baselines_Protocol.md       how S04–S10 (classifiers, segmenters, M0) are trained and scored
+│   └── 06_Step3_PaperA_Protocol.md          Paper A: runs A2–A6, fold-0 development, interpretability tests
 ├── research/               literature notes
 ├── EDA/                    EDA script, per-image statistics, figures
 ├── splits/                 fixed train folds (official val folder is empty; test is untouched)
 ├── src/femurseg/           Python package: classes, data paths, data loader (data.py), metrics (metrics.py),
 │                           confidence intervals and paired tests (stats.py), the article's numbers (reference.py),
 │                           per-case files and scoring shared by all models (evaluation.py), parallel folds with
-│                           a time guard (runner.py), PyTorch networks (nets.py) and image cache (torchdata.py)
+│                           a time guard (runner.py), PyTorch networks (nets.py), SLG-Net of Paper A (slg.py)
+│                           and image cache (torchdata.py)
 ├── scripts/                command-line tools: make_splits.py, register_run.py, train_yolo_seg.py (S01–S03),
-│                           train_net.py (S04–S10: classifiers, segmenters, M0; S00_net_check),
+│                           train_net.py (S04–S10: classifiers, segmenters, M0; S00_net_check; SLG-Net A2–A6),
 │                           run_stats.py (95% intervals and paired comparisons of filed runs),
 │                           run_breakdown.py (per class, mean ± SD over folds, comparison with the article)
-├── tests/                  checks of metrics, statistics, folds, the article's numbers, the breakdown and the
-│                           networks, and CPU smoke tests of both training scripts and both analysis scripts
+├── tests/                  checks of metrics, statistics, folds, the article's numbers, the breakdown, the
+│                           networks and SLG-Net, and CPU smoke tests of both training scripts, both analysis
+│                           scripts and the Kaggle launcher's parallel groups
 ├── configs/                one YAML file per experiment
 ├── kaggle/                 Kaggle launcher notebook, run list and Kaggle-only scripts
 ├── results/                every run's metrics, notes and small outputs (no model weights)
 │   ├── EXPERIMENTS.md      the experiment register: one line per run
-│   ├── analysis/           analyses across runs (C01 = S01 vs S02: intervals, tests, per class, report)
+│   ├── analysis/           analyses across runs (C01 = S01 vs S02, C02 = S01 vs S03, C05 = S06 vs S10)
 │   └── _inbox/             drop zips downloaded from Kaggle here
 └── manuscript/             paper drafts, tables and figures (later)
 ```

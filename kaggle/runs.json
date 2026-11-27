@@ -313,5 +313,140 @@
     "expected_minutes": 170,
     "about": "Core model M0 (= A1 of Paper A = R0 of Paper B): U-Net with the ConvNeXt-Tiny encoder of S06, a binary fracture mask and the same 6-class head on the encoder's last features. Differs from S06 only by the decoder and its mask loss, so S06 vs S10 answers whether segmentation as an extra task helps.",
     "estimate_note": "measured by S00_net_check (register line 5): micro-batch 16 x 1, 11.19 GB, 0.9139 s per micro-step, about 53.8 min per fold; 3 rounds of folds + about 5 min set-up"
+  },
+  "A6_dev_base": {
+    "step": "3",
+    "script": "scripts/train_net.py",
+    "pip": [
+      "segmentation-models-pytorch==0.6.0"
+    ],
+    "gpu": "one T4 (started by a parallel group, one run per GPU)",
+    "track": "Paper A",
+    "expected_minutes": 50,
+    "estimate_note": "M0's fold 0 trained in 44.5 min on one T4 (S10, register line 8); SLG-Net's heads add little; + pre-flight, image cache and the oracle predictions",
+    "args": [
+      "--net",
+      "slg:convnext_tiny.fb_in22k_ft_in1k:A6",
+      "--size",
+      "768x512",
+      "--epochs",
+      "60",
+      "--batch",
+      "16",
+      "--folds",
+      "0",
+      "--no-test",
+      "--extra-tests",
+      "oracle"
+    ],
+    "about": "Paper A fold-0 development (Analysis/06 §4). SLG-Net A6 with the base settings of Analysis/06 §2: teacher forcing over 30 epochs, region pooling at 1/16 and 1/32, the decision losses reach the mask. Fold 0 only, no test-set predictions; with the oracle test."
+  },
+  "A6_dev_no_tf": {
+    "step": "3",
+    "script": "scripts/train_net.py",
+    "pip": [
+      "segmentation-models-pytorch==0.6.0"
+    ],
+    "gpu": "one T4 (started by a parallel group, one run per GPU)",
+    "track": "Paper A",
+    "expected_minutes": 50,
+    "estimate_note": "M0's fold 0 trained in 44.5 min on one T4 (S10, register line 8); SLG-Net's heads add little; + pre-flight, image cache and the oracle predictions",
+    "args": [
+      "--net",
+      "slg:convnext_tiny.fb_in22k_ft_in1k:A6",
+      "--size",
+      "768x512",
+      "--epochs",
+      "60",
+      "--batch",
+      "16",
+      "--folds",
+      "0",
+      "--no-test",
+      "--extra-tests",
+      "oracle",
+      "--tf-epochs",
+      "0"
+    ],
+    "about": "Paper A fold-0 development (Analysis/06 §4). D1: as A6_dev_base without teacher forcing (the heads always see the predicted mask). Fold 0 only, no test-set predictions; with the oracle test."
+  },
+  "A6_dev_detach": {
+    "step": "3",
+    "script": "scripts/train_net.py",
+    "pip": [
+      "segmentation-models-pytorch==0.6.0"
+    ],
+    "gpu": "one T4 (started by a parallel group, one run per GPU)",
+    "track": "Paper A",
+    "expected_minutes": 50,
+    "estimate_note": "M0's fold 0 trained in 44.5 min on one T4 (S10, register line 8); SLG-Net's heads add little; + pre-flight, image cache and the oracle predictions",
+    "args": [
+      "--net",
+      "slg:convnext_tiny.fb_in22k_ft_in1k:A6",
+      "--size",
+      "768x512",
+      "--epochs",
+      "60",
+      "--batch",
+      "16",
+      "--folds",
+      "0",
+      "--no-test",
+      "--extra-tests",
+      "oracle",
+      "--slg-detach"
+    ],
+    "about": "Paper A fold-0 development (Analysis/06 §4). D2: as A6_dev_base, but the decision losses do not reach the mask (it is learned from the mask loss only). Fold 0 only, no test-set predictions; with the oracle test."
+  },
+  "A6_dev_scale32": {
+    "step": "3",
+    "script": "scripts/train_net.py",
+    "pip": [
+      "segmentation-models-pytorch==0.6.0"
+    ],
+    "gpu": "one T4 (started by a parallel group, one run per GPU)",
+    "track": "Paper A",
+    "expected_minutes": 50,
+    "estimate_note": "M0's fold 0 trained in 44.5 min on one T4 (S10, register line 8); SLG-Net's heads add little; + pre-flight, image cache and the oracle predictions",
+    "args": [
+      "--net",
+      "slg:convnext_tiny.fb_in22k_ft_in1k:A6",
+      "--size",
+      "768x512",
+      "--epochs",
+      "60",
+      "--batch",
+      "16",
+      "--folds",
+      "0",
+      "--no-test",
+      "--extra-tests",
+      "oracle",
+      "--slg-scales",
+      "32"
+    ],
+    "about": "Paper A fold-0 development (Analysis/06 §4). D3: as A6_dev_base with region pooling at 1/32 only. Fold 0 only, no test-set predictions; with the oracle test."
+  },
+  "A_dev_round1": {
+    "step": "3",
+    "track": "Paper A",
+    "parallel": [
+      "A6_dev_base",
+      "A6_dev_no_tf"
+    ],
+    "gpu": "T4 x2 (one run per GPU)",
+    "expected_minutes": 55,
+    "about": "Paper A fold-0 development, round 1 (Analysis/06 §4): A6_dev_base on GPU 0 and A6_dev_no_tf on GPU 1, in one session. Both results are in results_A_dev_round1.zip."
+  },
+  "A_dev_round2": {
+    "step": "3",
+    "track": "Paper A",
+    "parallel": [
+      "A6_dev_detach",
+      "A6_dev_scale32"
+    ],
+    "gpu": "T4 x2 (one run per GPU)",
+    "expected_minutes": 55,
+    "about": "Paper A fold-0 development, round 2 (Analysis/06 §4): A6_dev_detach on GPU 0 and A6_dev_scale32 on GPU 1, in one session."
   }
 }

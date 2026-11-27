@@ -11,12 +11,16 @@ A network is named by a ``--net`` string:
                               fracture mask, and the timm model's own classifier head (global pooling, norm, dropout,
                               6 outputs) on the encoder's last feature map. With the same timm model as an S06-type
                               classifier, the classification path is identical; M0 only adds the decoder and its loss.
+  slg:<timm model>:<variant>  SLG-Net of Paper A (src/femurseg/slg.py): M0's encoder, decoder and mask, with heads that
+                              decide from the predicted region; variant A2..A6 (the ablation chain, Analysis/06). Its
+                              "cls" output holds 6-class log-probabilities (chain rule in A4-A6), so the M0 rule below
+                              applies unchanged.
 
 Every network returns a dict with "cls" (B, 6) logits and/or "seg" (B, C, H, W) logits at the input size.
 
 From outputs to one row per femur (postprocess), the same rule for every model:
-  * classifier and M0: p = softmax(cls); conf_c = p_c (c = 1..5); score = top_conf = 1 - p_0;
-    top_cls6 = 1 + argmax(p_1..p_5); mask (M0) = sigmoid(seg) >= 0.5.
+  * classifier, M0 and SLG-Net: p = softmax(cls); conf_c = p_c (c = 1..5); score = top_conf = 1 - p_0;
+    top_cls6 = 1 + argmax(p_1..p_5); mask (M0, SLG-Net) = sigmoid(seg) >= 0.5.
   * semantic segmentation: fracture probability map f = 1 - p_0 per pixel; score = top_conf = mean of the TOPK
     highest f (a robust maximum: a few hundred pixels, far fewer than the smallest fracture); the class shares come
     from the predicted region (f >= 0.5, or the TOPK pixels if it is empty): share_c = sum of p_c over the region /
@@ -32,17 +36,19 @@ TOPK = 500  # pixels at 768 x 512; the smallest released fracture mask has 1,722
 
 @dataclass(frozen=True)
 class NetSpec:
-    kind: str      # cls | seg | m0
-    arch: str      # timm model name (cls, m0) or smp architecture (seg)
-    encoder: str   # smp encoder (seg); "" otherwise
+    kind: str          # cls | seg | m0 | slg
+    arch: str          # timm model name (cls, m0, slg) or smp architecture (seg)
+    encoder: str       # smp encoder (seg); "" otherwise
+    variant: str = ""  # SLG-Net variant A2..A6 (slg); "" otherwise
 
     @property
     def has_mask(self) -> bool:
-        return self.kind in ("seg", "m0")
+        return self.kind in ("seg", "m0", "slg")
 
     @property
     def text(self) -> str:
-        return f"{self.kind}:{self.arch}" + (f":{self.encoder}" if self.encoder else "")
+        tail = self.encoder or self.variant
+        return f"{self.kind}:{self.arch}" + (f":{tail}" if tail else "")
 
 
 def parse_net(text: str) -> NetSpec:
@@ -51,12 +57,27 @@ def parse_net(text: str) -> NetSpec:
         return NetSpec(parts[0], parts[1], "")
     if parts[0] == "seg" and len(parts) == 3:
         return NetSpec("seg", parts[1], parts[2])
-    raise ValueError(f"--net '{text}': expected cls:<timm model>, m0:<timm model> or seg:<smp arch>:<encoder>")
+    if parts[0] == "slg" and len(parts) == 3:
+        from .slg import VARIANTS
+
+        if parts[2] not in VARIANTS:
+            raise ValueError(f"--net '{text}': SLG-Net variant must be one of {', '.join(VARIANTS)}")
+        return NetSpec("slg", parts[1], "", parts[2])
+    raise ValueError(f"--net '{text}': expected cls:<timm model>, m0:<timm model>, seg:<smp arch>:<encoder> or "
+                     "slg:<timm model>:<A2..A6>")
 
 
-def build_net(spec: NetSpec, pretrained: bool = True, drop_rate: float = 0.2):
-    """Create the network (downloads ImageNet weights when ``pretrained``)."""
+def build_net(spec: NetSpec, pretrained: bool = True, drop_rate: float = 0.2, slg_scales=(16, 32),
+              slg_detach: bool = False):
+    """Create the network (downloads ImageNet weights when ``pretrained``). SLG-Net options: the encoder scales
+    of region pooling and whether the decision losses may reach the mask (see slg.build_slg)."""
     import torch.nn as nn
+
+    if spec.kind == "slg":
+        from .slg import build_slg
+
+        return build_slg(spec.arch, spec.variant, pretrained=pretrained, drop_rate=drop_rate, scales=slg_scales,
+                         detach_mask=slg_detach)
 
     class Net(nn.Module):
         def __init__(self, body, kind):
@@ -95,10 +116,18 @@ def build_net(spec: NetSpec, pretrained: bool = True, drop_rate: float = 0.2):
     return Net(model, "m0")
 
 
-def make_loss(spec: NetSpec, seg_weight: float = 1.0):
-    """Loss function (outputs, mask (B, H, W) long, cls6 (B,) long) -> (total, {part: value})."""
+def make_loss(spec: NetSpec, seg_weight: float = 1.0, priors: dict | None = None, la_tau: float = 1.0,
+              joint_weight: float = 0.5):
+    """Loss function (outputs, mask (B, H, W) long, cls6 (B,) long) -> (total, {part: value}). SLG-Net: see
+    slg.make_slg_loss (``priors`` = training-fold log-priors for logit adjustment, A6 only)."""
     import torch.nn.functional as F
     from segmentation_models_pytorch.losses import DiceLoss
+
+    if spec.kind == "slg":
+        from .slg import make_slg_loss
+
+        return make_slg_loss(spec.variant, seg_weight=seg_weight, joint_weight=joint_weight, priors=priors,
+                             la_tau=la_tau)
 
     dice_multi = DiceLoss(mode="multiclass", classes=[1, 2, 3, 4, 5], from_logits=True)
     dice_bin = DiceLoss(mode="binary", from_logits=True)
@@ -128,11 +157,11 @@ def postprocess(spec: NetSpec, out: dict, topk: int = TOPK) -> dict:
     and fmap (B, H, W) = fracture probability per pixel (None for classifiers)."""
     import torch
 
-    if spec.kind in ("cls", "m0"):
-        p = torch.softmax(out["cls"].float(), dim=1)
+    if spec.kind in ("cls", "m0", "slg"):
+        p = torch.softmax(out["cls"].float(), dim=1)  # SLG-Net A4-A6: "cls" = log-probabilities, softmax returns them
         conf = p[:, 1:]
         res = {"conf": conf, "score": conf.sum(dim=1), "top_cls6": conf.argmax(dim=1) + 1, "fmap": None}
-        if spec.kind == "m0":
+        if spec.kind in ("m0", "slg"):
             res["fmap"] = torch.sigmoid(out["seg"].float()[:, 0])
         return res
     p = torch.softmax(out["seg"].float(), dim=1)                     # (B, 6, H, W)

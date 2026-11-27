@@ -5,6 +5,10 @@ Networks (--net, see src/femurseg/nets.py):
   cls:<timm model>           S04 densenet121.tv_in1k, S05 efficientnet_b4.ra2_in1k, S06 convnext_tiny.fb_in22k_ft_in1k (= A0)
   seg:<smp arch>:<encoder>   S07 Unet:resnet34, S08 DeepLabV3Plus:resnet34, S09 Segformer:mit_b2
   m0:<timm model>            S10 = M0: U-Net with a ConvNeXt-T encoder, binary mask + 6-class head (= A1 = R0)
+  slg:<timm model>:<A2..A6>  Paper A, SLG-Net and its ablation chain (src/femurseg/slg.py; protocol Analysis/06):
+                             M0 + region pooling (A2), + geometry (A3), + location -> grade hierarchy (A4), + shared
+                             severity trunk (A5), + logit adjustment (A6). Teacher forcing over the first --tf-epochs
+                             epochs; --extra-tests oracle,deletion adds the interpretability tests of the A6 models.
 
 Protocol (the rules of S01/S02, Analysis/04 §3.4):
   * one model per fold, fixed training length (--epochs) and FINAL weights; the held-out fold is never used
@@ -27,7 +31,9 @@ step. The estimate feeds the time guard. With --check-nets, only the pre-flight 
 
 Outputs
   results/<RUN>/  config.json, preflight.json, metrics.json, summary.md, per_case_oof.csv, per_case_test.csv,
-                  per_case_test_ensemble.csv, folds/fold<k>/ (per-fold CSVs, train_curve.csv, fold_meta.json, log tail)
+                  per_case_test_ensemble.csv, folds/fold<k>/ (per-fold CSVs, train_curve.csv, fold_meta.json, log tail);
+                  SLG-Net with --extra-tests: the same per-case files with the suffix _oracle, _deletion and
+                  _deletion_control, and their metrics under "tests" in metrics.json
   work/<RUN>/     weights/fold<k>.pt; fracture-probability maps prob_maps/<oof|test>/fold<k>/<file> (768 x 512 PNG,
                   value = 255 x probability); logs. Kept in the Kaggle version output, not committed to git.
 
@@ -35,12 +41,15 @@ Examples
   python scripts/train_net.py --net cls:convnext_tiny.fb_in22k_ft_in1k --out /kaggle/working/results/S06_convnext_tiny
   python scripts/train_net.py --net seg:Unet:resnet34 --folds 0 --gpus 0 --out ...      # one fold only
   python scripts/train_net.py --check-nets cls:densenet121.tv_in1k,seg:Unet:resnet34 --out .../S00_net_check
+  python scripts/train_net.py --net slg:convnext_tiny.fb_in22k_ft_in1k:A6 --folds 0 --no-test --extra-tests oracle \
+      --out .../A6_dev_base                                                          # fold-0 development (Analysis/06)
 """
 from __future__ import annotations
 
 import argparse
 import csv
 import gc
+import hashlib
 import json
 import math
 import os
@@ -50,7 +59,7 @@ import subprocess
 import sys
 import threading
 import time
-from collections import defaultdict
+from collections import Counter, defaultdict
 from pathlib import Path
 
 import numpy as np
@@ -63,9 +72,13 @@ from femurseg.data import DEFAULT_FOLDS_CSV, fold_split, load_records, read_png 
 from femurseg.evaluation import evaluate, read_csv, scalar_summary, seg_case, write_csv  # noqa: E402
 from femurseg.nets import TOPK, build_net, make_loss, param_groups, parse_net, postprocess  # noqa: E402
 from femurseg.runner import argv_without, git_commit, run_folds  # noqa: E402
+from femurseg.slg import priors_from_counts  # noqa: E402
 from femurseg.torchdata import Cache, FemurDataset, build_cache, normalize, worker_init_fn  # noqa: E402
 
 PLAIN_TAU = 0.5
+EXTRA_TESTS = ("oracle", "deletion")                # SLG-Net only; "deletion" also writes "deletion_control"
+TEST_MODES = {"oracle": ("oracle",), "deletion": ("deletion", "deletion_control")}
+DELETE_DILATE_PX, DELETE_SIGMA_PX = 8, 16           # at 768 x 512; scaled with the input height otherwise
 PAPER_TABLE3 = {"densenet121": "DenseNet121", "efficientnet_b4": "EfficientNetB4"}  # same architecture in the article
 
 
@@ -84,7 +97,17 @@ def parse_args(argv=None) -> argparse.Namespace:
     ap.add_argument("--weight-decay", type=float, default=0.05)
     ap.add_argument("--warmup-epochs", type=float, default=2.0)
     ap.add_argument("--drop-rate", type=float, default=0.2, help="dropout before the classifier layer")
-    ap.add_argument("--seg-weight", type=float, default=1.0, help="M0: weight of the mask loss")
+    ap.add_argument("--seg-weight", type=float, default=1.0, help="M0 and SLG-Net: weight of the mask loss")
+    ap.add_argument("--tf-epochs", type=float, default=30.0,
+                    help="SLG-Net teacher forcing: the chance that the heads get the released mask instead of the "
+                         "predicted one falls linearly from 1 to 0 over this many epochs (0 = never)")
+    ap.add_argument("--slg-scales", default="16,32", help="SLG-Net: encoder scales of region pooling (16 and/or 32)")
+    ap.add_argument("--slg-detach", action="store_true", help="SLG-Net: the decision losses do not reach the mask")
+    ap.add_argument("--la-tau", type=float, default=1.0, help="SLG-Net A6: strength of logit adjustment")
+    ap.add_argument("--joint-weight", type=float, default=0.5,
+                    help="SLG-Net A4-A6: weight of the chain-rule 6-class likelihood in the loss")
+    ap.add_argument("--extra-tests", default="", help="SLG-Net: comma list of oracle, deletion (interpretability "
+                                                      "tests on the held-out fold and the test set)")
     ap.add_argument("--clip", type=float, default=1.0, help="gradient-norm clipping")
     ap.add_argument("--topk", type=int, default=TOPK, help="segmenters: pixels averaged for the fracture score")
     ap.add_argument("--no-pretrained", action="store_true", help="random initialisation (tests only)")
@@ -121,7 +144,25 @@ def parse_args(argv=None) -> argparse.Namespace:
     if h % 32 or w % 32:
         ap.error("--size: height and width must be multiples of 32")
     args.size_hw = (h, w)
+    args.slg_scale_list = tuple(int(v) for v in str(args.slg_scales).split(",") if v.strip())
+    args.test_list = [t.strip() for t in str(args.extra_tests).split(",") if t.strip()]
+    bad = [t for t in args.test_list if t not in EXTRA_TESTS]
+    if bad:
+        ap.error(f"--extra-tests: unknown {bad}; choose from {', '.join(EXTRA_TESTS)}")
+    if args.test_list and not args.net.startswith("slg:"):
+        ap.error("--extra-tests needs an SLG-Net (--net slg:...)")
+    args.modes = ["base"] + [m for t in args.test_list for m in TEST_MODES[t]]
     return args
+
+
+def net_options(args) -> dict:
+    """Keyword arguments of nets.build_net for this run."""
+    return {"slg_scales": args.slg_scale_list, "slg_detach": args.slg_detach}
+
+
+def model_inputs(spec, gt=None, tf_prob: float = 0.0) -> dict:
+    """Extra forward arguments: SLG-Net gets the released mask for teacher forcing or the oracle test."""
+    return {"gt": gt, "tf_prob": tf_prob} if spec.kind == "slg" and gt is not None else {}
 
 
 def fold_records(args, k: int):
@@ -171,8 +212,10 @@ def run_fold(args) -> None:
     print(f"[fold {k}] {spec.text}: {len(train)} training femurs, {len(held)} held out, {len(test)} test; "
           f"device {dev}", flush=True)
 
-    model = build_net(spec, pretrained=not args.no_pretrained, drop_rate=args.drop_rate)
+    model = build_net(spec, pretrained=not args.no_pretrained, drop_rate=args.drop_rate, **net_options(args))
     model = model.to(dev).to(memory_format=torch.channels_last)
+    counts = Counter(r.cls6 for r in train)
+    priors = priors_from_counts(counts) if spec.kind == "slg" else None  # logit adjustment: training fold only
     micro = args.micro_batch or args.batch
     accum = max(1, args.batch // micro)
     gen = torch.Generator()
@@ -189,8 +232,9 @@ def run_fold(args) -> None:
         opt, lambda s: (s + 1) / warm if s < warm else 0.5 * (1 + math.cos(math.pi * (s - warm) / max(1, total - warm))))
     amp = dev.type == "cuda" and not args.no_amp
     scaler = torch.amp.GradScaler("cuda", enabled=amp)
-    loss_fn = make_loss(spec, args.seg_weight)
-    curve = []
+    loss_fn = make_loss(spec, args.seg_weight, priors=priors, la_tau=args.la_tau, joint_weight=args.joint_weight)
+    tf_steps = args.tf_epochs * len(dl)  # teacher forcing (SLG-Net): micro-steps until the heads see only own masks
+    curve, micro_step, tf_prob = [], 0, 0.0
     for epoch in range(1, args.epochs + 1):
         model.train()
         te, sums, n = time.time(), defaultdict(float), 0
@@ -198,8 +242,11 @@ def run_fold(args) -> None:
         for i, (x, m, y) in enumerate(dl):
             x = normalize(x, dev)
             m, y = m.to(dev, non_blocking=True).long(), y.to(dev, non_blocking=True).long()
+            tf_prob = max(0.0, 1.0 - micro_step / tf_steps) if tf_steps > 0 else 0.0
+            extra = model_inputs(spec, (m > 0).unsqueeze(1).float(), tf_prob)
+            micro_step += 1
             with torch.autocast(device_type=dev.type, dtype=torch.float16, enabled=amp):
-                out = model(x)
+                out = model(x, **extra)
             loss, parts = loss_fn(out, m, y)
             scaler.scale(loss / accum).backward()
             if (i + 1) % accum == 0:
@@ -215,6 +262,8 @@ def run_fold(args) -> None:
             n += 1
         row = {"epoch": epoch, "lr": round(opt.param_groups[0]["lr"], 8),
                **{name: round(v / max(n, 1), 5) for name, v in sums.items()}, "seconds": round(time.time() - te, 1)}
+        if spec.kind == "slg":
+            row["tf_prob"] = round(tf_prob, 4)  # chance of the released mask in the epoch's last step
         curve.append(row)
         print(f"[fold {k}] epoch {epoch}/{args.epochs} " + " ".join(f"{a} {b}" for a, b in row.items() if a != "epoch"),
               flush=True)
@@ -232,9 +281,20 @@ def run_fold(args) -> None:
     parts = [("oof", held)] + ([] if args.no_test else [("test", test)])
     for part, rs in parts:
         map_dir = None if (args.no_maps or not spec.has_mask) else args.work / "prob_maps" / part / f"fold{k}"
-        rows = predict_cases(model, spec, cache, rs, args, dev, k, map_dir, amp)
-        write_csv(fold_out / f"{part}.csv", rows)
-    meta = {"fold": k, "net": spec.text, "device": str(dev),
+        infos: list[dict] = []
+        rows = predict_cases(model, spec, cache, rs, args, dev, k, map_dir, amp, info_out=infos)
+        for mode, mode_rows in rows.items():
+            write_csv(fold_out / (f"{part}.csv" if mode == "base" else f"{part}_{mode}.csv"), mode_rows)
+        if infos:  # where the deletion test's control region went, per femur
+            with open(fold_out / f"{part}_deletion_info.csv", "w", newline="") as fh:
+                wr = csv.DictWriter(fh, fieldnames=list(infos[0]))
+                wr.writeheader()
+                wr.writerows(infos)
+    slg_meta = {} if spec.kind != "slg" else {
+        "variant": spec.variant, "tf_epochs": args.tf_epochs, "slg_scales": list(args.slg_scale_list),
+        "slg_detach": args.slg_detach, "la_tau": args.la_tau, "joint_weight": args.joint_weight,
+        "train_counts": {str(c): counts[c] for c in range(6)}, "priors": priors, "extra_tests": args.test_list}
+    meta = {"fold": k, "net": spec.text, "device": str(dev), **slg_meta,
             "gpu": torch.cuda.get_device_name(dev) if dev.type == "cuda" else "cpu",
             "n_train": len(train), "n_held_out": len(held), "n_test": 0 if args.no_test else len(test),
             "micro_batch": micro, "accumulation": accum, "optimizer_steps": total, "warmup_steps": warm,
@@ -246,8 +306,16 @@ def run_fold(args) -> None:
     print(f"[fold {k}] done in {meta['total_minutes']} min", flush=True)
 
 
-def predict_cases(model, spec, cache: Cache, recs, args, dev, k: int, map_dir: Path | None, amp: bool) -> list[dict]:
-    """One row of per-case numbers per femur (src/femurseg/evaluation.py), and the saved probability maps."""
+def predict_cases(model, spec, cache: Cache, recs, args, dev, k: int, map_dir: Path | None,
+                  amp: bool, info_out: list | None = None) -> dict[str, list[dict]]:
+    """One row of per-case numbers per femur (src/femurseg/evaluation.py) for every mode in args.modes, and the
+    saved probability maps (base mode only).
+
+    Modes: "base" = the model as it is used; SLG-Net tests (Analysis/06 §5): "oracle" = the heads get the released
+    mask (the network's own mask and its Dice are unchanged, so they are copied from base); "deletion" = the predicted
+    region (fracture probability >= 0.5, dilated) is replaced by a blurred copy of the image; "deletion_control" =
+    the same region shape blurred at another place of the image (see deletion_images; where the control went is
+    appended to ``info_out``, one dict per femur)."""
     import cv2
     import torch
 
@@ -256,35 +324,103 @@ def predict_cases(model, spec, cache: Cache, recs, args, dev, k: int, map_dir: P
         map_dir.mkdir(parents=True, exist_ok=True)
     full_h, full_w = cache.full_hw
     bs = max(1, args.micro_batch or args.batch)
-    rows = []
+    rows: dict[str, list[dict]] = {m: [] for m in args.modes}
+
+    def run(x, **kw):
+        with torch.autocast(device_type=dev.type, dtype=torch.float16, enabled=amp):
+            return postprocess(spec, model(x, **kw), args.topk)
+
+    def add(mode: str, pp: dict, chunk, idx, save_maps: bool, copy_seg_from: list[dict] | None = None) -> list[dict]:
+        conf, score = pp["conf"].cpu().numpy(), pp["score"].cpu().numpy()
+        top = pp["top_cls6"].cpu().numpy()
+        fmap = pp["fmap"].cpu().numpy() if pp["fmap"] is not None else None
+        new = []
+        for j, rec in enumerate(chunk):
+            sc = round(float(score[j]), 8)
+            row = {"file": rec.file, "split": rec.split, "fold": rec.fold, "model": k, "cls6_true": rec.cls6,
+                   "score": sc, "top_cls6": int(top[j]), "top_conf": sc}
+            row.update({f"conf_{c + 1}": round(float(conf[j, c]), 8) for c in range(5)})
+            gt = cache.gt_full(idx[j])
+            row["area_gt"] = int(gt.sum())
+            if copy_seg_from is not None:
+                row.update({c: copy_seg_from[j][c] for c in ("area_top", "dice_top", "iou_top", "hd95_top", "nsd2_top",
+                                                              "nsd10_top", "nsd20_top") if c in copy_seg_from[j]})
+            elif fmap is not None:
+                f = fmap[j].astype(np.float32)
+                if save_maps and map_dir is not None:
+                    cv2.imwrite(str(map_dir / rec.file), np.round(f * 255).astype(np.uint8))
+                mask = cv2.resize(f, (full_w, full_h), interpolation=cv2.INTER_LINEAR) >= 0.5
+                row["area_top"] = int(mask.sum())
+                if gt.any():
+                    row.update(seg_case(mask, gt))
+            new.append(row)
+        rows[mode] += new
+        return new
+
     with torch.no_grad():
         for i in range(0, len(recs), bs):
             chunk = recs[i:i + bs]
             idx = cache.rows(chunk)
-            x = normalize(torch.from_numpy(np.stack([cache.images[j] for j in idx]))[:, None], dev)
-            with torch.autocast(device_type=dev.type, dtype=torch.float16, enabled=amp):
-                out = model(x)
-            pp = postprocess(spec, out, args.topk)
-            conf, score = pp["conf"].cpu().numpy(), pp["score"].cpu().numpy()
-            top = pp["top_cls6"].cpu().numpy()
-            fmap = pp["fmap"].cpu().numpy() if pp["fmap"] is not None else None
-            for j, rec in enumerate(chunk):
-                s = round(float(score[j]), 8)
-                row = {"file": rec.file, "split": rec.split, "fold": rec.fold, "model": k, "cls6_true": rec.cls6,
-                       "score": s, "top_cls6": int(top[j]), "top_conf": s}
-                row.update({f"conf_{c + 1}": round(float(conf[j, c]), 8) for c in range(5)})
-                gt = cache.gt_full(idx[j])
-                row["area_gt"] = int(gt.sum())
-                if fmap is not None:
-                    f = fmap[j].astype(np.float32)
-                    if map_dir is not None:
-                        cv2.imwrite(str(map_dir / rec.file), np.round(f * 255).astype(np.uint8))
-                    mask = cv2.resize(f, (full_w, full_h), interpolation=cv2.INTER_LINEAR) >= 0.5
-                    row["area_top"] = int(mask.sum())
-                    if gt.any():
-                        row.update(seg_case(mask, gt))
-                rows.append(row)
+            imgs = np.stack([cache.images[j] for j in idx])
+            x = normalize(torch.from_numpy(imgs)[:, None], dev)
+            pp = run(x)
+            base = add("base", pp, chunk, idx, save_maps=True)
+            if "oracle" in rows:
+                gt = torch.from_numpy((np.stack([cache.masks[j] for j in idx]) > 0).astype(np.float32))[:, None]
+                add("oracle", run(x, **model_inputs(spec, gt.to(dev), 1.0)), chunk, idx, False, copy_seg_from=base)
+            if "deletion" in rows:
+                fmap = pp["fmap"].float().cpu().numpy()
+                pairs = [deletion_images(imgs[j], fmap[j] >= 0.5, rec.file) for j, rec in enumerate(chunk)]
+                if info_out is not None:
+                    info_out += [{"file": rec.file, "fold": rec.fold, "model": k, "cls6_true": rec.cls6, **pr[2]}
+                                 for rec, pr in zip(chunk, pairs)]
+                for mode, which in (("deletion", 0), ("deletion_control", 1)):
+                    xm = normalize(torch.from_numpy(np.stack([pr[which] for pr in pairs]))[:, None], dev)
+                    add(mode, run(xm), chunk, idx, save_maps=False)
     return rows
+
+
+def deletion_images(img: np.ndarray, region: np.ndarray, key: str) -> tuple[np.ndarray, np.ndarray, dict]:
+    """Region-deletion test inputs for one image at the network's input size (uint8).
+
+    deletion: the predicted region, dilated by DELETE_DILATE_PX, is replaced by the image blurred with a Gaussian of
+    DELETE_SIGMA_PX (which removes the fracture line but keeps the local brightness, so no artificial edge appears).
+    control: the same region shape is blurred at another place: the first of up to 200 random shifts (seeded by the
+    file name) that keeps the shape inside the image, does not overlap the region and has a mean brightness of at
+    least 0.8 x the region's (on bone rather than background); otherwise the brightest shift without overlap.
+    A femur without a predicted region is left unchanged in both. The third value says what happened:
+    region_px (deleted pixels) and control = matched | dimmer | none (no place without overlap) | no_region."""
+    import cv2
+
+    if not region.any():
+        return img, img, {"region_px": 0, "control": "no_region"}
+    h, w = img.shape
+    scale = h / 768
+    rad = max(1, round(DELETE_DILATE_PX * scale))
+    ker = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (2 * rad + 1, 2 * rad + 1))
+    reg = cv2.dilate(region.astype(np.uint8), ker) > 0
+    blur = cv2.GaussianBlur(img, (0, 0), DELETE_SIGMA_PX * scale)
+    deleted = np.where(reg, blur, img)
+    ys, xs = np.nonzero(reg)
+    y0, y1, x0, x1 = ys.min(), ys.max(), xs.min(), xs.max()
+    target = float(img[reg].mean())
+    rng = np.random.default_rng(int(hashlib.md5(key.encode()).hexdigest()[:8], 16))
+    best, best_mu, placed = None, -1.0, "none"
+    if y1 - y0 + 1 < h and x1 - x0 + 1 < w:
+        for _ in range(200):
+            dy, dx = int(rng.integers(-y0, h - y1)), int(rng.integers(-x0, w - x1))
+            shifted = np.zeros_like(reg)
+            shifted[ys + dy, xs + dx] = True
+            if (shifted & reg).any():
+                continue
+            mu = float(img[shifted].mean())
+            if mu >= 0.8 * target:
+                best, placed = shifted, "matched"
+                break
+            if mu > best_mu:
+                best, best_mu, placed = shifted, mu, "dimmer"
+    control = np.where(best, blur, img) if best is not None else img
+    return deleted, control, {"region_px": int(reg.sum()), "control": placed}
 
 
 # ---------------------------------------------------------------------------------------------- pre-flight
@@ -301,13 +437,13 @@ def run_preflight(args) -> dict:
                  "gpu": torch.cuda.get_device_name(dev) if dev.type == "cuda" else "cpu", "pretrained": not args.no_pretrained}
     try:
         t = time.time()
-        model = build_net(spec, pretrained=not args.no_pretrained, drop_rate=args.drop_rate)
+        model = build_net(spec, pretrained=not args.no_pretrained, drop_rate=args.drop_rate, **net_options(args))
         res["build_seconds"] = round(time.time() - t, 1)  # includes the weight download on first use
         res["params_m"] = round(sum(p.numel() for p in model.parameters()) / 1e6, 2)
         model = model.to(dev).to(memory_format=torch.channels_last)
         torch.backends.cudnn.benchmark = True
         amp = dev.type == "cuda" and not args.no_amp
-        loss_fn = make_loss(spec, args.seg_weight)
+        loss_fn = make_loss(spec, args.seg_weight, joint_weight=args.joint_weight)
         opt = torch.optim.AdamW(param_groups(model, args.weight_decay), lr=1e-7)
         h, w = args.size_hw
         total_gb = torch.cuda.get_device_properties(dev).total_memory / 1e9 if dev.type == "cuda" else None
@@ -351,7 +487,9 @@ def run_preflight(args) -> dict:
         _, train, held, test = fold_records(args, 0)
         micro_steps = args.epochs * (len(train) // mb)
         post_s = 0.05 if spec.has_mask else 0.0  # mask resize, metrics and PNG per femur (CPU)
-        pred_s = (len(held) + len(test)) * (res["s_per_image_inference"] + post_s)
+        n_pass = len(getattr(args, "modes", ["base"]))  # the SLG-Net tests predict every femur again
+        n_test = 0 if args.no_test else len(test)
+        pred_s = (len(held) + n_test) * n_pass * (res["s_per_image_inference"] + post_s)
         # 1.10: data loading and logging overhead; +1 min to build the model and start the data loader
         res["est_fold_min"] = round((micro_steps * res["s_per_micro_step"] * 1.10 + pred_s) / 60 + 1, 1)
         res["ok"] = True
@@ -376,6 +514,7 @@ def _timed_steps(model, loss_fn, opt, amp: bool, dev, mb: int, args) -> dict:
     import torch
 
     h, w = args.size_hw
+    spec = parse_net(args.net)
     scaler = torch.amp.GradScaler("cuda", enabled=amp)  # fresh per try: a failed step can leave it half-way
     gen = torch.Generator().manual_seed(0)
     x = torch.randint(0, 256, (mb, 1, h, w), dtype=torch.uint8, generator=gen)
@@ -392,7 +531,7 @@ def _timed_steps(model, loss_fn, opt, amp: bool, dev, mb: int, args) -> dict:
     for _ in range(max(3, args.preflight_steps)):
         ts = time.time()
         with torch.autocast(device_type=dev.type, dtype=torch.float16, enabled=amp):
-            out = model(normalize(x, dev))
+            out = model(normalize(x, dev), **model_inputs(spec, (m > 0).unsqueeze(1).float().to(dev), 0.5))
         loss, _ = loss_fn(out, m.to(dev), y.to(dev))
         scaler.scale(loss).backward()
         scaler.unscale_(opt)
@@ -515,14 +654,46 @@ def ensemble_rows(test_by_model: dict[int, list[dict]], cache: Cache, map_root: 
     return rows
 
 
+def test_effects(base: list[dict], other: list[dict], tau: float) -> dict:
+    """How an SLG-Net test mode changes the decisions on the fractured femurs (rows matched by file and model):
+    mean change of the fracture probability and of the probability of the true class, the share of correctly
+    classified femurs that become wrong, and the share of wrong ones that become right."""
+    def key(r):
+        return r["file"], str(r["model"])
+
+    def correct(r):
+        return (r["top_cls6"] if r["top_conf"] >= tau else 0) == r["cls6_true"]
+
+    ob = {key(r): r for r in other}
+    fx = [r for r in base if r["cls6_true"] > 0 and key(r) in ob]
+    ok, bad = [r for r in fx if correct(r)], [r for r in fx if not correct(r)]
+
+    def mean(v):
+        return float(np.mean(v)) if len(v) else float("nan")
+
+    return {"n_fractured": len(fx), "n_correct_base": len(ok),
+            "mean_change_fracture_prob": mean([ob[key(r)]["score"] - r["score"] for r in fx]),
+            "mean_change_true_class_prob": mean([ob[key(r)][f"conf_{r['cls6_true']}"] - r[f"conf_{r['cls6_true']}"]
+                                                 for r in fx]),
+            "share_correct_lost": mean([not correct(ob[key(r)]) for r in ok]),
+            "share_wrong_fixed": mean([correct(ob[key(r)]) for r in bad])}
+
+
 def aggregate(args, cache: Cache, done: list[int], skipped: list[int], failed: list[int], t0: float, pf: dict) -> dict:
     spec = parse_net(args.net)
     oof, test_by_model = [], {}
+    modes = list(getattr(args, "modes", ["base"]))[1:]
+    oof_m: dict[str, list[dict]] = {m: [] for m in modes}
+    test_m: dict[str, dict[int, list[dict]]] = {m: {} for m in modes}
     for k in sorted(done):
         fd = args.out / "folds" / f"fold{k}"
         oof += read_csv(fd / "oof.csv")
         if (fd / "test.csv").exists():
             test_by_model[k] = read_csv(fd / "test.csv")
+        for m in modes:
+            oof_m[m] += read_csv(fd / f"oof_{m}.csv")
+            if (fd / f"test_{m}.csv").exists():
+                test_m[m][k] = read_csv(fd / f"test_{m}.csv")
     gpus = sorted({json.loads((args.out / "folds" / f"fold{k}" / "fold_meta.json").read_text())["gpu"] for k in done})
     n_dev = len({g for g in args.gpu_list if g != "cpu"})
     res: dict = {"run": args.out.name, "net": spec.text, "gpu": ", ".join(gpus) + (f" x{n_dev}" if n_dev > 1 else ""),
@@ -553,6 +724,27 @@ def aggregate(args, cache: Cache, done: list[int], skipped: list[int], failed: l
     write_csv(args.out / "per_case_test.csv", [r for k in sorted(test_by_model) for r in test_by_model[k]])
     if ens:
         write_csv(args.out / "per_case_test_ensemble.csv", ens)
+    if modes:  # SLG-Net interpretability tests, at the run's own OOF threshold (Analysis/06 §5)
+        res["tests"] = {}
+        for m in modes:
+            blk: dict = {"oof": evaluate(oof_m[m], tau_oof), "effects_oof": test_effects(oof, oof_m[m], tau_oof)}
+            write_csv(args.out / f"per_case_oof_{m}.csv", oof_m[m])
+            if test_m[m]:
+                write_csv(args.out / f"per_case_test_{m}.csv", [r for k in sorted(test_m[m]) for r in test_m[m][k]])
+                if len(test_m[m]) >= 2 and ens:
+                    ens_m = ensemble_rows(test_m[m], cache, None)  # classification only: no maps in test modes
+                    blk["test_ensemble"] = evaluate(ens_m, tau_oof)
+                    blk["effects_test_ensemble"] = test_effects(ens, ens_m, tau_oof)
+                    write_csv(args.out / f"per_case_test_ensemble_{m}.csv", ens_m)
+            res["tests"][m] = blk
+        if "deletion_control" in res["tests"]:
+            placed = Counter()
+            for k in sorted(done):
+                f = args.out / "folds" / f"fold{k}" / "oof_deletion_info.csv"
+                if f.exists():
+                    with open(f, newline="") as fh:
+                        placed.update(r["control"] for r in csv.DictReader(fh))
+            res["tests"]["deletion_control"]["control_placement_oof"] = dict(placed)
     return res
 
 
@@ -584,23 +776,52 @@ def write_summary(args, res: dict) -> None:
                  ("NSD at 10 px, fractured femurs", "nsd10_fractured_mean", 1, 3, "")]
     tau = (res.get("thresholds") or {}).get("oof_youden", float("nan"))
     n_oof = (res.get("oof") or {}).get("n", 0)
+    has_test = "test_ensemble" in res  # --no-test (development runs): out-of-fold columns only
+    slg_text = "" if spec.kind != "slg" else (
+        f" SLG-Net {spec.variant}: "
+        + (f"teacher forcing over {args.tf_epochs:g} epochs" if args.tf_epochs > 0 else "no teacher forcing")
+        + ", region pooling at 1/"
+        + " and 1/".join(str(v) for v in args.slg_scale_list)
+        + (", mask detached from the decision losses" if args.slg_detach else "")
+        + (f", logit adjustment tau {args.la_tau:g}" if spec.variant == "A6" else "") + ".")
     lines = [f"# {res['run']}: summary", "",
              f"Network `{spec.text}`, input {args.size_hw[0]} x {args.size_hw[1]}, {args.epochs} epochs, batch "
              f"{args.batch} (micro-batch {res.get('micro_batch')} x {res.get('accumulation')}), lr {args.lr}, "
-             f"final weights.",
+             f"final weights.{slg_text}",
              f"Folds completed {res['folds_completed']}, skipped {res['folds_skipped_time_guard']}, "
              f"failed {res['folds_failed']}. Runtime {res['minutes_total']} min on {res.get('gpu') or 'n/a'}."]
     for title, src in ((f"Fracture threshold fitted on the OOF predictions (Youden): {tau:.4f}", res),
                        (f"Plain threshold {PLAIN_TAU} on the fracture probability", res.get(f"at_threshold_{PLAIN_TAU}") or {})):
+        if not has_test:
+            lines += ["", f"## {title}", "", f"| Metric | OOF (n={n_oof:,}) |", "|---|---|"]
+            lines += [f"| {label} | {f(src, 'oof', key, scale, nd)} |" for label, key, scale, nd, _ in rows]
+            continue
         lines += ["", f"## {title}", "",
                   f"| Metric | OOF (n={n_oof:,}) | Test, fold models mean ± SD | Test, ensemble | {ref_title} |",
                   "|---|---|---|---|---|"]
         for label, key, scale, nd, p in rows:
             lines.append(f"| {label} | {f(src, 'oof', key, scale, nd)} | {f(src, 'test_models_mean', key, scale, nd)} ± "
                          f"{f(src, 'test_models_sd', key, scale, nd)} | {f(src, 'test_ensemble', key, scale, nd)} | {p} |")
-    lines += ["", "Paper column: González et al. 2025 (Table 3; their final model's Dice is the mean over detected "
-              "fractures, definition not stated). Their classifiers and YOLO models were trained on one split, ours on "
-              "our 5 folds (one model per fold, final weights)."]
+    if res.get("tests"):
+        test_col = (lambda blk: f" {f(blk, 'test_ensemble', 'accuracy_6class', 100, 1)} |") if has_test else (lambda blk: "")
+        lines += ["", "## Interpretability tests (SLG-Net, Analysis/06 §5), at the OOF threshold", "",
+                  "| Mode | OOF 6-class accuracy (%) | OOF macro-F1 | OOF Garden I-II recall | Change of P(true class), "
+                  "fractured | Correct fractured femurs that become wrong |" + (" Test ensemble accuracy (%) |" if has_test else ""),
+                  "|---|---|---|---|---|---|" + ("---|" if has_test else ""),
+                  f"| as used | {f(res, 'oof', 'accuracy_6class', 100, 1)} | {f(res, 'oof', 'macro_f1')} | "
+                  f"{f(res, 'oof', 'garden12_recall')} | | |" + test_col(res)]
+        for m, blk in res["tests"].items():
+            e = blk.get("effects_oof") or {}
+            lines.append(f"| {m.replace('_', ' ')} | {f(blk, 'oof', 'accuracy_6class', 100, 1)} | {f(blk, 'oof', 'macro_f1')} "
+                         f"| {f(blk, 'oof', 'garden12_recall')} | {f(blk, 'effects_oof', 'mean_change_true_class_prob')} "
+                         f"| {f(blk, 'effects_oof', 'share_correct_lost', 100, 1)}% of {e.get('n_correct_base', 'n/a')} |"
+                         + test_col(blk))
+    if has_test:
+        lines += ["", "Paper column: González et al. 2025 (Table 3; their final model's Dice is the mean over detected "
+                  "fractures, definition not stated). Their classifiers and YOLO models were trained on one split, ours "
+                  "on our 5 folds (one model per fold, final weights)."]
+    else:
+        lines += ["", "Development run (`--no-test`): the held-out folds only; the test set was not predicted."]
     (args.out / "summary.md").write_text("\n".join(lines) + "\n")
 
 

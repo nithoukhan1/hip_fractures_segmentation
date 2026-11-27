@@ -7,7 +7,8 @@ Usage (from the repository root, i.e. the local project folder):
 
 What it does, step by step:
   1. Opens the zip downloaded from the Kaggle version's Output tab. It finds the run folder by its
-     run_meta.json (written by kaggle/run.py).
+     run_meta.json (written by kaggle/run.py). The zip of a parallel group (two runs in one session, see
+     kaggle/run.py) holds one run folder per run; each is filed separately, with its own register line.
   2. Copies that folder to results/<RUN>/. It refuses to overwrite an existing run: a re-run must
      get a new name (for example S01_yolov8s_seg_1024_r2).
   3. Creates results/<RUN>/NOTES.md from results/RUN_NOTES_TEMPLATE.md, unless the run already has one.
@@ -98,19 +99,40 @@ def main() -> None:
     zpath = Path(args.zip).resolve()
 
     with zipfile.ZipFile(zpath) as zf, tempfile.TemporaryDirectory() as tmp:
-        metas = [n for n in zf.namelist() if n.endswith("run_meta.json")]
-        if len(metas) != 1:
-            sys.exit(f"expected exactly one run_meta.json in {zpath.name}, found {len(metas)}")
-        prefix = metas[0][: -len("run_meta.json")]
-        zf.extractall(tmp, members=[n for n in zf.namelist() if n.startswith(prefix)])
-        src = Path(tmp) / prefix
-        meta = json.loads((src / "run_meta.json").read_text())
-        run = meta.get("run") or src.name
-        dest = RESULTS / run
-        if dest.exists():
-            sys.exit(f"results/{run} already exists. A re-run needs a new name; nothing was changed.")
-        shutil.copytree(src, dest)
+        metas = sorted(n for n in zf.namelist() if n.endswith("run_meta.json"))
+        if not metas:
+            sys.exit(f"no run_meta.json in {zpath.name}")
+        found = []
+        for m in metas:
+            prefix = m[: -len("run_meta.json")]
+            meta = json.loads(zf.read(m))
+            if len(metas) > 1 and not meta.get("group"):
+                sys.exit(f"{zpath.name} holds {len(metas)} runs, but {m} is not part of a parallel group")
+            found.append((prefix, meta))
+        names = [meta.get("run") or Path(prefix).name for prefix, meta in found]
+        clash = [n for n in names if (RESULTS / n).exists()]
+        if clash:
+            sys.exit(f"results/{clash[0]} already exists. A re-run needs a new name; nothing was changed.")
+        for (prefix, meta), run in zip(found, names):
+            zf.extractall(tmp, members=[n for n in zf.namelist() if n.startswith(prefix)])
+            shutil.copytree(Path(tmp) / prefix, RESULTS / run)
 
+    for (prefix, meta), run in zip(found, names):
+        file_run(run, meta, args)
+
+    filed = zpath.parent / "filed"
+    try:
+        filed.mkdir(exist_ok=True)
+        zpath.replace(filed / zpath.name)
+        moved = f"moved the zip to {filed.relative_to(REPO) if filed.is_relative_to(REPO) else filed}"
+    except OSError as e:  # e.g. no permission to move; filing still succeeded
+        moved = f"could not move the zip ({e}); you can move it to results/_inbox/filed/ by hand"
+    print(moved)
+
+
+def file_run(run: str, meta: dict, args) -> None:
+    """Notes stub and register line for a run folder already copied to results/<run>/."""
+    dest = RESULTS / run
     if not (dest / "NOTES.md").exists():
         tpl = (RESULTS / "RUN_NOTES_TEMPLATE.md").read_text()
         (dest / "NOTES.md").write_text(tpl.replace("<RUN>", run).replace("<PURPOSE>", args.purpose or "(fill in)"))
@@ -124,15 +146,7 @@ def main() -> None:
            f"{str(meta.get('git_commit', ''))[:7]} | {args.version} | {gpu} | {meta.get('runtime_minutes', '')} | "
            f"{meta.get('exit_code', '')} | {result} | {args.purpose} |")
     reg.write_text("\n".join(lines + [row]) + "\n")
-
-    filed = zpath.parent / "filed"
-    try:
-        filed.mkdir(exist_ok=True)
-        zpath.replace(filed / zpath.name)
-        moved = f"moved the zip to {filed.relative_to(REPO) if filed.is_relative_to(REPO) else filed}"
-    except OSError as e:  # e.g. no permission to move; filing still succeeded
-        moved = f"could not move the zip ({e}); you can move it to results/_inbox/filed/ by hand"
-    print(f"filed results/{run}/ ({sum(1 for _ in dest.rglob('*'))} files), register line #{n} added, {moved}")
+    print(f"filed results/{run}/ ({sum(1 for _ in dest.rglob('*'))} files), register line #{n} added")
     print("register line:", row)
 
 
