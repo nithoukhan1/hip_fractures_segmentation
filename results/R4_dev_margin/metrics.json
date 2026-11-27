@@ -1,0 +1,676 @@
+{
+  "run": "R4_dev_margin",
+  "net": "ref:convnext_tiny.fb_in22k_ft_in1k:R4",
+  "gpu": "Tesla T4",
+  "folds_requested": [
+    0
+  ],
+  "folds_completed": [
+    0
+  ],
+  "folds_skipped_time_guard": [],
+  "folds_failed": [],
+  "minutes_total": 81.9,
+  "micro_batch": 16,
+  "accumulation": 1,
+  "thresholds": {
+    "oof_youden": 0.9745357,
+    "plain": 0.5
+  },
+  "oof": {
+    "n": 208,
+    "threshold": 0.974536,
+    "auc_fracture": 0.997140522875817,
+    "fracture_sensitivity": 0.9558823529411765,
+    "fracture_specificity": 1.0,
+    "fracture_ppv": 1.0,
+    "fracture_npv": 0.9230769230769231,
+    "fracture_accuracy": 0.9711538461538461,
+    "fracture_f1": 0.9774436090225563,
+    "fracture_tp": 130,
+    "fracture_tn": 72,
+    "fracture_fp": 0,
+    "fracture_fn": 6,
+    "accuracy_6class": 0.8894230769230769,
+    "macro_f1": 0.8293633016610142,
+    "balanced_accuracy": 0.8078536296673552,
+    "kappa": 0.8539325842696629,
+    "garden12_recall": 0.7272727272727273,
+    "garden12_detected": 0.9090909090909091,
+    "errors": {
+      "detection": 6,
+      "location": 8,
+      "grade": 9
+    },
+    "per_class": {
+      "NF": {
+        "precision": 0.9230769230769231,
+        "recall": 1.0,
+        "f1": 0.9600000000000001,
+        "support": 72
+      },
+      "2AB": {
+        "precision": 0.7272727272727273,
+        "recall": 0.7272727272727273,
+        "f1": 0.7272727272727273,
+        "support": 11
+      },
+      "2CD": {
+        "precision": 0.94,
+        "recall": 0.9215686274509803,
+        "f1": 0.9306930693069307,
+        "support": 51
+      },
+      "3AB": {
+        "precision": 0.7419354838709677,
+        "recall": 0.8518518518518519,
+        "f1": 0.7931034482758621,
+        "support": 27
+      },
+      "3CDE": {
+        "precision": 0.9117647058823529,
+        "recall": 0.775,
+        "f1": 0.8378378378378379,
+        "support": 40
+      },
+      "4": {
+        "precision": 1.0,
+        "recall": 0.5714285714285714,
+        "f1": 0.7272727272727273,
+        "support": 7
+      }
+    },
+    "confusion_matrix": [
+      [
+        72,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        1,
+        8,
+        0,
+        2,
+        0,
+        0
+      ],
+      [
+        1,
+        2,
+        47,
+        1,
+        0,
+        0
+      ],
+      [
+        2,
+        0,
+        0,
+        23,
+        2,
+        0
+      ],
+      [
+        0,
+        1,
+        3,
+        5,
+        31,
+        0
+      ],
+      [
+        2,
+        0,
+        0,
+        0,
+        1,
+        4
+      ]
+    ],
+    "dice_fractured_mean": 0.7554670735294118,
+    "dice_fractured_median": 0.8126,
+    "dice_detected_mean": 0.7903347846153845,
+    "iou_fractured_mean": 0.637384125,
+    "nsd2_fractured_mean": 0.04951386029411765,
+    "hd95_detected_median": 60.75688824600801,
+    "n_fractured": 136,
+    "n_fractured_missed": 6,
+    "dice_per_class": {
+      "2AB": 0.6804027272727272,
+      "2CD": 0.7757510196078431,
+      "3AB": 0.7232968148148148,
+      "3CDE": 0.8142143000000001,
+      "4": 0.5140291428571429
+    },
+    "nsd10_fractured_mean": 0.2279899338235294,
+    "nsd20_fractured_mean": 0.4314599926470588,
+    "ece_derived": 0.09795978534233751,
+    "brier_derived": 0.19738014773546922
+  },
+  "oof_per_fold": {
+    "0": {
+      "n": 208,
+      "threshold": 0.974536,
+      "auc_fracture": 0.997140522875817,
+      "fracture_sensitivity": 0.9558823529411765,
+      "fracture_specificity": 1.0,
+      "fracture_ppv": 1.0,
+      "fracture_npv": 0.9230769230769231,
+      "fracture_accuracy": 0.9711538461538461,
+      "fracture_f1": 0.9774436090225563,
+      "fracture_tp": 130,
+      "fracture_tn": 72,
+      "fracture_fp": 0,
+      "fracture_fn": 6,
+      "accuracy_6class": 0.8894230769230769,
+      "macro_f1": 0.8293633016610142,
+      "balanced_accuracy": 0.8078536296673552,
+      "kappa": 0.8539325842696629,
+      "garden12_recall": 0.7272727272727273,
+      "garden12_detected": 0.9090909090909091,
+      "dice_fractured_mean": 0.7554670735294118,
+      "dice_fractured_median": 0.8126,
+      "dice_detected_mean": 0.7903347846153845,
+      "iou_fractured_mean": 0.637384125,
+      "nsd2_fractured_mean": 0.04951386029411765,
+      "hd95_detected_median": 60.75688824600801,
+      "n_fractured": 136,
+      "n_fractured_missed": 6,
+      "nsd10_fractured_mean": 0.2279899338235294,
+      "nsd20_fractured_mean": 0.4314599926470588,
+      "ece_derived": 0.09795978534233751,
+      "brier_derived": 0.19738014773546922
+    }
+  },
+  "at_threshold_0.5": {
+    "oof": {
+      "n": 208,
+      "threshold": 0.5,
+      "auc_fracture": 0.997140522875817,
+      "fracture_sensitivity": 0.9558823529411765,
+      "fracture_specificity": 1.0,
+      "fracture_ppv": 1.0,
+      "fracture_npv": 0.9230769230769231,
+      "fracture_accuracy": 0.9711538461538461,
+      "fracture_f1": 0.9774436090225563,
+      "fracture_tp": 130,
+      "fracture_tn": 72,
+      "fracture_fp": 0,
+      "fracture_fn": 6,
+      "accuracy_6class": 0.8894230769230769,
+      "macro_f1": 0.8293633016610142,
+      "balanced_accuracy": 0.8078536296673552,
+      "kappa": 0.8539325842696629,
+      "garden12_recall": 0.7272727272727273,
+      "garden12_detected": 0.9090909090909091,
+      "errors": {
+        "detection": 6,
+        "location": 8,
+        "grade": 9
+      },
+      "per_class": {
+        "NF": {
+          "precision": 0.9230769230769231,
+          "recall": 1.0,
+          "f1": 0.9600000000000001,
+          "support": 72
+        },
+        "2AB": {
+          "precision": 0.7272727272727273,
+          "recall": 0.7272727272727273,
+          "f1": 0.7272727272727273,
+          "support": 11
+        },
+        "2CD": {
+          "precision": 0.94,
+          "recall": 0.9215686274509803,
+          "f1": 0.9306930693069307,
+          "support": 51
+        },
+        "3AB": {
+          "precision": 0.7419354838709677,
+          "recall": 0.8518518518518519,
+          "f1": 0.7931034482758621,
+          "support": 27
+        },
+        "3CDE": {
+          "precision": 0.9117647058823529,
+          "recall": 0.775,
+          "f1": 0.8378378378378379,
+          "support": 40
+        },
+        "4": {
+          "precision": 1.0,
+          "recall": 0.5714285714285714,
+          "f1": 0.7272727272727273,
+          "support": 7
+        }
+      },
+      "confusion_matrix": [
+        [
+          72,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          8,
+          0,
+          2,
+          0,
+          0
+        ],
+        [
+          1,
+          2,
+          47,
+          1,
+          0,
+          0
+        ],
+        [
+          2,
+          0,
+          0,
+          23,
+          2,
+          0
+        ],
+        [
+          0,
+          1,
+          3,
+          5,
+          31,
+          0
+        ],
+        [
+          2,
+          0,
+          0,
+          0,
+          1,
+          4
+        ]
+      ],
+      "dice_fractured_mean": 0.7554670735294118,
+      "dice_fractured_median": 0.8126,
+      "dice_detected_mean": 0.7903347846153845,
+      "iou_fractured_mean": 0.637384125,
+      "nsd2_fractured_mean": 0.04951386029411765,
+      "hd95_detected_median": 60.75688824600801,
+      "n_fractured": 136,
+      "n_fractured_missed": 6,
+      "dice_per_class": {
+        "2AB": 0.6804027272727272,
+        "2CD": 0.7757510196078431,
+        "3AB": 0.7232968148148148,
+        "3CDE": 0.8142143000000001,
+        "4": 0.5140291428571429
+      },
+      "nsd10_fractured_mean": 0.2279899338235294,
+      "nsd20_fractured_mean": 0.4314599926470588,
+      "ece_derived": 0.09795978534233751,
+      "brier_derived": 0.19738014773546922
+    },
+    "oof_per_fold": {
+      "0": {
+        "n": 208,
+        "threshold": 0.5,
+        "auc_fracture": 0.997140522875817,
+        "fracture_sensitivity": 0.9558823529411765,
+        "fracture_specificity": 1.0,
+        "fracture_ppv": 1.0,
+        "fracture_npv": 0.9230769230769231,
+        "fracture_accuracy": 0.9711538461538461,
+        "fracture_f1": 0.9774436090225563,
+        "fracture_tp": 130,
+        "fracture_tn": 72,
+        "fracture_fp": 0,
+        "fracture_fn": 6,
+        "accuracy_6class": 0.8894230769230769,
+        "macro_f1": 0.8293633016610142,
+        "balanced_accuracy": 0.8078536296673552,
+        "kappa": 0.8539325842696629,
+        "garden12_recall": 0.7272727272727273,
+        "garden12_detected": 0.9090909090909091,
+        "dice_fractured_mean": 0.7554670735294118,
+        "dice_fractured_median": 0.8126,
+        "dice_detected_mean": 0.7903347846153845,
+        "iou_fractured_mean": 0.637384125,
+        "nsd2_fractured_mean": 0.04951386029411765,
+        "hd95_detected_median": 60.75688824600801,
+        "n_fractured": 136,
+        "n_fractured_missed": 6,
+        "nsd10_fractured_mean": 0.2279899338235294,
+        "nsd20_fractured_mean": 0.4314599926470588,
+        "ece_derived": 0.09795978534233751,
+        "brier_derived": 0.19738014773546922
+      }
+    }
+  },
+  "tests": {
+    "self": {
+      "oof": {
+        "n": 208,
+        "threshold": 0.974536,
+        "auc_fracture": 0.9358660130718954,
+        "fracture_sensitivity": 0.3897058823529412,
+        "fracture_specificity": 1.0,
+        "fracture_ppv": 1.0,
+        "fracture_npv": 0.4645161290322581,
+        "fracture_accuracy": 0.6009615384615384,
+        "fracture_f1": 0.5608465608465608,
+        "fracture_tp": 53,
+        "fracture_tn": 72,
+        "fracture_fp": 0,
+        "fracture_fn": 83,
+        "accuracy_6class": 0.5865384615384616,
+        "macro_f1": 0.37923114575096956,
+        "balanced_accuracy": 0.37217553688141924,
+        "kappa": 0.398378905593112,
+        "garden12_recall": 0.0,
+        "garden12_detected": 0.0,
+        "errors": {
+          "detection": 83,
+          "location": 2,
+          "grade": 1
+        },
+        "per_class": {
+          "NF": {
+            "precision": 0.4645161290322581,
+            "recall": 1.0,
+            "f1": 0.6343612334801763,
+            "support": 72
+          },
+          "2AB": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 11
+          },
+          "2CD": {
+            "precision": 0.9259259259259259,
+            "recall": 0.49019607843137253,
+            "f1": 0.6410256410256411,
+            "support": 51
+          },
+          "3AB": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 27
+          },
+          "3CDE": {
+            "precision": 1.0,
+            "recall": 0.6,
+            "f1": 0.7499999999999999,
+            "support": 40
+          },
+          "4": {
+            "precision": 1.0,
+            "recall": 0.14285714285714285,
+            "f1": 0.25,
+            "support": 7
+          }
+        },
+        "confusion_matrix": [
+          [
+            72,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            11,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            26,
+            0,
+            25,
+            0,
+            0,
+            0
+          ],
+          [
+            27,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            13,
+            0,
+            2,
+            1,
+            24,
+            0
+          ],
+          [
+            6,
+            0,
+            0,
+            0,
+            0,
+            1
+          ]
+        ],
+        "dice_fractured_mean": 0.31764272794117643,
+        "dice_fractured_median": 0.0,
+        "dice_detected_mean": 0.8150832264150943,
+        "iou_fractured_mean": 0.27073651470588234,
+        "nsd2_fractured_mean": 0.022557933823529414,
+        "hd95_detected_median": 59.77457653551382,
+        "n_fractured": 136,
+        "n_fractured_missed": 83,
+        "dice_per_class": {
+          "2AB": 0.0,
+          "2CD": 0.3887772352941177,
+          "3AB": 0.0,
+          "3CDE": 0.56391155,
+          "4": 0.11647285714285714
+        },
+        "nsd10_fractured_mean": 0.09843622794117646,
+        "nsd20_fractured_mean": 0.17242427205882355,
+        "ece_derived": 0.26808449232706366,
+        "brier_derived": 0.555123564960432
+      },
+      "effects_oof": {
+        "n_fractured": 136,
+        "n_correct_base": 113,
+        "mean_change_fracture_prob": -0.3511441288235294,
+        "mean_change_true_class_prob": -0.30527828558823533,
+        "share_correct_lost": 0.5575221238938053,
+        "share_wrong_fixed": 0.0
+      },
+      "effects_healthy_oof": {
+        "n_fractured": 72,
+        "n_correct_base": 72,
+        "mean_change_fracture_prob": -0.0012065848611111111,
+        "mean_change_true_class_prob": 0.0012065848611111066,
+        "share_correct_lost": 0.0,
+        "share_wrong_fixed": NaN
+      }
+    },
+    "random": {
+      "oof": {
+        "n": 208,
+        "threshold": 0.974536,
+        "auc_fracture": 0.9939746732026143,
+        "fracture_sensitivity": 0.9411764705882353,
+        "fracture_specificity": 1.0,
+        "fracture_ppv": 1.0,
+        "fracture_npv": 0.9,
+        "fracture_accuracy": 0.9615384615384616,
+        "fracture_f1": 0.9696969696969697,
+        "fracture_tp": 128,
+        "fracture_tn": 72,
+        "fracture_fp": 0,
+        "fracture_fn": 8,
+        "accuracy_6class": 0.875,
+        "macro_f1": 0.812516724231083,
+        "balanced_accuracy": 0.7803564355034943,
+        "kappa": 0.8340187833773249,
+        "garden12_recall": 0.6363636363636364,
+        "garden12_detected": 0.8181818181818182,
+        "errors": {
+          "detection": 8,
+          "location": 9,
+          "grade": 9
+        },
+        "per_class": {
+          "NF": {
+            "precision": 0.9,
+            "recall": 1.0,
+            "f1": 0.9473684210526316,
+            "support": 72
+          },
+          "2AB": {
+            "precision": 0.7777777777777778,
+            "recall": 0.6363636363636364,
+            "f1": 0.7000000000000001,
+            "support": 11
+          },
+          "2CD": {
+            "precision": 0.9038461538461539,
+            "recall": 0.9215686274509803,
+            "f1": 0.9126213592233009,
+            "support": 51
+          },
+          "3AB": {
+            "precision": 0.7241379310344828,
+            "recall": 0.7777777777777778,
+            "f1": 0.75,
+            "support": 27
+          },
+          "3CDE": {
+            "precision": 0.9117647058823529,
+            "recall": 0.775,
+            "f1": 0.8378378378378379,
+            "support": 40
+          },
+          "4": {
+            "precision": 1.0,
+            "recall": 0.5714285714285714,
+            "f1": 0.7272727272727273,
+            "support": 7
+          }
+        },
+        "confusion_matrix": [
+          [
+            72,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            2,
+            7,
+            0,
+            2,
+            0,
+            0
+          ],
+          [
+            1,
+            2,
+            47,
+            1,
+            0,
+            0
+          ],
+          [
+            3,
+            0,
+            1,
+            21,
+            2,
+            0
+          ],
+          [
+            0,
+            0,
+            4,
+            5,
+            31,
+            0
+          ],
+          [
+            2,
+            0,
+            0,
+            0,
+            1,
+            4
+          ]
+        ],
+        "dice_fractured_mean": 0.7445702941176471,
+        "dice_fractured_median": 0.813943,
+        "dice_detected_mean": 0.7911059375,
+        "iou_fractured_mean": 0.6294245147058823,
+        "nsd2_fractured_mean": 0.049361169117647055,
+        "hd95_detected_median": 59.87147000046686,
+        "n_fractured": 136,
+        "n_fractured_missed": 8,
+        "dice_per_class": {
+          "2AB": 0.6240030909090909,
+          "2CD": 0.7745230196078432,
+          "3AB": 0.6910207037037037,
+          "3CDE": 0.816000575,
+          "4": 0.5141814285714286
+        },
+        "nsd10_fractured_mean": 0.231458625,
+        "nsd20_fractured_mean": 0.42964333088235296,
+        "ece_derived": 0.09584643900961023,
+        "brier_derived": 0.19551112282236666
+      },
+      "effects_oof": {
+        "n_fractured": 136,
+        "n_correct_base": 113,
+        "mean_change_fracture_prob": 0.0037899803676470604,
+        "mean_change_true_class_prob": -0.001825733455882352,
+        "share_correct_lost": 0.02654867256637168,
+        "share_wrong_fixed": 0.0
+      },
+      "effects_healthy_oof": {
+        "n_fractured": 72,
+        "n_correct_base": 72,
+        "mean_change_fracture_prob": 0.0003847215277777777,
+        "mean_change_true_class_prob": -0.00038472152777777665,
+        "share_correct_lost": 0.0,
+        "share_wrong_fixed": NaN
+      }
+    }
+  },
+  "reference": {
+    "oof": {
+      "pointing_game": {
+        "n": 136,
+        "hit_rate": 0.5441176470588235,
+        "chance": 0.07977647058823528
+      },
+      "sources": {
+        "base: nearest": 208,
+        "random: random": 208,
+        "self: self": 208
+      }
+    }
+  }
+}

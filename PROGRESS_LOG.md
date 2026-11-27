@@ -4,6 +4,52 @@ Newest entries at the top. Each entry: what was done, what it produced, what com
 
 ---
 
+## 2026-11-27 · Step 18: 11 runs filed; C11 (Paper A's freeze stands); C12 (Paper B's settings frozen)
+
+**Done (you)**
+- Merged PR #12 and created the tag `A-v1-frozen`, then merged PR #13.
+- Ran eight Kaggle sessions:
+  - `A_dev_seed2` from `main`;
+  - the five final runs `A2_region` … `A6_slgnet` from the tag;
+  - `R_dev_round1` and `R_dev_round2` from `main`.
+- Put the zips and notebooks in `results\_inbox\filed\`.
+
+**Done (me)**
+1. **Verified the tag and the launches:**
+   - `A-v1-frozen` points at `f96f84c`, the merge of PR #12;
+   - each final run's log shows that commit, and all five trained 5 of 5 folds with exit code 0 (2.38–2.91 h each);
+   - `A_dev_seed2` cloned `f96f84c`, and the R development groups cloned `2619b39` (the merge of PR #13).
+2. **Filed 11 runs** (register lines 20–30): the eight zips hold 11 runs, because each group zip holds two. Every run was checked:
+   - all folds present;
+   - every out-of-fold femur predicted once, by the model that did not train on it;
+   - `metrics.json` equal to a re-evaluation of the per-case files.
+   The second-seed runs were filed and judged first; **no final result was opened before C11.**
+3. **C11, Paper A's second-seed check** (`results/analysis/C11_paperA_seed2/report.md`), by the rule of Analysis/06 §10:
+   - over the two seeds, pooling at 1/32 only beats the base by **+.054 macro-F1** (.827 vs .773), with Dice +.016 and .827 ≥ .79;
+   - all three conditions hold, so **the freeze stands** and the five final runs are valid;
+   - seed noise: macro-F1 moved by at most .004 between seeds, and Dice by .010.
+4. **C12, Paper B's fold-0 development** (`results/analysis/C12_paperB_dev_fold0/report.md`), by the rule of Analysis/08 §4:
+   - **go / no-go passes:** the base (mean of two seeds) has Dice .770 on fractured femurs (M0 .749) and macro-F1 .818 (M0 .822);
+   - D1 (attention over the whole reference): Dice +.009, below .01 and within the seed noise N = .009, and macro-F1 −.022, so the local window stays;
+   - D2 (AASN's margin loss): Dice −.014, so there is no margin loss;
+   - **the model uses its references:** with the target as its own reference, Dice falls by .090 and P(fracture) on fractured femurs by .49. A random healthy reference instead of the 3 nearest changes Dice by only .004–.005 (a first hint for RQ-B1);
+   - the difference map hits the fracture in 64% and 92% of fractured femurs (two seeds), against 8% by chance.
+5. **Paper B's freeze, ready** (Analysis/08 §8): no setting changes.
+   - The eight final runs are in `kaggle/runs.json`: `R4_refrac`, `R3_nearest_ref`, `R2_random_ref`, `R7_partner`, `R1_aasn`, `R5_concat`, `R6a_no_align` and `R6b_affine`.
+   - The training code is unchanged since the development runs (`2619b39`).
+   - Measured cost: an R4 fold takes 81 min on one T4. So the k = 3 runs take about 4.2 h each, the k = 1 runs about 3 h: **about 29 h in all.**
+6. **Notes and trackers:** run notes for all 11 runs; register decisions; addenda Analysis/06 §11 and Analysis/08 §8; `kaggle/README.md` (measured times, the R final runs, the steps for the tag `B-v1-frozen`), `EXPERIMENTS.md`, `PROJECT_TRACKER.md`, `README.md`.
+
+**Next**
+- You:
+  1. merge this PR;
+  2. create the tag `B-v1-frozen` on `main` (GitHub → Releases, as for `A-v1-frozen`);
+  3. launch `R4_refrac` with `BRANCH = "B-v1-frozen"`; then `R3_nearest_ref` and `R2_random_ref`, `R7_partner`, `R1_aasn`, and `R5_concat`, `R6a_no_align`, `R6b_affine`, as your GPU quota allows;
+  4. send the zips as they finish.
+- Me: C07–C09, the analyses of Paper A's final runs (Step 19); then C13–C16 as the R runs arrive.
+
+---
+
 ## 2026-11-27 · Step 17: Paper B step B-2: the RefFrac protocol, the model and the fold-0 development runs
 
 **Done (you)**

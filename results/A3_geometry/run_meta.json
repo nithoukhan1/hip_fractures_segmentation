@@ -1,0 +1,9 @@
+{
+  "run": "A3_geometry",
+  "step": "3",
+  "git_commit": "f96f84cc134570ab25bda90ee7b6146f4e328c86",
+  "command": "/usr/bin/python3 /tmp/code/scripts/train_net.py --net slg:convnext_tiny.fb_in22k_ft_in1k:A3 --size 768x512 --epochs 60 --batch 16 --folds 0,1,2,3,4 --gpus 0,1 --slg-scales 32 --extra-tests oracle --out /kaggle/working/results/A3_geometry",
+  "started_utc": "2026-11-27T07:32:24Z",
+  "runtime_minutes": 142.75,
+  "exit_code": 0
+}

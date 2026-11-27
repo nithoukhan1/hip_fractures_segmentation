@@ -1,0 +1,60 @@
+{
+  "run": "R4_dev_global",
+  "step": "5",
+  "git_commit": "2619b394ca36503c6b7e7017512d0b87fa279973",
+  "command": "/usr/bin/python3 /tmp/code/scripts/train_net.py --net ref:convnext_tiny.fb_in22k_ft_in1k:R4 --size 768x512 --epochs 60 --batch 16 --folds 0 --no-test --extra-tests self,random --ref-window 0 --out /kaggle/working/results/R_dev_round2/R4_dev_global --gpus 0 --workers 2 --work /kaggle/working/work/R4_dev_global",
+  "started_utc": "2026-11-27T08:19:39Z",
+  "group": "R_dev_round2"
+}
+image cache /tmp/femurseg_cache/768x512_7ba784de8d7c ready in 43 s
+pre-flight: micro-batch 16 x 1, 1.549 s per micro-step, peak 12.55 GB; about 90.7 min per fold
+[fold 0] started on GPU 0; log /kaggle/working/work/R4_dev_global/logs/fold0.log
+[fold 0] finished after 84.9 min
+# R4_dev_global: summary
+
+Network `ref:convnext_tiny.fb_in22k_ft_in1k:R4`, input 768 x 512, 60 epochs, batch 16 (micro-batch 16 x 1), lr 0.0002, final weights. RefFrac R4: 3 reference(s) per femur (nearest), alignment attention (global), fusion difference; references encoded by the shared encoder without gradient.
+Folds completed [0], skipped [], failed []. Runtime 87.0 min on Tesla T4.
+
+## Fracture threshold fitted on the OOF predictions (Youden): 0.0128
+
+| Metric | OOF (n=208) |
+|---|---|
+| Fracture AUC | 0.999 |
+| Fracture sensitivity | 0.985 |
+| Fracture specificity | 0.986 |
+| 6-class accuracy (%) | 87.0 |
+| 6-class macro-F1 | 0.796 |
+| Garden I-II recall | 0.545 |
+| Dice, fractured femurs (missed = 0) | 0.778 |
+| Dice, detected fractures only | 0.790 |
+| NSD at 10 px, fractured femurs | 0.239 |
+
+## Plain threshold 0.5 on the fracture probability
+
+| Metric | OOF (n=208) |
+|---|---|
+| Fracture AUC | 0.999 |
+| Fracture sensitivity | 0.956 |
+| Fracture specificity | 1.000 |
+| 6-class accuracy (%) | 86.5 |
+| 6-class macro-F1 | 0.793 |
+| Garden I-II recall | 0.545 |
+| Dice, fractured femurs (missed = 0) | 0.761 |
+| Dice, detected fractures only | 0.796 |
+| NSD at 10 px, fractured femurs | 0.233 |
+
+## Reference tests (RefFrac, Analysis/08 §2.6), at the OOF threshold
+
+| Mode | OOF Dice, fractured | OOF macro-F1 | OOF Garden I-II recall | Change of P(fracture), fractured | Change of P(fracture), healthy | Healthy femurs that become fractured |
+|---|---|---|---|---|---|---|
+| as used | 0.778 | 0.796 | 0.545 | | | |
+| self | 0.743 | 0.772 | 0.545 | -0.063 | -0.002 | 0.0% of 71 |
+| random | 0.772 | 0.791 | 0.545 | -0.006 | -0.002 | 0.0% of 71 |
+
+Pointing game of the difference map |T - R~| at 1/16 (base mode, fractured femurs: the cell with the largest difference touches the released mask): OOF 0.779 (chance 0.080, n = 136).
+
+Development run (`--no-test`): the held-out folds only; the test set was not predicted.
+
+folds done [0], skipped [], failed []; total 87.0 min
+
+run 'R4_dev_global' finished with exit code 0 in 87.04 min; outputs in /kaggle/working/results/R_dev_round2/R4_dev_global

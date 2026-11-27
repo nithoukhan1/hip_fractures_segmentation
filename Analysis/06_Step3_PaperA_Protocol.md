@@ -248,3 +248,15 @@ Written on 2026-11-27, before either second-seed run was launched. §1–§9 are
    - If the person then changes the frozen settings, the five final runs are repeated from a new tag (about 13 h).
 3. **Seed noise is reported:** the difference between the two seeds of each setting, for macro-F1 and Dice. It shows how large a single-seed difference on fold 0 can be by chance, the yardstick behind the .02 margin of §4.
 4. **No other decision of C06 is reopened.** Teacher forcing and the end-to-end mask stay as decided in §9.
+
+## 11. Addendum (2026-11-27): result of the second-seed check (C11): the freeze stands
+
+Written on 2026-11-27, after the second-seed runs and before any result of the five final runs was opened. §1–§10 are unchanged.
+
+- **Runs:** `A6_dev_base_s2` and `A6_dev_scale32_s2` (register lines 20–21), launched from `main` = `f96f84c`, 49.4 min on T4 x2. Both trained fold 0 completely.
+- **Result** (`results/analysis/C11_paperA_seed2/report.md`), means of the two seeds on fold 0:
+  - macro-F1: base .773, pooling at 1/32 only **.827** (+.054);
+  - Dice on fractured femurs: base .749, 1/32 **.765** (+.016).
+- **Rule of §10:** all three conditions hold (+.054 ≥ .02; Dice not lower; .827 ≥ .79). **Pooling at 1/32 only stays, and the freeze `A-v1-frozen` stands.**
+- **Seed noise:** macro-F1 moved by .004 (base) and .001 (1/32) between seeds; Dice by .010 for both.
+- **The five final runs** (`A2_region` … `A6_slgnet`, register lines 22–26) were launched from the tag `A-v1-frozen` = `f96f84c`; each log shows that commit, and each trained all 5 folds (2.4–2.9 h). They were filed after this result, and their analysis (C07–C09) follows §7.
