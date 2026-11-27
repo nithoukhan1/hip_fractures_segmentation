@@ -260,3 +260,49 @@ Written on 2026-11-27, after the second-seed runs and before any result of the f
 - **Rule of §10:** all three conditions hold (+.054 ≥ .02; Dice not lower; .827 ≥ .79). **Pooling at 1/32 only stays, and the freeze `A-v1-frozen` stands.**
 - **Seed noise:** macro-F1 moved by .004 (base) and .001 (1/32) between seeds; Dice by .010 for both.
 - **The five final runs** (`A2_region` … `A6_slgnet`, register lines 22–26) were launched from the tag `A-v1-frozen` = `f96f84c`; each log shows that commit, and each trained all 5 folds (2.4–2.9 h). They were filed after this result, and their analysis (C07–C09) follows §7.
+
+## 12. Addendum (2026-11-27): results of the final runs (C07–C09)
+
+Written on 2026-11-27, after the five final runs were filed and C11 had confirmed the freeze (§11). §1–§11 are unchanged.
+
+**How the multiple comparisons were adjusted.**
+- §7 says "Holm within the chain" without naming the set. C07 adjusts each endpoint and each scope (OOF, test) separately, across the 7 comparisons of the chain: 6 for Dice, because A0 has no mask. This is `scripts/run_stats.py --pairs … --family-holm`, column "p (Holm, family)".
+- §7 fixed no adjustment for C09. It uses the same Holm across its 8 comparisons, the cautious choice.
+
+**C07, the ablation chain** (`results/analysis/C07_paperA_ablation_chain/report.md`; out of fold, 1,043 femurs):
+- **Only the mask task helps significantly:** A1 vs A0, macro-F1 +.042 (Holm within the chain p = .022).
+- **From A2 to A6, no step changes macro-F1 significantly.**
+  - A3 (geometry) has the best out-of-fold macro-F1 (.838) and Garden I-II recall (39 of 57). It was not the pre-specified final model, so its numbers are exploratory only.
+  - Region pooling (A2) lowers Dice by .004 (Holm p = .004). No later step changes Dice significantly.
+- **SLG-Net (A6) vs M0 (A1):**
+  - out of fold: macro-F1 .806 vs .825 (−.020, 95% CI −.047 to +.008, p = .17), Dice .774 vs .777 (p = .08);
+  - on the test set: A6 is ahead (macro-F1 +.041, p = .21; 186 vs 182 femurs correct), not significantly.
+  - **The pre-registered answer: SLG-Net is not more accurate than M0.** No equivalence margin was fixed, so equivalence is not claimed either.
+- **Folds 1–4 only (§3, rule 5):** every value is within .009 of its 5-fold value, so the fold-0 development did not inflate the results.
+- **Calibration (§6):** temperatures 2.6–3.4; out-of-fold ECE falls from .097–.127 to .029–.046.
+
+**C08, interpretability** (`results/analysis/C08_paperA_interpretability/report.md`):
+- **Oracle (test 1):** the released mask fixes 8 of A6's 130 wrong fractured femurs and breaks 3 of its 550 correct ones (out of fold 907 → 912 correct, p = .23). A2–A5 gain 5–10. Better masks would help little.
+- **Deletion (test 2, A6):**
+  - deleting the predicted region loses 356 of the 550 correct fractured decisions (64.7%); the control loses 7 (1.3%), McNemar p < .001;
+  - on the test set: 80 of 122 against 0;
+  - P(fracture) hardly moves (mean −.032). So the location and grade decisions depend on the region, and the fracture decision does not.
+- **Risk–coverage (test 5):** for every model, the 10% least confident femurs hold 32–40% of the errors (A6 32.4%, M0 35.5%). SLG-Net's confidence is not better at flagging errors.
+- **Geometry (test 3):**
+  - done for M0: the location rule agrees with M0's decided location for 83.8% of femurs; region height vs the decided Garden grade AUC .92; region area vs the decided Evans grade AUC .85;
+  - **A6 waits for its probability maps**, which are only in its Kaggle output (`A6_slgnet.zip`). Then `scripts/map_geometry.py` makes its geometry file, and C08 is re-run with it.
+- **Limit:** M0 was not run with the deletion test. So these results show that SLG-Net's decisions use the region, not that they use it more than M0's do.
+
+**C09, the main table** (`results/analysis/C09_paperA_main_table/report.md`; Holm across 8 comparisons):
+- **Out of fold, A6 beats:**
+  - the base article's model S01: macro-F1 +.061 (Holm p = .006), Dice +.034, accuracy +3.7 points;
+  - EfficientNet-B4: macro-F1 +.050 (p = .020);
+  - U-Net, DeepLabV3+ and SegFormer on Dice.
+- **Against DenseNet-121, ConvNeXt-T, U-Net, DeepLabV3+, SegFormer and M0,** the macro-F1 differences lie between −.020 and +.022, none significant.
+- **Test set:** no macro-F1 difference survives Holm. A6 has the most correct femurs (186 of 210); S01 has the highest test macro-F1 (.845).
+- **Against the article's final model (test set):** accuracy 88.6% vs 86.2%, macro-F1 .820 vs .814, Garden I-II recall .312 vs .500.
+
+**What follows.**
+- How Paper A presents SLG-Net is the person's decision, raised with these results (`PROJECT_TRACKER.md`, open questions).
+- The sensitivity runs of §7 (about 8 h) wait for that decision.
+- A6's geometry test is completed when its maps arrive.
