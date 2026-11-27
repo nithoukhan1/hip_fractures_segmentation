@@ -38,22 +38,25 @@ Details: [`PROJECT_TRACKER.md`](PROJECT_TRACKER.md) (overall) and [`PROGRESS_LOG
 │   ├── 03_Idea_Ranking_and_Research_Plan.md ranking, Option A and B designs
 │   ├── 04_Execution_Plan_A_and_B.md         A and B in parallel: runs, validation, compute, timeline
 │   ├── 05_Step2_Baselines_Protocol.md       how S04–S10 (classifiers, segmenters, M0) are trained and scored
-│   └── 06_Step3_PaperA_Protocol.md          Paper A: runs A2–A6, fold-0 development, interpretability tests
+│   ├── 06_Step3_PaperA_Protocol.md          Paper A: runs A2–A6, fold-0 development, interpretability tests
+│   └── 07_Step4_PaperB_Reference_Bank_Protocol.md   Paper B, step B-1: pair index and bank of healthy references
 ├── research/               literature notes
 ├── EDA/                    EDA script, per-image statistics, figures
 ├── splits/                 fixed train folds (official val folder is empty; test is untouched)
 ├── src/femurseg/           Python package: classes, data paths, data loader (data.py), metrics (metrics.py),
 │                           confidence intervals and paired tests (stats.py), the article's numbers (reference.py),
 │                           per-case files and scoring shared by all models (evaluation.py), parallel folds with
-│                           a time guard (runner.py), PyTorch networks (nets.py), SLG-Net of Paper A (slg.py)
-│                           and image cache (torchdata.py)
+│                           a time guard (runner.py), PyTorch networks (nets.py), SLG-Net of Paper A (slg.py),
+│                           Paper B's pair index and reference bank (refbank.py) and image cache (torchdata.py)
 ├── scripts/                command-line tools: make_splits.py, register_run.py, train_yolo_seg.py (S01–S03),
 │                           train_net.py (S04–S10: classifiers, segmenters, M0; S00_net_check; SLG-Net A2–A6),
 │                           run_stats.py (95% intervals, paired comparisons and calibration of filed runs),
-│                           run_breakdown.py (per class, mean ± SD over folds, comparison with the article)
+│                           run_breakdown.py (per class, mean ± SD over folds, comparison with the article),
+│                           build_reference_bank.py (R00: Paper B's reference femurs)
 ├── tests/                  checks of metrics, statistics, folds, the article's numbers, the breakdown, the
-│                           networks and SLG-Net, the Kaggle launcher's data check, and CPU smoke tests of both
-│                           training scripts, both analysis scripts and the launcher's parallel groups
+│                           networks and SLG-Net, Paper B's reference bank, the Kaggle launcher's data check, and
+│                           CPU smoke tests of both training scripts, both analysis scripts, the reference bank
+│                           and the launcher's parallel groups
 ├── configs/                one YAML file per experiment
 ├── kaggle/                 Kaggle launcher notebook, run list and Kaggle-only scripts
 ├── results/                every run's metrics, notes and small outputs (no model weights)

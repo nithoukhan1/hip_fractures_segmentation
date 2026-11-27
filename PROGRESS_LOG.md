@@ -4,6 +4,29 @@ Newest entries at the top. Each entry: what was done, what it produced, what com
 
 ---
 
+## 2026-11-27 · Step 14: Paper B step B-1, the pair index and the bank of healthy reference femurs
+
+**Done (you)**
+- Merged PR #9 (`b35eb97`): the launcher's data check and calibration.
+
+**Done (me)**
+1. **Protocol** `Analysis/07_Step4_PaperB_Reference_Bank_Protocol.md`, fixed before any feature is computed:
+   - the bank of fold model k is the healthy femurs of its 4 training folds (290 or 291); held-out and test femurs are never in it;
+   - a femur never gets a reference from its own group (its x-ray, its partner, the duplicate x-ray 00262);
+   - similarity is the cosine of frozen ImageNet ConvNeXt-T features (M0's starting weights), centred on the mean of the fold model's training femurs; each bank femur is tried as released and mirrored, and used in the better orientation;
+   - kept per femur and fold model: the 5 nearest, one random healthy femur (run R2, swap test a) and one random fractured femur (swap test b), drawn with a seed made from the file name;
+   - seven checks before B-2, with a decision rule for the mirror check (≥ 80% as written, 60–80% stated as a limitation, below 60% review).
+2. **Code:** `src/femurseg/refbank.py` (the rules) and `scripts/build_reference_bank.py` (the run). Run `R00_reference_bank` is in `kaggle/runs.json` (about 10 min, one T4). The launcher's data check covers it too.
+3. **Checks:**
+   - 6 new unit tests (`tests/test_refbank.py`): the counts of the real fold file (banks of 291, 290, 290, 291 and 290 femurs; 334 + 64 fractured femurs with a healthy partner), the exclusion of the own group, the orientation rule, centring on training femurs only, the seeded draws and the checks. All 63 unit tests pass.
+   - A smoke test (`tests/smoke_reference_bank.py`) runs the whole run through `kaggle/run.py` on the synthetic data, on the CPU, in under a minute. It passed.
+
+**Next**
+- You: run `R00_reference_bank` (`BRANCH = "main"`, about 10 min) in any free session once this PR is merged. It does not depend on the baselines or the development rounds.
+- Me: file it and read the checks of §4, then B-2's protocol (the Siamese model).
+
+---
+
 ## 2026-11-27 · Step 13: S09's failed launch, a data check in the launcher, and calibration
 
 **Done (you)**

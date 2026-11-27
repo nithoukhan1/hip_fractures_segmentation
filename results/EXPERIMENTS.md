@@ -21,6 +21,7 @@ Every Kaggle run gets one line in the table at the **bottom** of this file. `scr
 | ~~S10_m0_convnext_unet~~ | Shared | 2 | Done 2026-11-27 (register line 8): M0 classifies better than S06 (C05) and segments better than S01 | 2.33 h measured |
 | A_dev_round1 = A6_dev_base + A6_dev_no_tf | Paper A | 3 | Fold-0 development of SLG-Net (A6), question D1 (teacher forcing); two runs in one session, one per T4; fold 0 only, no test set; analysis C06 against M0's fold-0 model (`Analysis/06_Step3_PaperA_Protocol.md` §4). **Running since 2026-11-27** | ~55 min (estimate) |
 | A_dev_round2 = A6_dev_detach + A6_dev_scale32 | Paper A | 3 | Questions D2 (detached mask) and D3 (region pooling at 1/32 only); same set-up. **Running since 2026-11-27** | ~55 min (estimate) |
+| R00_reference_bank | Paper B | 4 | Step B-1: pair index and table of healthy reference femurs for the 5 fold models (frozen ImageNet ConvNeXt-T features, as released and mirrored), checks and a nearest-neighbour figure; trains nothing (`Analysis/07_Step4_PaperB_Reference_Bank_Protocol.md`) | ~10 min (estimate), one T4 |
 
 ## Register
 | # | Date | RUN | Track | Step | Git commit | Kaggle version | GPU | Runtime (min) | Exit | Key result | Purpose / decision |
