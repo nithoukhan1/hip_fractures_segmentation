@@ -4,6 +4,42 @@ Newest entries at the top. Each entry: what was done, what it produced, what com
 
 ---
 
+## 2026-11-27 · Step 16: S09 and R00_r2 filed; C04; baseline table v1 (M1); Paper A's freeze approved; second-seed check
+
+**Done (you)**
+- Merged PR #11 (`d3d73af`). `R00_reference_bank_r2` and the relaunched `S09_segformer_b2` finished, and you sent both zips.
+- Approved the freeze of Paper A's settings and the five final runs. You also asked for the second-seed check of the base and of 1/32 pooling, to run at the same time.
+
+**Done (me)**
+1. **Filed** the two runs (register lines 18 and 19). S09 was checked like the earlier runs: all 5 folds, every out-of-fold femur predicted once by the model that did not train on it, `metrics.json` equal to a re-evaluation of the per-case files.
+2. **R00_reference_bank_r2, Paper B:** check 1 = **804 of 810 (99.3%)**, exactly as the review predicted, and the figure shows every reference with the pelvis on the target's side. **Step B-1 is complete** (Analysis/07 §9). Compared with version 1, the rule changed mainly the orientation of the references (same nearest femur in 87.1% of rows, same orientation in 57.6%).
+3. **C04, the segmenters vs YOLO** (`results/analysis/C04_segmenters_vs_yolo/report.md`), research question RQ1:
+   - **M0 has the best Dice** in every view (OOF .777, test ensemble .744). Out of fold it beats YOLO (+.037), SegFormer (+.011), U-Net (+.029) and DeepLabV3+ (+.028), all Holm p ≤ .0003.
+   - **On the 210 test femurs** M0 beats U-Net and DeepLabV3+ (Holm p ≤ .0005), but its lead over YOLO (+.018, p = .36) and SegFormer (+.006, p = .44) is not significant.
+   - YOLO's Dice deficit comes mostly from missed fractures (51 of 680 out of fold, against 16–28): on the fractures it finds, its masks are as good as M0's.
+   - **SegFormer (S09) is the best standard segmenter** and classifies like M0. U-Net and DeepLabV3+ are no better than YOLO.
+   - All five models draw the test neck fractures 1.7–2.0 times larger than the test masks (the annotation shift of C01).
+4. **Baseline table v1 = milestone M1** (`results/analysis/M1_baseline_table/report.md`): all ten baselines S01–S10 side by side, with intervals, test fold models and calibration. Planned for 13 Dec, reached on 27 Nov.
+5. **Paper A's freeze** (Analysis/06 §10):
+   - The tag `A-v1-frozen` goes on `main` after this PR. GitHub refused my push of the tag (this session may push only its own branch), so you create it on GitHub in one step.
+   - The training code at that commit is identical to `f342b8a`, which trained the development runs.
+6. **Second-seed check** (`kaggle/runs.json`, group `A_dev_seed2`, about 55 min, `BRANCH = "main"`): `A6_dev_base_s2` and `A6_dev_scale32_s2` repeat the two development runs with seed 2027. **The rule was written before the runs** (Analysis/06 §10, analysis C11):
+   - 1/32 pooling stays if, on the mean of the two seeds, it beats the base by ≥ .02 macro-F1, loses ≤ .01 Dice and reaches macro-F1 ≥ .79;
+   - otherwise the freeze goes back to you before any final-run result is opened.
+7. **Notes and checks:** run notes for S09 and R00_r2, register decisions, the protocol addenda (Analysis/06 §10, Analysis/07 §9). Only `runs.json` changed among the code files; its tests pass (6 of 6).
+
+**Next**
+- You:
+  1. merge this PR;
+  2. create the tag `A-v1-frozen` on `main` (GitHub → Releases);
+  3. launch `A_dev_seed2` (`BRANCH = "main"`) and `A6_slgnet` (`BRANCH = "A-v1-frozen"`); then `A2_region`, `A3_geometry`, `A4_hierarchy` and `A5_shared_grade` (same tag), two sessions at a time, as your GPU quota allows;
+  4. send the zips as they finish.
+- Me:
+  - C11 (second seed) as soon as `A_dev_seed2` is filed, then C07–C09 when the final runs are in;
+  - B-2's protocol: the Siamese RefFrac model and runs R1–R7.
+
+---
+
 ## 2026-11-27 · Step 15: seven runs filed; C03 and C06; Paper B's orientation rule reviewed
 
 **Done (you)**

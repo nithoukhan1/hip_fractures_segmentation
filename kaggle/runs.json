@@ -449,6 +449,77 @@
     "expected_minutes": 55,
     "about": "Paper A fold-0 development, round 2 (Analysis/06 §4): A6_dev_detach on GPU 0 and A6_dev_scale32 on GPU 1, in one session."
   },
+  "A6_dev_base_s2": {
+    "step": "3",
+    "script": "scripts/train_net.py",
+    "pip": [
+      "segmentation-models-pytorch==0.6.0"
+    ],
+    "gpu": "one T4 (started by a parallel group, one run per GPU)",
+    "track": "Paper A",
+    "expected_minutes": 50,
+    "estimate_note": "A_dev_round1 and A_dev_round2 took about 52 and 51 min (register lines 13-16)",
+    "args": [
+      "--net",
+      "slg:convnext_tiny.fb_in22k_ft_in1k:A6",
+      "--size",
+      "768x512",
+      "--epochs",
+      "60",
+      "--batch",
+      "16",
+      "--folds",
+      "0",
+      "--no-test",
+      "--extra-tests",
+      "oracle",
+      "--seed",
+      "2027"
+    ],
+    "about": "Paper A second-seed check (Analysis/06 §10): A6_dev_base repeated with seed 2027 (the first round used seed 2026); everything else identical. Fold 0 only, no test-set predictions; with the oracle test."
+  },
+  "A6_dev_scale32_s2": {
+    "step": "3",
+    "script": "scripts/train_net.py",
+    "pip": [
+      "segmentation-models-pytorch==0.6.0"
+    ],
+    "gpu": "one T4 (started by a parallel group, one run per GPU)",
+    "track": "Paper A",
+    "expected_minutes": 50,
+    "estimate_note": "A_dev_round1 and A_dev_round2 took about 52 and 51 min (register lines 13-16)",
+    "args": [
+      "--net",
+      "slg:convnext_tiny.fb_in22k_ft_in1k:A6",
+      "--size",
+      "768x512",
+      "--epochs",
+      "60",
+      "--batch",
+      "16",
+      "--folds",
+      "0",
+      "--no-test",
+      "--extra-tests",
+      "oracle",
+      "--slg-scales",
+      "32",
+      "--seed",
+      "2027"
+    ],
+    "about": "Paper A second-seed check (Analysis/06 §10): A6_dev_scale32 (region pooling at 1/32 only) repeated with seed 2027 (the first round used seed 2026); everything else identical. Fold 0 only, no test-set predictions; with the oracle test."
+  },
+  "A_dev_seed2": {
+    "step": "3",
+    "track": "Paper A",
+    "parallel": [
+      "A6_dev_base_s2",
+      "A6_dev_scale32_s2"
+    ],
+    "gpu": "T4 x2 (one run per GPU)",
+    "expected_minutes": 55,
+    "about": "Paper A second-seed check (Analysis/06 §10), asked for by the person on 2026-11-27 together with the final runs: A6_dev_base_s2 on GPU 0 and A6_dev_scale32_s2 on GPU 1, in one session, launched from main. Analysis C11 applies the rule of Analysis/06 §10 to the mean of the two seeds."
+  },
   "R00_reference_bank": {
     "step": "4",
     "script": "scripts/build_reference_bank.py",

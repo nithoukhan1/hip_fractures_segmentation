@@ -37,13 +37,14 @@
 | `S06_convnext_tiny` | 2 | 1.46 h (measured) | Baseline 6 = A0: ConvNeXt-T classifier, the backbone of M0 and of both papers (done 2026-11-27, register line 7) |
 | `S07_unet_r34` | 2 | 1.45 h (measured) | Baseline 7: U-Net (ResNet34), 6-class semantic segmentation (done 2026-11-27, register line 11) |
 | `S08_deeplabv3p_r34` | 2 | 1.22 h (measured) | Baseline 8: DeepLabV3+ (ResNet34) (done 2026-11-27, register line 12) |
-| `S09_segformer_b2` | 2 | ~3.3 h (S00_net_check) | Baseline 9: SegFormer (MiT-B2). The first launch (2026-11-27) had no dataset attached and trained nothing; relaunched the same day |
+| `S09_segformer_b2` | 2 | 2.81 h (measured) | Baseline 9: SegFormer (MiT-B2). The first launch (2026-11-27) had no dataset attached and trained nothing; relaunched the same day (done 2026-11-27, register line 18) |
 | `S10_m0_convnext_unet` | 2 | 2.33 h (measured) | Core model M0 (= A1 = R0): S06's ConvNeXt-T + U-Net decoder (binary mask) + the same 6-class head (done 2026-11-27, register line 8) |
 | `A_dev_round1` | 3 | about 52 min (measured) | Paper A, fold-0 development round 1 (`Analysis/06_Step3_PaperA_Protocol.md` §4), a parallel group: `A6_dev_base` (SLG-Net A6 with the base settings) on GPU 0 and `A6_dev_no_tf` (question D1: no teacher forcing) on GPU 1. Fold 0 only, no test-set predictions, with the oracle test (done 2026-11-27, register lines 13 and 14; analysis C06) |
 | `A_dev_round2` | 3 | about 51 min (measured) | Round 2, a parallel group: `A6_dev_detach` (D2: the decision losses do not reach the mask) on GPU 0 and `A6_dev_scale32` (D3: region pooling at 1/32 only) on GPU 1 (done 2026-11-27, register lines 15 and 16; analysis C06) |
 | `R00_reference_bank` | 4 | 2.46 min (measured) | Paper B, step B-1 (`Analysis/07_Step4_PaperB_Reference_Bank_Protocol.md`). Trains nothing and uses one T4: encodes every femur, as released and mirrored, with the frozen ImageNet weights of M0's backbone; picks each femur's healthy references from the bank of each fold model; writes the pair index and the reference table that every R run will read, the checks and a figure (done 2026-11-27, register line 17: check 1 failed, so the orientation rule was reviewed and the run is repeated as `R00_reference_bank_r2`) |
-| `R00_reference_bank_r2` | 4 | ~5 min (estimate) | Step B-1 again with version 2 of the orientation rule (`Analysis/07` §8): a reference is mirrored when its pelvis side, read from the image, differs from the femur's. Same bank, features and checks; expected check 1: 804 of 810 partners. Its tables are the ones every R run reads. `BRANCH = "main"` |
-| `A2_region` | 3 | ~2.6 h (estimate) | Paper A final run A2: M0 + region pooling at 1/32 (`Analysis/06` §7 and §9). 5 folds and the test set, with the oracle test. **Launch with `BRANCH = "A-v1-frozen"`**, once the tag exists |
+| `R00_reference_bank_r2` | 4 | 2.65 min (measured) | Step B-1 again with version 2 of the orientation rule (`Analysis/07` §8): a reference is mirrored when its pelvis side, read from the image, differs from the femur's. Same bank, features and checks. Its tables are the ones every R run reads (done 2026-11-27, register line 19: check 1 = 804 of 810, step B-1 complete) |
+| `A_dev_seed2` | 3 | ~55 min (estimate) | Paper A second-seed check (`Analysis/06` §10), a parallel group: `A6_dev_base_s2` on GPU 0 and `A6_dev_scale32_s2` on GPU 1, the two development runs of `A_dev_round1` and `A_dev_round2` repeated with seed 2027. Fold 0 only, no test set. **`BRANCH = "main"`** |
+| `A2_region` | 3 | ~2.6 h (estimate) | Paper A final run A2: M0 + region pooling at 1/32 (`Analysis/06` §7, §9 and §10). 5 folds and the test set, with the oracle test. **Launch with `BRANCH = "A-v1-frozen"`**, once the tag exists (see below) |
 | `A3_geometry` | 3 | ~2.6 h (estimate) | Final run A3: M0 + region geometry. Same settings and tag |
 | `A4_hierarchy` | 3 | ~2.6 h (estimate) | Final run A4: M0 + fracture → location → grade heads. Same settings and tag |
 | `A5_shared_grade` | 3 | ~2.6 h (estimate) | Final run A5: M0 + one shared severity trunk. Same settings and tag |
@@ -52,6 +53,14 @@
 **About Kaggle's val/ folder:** the Kaggle copy moved 104 of the 1,043 training femurs into `val/`, without keeping both femurs of an x-ray together. All code pools `val/` back into train (`src/femurseg/paths.py`), so Kaggle and the local copy give the same 1,043 training femurs and the same 5 folds.
 
 Run names: **S** = shared (baselines S1–S9, core model M0 = run S10), **A** = Paper A (SLG-Net), **R** = Paper B (RefFrac). S01–S03 use `scripts/train_yolo_seg.py`; S04–S10 and the A runs use `scripts/train_net.py` (protocols: `Analysis/05_Step2_Baselines_Protocol.md` and `Analysis/06_Step3_PaperA_Protocol.md`); R00 uses `scripts/build_reference_bank.py` (`Analysis/07_Step4_PaperB_Reference_Bank_Protocol.md`). `A6_dev_*` are fold-0 development runs of A6; the final runs are named after their variant (`A2_region` … `A6_slgnet`) and are launched from the tag `A-v1-frozen`, so all five use the same frozen code. `scripts/check_orientation.py` (analysis C10) runs on a laptop, not on Kaggle.
+
+## Creating the tag `A-v1-frozen` (once, by you, on GitHub)
+Paper A's five final runs must all use the same frozen code, so they clone a tag instead of `main`. Claude's sessions cannot push tags to this repository, so the tag is made on GitHub:
+1. Merge the pull request that approves the freeze (Step 16).
+2. On the repository page: **Releases** (right column) → **Draft a new release** (or **Create a new release**).
+3. **Choose a tag** → type `A-v1-frozen` → **Create new tag: A-v1-frozen on publish**. **Target:** `main`.
+4. Title `A-v1-frozen`; tick **Set as a pre-release** if you like; click **Publish release**.
+5. Check: the repository's **Tags** list now shows `A-v1-frozen` with the latest commit of `main`. Then launch the final runs with `BRANCH = "A-v1-frozen"`. The launcher prints the commit it cloned; it must be the same for all five runs.
 
 ## Two runs in one session (parallel groups)
 A development run trains one fold, so it needs only one of the session's two T4s. A *parallel group* in `runs.json` (for example `A_dev_round1`) starts two such runs at the same time, one per GPU:

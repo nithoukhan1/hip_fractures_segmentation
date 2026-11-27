@@ -153,3 +153,27 @@ The Siamese model: M0's encoder shared by the target and its references, cross-a
 - B-2 starts once `R00_reference_bank_r2` passes check 1 and its figure shows every reference with the pelvis on the target's side.
 
 **Limitation, stated now.** About 0.5% of femurs may get the wrong side: 3 of 405 x-rays failed, and 13 femurs are ambiguous. Their references are then mirrored the wrong way. The Siamese model's cross-attention alignment (B-2) must cope with such a reference; this is a small share of femurs.
+
+## 9. Addendum (2026-11-27): result of version 2 (`R00_reference_bank_r2`); step B-1 is complete
+
+`R00_reference_bank_r2` ran on Kaggle (commit `d3d73af`, 2.65 min, one T4; register line 19; `results/R00_reference_bank_r2/`). It uses the same script, bank, features, k and seeds as version 1, with the orientation rule of §8.
+
+| Check (§4) | Version 1 (`R00_reference_bank`) | Version 2 (`R00_reference_bank_r2`) | Rule |
+|---|---|---|---|
+| 1. Mirror check | 473 of 810 (58.4%), by the features | **804 of 810 (99.3%)**, by the pelvis-side rule (the features alone: still 473, reported only) | ≥ 80%: **use as written** |
+| 2. Retrieval vs chance (3 nearest minus random healthy) | +.539 cosine | +.547 cosine | clearly above chance |
+| 3. Duplicates | none | none (0 references with cosine ≥ .995) | none |
+| 5. Own partner's rank in the bank (median) | 6 (as released or mirrored, whichever is closer) | 6 (always mirrored); rank 1 for 25.1%, top 5 for 47.5% | reported |
+| Figure `nn_fold0.png` | some references with the pelvis on the other side | the pelvis is on the target's side in all 18 references (checked by eye; one dark, grid-patterned reference is hard to read) | every reference on the target's side |
+
+- The 804 matches the review's prediction exactly (§8).
+- **How much the references changed** (6,265 rows: 5 fold models × 1,253 femurs, computed from the two `references.csv` files):
+  - the nearest reference is the same femur in 87.1% of rows, and the same femur in the same orientation in 57.6%;
+  - the 5 references overlap by 89.5%, and the whole set of 5 is the same in 54.4%;
+  - 48.3% of nearest references are mirrored (49.4% in version 1), and the mean cosine of the nearest is .585 (.592).
+- So the rule mostly changed the **orientation** in which a reference is shown, not **which** femurs are retrieved. This is expected, because the ImageNet features hardly see left and right (§8).
+
+**Decision.**
+- Check 1 passes and the figure is as required, so **step B-1 is complete.**
+- Every R run reads `results/R00_reference_bank_r2/pairs.csv` and `references.csv`. `R00_reference_bank` stays filed as the record of version 1.
+- **Next: B-2**, the protocol of RefFrac's model and runs R1–R7 (Report 04): a Siamese ConvNeXt-T that encodes the femur and its references with shared weights, cross-attention at 1/16 and 1/32, fusion [T, T − R, |T − R|]. It is written before any R run, and fold-0 development follows, as for Paper A.

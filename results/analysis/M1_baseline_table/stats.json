@@ -1,0 +1,2023 @@
+{
+  "runs": [
+    "S01_yolov8s_seg_1024",
+    "S02_yolov8s_seg_640",
+    "S03_yolo11s_seg_1024",
+    "S04_densenet121",
+    "S05_efficientnet_b4",
+    "S06_convnext_tiny",
+    "S07_unet_r34",
+    "S08_deeplabv3p_r34",
+    "S09_segformer_b2",
+    "S10_m0_convnext_unet"
+  ],
+  "n_boot": 2000,
+  "n_perm": 5000,
+  "seed": 2026,
+  "intervals": {
+    "S01_yolov8s_seg_1024": {
+      "threshold": 0.127197,
+      "oof": {
+        "auc_fracture": {
+          "estimate": 0.9751255874250526,
+          "lo": 0.9665076316319453,
+          "hi": 0.9831424413211889,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "fracture_sensitivity": {
+          "estimate": 0.925,
+          "lo": 0.9050426666319608,
+          "hi": 0.9432314410480349,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "fracture_specificity": {
+          "estimate": 0.9696969696969697,
+          "lo": 0.951085555804572,
+          "hi": 0.9859560397192585,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "accuracy_6class": {
+          "estimate": 0.8322147651006712,
+          "lo": 0.8102202566169439,
+          "hi": 0.8537565370012179,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "macro_f1": {
+          "estimate": 0.7444452137157254,
+          "lo": 0.7067960672211134,
+          "hi": 0.7791678012509401,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "balanced_accuracy": {
+          "estimate": 0.7384460719573264,
+          "lo": 0.6983585224495922,
+          "hi": 0.7781361824856748,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "kappa": {
+          "estimate": 0.7785619050045435,
+          "lo": 0.7494778414732128,
+          "hi": 0.8066148818208962,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "dice_fractured_mean": {
+          "estimate": 0.7398574573529412,
+          "lo": 0.7221938825466403,
+          "hi": 0.7554894613257929,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "dice_detected_mean": {
+          "estimate": 0.7998458998410176,
+          "lo": 0.7922529763175239,
+          "hi": 0.8071389921201887,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "garden12_recall": {
+          "estimate": 0.5087719298245614,
+          "lo": 0.3793103448275862,
+          "hi": 0.6406471108490565,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "auc_fracture_delong": {
+          "auc": 0.9751255874250527,
+          "se": 0.004354893581860912,
+          "lo": 0.9665901528481007,
+          "hi": 0.9836610220020048,
+          "method": "DeLong"
+        },
+        "accuracy_6class_exact": {
+          "estimate": 0.8322147651006712,
+          "lo": 0.8081279796718901,
+          "hi": 0.8544093065515268,
+          "method": "Clopper-Pearson",
+          "correct": 868,
+          "n": 1043
+        },
+        "n_femurs": 1043,
+        "n_xrays": 701
+      },
+      "test_ensemble": {
+        "auc_fracture": {
+          "estimate": 0.9941644562334218,
+          "lo": 0.9856498659088485,
+          "hi": 0.999169173244703,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "fracture_sensitivity": {
+          "estimate": 0.9655172413793104,
+          "lo": 0.9315068493150684,
+          "hi": 0.993103448275862,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "fracture_specificity": {
+          "estimate": 0.9846153846153847,
+          "lo": 0.9491525423728814,
+          "hi": 1.0,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "accuracy_6class": {
+          "estimate": 0.8809523809523809,
+          "lo": 0.8358955223880598,
+          "hi": 0.9227053140096618,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "macro_f1": {
+          "estimate": 0.8450683895554613,
+          "lo": 0.7797409839317893,
+          "hi": 0.8980696637679269,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "balanced_accuracy": {
+          "estimate": 0.8396593721916535,
+          "lo": 0.7807482766681525,
+          "hi": 0.8942333129833129,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "kappa": {
+          "estimate": 0.8487206085753803,
+          "lo": 0.7919986437226048,
+          "hi": 0.9004897291124702,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "dice_fractured_mean": {
+          "estimate": 0.7253553697613946,
+          "lo": 0.6942994501960368,
+          "hi": 0.7535150048865902,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "dice_detected_mean": {
+          "estimate": 0.7512609186814443,
+          "lo": 0.7313788626142044,
+          "hi": 0.7701051911892944,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "garden12_recall": {
+          "estimate": 0.5,
+          "lo": 0.23529411764705882,
+          "hi": 0.75,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "auc_fracture_delong": {
+          "auc": 0.9941644562334218,
+          "se": 0.003126618561954554,
+          "lo": 0.9880363964585964,
+          "hi": 1.0,
+          "method": "DeLong"
+        },
+        "accuracy_6class_exact": {
+          "estimate": 0.8809523809523809,
+          "lo": 0.829294251874477,
+          "hi": 0.9214575176533181,
+          "method": "Clopper-Pearson",
+          "correct": 185,
+          "n": 210
+        },
+        "n_femurs": 210,
+        "n_xrays": 146
+      }
+    },
+    "S02_yolov8s_seg_640": {
+      "threshold": 0.045197,
+      "oof": {
+        "auc_fracture": {
+          "estimate": 0.9754517096094636,
+          "lo": 0.9666003532576093,
+          "hi": 0.9834999887240365,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "fracture_sensitivity": {
+          "estimate": 0.9352941176470588,
+          "lo": 0.9172728143800251,
+          "hi": 0.9527326440177253,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "fracture_specificity": {
+          "estimate": 0.9696969696969697,
+          "lo": 0.9498607242339833,
+          "hi": 0.9856764049882782,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "accuracy_6class": {
+          "estimate": 0.8264621284755513,
+          "lo": 0.8021225466537967,
+          "hi": 0.8475732689902722,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "macro_f1": {
+          "estimate": 0.7512503375526064,
+          "lo": 0.7150081216504837,
+          "hi": 0.7825814900791865,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "balanced_accuracy": {
+          "estimate": 0.7652702905033433,
+          "lo": 0.7276612352818216,
+          "hi": 0.7987404171990223,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "kappa": {
+          "estimate": 0.7721998450626387,
+          "lo": 0.7420046520588554,
+          "hi": 0.7990288492732146,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "dice_fractured_mean": {
+          "estimate": 0.746181855882353,
+          "lo": 0.7296328560701262,
+          "hi": 0.7618302865377287,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "dice_detected_mean": {
+          "estimate": 0.7978044999999999,
+          "lo": 0.7905324676729119,
+          "hi": 0.8050969048031497,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "garden12_recall": {
+          "estimate": 0.543859649122807,
+          "lo": 0.4107142857142857,
+          "hi": 0.6727360139860139,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "auc_fracture_delong": {
+          "auc": 0.9754517096094636,
+          "se": 0.004422586407791267,
+          "lo": 0.9667835995316764,
+          "hi": 0.9841198196872508,
+          "method": "DeLong"
+        },
+        "accuracy_6class_exact": {
+          "estimate": 0.8264621284755513,
+          "lo": 0.8020872979640467,
+          "hi": 0.8489781382819399,
+          "method": "Clopper-Pearson",
+          "correct": 862,
+          "n": 1043
+        },
+        "n_femurs": 1043,
+        "n_xrays": 701
+      },
+      "test_ensemble": {
+        "auc_fracture": {
+          "estimate": 0.9940583554376657,
+          "lo": 0.986327746808687,
+          "hi": 0.9987876870096697,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "fracture_sensitivity": {
+          "estimate": 0.9724137931034482,
+          "lo": 0.9444444444444444,
+          "hi": 0.9931506849315068,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "fracture_specificity": {
+          "estimate": 0.9384615384615385,
+          "lo": 0.8727272727272727,
+          "hi": 0.9857193158953722,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "accuracy_6class": {
+          "estimate": 0.8380952380952381,
+          "lo": 0.7832454224370295,
+          "hi": 0.8846153846153846,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "macro_f1": {
+          "estimate": 0.7874196682676214,
+          "lo": 0.7068177800226823,
+          "hi": 0.8486340157323033,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "balanced_accuracy": {
+          "estimate": 0.7739897068896352,
+          "lo": 0.700867773708194,
+          "hi": 0.8438179033104686,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "kappa": {
+          "estimate": 0.7947214076246335,
+          "lo": 0.7275921441524451,
+          "hi": 0.8519209917151078,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "dice_fractured_mean": {
+          "estimate": 0.7308479166196746,
+          "lo": 0.6993332393255666,
+          "hi": 0.7575672166270818,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "dice_detected_mean": {
+          "estimate": 0.75158119085002,
+          "lo": 0.7313027269333174,
+          "hi": 0.7705868341098322,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "garden12_recall": {
+          "estimate": 0.5625,
+          "lo": 0.30750000000000005,
+          "hi": 0.8181818181818182,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "auc_fracture_delong": {
+          "auc": 0.9940583554376657,
+          "se": 0.0030828753265156566,
+          "lo": 0.9880160308288679,
+          "hi": 1.0,
+          "method": "DeLong"
+        },
+        "accuracy_6class_exact": {
+          "estimate": 0.8380952380952381,
+          "lo": 0.7811717556841511,
+          "hi": 0.8851949480071588,
+          "method": "Clopper-Pearson",
+          "correct": 176,
+          "n": 210
+        },
+        "n_femurs": 210,
+        "n_xrays": 146
+      }
+    },
+    "S03_yolo11s_seg_1024": {
+      "threshold": 0.132935,
+      "oof": {
+        "auc_fracture": {
+          "estimate": 0.9737704585966618,
+          "lo": 0.9631449656087787,
+          "hi": 0.9828410467593798,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "fracture_sensitivity": {
+          "estimate": 0.9279411764705883,
+          "lo": 0.9086892488954345,
+          "hi": 0.9466666666666667,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "fracture_specificity": {
+          "estimate": 0.9559228650137741,
+          "lo": 0.9318150769995032,
+          "hi": 0.9754768392370572,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "accuracy_6class": {
+          "estimate": 0.8216682646212847,
+          "lo": 0.7984596514129887,
+          "hi": 0.8435151798514033,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "macro_f1": {
+          "estimate": 0.7190819738514636,
+          "lo": 0.6782293718140383,
+          "hi": 0.7537461116687653,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "balanced_accuracy": {
+          "estimate": 0.7168756424370436,
+          "lo": 0.6785117259475093,
+          "hi": 0.7541970879415716,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "kappa": {
+          "estimate": 0.764669490661892,
+          "lo": 0.7348588082406448,
+          "hi": 0.7930528824013634,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "dice_fractured_mean": {
+          "estimate": 0.7427793411764706,
+          "lo": 0.7259639630768788,
+          "hi": 0.7590480231831124,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "dice_detected_mean": {
+          "estimate": 0.8004595118858954,
+          "lo": 0.7932817784956663,
+          "hi": 0.8078627886594414,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "garden12_recall": {
+          "estimate": 0.38596491228070173,
+          "lo": 0.26666666666666666,
+          "hi": 0.5166666666666667,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "auc_fracture_delong": {
+          "auc": 0.9737704585966617,
+          "se": 0.004918349811445983,
+          "lo": 0.9641306701028581,
+          "hi": 0.9834102470904652,
+          "method": "DeLong"
+        },
+        "accuracy_6class_exact": {
+          "estimate": 0.8216682646212847,
+          "lo": 0.7970604256168913,
+          "hi": 0.8444450906530496,
+          "method": "Clopper-Pearson",
+          "correct": 857,
+          "n": 1043
+        },
+        "n_femurs": 1043,
+        "n_xrays": 701
+      },
+      "test_ensemble": {
+        "auc_fracture": {
+          "estimate": 0.9937400530503979,
+          "lo": 0.9848466792726125,
+          "hi": 0.9996116623902339,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "fracture_sensitivity": {
+          "estimate": 0.9724137931034482,
+          "lo": 0.9448275862068966,
+          "hi": 0.9931506849315068,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "fracture_specificity": {
+          "estimate": 0.9692307692307692,
+          "lo": 0.9206349206349206,
+          "hi": 1.0,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "accuracy_6class": {
+          "estimate": 0.8523809523809524,
+          "lo": 0.8029556650246306,
+          "hi": 0.8986280352711804,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "macro_f1": {
+          "estimate": 0.8007067007067007,
+          "lo": 0.7294962173875201,
+          "hi": 0.8603501611216714,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "balanced_accuracy": {
+          "estimate": 0.8008849521672334,
+          "lo": 0.7342818730234487,
+          "hi": 0.8633471650177238,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "kappa": {
+          "estimate": 0.8127157652474107,
+          "lo": 0.7518580395001441,
+          "hi": 0.8707049441674435,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "dice_fractured_mean": {
+          "estimate": 0.7295239737882261,
+          "lo": 0.6991566097556681,
+          "hi": 0.7561755450454855,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "dice_detected_mean": {
+          "estimate": 0.7502196893566864,
+          "lo": 0.729532870480637,
+          "hi": 0.7698707750010779,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "garden12_recall": {
+          "estimate": 0.4375,
+          "lo": 0.18181818181818182,
+          "hi": 0.6923076923076923,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "auc_fracture_delong": {
+          "auc": 0.9937400530503978,
+          "se": 0.0036674331756710557,
+          "lo": 0.9865520161103751,
+          "hi": 1.0,
+          "method": "DeLong"
+        },
+        "accuracy_6class_exact": {
+          "estimate": 0.8523809523809524,
+          "lo": 0.7970570790364719,
+          "hi": 0.8974441390039275,
+          "method": "Clopper-Pearson",
+          "correct": 179,
+          "n": 210
+        },
+        "n_femurs": 210,
+        "n_xrays": 146
+      }
+    },
+    "S04_densenet121": {
+      "threshold": 0.11754543,
+      "oof": {
+        "auc_fracture": {
+          "estimate": 0.9916018473505105,
+          "lo": 0.9869085935702336,
+          "hi": 0.9955539863521484,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "fracture_sensitivity": {
+          "estimate": 0.961764705882353,
+          "lo": 0.9469788992140967,
+          "hi": 0.9750367107195301,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "fracture_specificity": {
+          "estimate": 0.9834710743801653,
+          "lo": 0.9686587301587302,
+          "hi": 0.9946236559139785,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "accuracy_6class": {
+          "estimate": 0.8676893576222435,
+          "lo": 0.8463730973004793,
+          "hi": 0.8863646944303368,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "macro_f1": {
+          "estimate": 0.802120887335308,
+          "lo": 0.7661578659875293,
+          "hi": 0.8326187203137567,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "balanced_accuracy": {
+          "estimate": 0.786981841397127,
+          "lo": 0.7483217996458024,
+          "hi": 0.8221153019570284,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "kappa": {
+          "estimate": 0.8253874476073784,
+          "lo": 0.7975711183267962,
+          "hi": 0.8499805186288795,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "dice_fractured_mean": {
+          "estimate": NaN,
+          "lo": NaN,
+          "hi": NaN,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "dice_detected_mean": {
+          "estimate": NaN,
+          "lo": NaN,
+          "hi": NaN,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "garden12_recall": {
+          "estimate": 0.5789473684210527,
+          "lo": 0.44642857142857145,
+          "hi": 0.7068965517241379,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "auc_fracture_delong": {
+          "auc": 0.9916018473505106,
+          "se": 0.00231387812997847,
+          "lo": 0.987066729551138,
+          "hi": 0.9961369651498833,
+          "method": "DeLong"
+        },
+        "accuracy_6class_exact": {
+          "estimate": 0.8676893576222435,
+          "lo": 0.8456071597879373,
+          "hi": 0.8876715397403224,
+          "method": "Clopper-Pearson",
+          "correct": 905,
+          "n": 1043
+        },
+        "n_femurs": 1043,
+        "n_xrays": 701
+      },
+      "test_ensemble": {
+        "auc_fracture": {
+          "estimate": 0.9993633952254642,
+          "lo": 0.9977748335044636,
+          "hi": 1.0,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "fracture_sensitivity": {
+          "estimate": 0.9862068965517241,
+          "lo": 0.9655172413793104,
+          "hi": 1.0,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "fracture_specificity": {
+          "estimate": 0.9692307692307692,
+          "lo": 0.9242376294591484,
+          "hi": 1.0,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "accuracy_6class": {
+          "estimate": 0.8571428571428571,
+          "lo": 0.803921568627451,
+          "hi": 0.9056603773584906,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "macro_f1": {
+          "estimate": 0.7595664437308657,
+          "lo": 0.6695175127040527,
+          "hi": 0.8317391299240833,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "balanced_accuracy": {
+          "estimate": 0.7439580147255901,
+          "lo": 0.6765812096580149,
+          "hi": 0.8125620751119703,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "kappa": {
+          "estimate": 0.8171952528799002,
+          "lo": 0.7508207256603802,
+          "hi": 0.8777459496493163,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "dice_fractured_mean": {
+          "estimate": NaN,
+          "lo": NaN,
+          "hi": NaN,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "dice_detected_mean": {
+          "estimate": NaN,
+          "lo": NaN,
+          "hi": NaN,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "garden12_recall": {
+          "estimate": 0.25,
+          "lo": 0.0625,
+          "hi": 0.5,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "auc_fracture_delong": {
+          "auc": 0.999363395225464,
+          "se": 0.0005762748271193749,
+          "lo": 0.998233917319113,
+          "hi": 1.0,
+          "method": "DeLong"
+        },
+        "accuracy_6class_exact": {
+          "estimate": 0.8571428571428571,
+          "lo": 0.8023844096509587,
+          "hi": 0.9014937952796883,
+          "method": "Clopper-Pearson",
+          "correct": 180,
+          "n": 210
+        },
+        "n_femurs": 210,
+        "n_xrays": 146
+      }
+    },
+    "S05_efficientnet_b4": {
+      "threshold": 0.44859734,
+      "oof": {
+        "auc_fracture": {
+          "estimate": 0.990291281801977,
+          "lo": 0.9849972467760606,
+          "hi": 0.9948953517692165,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "fracture_sensitivity": {
+          "estimate": 0.9544117647058824,
+          "lo": 0.9377754698318497,
+          "hi": 0.9690265486725663,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "fracture_specificity": {
+          "estimate": 0.9752066115702479,
+          "lo": 0.958445867959372,
+          "hi": 0.9893354497354496,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "accuracy_6class": {
+          "estimate": 0.8475551294343241,
+          "lo": 0.8257493431060711,
+          "hi": 0.8680706739271655,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "macro_f1": {
+          "estimate": 0.7553601612368044,
+          "lo": 0.7169593278700169,
+          "hi": 0.7893400564838552,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "balanced_accuracy": {
+          "estimate": 0.740035347090347,
+          "lo": 0.701014126344844,
+          "hi": 0.776605879221691,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "kappa": {
+          "estimate": 0.7980363477822447,
+          "lo": 0.7694424602562038,
+          "hi": 0.8246678771277718,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "dice_fractured_mean": {
+          "estimate": NaN,
+          "lo": NaN,
+          "hi": NaN,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "dice_detected_mean": {
+          "estimate": NaN,
+          "lo": NaN,
+          "hi": NaN,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "garden12_recall": {
+          "estimate": 0.38596491228070173,
+          "lo": 0.26785714285714285,
+          "hi": 0.5172413793103449,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "auc_fracture_delong": {
+          "auc": 0.9902912818019769,
+          "se": 0.00256600704831594,
+          "lo": 0.9852620004032018,
+          "hi": 0.995320563200752,
+          "method": "DeLong"
+        },
+        "accuracy_6class_exact": {
+          "estimate": 0.8475551294343241,
+          "lo": 0.8242843084729379,
+          "hi": 0.8688442499466462,
+          "method": "Clopper-Pearson",
+          "correct": 884,
+          "n": 1043
+        },
+        "n_femurs": 1043,
+        "n_xrays": 701
+      },
+      "test_ensemble": {
+        "auc_fracture": {
+          "estimate": 0.9936339522546419,
+          "lo": 0.9841672379353954,
+          "hi": 0.999279642216977,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "fracture_sensitivity": {
+          "estimate": 0.9241379310344827,
+          "lo": 0.8767123287671232,
+          "hi": 0.9655172413793104,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "fracture_specificity": {
+          "estimate": 0.9846153846153847,
+          "lo": 0.9508196721311475,
+          "hi": 1.0,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "accuracy_6class": {
+          "estimate": 0.8095238095238095,
+          "lo": 0.7546100427350427,
+          "hi": 0.8640820629969687,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "macro_f1": {
+          "estimate": 0.743984805725241,
+          "lo": 0.658052807818912,
+          "hi": 0.8144443226211643,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "balanced_accuracy": {
+          "estimate": 0.7197271513358313,
+          "lo": 0.648326335854608,
+          "hi": 0.7912237072055566,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "kappa": {
+          "estimate": 0.7545868879280122,
+          "lo": 0.6844918590705186,
+          "hi": 0.8229745570366115,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "dice_fractured_mean": {
+          "estimate": NaN,
+          "lo": NaN,
+          "hi": NaN,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "dice_detected_mean": {
+          "estimate": NaN,
+          "lo": NaN,
+          "hi": NaN,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "garden12_recall": {
+          "estimate": 0.3125,
+          "lo": 0.08333333333333333,
+          "hi": 0.5625,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "auc_fracture_delong": {
+          "auc": 0.9936339522546418,
+          "se": 0.003222687350770574,
+          "lo": 0.9873176011136987,
+          "hi": 0.9999503033955849,
+          "method": "DeLong"
+        },
+        "accuracy_6class_exact": {
+          "estimate": 0.8095238095238095,
+          "lo": 0.7497887388088891,
+          "hi": 0.8602962928882164,
+          "method": "Clopper-Pearson",
+          "correct": 170,
+          "n": 210
+        },
+        "n_femurs": 210,
+        "n_xrays": 146
+      }
+    },
+    "S06_convnext_tiny": {
+      "threshold": 0.12280618,
+      "oof": {
+        "auc_fracture": {
+          "estimate": 0.9901211310970669,
+          "lo": 0.9837865225157127,
+          "hi": 0.9950595537913445,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "fracture_sensitivity": {
+          "estimate": 0.9661764705882353,
+          "lo": 0.9513274336283186,
+          "hi": 0.9780066701588215,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "fracture_specificity": {
+          "estimate": 0.977961432506887,
+          "lo": 0.9615384615384616,
+          "hi": 0.9917361048042866,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "accuracy_6class": {
+          "estimate": 0.8638542665388304,
+          "lo": 0.8430056749329476,
+          "hi": 0.8835877862595419,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "macro_f1": {
+          "estimate": 0.7835277218448023,
+          "lo": 0.745776164349806,
+          "hi": 0.8163603121475572,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "balanced_accuracy": {
+          "estimate": 0.7628347507991725,
+          "lo": 0.7250089545357353,
+          "hi": 0.7995706896397273,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "kappa": {
+          "estimate": 0.8199791908751015,
+          "lo": 0.7928997753595689,
+          "hi": 0.8453557274754947,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "dice_fractured_mean": {
+          "estimate": NaN,
+          "lo": NaN,
+          "hi": NaN,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "dice_detected_mean": {
+          "estimate": NaN,
+          "lo": NaN,
+          "hi": NaN,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "garden12_recall": {
+          "estimate": 0.47368421052631576,
+          "lo": 0.3392857142857143,
+          "hi": 0.6052724240177909,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "auc_fracture_delong": {
+          "auc": 0.990121131097067,
+          "se": 0.0027529907875548515,
+          "lo": 0.984725368303689,
+          "hi": 0.9955168938904451,
+          "method": "DeLong"
+        },
+        "accuracy_6class_exact": {
+          "estimate": 0.8638542665388304,
+          "lo": 0.8415344242897652,
+          "hi": 0.8840967232985419,
+          "method": "Clopper-Pearson",
+          "correct": 901,
+          "n": 1043
+        },
+        "n_femurs": 1043,
+        "n_xrays": 701
+      },
+      "test_ensemble": {
+        "auc_fracture": {
+          "estimate": 0.9997877984084881,
+          "lo": 0.9989916060510226,
+          "hi": 1.0,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "fracture_sensitivity": {
+          "estimate": 0.993103448275862,
+          "lo": 0.9791630244755244,
+          "hi": 1.0,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "fracture_specificity": {
+          "estimate": 0.9692307692307692,
+          "lo": 0.9193548387096774,
+          "hi": 1.0,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "accuracy_6class": {
+          "estimate": 0.8476190476190476,
+          "lo": 0.7962918015102481,
+          "hi": 0.8955325184034578,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "macro_f1": {
+          "estimate": 0.7416641867751976,
+          "lo": 0.6511787518267765,
+          "hi": 0.8155482208662675,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "balanced_accuracy": {
+          "estimate": 0.7271313653666596,
+          "lo": 0.6606163131235062,
+          "hi": 0.7961617196217358,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "kappa": {
+          "estimate": 0.8051948051948052,
+          "lo": 0.7412724371796634,
+          "hi": 0.865263398624977,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "dice_fractured_mean": {
+          "estimate": NaN,
+          "lo": NaN,
+          "hi": NaN,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "dice_detected_mean": {
+          "estimate": NaN,
+          "lo": NaN,
+          "hi": NaN,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "garden12_recall": {
+          "estimate": 0.25,
+          "lo": 0.049940476190476195,
+          "hi": 0.5,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "auc_fracture_delong": {
+          "auc": 0.999787798408488,
+          "se": 0.00025921512315241484,
+          "lo": 0.9992797461028611,
+          "hi": 1.0,
+          "method": "DeLong"
+        },
+        "accuracy_6class_exact": {
+          "estimate": 0.8476190476190476,
+          "lo": 0.7917462635033357,
+          "hi": 0.8933773453812179,
+          "method": "Clopper-Pearson",
+          "correct": 178,
+          "n": 210
+        },
+        "n_femurs": 210,
+        "n_xrays": 146
+      }
+    },
+    "S07_unet_r34": {
+      "threshold": 0.69973367,
+      "oof": {
+        "auc_fracture": {
+          "estimate": 0.989519526818992,
+          "lo": 0.9835561413169697,
+          "hi": 0.9942975770220409,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "fracture_sensitivity": {
+          "estimate": 0.9691176470588235,
+          "lo": 0.9556835713113409,
+          "hi": 0.9822228796844181,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "fracture_specificity": {
+          "estimate": 0.9696969696969697,
+          "lo": 0.9509034592463145,
+          "hi": 0.9858757062146892,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "accuracy_6class": {
+          "estimate": 0.862895493767977,
+          "lo": 0.8413001912045889,
+          "hi": 0.8832423221095159,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "macro_f1": {
+          "estimate": 0.8000661012462352,
+          "lo": 0.7658069292706683,
+          "hi": 0.8317458673637874,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "balanced_accuracy": {
+          "estimate": 0.8021795870040019,
+          "lo": 0.7654792165197449,
+          "hi": 0.836276600800687,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "kappa": {
+          "estimate": 0.8201752323631293,
+          "lo": 0.792308673079052,
+          "hi": 0.8461410733472021,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "dice_fractured_mean": {
+          "estimate": 0.7478426161764705,
+          "lo": 0.7335995929108715,
+          "hi": 0.7621270471439169,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "dice_detected_mean": {
+          "estimate": 0.7716737162367224,
+          "lo": 0.7605285708070442,
+          "hi": 0.7819041780308567,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "garden12_recall": {
+          "estimate": 0.6140350877192983,
+          "lo": 0.4847962382445141,
+          "hi": 0.7391706924315617,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "auc_fracture_delong": {
+          "auc": 0.9895195268189922,
+          "se": 0.002782556056484133,
+          "lo": 0.9840658171633195,
+          "hi": 0.994973236474665,
+          "method": "DeLong"
+        },
+        "accuracy_6class_exact": {
+          "estimate": 0.862895493767977,
+          "lo": 0.8405171050200044,
+          "hi": 0.883202147040322,
+          "method": "Clopper-Pearson",
+          "correct": 900,
+          "n": 1043
+        },
+        "n_femurs": 1043,
+        "n_xrays": 701
+      },
+      "test_ensemble": {
+        "auc_fracture": {
+          "estimate": 0.9987267904509284,
+          "lo": 0.9958617397403415,
+          "hi": 1.0,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "fracture_sensitivity": {
+          "estimate": 0.9655172413793104,
+          "lo": 0.9315068493150684,
+          "hi": 0.993103448275862,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "fracture_specificity": {
+          "estimate": 1.0,
+          "lo": 1.0,
+          "hi": 1.0,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "accuracy_6class": {
+          "estimate": 0.8666666666666667,
+          "lo": 0.8164251207729468,
+          "hi": 0.9082668048694424,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "macro_f1": {
+          "estimate": 0.7988505579709617,
+          "lo": 0.7141202516869751,
+          "hi": 0.8628660490460519,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "balanced_accuracy": {
+          "estimate": 0.7710667600373483,
+          "lo": 0.6987677727025153,
+          "hi": 0.8382795162318187,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "kappa": {
+          "estimate": 0.8290548594354159,
+          "lo": 0.7654776348000443,
+          "hi": 0.8816368182421168,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "dice_fractured_mean": {
+          "estimate": 0.7105550236578785,
+          "lo": 0.6780540272008013,
+          "hi": 0.740367564107872,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "dice_detected_mean": {
+          "estimate": 0.735931988788517,
+          "lo": 0.7117071000331207,
+          "hi": 0.7572656539826763,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "garden12_recall": {
+          "estimate": 0.375,
+          "lo": 0.13333333333333333,
+          "hi": 0.625,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "auc_fracture_delong": {
+          "auc": 0.9987267904509285,
+          "se": 0.0010802484740017298,
+          "lo": 0.9966095423475307,
+          "hi": 1.0,
+          "method": "DeLong"
+        },
+        "accuracy_6class_exact": {
+          "estimate": 0.8666666666666667,
+          "lo": 0.8130913405213076,
+          "hi": 0.9095387595709948,
+          "method": "Clopper-Pearson",
+          "correct": 182,
+          "n": 210
+        },
+        "n_femurs": 210,
+        "n_xrays": 146
+      }
+    },
+    "S08_deeplabv3p_r34": {
+      "threshold": 0.95392781,
+      "oof": {
+        "auc_fracture": {
+          "estimate": 0.9901292335115864,
+          "lo": 0.984743185444976,
+          "hi": 0.9944349022290344,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "fracture_sensitivity": {
+          "estimate": 0.9588235294117647,
+          "lo": 0.9433681073025335,
+          "hi": 0.9723032069970845,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "fracture_specificity": {
+          "estimate": 0.9641873278236914,
+          "lo": 0.9423007246376811,
+          "hi": 0.9827089337175793,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "accuracy_6class": {
+          "estimate": 0.8619367209971237,
+          "lo": 0.8399970530451866,
+          "hi": 0.8820212960836422,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "macro_f1": {
+          "estimate": 0.7997662357442182,
+          "lo": 0.7647852799787526,
+          "hi": 0.8299622693596364,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "balanced_accuracy": {
+          "estimate": 0.7982930935182032,
+          "lo": 0.7640154999865211,
+          "hi": 0.8305591333622039,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "kappa": {
+          "estimate": 0.8184775961382739,
+          "lo": 0.7900706372254369,
+          "hi": 0.8446863581948824,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "dice_fractured_mean": {
+          "estimate": 0.7489495,
+          "lo": 0.7338253461455384,
+          "hi": 0.7633097979317113,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "dice_detected_mean": {
+          "estimate": 0.7811129754601227,
+          "lo": 0.7715506625735801,
+          "hi": 0.7907710433580546,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "garden12_recall": {
+          "estimate": 0.5964912280701754,
+          "lo": 0.46869791666666666,
+          "hi": 0.7213342440801456,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "auc_fracture_delong": {
+          "auc": 0.9901292335115865,
+          "se": 0.002368201236282257,
+          "lo": 0.9854876443803301,
+          "hi": 0.994770822642843,
+          "method": "DeLong"
+        },
+        "accuracy_6class_exact": {
+          "estimate": 0.8619367209971237,
+          "lo": 0.8395001255054486,
+          "hi": 0.882307228113001,
+          "method": "Clopper-Pearson",
+          "correct": 899,
+          "n": 1043
+        },
+        "n_femurs": 1043,
+        "n_xrays": 701
+      },
+      "test_ensemble": {
+        "auc_fracture": {
+          "estimate": 0.9994694960212201,
+          "lo": 0.9979152996638435,
+          "hi": 1.0,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "fracture_sensitivity": {
+          "estimate": 0.9310344827586207,
+          "lo": 0.8888888888888888,
+          "hi": 0.9724137931034482,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "fracture_specificity": {
+          "estimate": 1.0,
+          "lo": 1.0,
+          "hi": 1.0,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "accuracy_6class": {
+          "estimate": 0.861904761904762,
+          "lo": 0.812206572769953,
+          "hi": 0.9074163969795037,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "macro_f1": {
+          "estimate": 0.7784525087603599,
+          "lo": 0.6958727319859596,
+          "hi": 0.847076314658473,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "balanced_accuracy": {
+          "estimate": 0.7532679738562091,
+          "lo": 0.6877211381766499,
+          "hi": 0.8195906292000041,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "kappa": {
+          "estimate": 0.8219142030002632,
+          "lo": 0.7601576080590371,
+          "hi": 0.8780293768338828,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "dice_fractured_mean": {
+          "estimate": 0.6984977575484405,
+          "lo": 0.660716089212932,
+          "hi": 0.7341340127646981,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "dice_detected_mean": {
+          "estimate": 0.750238332181658,
+          "lo": 0.7288847536162377,
+          "hi": 0.7708939649028296,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "garden12_recall": {
+          "estimate": 0.25,
+          "lo": 0.05555555555555555,
+          "hi": 0.5,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "auc_fracture_delong": {
+          "auc": 0.99946949602122,
+          "se": 0.0005781033081618929,
+          "lo": 0.9983364343578792,
+          "hi": 1.0,
+          "method": "DeLong"
+        },
+        "accuracy_6class_exact": {
+          "estimate": 0.861904761904762,
+          "lo": 0.8077289224099479,
+          "hi": 0.9055255957181341,
+          "method": "Clopper-Pearson",
+          "correct": 181,
+          "n": 210
+        },
+        "n_femurs": 210,
+        "n_xrays": 146
+      }
+    },
+    "S09_segformer_b2": {
+      "threshold": 0.87318194,
+      "oof": {
+        "auc_fracture": {
+          "estimate": 0.9941115702479338,
+          "lo": 0.989958408438439,
+          "hi": 0.9972425861771218,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "fracture_sensitivity": {
+          "estimate": 0.9764705882352941,
+          "lo": 0.9647045828640735,
+          "hi": 0.9867452135493373,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "fracture_specificity": {
+          "estimate": 0.9696969696969697,
+          "lo": 0.9510072713566655,
+          "hi": 0.986150541007943,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "accuracy_6class": {
+          "estimate": 0.8791946308724832,
+          "lo": 0.8584965746092914,
+          "hi": 0.898077380952381,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "macro_f1": {
+          "estimate": 0.8173959114315438,
+          "lo": 0.7839216124820548,
+          "hi": 0.8467750874792874,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "balanced_accuracy": {
+          "estimate": 0.8099811876248988,
+          "lo": 0.7753061150577513,
+          "hi": 0.8438826299971999,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "kappa": {
+          "estimate": 0.8412087746113832,
+          "lo": 0.8141032809893758,
+          "hi": 0.8650429158537574,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "dice_fractured_mean": {
+          "estimate": 0.7658083220588234,
+          "lo": 0.752858481638925,
+          "hi": 0.7778672906750668,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "dice_detected_mean": {
+          "estimate": 0.7842615346385542,
+          "lo": 0.7742804595038167,
+          "hi": 0.7941777063071094,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "garden12_recall": {
+          "estimate": 0.5789473684210527,
+          "lo": 0.45,
+          "hi": 0.7142857142857143,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "auc_fracture_delong": {
+          "auc": 0.9941115702479337,
+          "se": 0.001932913575240968,
+          "lo": 0.9903231292552329,
+          "hi": 0.9979000112406345,
+          "method": "DeLong"
+        },
+        "accuracy_6class_exact": {
+          "estimate": 0.8791946308724832,
+          "lo": 0.8578603631232644,
+          "hi": 0.8983606710821115,
+          "method": "Clopper-Pearson",
+          "correct": 917,
+          "n": 1043
+        },
+        "n_femurs": 1043,
+        "n_xrays": 701
+      },
+      "test_ensemble": {
+        "auc_fracture": {
+          "estimate": 0.9988328912466844,
+          "lo": 0.9958361312561553,
+          "hi": 1.0,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "fracture_sensitivity": {
+          "estimate": 0.9862068965517241,
+          "lo": 0.9655172413793104,
+          "hi": 1.0,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "fracture_specificity": {
+          "estimate": 1.0,
+          "lo": 1.0,
+          "hi": 1.0,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "accuracy_6class": {
+          "estimate": 0.8809523809523809,
+          "lo": 0.8341463414634146,
+          "hi": 0.922705862977602,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "macro_f1": {
+          "estimate": 0.8044790948172591,
+          "lo": 0.7206884724938097,
+          "hi": 0.8698245306819433,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "balanced_accuracy": {
+          "estimate": 0.7856758557081368,
+          "lo": 0.7177704815906705,
+          "hi": 0.8543408454702058,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "kappa": {
+          "estimate": 0.8479582971329279,
+          "lo": 0.78956855078509,
+          "hi": 0.9000635849899689,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "dice_fractured_mean": {
+          "estimate": 0.737187016404665,
+          "lo": 0.711114709583715,
+          "hi": 0.7602948551671375,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "dice_detected_mean": {
+          "estimate": 0.7474973243264086,
+          "lo": 0.7254534475810862,
+          "hi": 0.7674273304053075,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "garden12_recall": {
+          "estimate": 0.375,
+          "lo": 0.125,
+          "hi": 0.625,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "auc_fracture_delong": {
+          "auc": 0.9988328912466845,
+          "se": 0.0011237352172009454,
+          "lo": 0.9966304106928113,
+          "hi": 1.0,
+          "method": "DeLong"
+        },
+        "accuracy_6class_exact": {
+          "estimate": 0.8809523809523809,
+          "lo": 0.829294251874477,
+          "hi": 0.9214575176533181,
+          "method": "Clopper-Pearson",
+          "correct": 185,
+          "n": 210
+        },
+        "n_femurs": 210,
+        "n_xrays": 146
+      }
+    },
+    "S10_m0_convnext_unet": {
+      "threshold": 0.01819924,
+      "oof": {
+        "auc_fracture": {
+          "estimate": 0.9945774590828067,
+          "lo": 0.9900946068851091,
+          "hi": 0.9980288473350132,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "fracture_sensitivity": {
+          "estimate": 0.9720588235294118,
+          "lo": 0.9596988542137795,
+          "hi": 0.9837049072706384,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "fracture_specificity": {
+          "estimate": 0.9917355371900827,
+          "lo": 0.9806629834254144,
+          "hi": 1.0,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "accuracy_6class": {
+          "estimate": 0.8839884947267498,
+          "lo": 0.8644541788188116,
+          "hi": 0.9017341040462428,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "macro_f1": {
+          "estimate": 0.8254300915278794,
+          "lo": 0.7926944985540599,
+          "hi": 0.8550914954453402,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "balanced_accuracy": {
+          "estimate": 0.8042141268715713,
+          "lo": 0.7679307649761394,
+          "hi": 0.838705437816641,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "kappa": {
+          "estimate": 0.8469053043260961,
+          "lo": 0.8212130419244423,
+          "hi": 0.8699712186714589,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "dice_fractured_mean": {
+          "estimate": 0.7765645132352941,
+          "lo": 0.7636309206421241,
+          "hi": 0.7890191164932809,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "dice_detected_mean": {
+          "estimate": 0.7988863373676247,
+          "lo": 0.7903813166701311,
+          "hi": 0.807258707723522,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "garden12_recall": {
+          "estimate": 0.543859649122807,
+          "lo": 0.4117647058823529,
+          "hi": 0.6769354838709677,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "auc_fracture_delong": {
+          "auc": 0.9945774590828067,
+          "se": 0.00196878154543655,
+          "lo": 0.990718718160324,
+          "hi": 0.9984362000052894,
+          "method": "DeLong"
+        },
+        "accuracy_6class_exact": {
+          "estimate": 0.8839884947267498,
+          "lo": 0.8629824458040836,
+          "hi": 0.9027977324755875,
+          "method": "Clopper-Pearson",
+          "correct": 922,
+          "n": 1043
+        },
+        "n_femurs": 1043,
+        "n_xrays": 701
+      },
+      "test_ensemble": {
+        "auc_fracture": {
+          "estimate": 0.9994694960212201,
+          "lo": 0.997916635646218,
+          "hi": 1.0,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "fracture_sensitivity": {
+          "estimate": 0.993103448275862,
+          "lo": 0.9791666666666666,
+          "hi": 1.0,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "fracture_specificity": {
+          "estimate": 1.0,
+          "lo": 1.0,
+          "hi": 1.0,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "accuracy_6class": {
+          "estimate": 0.8666666666666667,
+          "lo": 0.8195005807200929,
+          "hi": 0.9120409891598916,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "macro_f1": {
+          "estimate": 0.7790144737202113,
+          "lo": 0.6953722733853994,
+          "hi": 0.8489652382776813,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "balanced_accuracy": {
+          "estimate": 0.7574988328664799,
+          "lo": 0.6918771043771045,
+          "hi": 0.825446127946128,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "kappa": {
+          "estimate": 0.8294069861900893,
+          "lo": 0.7704087188849935,
+          "hi": 0.8859783135201935,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "dice_fractured_mean": {
+          "estimate": 0.7435230357570477,
+          "lo": 0.7180839264201733,
+          "hi": 0.7662411145372044,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "dice_detected_mean": {
+          "estimate": 0.7486863901720272,
+          "lo": 0.7252641707027401,
+          "hi": 0.769774588208252,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "garden12_recall": {
+          "estimate": 0.3125,
+          "lo": 0.09090909090909091,
+          "hi": 0.5555555555555556,
+          "method": "cluster bootstrap (x-ray)"
+        },
+        "auc_fracture_delong": {
+          "auc": 0.99946949602122,
+          "se": 0.0005781033081618929,
+          "lo": 0.9983364343578792,
+          "hi": 1.0,
+          "method": "DeLong"
+        },
+        "accuracy_6class_exact": {
+          "estimate": 0.8666666666666667,
+          "lo": 0.8130913405213076,
+          "hi": 0.9095387595709948,
+          "method": "Clopper-Pearson",
+          "correct": 182,
+          "n": 210
+        },
+        "n_femurs": 210,
+        "n_xrays": 146
+      }
+    }
+  },
+  "comparisons": {},
+  "folds": "all",
+  "calibration": {
+    "S01_yolov8s_seg_1024": {
+      "temperature": null,
+      "fitted_on": "1043 OOF femurs",
+      "oof": {
+        "n": 1043,
+        "ece_before": 0.07914719045922064,
+        "brier_before": 0.32295219612777154,
+        "nll_before": null,
+        "ece_after": null,
+        "brier_after": null,
+        "nll_after": null
+      },
+      "not_applicable": "99 of 1043 OOF femurs give their true class probability 0, so the NLL is undefined (YOLO-style confidences: no probability for a class without an instance)",
+      "test_ensemble": {
+        "n": 210,
+        "ece_before": 0.08266298837615377,
+        "brier_before": 0.2747042031482223,
+        "nll_before": null,
+        "ece_after": null,
+        "brier_after": null,
+        "nll_after": null
+      },
+      "test_models": {
+        "n_models": 5,
+        "mean": {
+          "ece_before": 0.08152603296465846,
+          "brier_before": 0.30873066024111584
+        },
+        "sd": {
+          "ece_before": 0.007247564492847295,
+          "brier_before": 0.03541346820189932
+        }
+      }
+    },
+    "S02_yolov8s_seg_640": {
+      "temperature": null,
+      "fitted_on": "1043 OOF femurs",
+      "oof": {
+        "n": 1043,
+        "ece_before": 0.0818985536845696,
+        "brier_before": 0.32855932521883646,
+        "nll_before": null,
+        "ece_after": null,
+        "brier_after": null,
+        "nll_after": null
+      },
+      "not_applicable": "81 of 1043 OOF femurs give their true class probability 0, so the NLL is undefined (YOLO-style confidences: no probability for a class without an instance)",
+      "test_ensemble": {
+        "n": 210,
+        "ece_before": 0.06711461541036838,
+        "brier_before": 0.3170188170274191,
+        "nll_before": null,
+        "ece_after": null,
+        "brier_after": null,
+        "nll_after": null
+      },
+      "test_models": {
+        "n_models": 5,
+        "mean": {
+          "ece_before": 0.1007687310131566,
+          "brier_before": 0.3567882283560093
+        },
+        "sd": {
+          "ece_before": 0.012309959878359282,
+          "brier_before": 0.02886246502373747
+        }
+      }
+    },
+    "S03_yolo11s_seg_1024": {
+      "temperature": null,
+      "fitted_on": "1043 OOF femurs",
+      "oof": {
+        "n": 1043,
+        "ece_before": 0.07337583257273038,
+        "brier_before": 0.3337034408011212,
+        "nll_before": null,
+        "ece_after": null,
+        "brier_after": null,
+        "nll_after": null
+      },
+      "not_applicable": "73 of 1043 OOF femurs give their true class probability 0, so the NLL is undefined (YOLO-style confidences: no probability for a class without an instance)",
+      "test_ensemble": {
+        "n": 210,
+        "ece_before": 0.09969429802058617,
+        "brier_before": 0.3047265861451289,
+        "nll_before": 0.6526789541806114,
+        "ece_after": null,
+        "brier_after": null,
+        "nll_after": null
+      },
+      "test_models": {
+        "n_models": 5,
+        "mean": {
+          "ece_before": 0.07394765259425799,
+          "brier_before": 0.3443065105136659
+        },
+        "sd": {
+          "ece_before": 0.022346346327228442,
+          "brier_before": 0.03559968428177028
+        }
+      }
+    },
+    "S04_densenet121": {
+      "temperature": 2.4393788514556887,
+      "fitted_on": "1043 OOF femurs",
+      "oof": {
+        "n": 1043,
+        "ece_before": 0.11583149266676773,
+        "brier_before": 0.24372362218103802,
+        "nll_before": 0.8088014287846514,
+        "ece_after": 0.02623999023330222,
+        "brier_after": 0.2135108116717321,
+        "nll_after": 0.46639357525892194
+      },
+      "test_ensemble": {
+        "n": 210,
+        "ece_before": 0.08288570127894657,
+        "brier_before": 0.21365906440857302,
+        "nll_before": 0.5038593816054356,
+        "ece_after": 0.05515307884806495,
+        "brier_after": 0.19873456825337002,
+        "nll_after": 0.40499724497671646
+      },
+      "test_models": {
+        "n_models": 5,
+        "mean": {
+          "ece_before": 0.1368828103703143,
+          "brier_before": 0.27054586979447415,
+          "nll_before": 0.85158135248194,
+          "ece_after": 0.06457330092713358,
+          "brier_after": 0.2309614879269714,
+          "nll_after": 0.4841791381477865
+        },
+        "sd": {
+          "ece_before": 0.016060568253778502,
+          "brier_before": 0.03519125987504279,
+          "nll_before": 0.13155157302178483,
+          "ece_after": 0.01239828574999721,
+          "brier_after": 0.02496562626200417,
+          "nll_after": 0.04495644995968804
+        }
+      }
+    },
+    "S05_efficientnet_b4": {
+      "temperature": 3.269478620637882,
+      "fitted_on": "1043 OOF femurs",
+      "oof": {
+        "n": 1043,
+        "ece_before": 0.12181014475448246,
+        "brier_before": 0.2656285916050306,
+        "nll_before": 0.9759938101811867,
+        "ece_after": 0.024755081485617003,
+        "brier_after": 0.22564057981931357,
+        "nll_after": 0.47218215524895274
+      },
+      "rounded_zeros": "1 of 1043 OOF femurs have their true class probability written as 0 (the per-case files keep 8 decimals, so it is below 5e-9); it is read as 1e-12, like every written 0",
+      "test_ensemble": {
+        "n": 210,
+        "ece_before": 0.10423938902354352,
+        "brier_before": 0.2763502025500022,
+        "nll_before": 0.6743600204075553,
+        "ece_after": 0.06442592345274958,
+        "brier_after": 0.25409033847566204,
+        "nll_after": 0.4932382359422661
+      },
+      "test_models": {
+        "n_models": 5,
+        "mean": {
+          "ece_before": 0.16562684231168823,
+          "brier_before": 0.3428743889812785,
+          "nll_before": 1.171187594539153,
+          "ece_after": 0.06589691533711789,
+          "brier_after": 0.27695462238582336,
+          "nll_after": 0.543741660247334
+        },
+        "sd": {
+          "ece_before": 0.014415524578912934,
+          "brier_before": 0.023850448445715818,
+          "nll_before": 0.20863084486620187,
+          "ece_after": 0.005062590032730694,
+          "brier_after": 0.013609719671986294,
+          "nll_after": 0.047839021509391136
+        }
+      }
+    },
+    "S06_convnext_tiny": {
+      "temperature": 3.4276735983466984,
+      "fitted_on": "1043 OOF femurs",
+      "oof": {
+        "n": 1043,
+        "ece_before": 0.12702578562466382,
+        "brier_before": 0.25898466288675326,
+        "nll_before": 1.1296660286966516,
+        "ece_after": 0.046133528823162344,
+        "brier_after": 0.21525431592214167,
+        "nll_after": 0.45930077734239827
+      },
+      "test_ensemble": {
+        "n": 210,
+        "ece_before": 0.10247692449137089,
+        "brier_before": 0.2392926701262361,
+        "nll_before": 0.7297965852321049,
+        "ece_after": 0.06613887791006651,
+        "brier_after": 0.21386279614137815,
+        "nll_after": 0.4358275397296459
+      },
+      "test_models": {
+        "n_models": 5,
+        "mean": {
+          "ece_before": 0.1555318038556143,
+          "brier_before": 0.31101204350596573,
+          "nll_before": 1.3231494591493718,
+          "ece_after": 0.06553399854713657,
+          "brier_after": 0.25225161262884604,
+          "nll_after": 0.5215047275510538
+        },
+        "sd": {
+          "ece_before": 0.013972278045975063,
+          "brier_before": 0.030544386070604005,
+          "nll_before": 0.08933531947561031,
+          "ece_after": 0.013003617299962918,
+          "brier_after": 0.01935875675747485,
+          "nll_after": 0.023802844513683218
+        }
+      }
+    },
+    "S07_unet_r34": {
+      "temperature": 2.2231697078513983,
+      "fitted_on": "1043 OOF femurs",
+      "oof": {
+        "n": 1043,
+        "ece_before": 0.11481292085394568,
+        "brier_before": 0.25758068800211037,
+        "nll_before": 0.9266614120344124,
+        "ece_after": 0.03481190588461158,
+        "brier_after": 0.23965673503360382,
+        "nll_after": 0.572675055314928
+      },
+      "test_ensemble": {
+        "n": 210,
+        "ece_before": 0.08335480135744139,
+        "brier_before": 0.20584097213067168,
+        "nll_before": 0.5581565146608625,
+        "ece_after": 0.09866802884650275,
+        "brier_after": 0.21985584279659917,
+        "nll_after": 0.48488226017250086
+      },
+      "test_models": {
+        "n_models": 5,
+        "mean": {
+          "ece_before": 0.13962502138548522,
+          "brier_before": 0.2801400148252632,
+          "nll_before": 0.9310439484427379,
+          "ece_after": 0.06195192004642506,
+          "brier_after": 0.252046426309101,
+          "nll_after": 0.5756676886626445
+        },
+        "sd": {
+          "ece_before": 0.017358547730997122,
+          "brier_before": 0.027622503439821623,
+          "nll_before": 0.08261915711117784,
+          "ece_after": 0.02473659143585901,
+          "brier_after": 0.021089471075249597,
+          "nll_after": 0.037310853494716495
+        }
+      }
+    },
+    "S08_deeplabv3p_r34": {
+      "temperature": 2.3586486680956034,
+      "fitted_on": "1043 OOF femurs",
+      "oof": {
+        "n": 1043,
+        "ece_before": 0.11545149352047093,
+        "brier_before": 0.25035897117449263,
+        "nll_before": 0.8627155862040072,
+        "ece_after": 0.031383960279532254,
+        "brier_after": 0.2227453519114609,
+        "nll_after": 0.5094630374066457
+      },
+      "test_ensemble": {
+        "n": 210,
+        "ece_before": 0.07487188493471207,
+        "brier_before": 0.19404964027634178,
+        "nll_before": 0.5254006227493478,
+        "ece_after": 0.0984793896168036,
+        "brier_after": 0.2088079482018666,
+        "nll_after": 0.44428786365725875
+      },
+      "test_models": {
+        "n_models": 5,
+        "mean": {
+          "ece_before": 0.12377108721917056,
+          "brier_before": 0.2668742212386171,
+          "nll_before": 0.9088728649607966,
+          "ece_after": 0.05500805322180509,
+          "brier_after": 0.23900458345270742,
+          "nll_after": 0.5316298134613717
+        },
+        "sd": {
+          "ece_before": 0.015957128319451983,
+          "brier_before": 0.030625644098398522,
+          "nll_before": 0.07161223864392309,
+          "ece_after": 0.023699706639432844,
+          "brier_after": 0.022362545791767913,
+          "nll_after": 0.03673275956077703
+        }
+      }
+    },
+    "S09_segformer_b2": {
+      "temperature": 2.392865235353527,
+      "fitted_on": "1043 OOF femurs",
+      "oof": {
+        "n": 1043,
+        "ece_before": 0.09629335672945122,
+        "brier_before": 0.2213201579076204,
+        "nll_before": 0.8035868926171271,
+        "ece_after": 0.0500620431615933,
+        "brier_after": 0.20864293249613464,
+        "nll_after": 0.4752201351650544
+      },
+      "test_ensemble": {
+        "n": 210,
+        "ece_before": 0.07439999995336558,
+        "brier_before": 0.19138939080486075,
+        "nll_before": 0.5301260706190228,
+        "ece_after": 0.08420009323276416,
+        "brier_after": 0.19833584006963553,
+        "nll_after": 0.4202514692758672
+      },
+      "test_models": {
+        "n_models": 5,
+        "mean": {
+          "ece_before": 0.11488419870089935,
+          "brier_before": 0.24323855917509835,
+          "nll_before": 0.8518488336640102,
+          "ece_after": 0.06351584988156649,
+          "brier_after": 0.2234872192789683,
+          "nll_after": 0.4890504120817221
+        },
+        "sd": {
+          "ece_before": 0.01053256871176926,
+          "brier_before": 0.022968186006981632,
+          "nll_before": 0.08561593993793273,
+          "ece_after": 0.012544147410894872,
+          "brier_after": 0.020315750833496096,
+          "nll_after": 0.03544927583005784
+        }
+      }
+    },
+    "S10_m0_convnext_unet": {
+      "temperature": 3.1359581655089777,
+      "fitted_on": "1043 OOF femurs",
+      "oof": {
+        "n": 1043,
+        "ece_before": 0.10777081442437722,
+        "brier_before": 0.22394114122321962,
+        "nll_before": 0.9414504980335229,
+        "ece_after": 0.03992512733730556,
+        "brier_after": 0.19403711500071033,
+        "nll_after": 0.4241062073706234
+      },
+      "test_ensemble": {
+        "n": 210,
+        "ece_before": 0.10278762499372737,
+        "brier_before": 0.222545234851878,
+        "nll_before": 0.644316106676535,
+        "ece_after": 0.06387162298539609,
+        "brier_after": 0.1976827457811079,
+        "nll_after": 0.39658868284578946
+      },
+      "test_models": {
+        "n_models": 5,
+        "mean": {
+          "ece_before": 0.13073483948081555,
+          "brier_before": 0.2658274222191836,
+          "nll_before": 1.047049627294141,
+          "ece_after": 0.0620058641165396,
+          "brier_after": 0.2249452560015536,
+          "nll_after": 0.4646151216809039
+        },
+        "sd": {
+          "ece_before": 0.01012261334678287,
+          "brier_before": 0.010611617561073854,
+          "nll_before": 0.08497581548736446,
+          "ece_after": 0.019134070797145988,
+          "brier_after": 0.011019395022736914,
+          "nll_after": 0.020933386298300445
+        }
+      }
+    }
+  }
+}
