@@ -183,3 +183,35 @@ This is well inside the 35–38 GPU-hours planned for Track A (Report 04 §6).
 - **Logit adjustment trades accuracy for rare-class recall:** macro-F1 (primary) and accuracy are both reported.
 - **The deletion control** can land on soft tissue in crops that show little bone. The brightness condition reduces this, and the report states how often it happened.
 - **The train/test annotation shift (C01)** affects every model's test Dice in the same way. As before, Dice is reported per location, out of fold and on the test set side by side.
+
+---
+
+## 9. Addendum (2026-11-27): result of the fold-0 development (C06) and the settings proposed for the freeze
+
+The two development rounds ran on Kaggle (commit `f342b8a`, about 50 min each on one T4; register lines 13–16). Analysis C06 (`results/analysis/C06_paperA_dev_fold0/report.md`) applied the rule of §4 on fold 0's 208 femurs:
+
+| Rule | Result | Decision |
+|---|---|---|
+| Go / no-go (base ≥ .79) | `A6_dev_base` macro-F1 .776 (M0 .822) | **Fails: design review** |
+| D1 teacher forcing | `A6_dev_no_tf` +.008 | Keep teacher forcing over 30 epochs |
+| D2 end-to-end mask | `A6_dev_detach` +.019 (short of .02 by .001) | Keep the end-to-end mask |
+| D3 region pooling at 1/32 only | `A6_dev_scale32` +.052, Dice +.006 | **Pool at 1/32 only** |
+| Two winners | one | No combination run |
+
+**Design review (rule 1).**
+- Accuracy is the same for the base and M0 (184 of 208).
+- The base's shortfall comes from the two smallest classes: two of the 7 subtrochanteric femurs and a lower Garden I-II precision. It is not significant (p = .25).
+- The same heads with pooling at 1/32 only reach .827, M0's level. So the 1/16 region features, not the heads, caused the shortfall.
+- The oracle test shows that, with teacher forcing, the base heads use the region: the released mask fixes 6 of their 23 wrong fractured femurs. The 1/32-only heads did not gain from the released mask on fold 0. The deletion test of the final A6 (C08) will show how much they depend on the region.
+
+**Settings proposed for the freeze (M2-A):** teacher forcing over 30 epochs, an end-to-end mask, and region pooling at 1/32 only (`--slg-scales 32`). Everything else is as fixed in §1–§3.
+- The five final runs are in `kaggle/runs.json`, about 2.6–2.8 h each on T4 x2, about 13 h in all:
+  - `A2_region`, `A3_geometry`, `A4_hierarchy` and `A5_shared_grade`, with the oracle test;
+  - `A6_slgnet`, with the oracle and deletion tests.
+- They start from the tag `A-v1-frozen` once the person approves the freeze.
+- The alternative offered to the person is to repeat `A6_dev_base` and `A6_dev_scale32` with a second seed first (one session, about 55 min) and apply the same rule to the mean of the two seeds.
+
+**Change to the analysis code (no effect on any decision).** `scripts/run_stats.py` now fits the calibration temperature for network runs whose per-case files write a true-class probability as 0.
+- The 0 is below their 8 decimals, and it is read as 10⁻¹² like every other written 0.
+- One femur of `A6_dev_detach` and one of S05 had such a 0.
+- YOLO runs stay "not applicable", because there a 0 means that no instance of the class was detected.

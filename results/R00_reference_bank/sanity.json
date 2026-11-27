@@ -1,0 +1,213 @@
+{
+  "counts": {
+    "train": {
+      "femurs": 1043,
+      "healthy": 363,
+      "fractured": 680,
+      "by_pair_type": {
+        "fractured, healthy partner": 334,
+        "healthy, fractured partner": 334,
+        "single": 361,
+        "healthy, healthy partner": 14
+      }
+    },
+    "test": {
+      "femurs": 210,
+      "healthy": 65,
+      "fractured": 145,
+      "by_pair_type": {
+        "fractured, healthy partner": 64,
+        "healthy, fractured partner": 64,
+        "single": 82
+      }
+    }
+  },
+  "checks": {
+    "1_mirror_check": {
+      "femurs_with_partner": 810,
+      "mirrored_partner_closer": 473,
+      "share": 0.5839506172839506,
+      "rule": ">= 0.80 use the orientation rule as written; 0.60-0.80 use it and state it as a limitation; < 0.60 review the orientation rule before B-2"
+    },
+    "2_retrieval_vs_chance": {
+      "per_fold_model": [
+        {
+          "fold_model": 0,
+          "held_out_top3_mean_cos": 0.5651135625,
+          "held_out_random_cos": 0.0656429326923077
+        },
+        {
+          "fold_model": 1,
+          "held_out_top3_mean_cos": 0.5481521020733653,
+          "held_out_random_cos": 0.007124143540669857
+        },
+        {
+          "fold_model": 2,
+          "held_out_top3_mean_cos": 0.5740316267942583,
+          "held_out_random_cos": 0.00782436363636364
+        },
+        {
+          "fold_model": 3,
+          "held_out_top3_mean_cos": 0.5763730733652312,
+          "held_out_random_cos": 0.033009894736842106
+        },
+        {
+          "fold_model": 4,
+          "held_out_top3_mean_cos": 0.5587180432692308,
+          "held_out_random_cos": 0.015514350961538468
+        }
+      ],
+      "top3_minus_random_mean": 0.5386545444868729
+    },
+    "3_duplicates": {
+      "pixel_identical_references": 0,
+      "references_with_cos_ge_0.995": []
+    },
+    "4_held_out_vs_test_top1": [
+      {
+        "fold_model": 0,
+        "held_out": {
+          "n": 208,
+          "mean": 0.594741966346154,
+          "median": 0.587961,
+          "q1": 0.51696625,
+          "q3": 0.6672905
+        },
+        "test": {
+          "n": 210,
+          "mean": 0.5878791238095238,
+          "median": 0.6024295,
+          "q1": 0.5065142499999999,
+          "q3": 0.670954
+        }
+      },
+      {
+        "fold_model": 1,
+        "held_out": {
+          "n": 209,
+          "mean": 0.5756432631578947,
+          "median": 0.569088,
+          "q1": 0.486313,
+          "q3": 0.658485
+        },
+        "test": {
+          "n": 210,
+          "mean": 0.5890831476190476,
+          "median": 0.6084585,
+          "q1": 0.5029710000000001,
+          "q3": 0.66763725
+        }
+      },
+      {
+        "fold_model": 2,
+        "held_out": {
+          "n": 209,
+          "mean": 0.6028772440191388,
+          "median": 0.601329,
+          "q1": 0.522755,
+          "q3": 0.683954
+        },
+        "test": {
+          "n": 210,
+          "mean": 0.5880023428571428,
+          "median": 0.600616,
+          "q1": 0.49561425,
+          "q3": 0.6686915
+        }
+      },
+      {
+        "fold_model": 3,
+        "held_out": {
+          "n": 209,
+          "mean": 0.6074133971291866,
+          "median": 0.604184,
+          "q1": 0.516413,
+          "q3": 0.688141
+        },
+        "test": {
+          "n": 210,
+          "mean": 0.5881802904761905,
+          "median": 0.601499,
+          "q1": 0.50100725,
+          "q3": 0.6712297500000001
+        }
+      },
+      {
+        "fold_model": 4,
+        "held_out": {
+          "n": 208,
+          "mean": 0.5865213990384615,
+          "median": 0.5904355,
+          "q1": 0.50755225,
+          "q3": 0.656327
+        },
+        "test": {
+          "n": 210,
+          "mean": 0.588382861904762,
+          "median": 0.602179,
+          "q1": 0.506043,
+          "q3": 0.6779655
+        }
+      }
+    ],
+    "5_partner_rank": {
+      "femurs": 668,
+      "median_rank": 6.0,
+      "share_rank_1": 0.26646706586826346,
+      "share_top5": 0.4865269461077844,
+      "about": "rank the own healthy partner (in its better orientation) would have among the fold model's bank, for held-out and test femurs with a healthy partner; test femurs count once per fold model"
+    },
+    "6_bank": [
+      {
+        "fold_model": 0,
+        "healthy_femurs": 291,
+        "fractured_femurs": 544,
+        "healthy_by_pair_type": {
+          "healthy, fractured partner": 267,
+          "healthy, healthy partner": 12,
+          "single": 12
+        }
+      },
+      {
+        "fold_model": 1,
+        "healthy_femurs": 290,
+        "fractured_femurs": 544,
+        "healthy_by_pair_type": {
+          "healthy, fractured partner": 268,
+          "single": 12,
+          "healthy, healthy partner": 10
+        }
+      },
+      {
+        "fold_model": 2,
+        "healthy_femurs": 290,
+        "fractured_femurs": 544,
+        "healthy_by_pair_type": {
+          "healthy, fractured partner": 268,
+          "single": 12,
+          "healthy, healthy partner": 10
+        }
+      },
+      {
+        "fold_model": 3,
+        "healthy_femurs": 291,
+        "fractured_femurs": 543,
+        "healthy_by_pair_type": {
+          "healthy, fractured partner": 267,
+          "single": 12,
+          "healthy, healthy partner": 12
+        }
+      },
+      {
+        "fold_model": 4,
+        "healthy_femurs": 290,
+        "fractured_femurs": 545,
+        "healthy_by_pair_type": {
+          "healthy, fractured partner": 266,
+          "single": 12,
+          "healthy, healthy partner": 12
+        }
+      }
+    ]
+  }
+}

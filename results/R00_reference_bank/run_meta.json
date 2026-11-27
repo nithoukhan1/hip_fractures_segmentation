@@ -1,0 +1,9 @@
+{
+  "run": "R00_reference_bank",
+  "step": "4",
+  "git_commit": "dc152a9d954fef8e23358df317d3054218e312c4",
+  "command": "/usr/bin/python3 /tmp/code/scripts/build_reference_bank.py --size 768x512 --batch 16 --out /kaggle/working/results/R00_reference_bank",
+  "started_utc": "2026-11-27T03:37:38Z",
+  "runtime_minutes": 2.46,
+  "exit_code": 0
+}

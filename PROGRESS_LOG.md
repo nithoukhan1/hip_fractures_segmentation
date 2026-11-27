@@ -4,6 +4,48 @@ Newest entries at the top. Each entry: what was done, what it produced, what com
 
 ---
 
+## 2026-11-27 · Step 15: seven runs filed; C03 and C06; Paper B's orientation rule reviewed
+
+**Done (you)**
+- Merged PR #10 (`dc152a9`). Seven Kaggle sessions finished: `S04_densenet121`, `S05_efficientnet_b4`, `S07_unet_r34`, `S08_deeplabv3p_r34`, `A_dev_round1`, `A_dev_round2` and `R00_reference_bank`.
+- Relaunched `S09_segformer_b2` with the dataset attached. It is still running.
+
+**Done (me)**
+1. **Filed** the seven zips as nine runs (register lines 9–17; each group zip holds two development runs). Every run was checked:
+   - all folds present;
+   - every out-of-fold femur predicted once, by the model that did not train on it;
+   - `metrics.json` equal to a re-evaluation of the per-case files.
+2. **C06, Paper A's fold-0 development** (`results/analysis/C06_paperA_dev_fold0/report.md`), by the fixed rule of Analysis/06 §4:
+   - **go / no-go fails:** `A6_dev_base` has macro-F1 .776 < .79 (M0 .822). Accuracy is the same (184/208); two of the 7 subtrochanteric femurs make the gap (p = .25);
+   - D1: teacher forcing stays (+.008);
+   - D2: the end-to-end mask stays (+.019, short of .02);
+   - **D3: region pooling at 1/32 only** (+.052, Dice +.006). With it the heads match M0 (.827);
+   - design review: the 1/16 region features caused the shortfall, not the heads. The proposed freeze is teacher forcing 30 epochs, end-to-end mask, pooling at 1/32 (Analysis/06 §9). The five final runs `A2_region` … `A6_slgnet` are in `kaggle/runs.json` and wait for your approval of the freeze.
+3. **C03, the classifiers vs YOLO** (`results/analysis/C03_classifiers_vs_yolo/report.md`):
+   - both article classifiers are reproduced (DenseNet121 84.8 ± 2.0% against 83.8%; EfficientNet-B4 80.6 ± 1.5% against 79.0%);
+   - out of fold, DenseNet121 and ConvNeXt-T beat YOLO (DenseNet121: accuracy +3.5 points, macro-F1 +.058, Holm p = .002), mostly by half as many detection errors;
+   - on the test set YOLO's ensemble is ahead (88.1%), not significantly, thanks to better location (2 errors against 8–9).
+4. **R00, Paper B's reference bank:** check 1 failed (mirror check 58.4% < 60%). The ImageNet features hardly see left and right, because ImageNet training uses random flips. So the rule required a review of the orientation rule.
+   - **Review** (`scripts/check_orientation.py`, run on your PC's images, no labels; `results/analysis/C10_paperB_orientation_review/`): a femur's pelvis side, read as the brighter half of the upper image, gives the two femurs of an x-ray opposite sides in 402 of 405 x-rays (99.3%). It agrees with pixel alignment for 99.2% of random pairs of different patients.
+   - **Version 2** (Analysis/07 §8): a reference is mirrored when its pelvis side differs from the target's. Code `refbank.py` and `build_reference_bank.py` changed; new run `R00_reference_bank_r2` (about 3 min).
+5. **Calibration fix:** `run_stats.py` now fits a temperature for network runs whose per-case file writes a true-class probability as 0 (below 8 decimals). This affected one femur each of S05 and A6_dev_detach. YOLO stays "not applicable", and no earlier value changed.
+6. **Notes and tests:**
+   - run notes for the nine runs;
+   - 3 new unit tests (pelvis side, given orientation, the calibration of a written 0): 66 unit tests in all, and the 62 that need no data pass;
+   - the reference-bank smoke test passes.
+
+**Next**
+- You:
+  1. merge this PR;
+  2. run `R00_reference_bank_r2` (`BRANCH = "main"`, about 3 min);
+  3. say whether Paper A's settings may be frozen. If yes, I tag `A-v1-frozen` and you launch `A2_region` … `A6_slgnet` with `BRANCH = "A-v1-frozen"` (about 13 h in all);
+  4. send S09's zip when it finishes.
+- Me:
+  - C04 when S09 is filed;
+  - the checks of `R00_reference_bank_r2`, then B-2's protocol (the Siamese model).
+
+---
+
 ## 2026-11-27 · Step 14: Paper B step B-1, the pair index and the bank of healthy reference femurs
 
 **Done (you)**

@@ -18,8 +18,10 @@ Calibration (Analysis/06 §6): one temperature per run is fitted on its pooled O
 (temperature scaling of the 6-class probabilities, Guo et al. 2017) and applied unchanged to the test set. ECE,
 Brier score and NLL are reported before and after: on the OOF femurs (where the temperature was fitted), on the test
 ensemble, and as mean ± SD over the fold models on the test set. Decisions and all other metrics are unchanged.
-Not applicable when some OOF femur's true class has probability exactly 0 (YOLO gives no probability to a class
-without a detected instance): the NLL is then undefined, so only the values before are reported.
+Not applicable to a YOLO run when some OOF femur's true class has probability exactly 0 (YOLO gives no probability
+to a class without a detected instance): the NLL is then undefined, so only the values before are reported. A network
+run (scripts/train_net.py) writes softmax probabilities with 8 decimals, so a written 0 there only means "below 5e-9":
+it is read as metrics.PROB_FLOOR, like every other written 0, and the report counts such femurs.
 
 Examples
   python scripts/run_stats.py S01_yolov8s_seg_1024
@@ -169,9 +171,18 @@ def load_run(results: Path, run: str, folds: list[int] | None = None) -> tuple[d
     return {"tau": tau, "metrics": met}, scopes
 
 
-def _calib(probs: np.ndarray, y: np.ndarray, t: float | None) -> dict:
-    """ECE, Brier and NLL before and after temperature t (after = None when t is None, i.e. not applicable)."""
-    zero = bool((probs[np.arange(len(y)), y] == 0).any())
+def writes_rounded_softmax(d: Path) -> bool:
+    """True for a run of scripts/train_net.py (its config.json names a ``net``): its probabilities come from a softmax
+    and are written with 8 decimals, so a written 0 only means "below 5e-9". A YOLO run has no ``net``: it gives no
+    probability at all to a class without a detected instance."""
+    cfg = d / "config.json"
+    return cfg.exists() and "net" in json.loads(cfg.read_text())
+
+
+def _calib(probs: np.ndarray, y: np.ndarray, t: float | None, rounded: bool = False) -> dict:
+    """ECE, Brier and NLL before and after temperature t (after = None when t is None, i.e. not applicable). With
+    ``rounded`` (a network run), a written 0 is read as metrics.PROB_FLOOR, so the NLL is always defined."""
+    zero = not rounded and bool((probs[np.arange(len(y)), y] == 0).any())
     out = {"n": int(len(y)), "ece_before": M.expected_calibration_error(probs, y),
            "brier_before": M.brier_score(probs, y), "nll_before": None if zero else M.nll(probs, y)}
     after = M.apply_temperature(probs, t) if t is not None else None
@@ -190,12 +201,17 @@ def calibration(results: Path, run: str, folds: list[int] | None = None) -> dict
         oof = [r for r in oof if int(float(r["fold"])) in folds]
     probs, y = case_probs(oof)
     zero = int((probs[np.arange(len(y)), y] == 0).sum())
-    t = None if zero else M.fit_temperature(probs, y)
+    rounded = writes_rounded_softmax(d)
+    t = None if zero and not rounded else M.fit_temperature(probs, y)
     out = {"temperature": t, "fitted_on": f"{len(y)} OOF femurs" + (f" of folds {folds}" if folds else ""),
-           "oof": _calib(probs, y, t)}
-    if zero:
+           "oof": _calib(probs, y, t, rounded)}
+    if zero and not rounded:
         out["not_applicable"] = (f"{zero} of {len(y)} OOF femurs give their true class probability 0, so the NLL is "
                                  "undefined (YOLO-style confidences: no probability for a class without an instance)")
+    elif zero:
+        out["rounded_zeros"] = (f"{zero} of {len(y)} OOF femurs have their true class probability written as 0 (the "
+                                f"per-case files keep 8 decimals, so it is below 5e-9); it is read as {M.PROB_FLOOR:g}, "
+                                "like every written 0")
     lo, hi = M.TEMPERATURE_RANGE
     if t is not None and not lo * 1.01 < t < hi / 1.01:
         out["at_search_bound"] = (f"the temperature lies at the end of the search range {lo:g}-{hi:g}, so read the "
@@ -205,10 +221,11 @@ def calibration(results: Path, run: str, folds: list[int] | None = None) -> dict
     if (d / SCOPES["test_ensemble"]).exists():
         rows = read_cases(d / SCOPES["test_ensemble"])
         if rows:
-            out["test_ensemble"] = _calib(*case_probs(rows), t)
+            out["test_ensemble"] = _calib(*case_probs(rows), t, rounded)
     if (d / "per_case_test.csv").exists():
         rows = read_cases(d / "per_case_test.csv")
-        per_model = [_calib(*case_probs([r for r in rows if r["model"] == m]), t) for m in sorted({r["model"] for r in rows})]
+        per_model = [_calib(*case_probs([r for r in rows if r["model"] == m]), t, rounded)
+                     for m in sorted({r["model"] for r in rows})]
         if per_model:
             keys = [k for k in per_model[0] if k != "n" and all(b[k] is not None for b in per_model)]
             out["test_models"] = {"n_models": len(per_model),
@@ -307,7 +324,8 @@ def main(argv=None) -> int:
     lines += ["", "ECE: 15 equal-width bins of the top-class probability. The temperature keeps each femur's most "
               "probable class, and no threshold or decision uses it: it is reported only."]
     lines += [f"{run}: {'not applicable, ' if k == 'not_applicable' else ''}{cal[k]}." for run, cal in
-              report["calibration"].items() for k in ("not_applicable", "at_search_bound") if cal.get(k)] + [""]
+              report["calibration"].items() for k in ("not_applicable", "rounded_zeros", "at_search_bound")
+              if cal.get(k)] + [""]
     for key, scopes in report["comparisons"].items():
         for sc, res in scopes.items():
             lines += [f"## {key}: {sc}", "", "| Endpoint | Test | Difference (A − B) | p | p (Holm) |", "|---|---|---|---|---|"]

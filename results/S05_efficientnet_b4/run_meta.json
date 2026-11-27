@@ -1,0 +1,9 @@
+{
+  "run": "S05_efficientnet_b4",
+  "step": "2",
+  "git_commit": "4820f6b28eba26286114339aebe3f3c7cc331063",
+  "command": "/usr/bin/python3 /tmp/code/scripts/train_net.py --net cls:efficientnet_b4.ra2_in1k --size 768x512 --epochs 60 --batch 16 --folds 0,1,2,3,4 --gpus 0,1 --out /kaggle/working/results/S05_efficientnet_b4",
+  "started_utc": "2026-11-27T02:09:12Z",
+  "runtime_minutes": 115.16,
+  "exit_code": 0
+}

@@ -1,0 +1,10 @@
+{
+  "run": "A6_dev_no_tf",
+  "step": "3",
+  "git_commit": "f342b8a17a736f8267fe9d7574f5d227e641b360",
+  "command": "/usr/bin/python3 /tmp/code/scripts/train_net.py --net slg:convnext_tiny.fb_in22k_ft_in1k:A6 --size 768x512 --epochs 60 --batch 16 --folds 0 --no-test --extra-tests oracle --tf-epochs 0 --out /kaggle/working/results/A_dev_round1/A6_dev_no_tf --gpus 1 --workers 2 --work /kaggle/working/work/A6_dev_no_tf",
+  "started_utc": "2026-11-27T02:44:05Z",
+  "group": "A_dev_round1",
+  "runtime_minutes": 51.88,
+  "exit_code": 0
+}

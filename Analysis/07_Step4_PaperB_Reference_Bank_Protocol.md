@@ -1,6 +1,6 @@
 # Report 07: Step 4 protocol, Paper B (RefFrac) step B-1: the pair index and the bank of healthy reference femurs
 
-**Date:** 2026-11-27 · **Code:** `src/femurseg/refbank.py`, `scripts/build_reference_bank.py` · **Run:** `R00_reference_bank` in `kaggle/runs.json`
+**Date:** 2026-11-27 · **Code:** `src/femurseg/refbank.py`, `scripts/build_reference_bank.py` · **Run:** `R00_reference_bank` (version 1), `R00_reference_bank_r2` (version 2 of the orientation rule, §8) in `kaggle/runs.json`
 **Why this report:** RefFrac compares every femur with healthy reference femurs. This report fixes, before any feature is computed, which femurs may serve as references for which femur, how they are chosen, and which checks the bank must pass before step B-2 (the Siamese model) starts. The design comes from Report 03 §4 and Report 04 §5.
 
 ---
@@ -56,7 +56,7 @@ Every R run of Paper B reads the same two tables, so the runs differ only in wha
    - All femur crops look alike, so the raw features share a large common part that pushes every cosine towards 1.
    - The mean uses images only, no labels, and never the held-out fold or the test set.
    - The pair index belongs to no fold model, so it uses the mean of all 1,043 training femurs.
-3. **Orientation:** every femur is encoded as released and mirrored left–right.
+3. **Orientation (version 1; replaced by version 2 in §8 after check 1 failed):** every femur is encoded as released and mirrored left–right.
    - The similarity of a femur T and a bank femur R is the larger of cos(T, R) and cos(T, mirrored R).
    - R is then used in that orientation.
    - Each bank femur counts once. Ties go to the earlier file of the fold file.
@@ -114,3 +114,42 @@ Every R run of Paper B reads the same two tables, so the runs differ only in wha
 
 ## 7. Next: B-2
 The Siamese model: M0's encoder shared by the target and its references, cross-attention alignment at 1/16 and 1/32, and fusion [T, T − R, |T − R|] into M0's decoder and head (Report 04 §5.3). It gets its own protocol (`Analysis/08_…`) before any run, then fold-0 development, as for Paper A.
+
+---
+
+## 8. Addendum (2026-11-27): check 1 failed, so the orientation rule was reviewed (version 2)
+
+**What happened.** `R00_reference_bank` ran on Kaggle (commit `dc152a9`, 2.46 min, register line 17). Check 1 failed: for only 473 of the 810 femurs with a partner (58.4%) was the mirrored partner closer than the partner as released. This is below the 60% line of §4, so the rule required a review of the orientation rule before B-2. The figure agreed: in `nn_fold0.png`, some references are shown with the pelvis on the other side from the target's.
+
+**Why.** ImageNet networks are trained with random left–right flips. Their pooled features therefore change very little when an image is mirrored.
+- For the same reason, the similarity ranking is not affected. Retrieval still clearly beats chance (check 2: the 3 nearest have a cosine .539 higher than a random healthy femur), and a femur's own partner would rank 6th (median) among about 290 bank femurs (check 5).
+- But "the better orientation" (§3.3, point 3) was close to a coin toss.
+
+**The review** (`scripts/check_orientation.py`, run on the released images of all 1,253 femurs; no label used; outputs and report in `results/analysis/C10_paperB_orientation_review/`):
+
+| Test | Result |
+|---|---|
+| The partner correlates better mirrored, with 96 × 64 pixel thumbnails instead of ImageNet features | 796 of 810 femurs (98.3%) |
+| **Pelvis side** (the brighter half of the upper image): the two femurs of an x-ray get opposite sides | **402 of 405 x-rays (99.3%)** |
+| Variants, reported only: whole image / upper third | 383 (94.6%) / 404 (99.8%) |
+| 20,000 random pairs of femurs from different x-ray groups: "mirror when the sides differ" agrees with the orientation the thumbnails prefer | 19,832 (99.2%) |
+| Pelvis on the left: all / training / test | 49.7% / 49.6% / 50.5% |
+
+- The pelvis side was the first rule tried, and it is kept as written. The upper-third variant does 2 x-rays better, but it was not chosen, so that no choice is fitted to these 405 x-rays.
+- The 3 x-rays whose two femurs got the same side are 00022, 00273 and 00298. 13 femurs have an ambiguous side (the two upper halves differ by less than 5% in brightness).
+
+**Version 2 of the rule (replaces §3.3, point 3).**
+1. Every femur's pelvis side is read from its own image: the half (left or right) of the upper image that is brighter on average. The pelvis is bone; the other side is the soft tissue of the thigh. The function is `refbank.pelvis_side`, applied to the 768 × 512 cached image.
+2. A reference is used mirrored when its pelvis side differs from the target's, and as released otherwise. Target and reference then always show the same side.
+3. The similarity is the centred cosine of the ImageNet features in that orientation. The rules for the bank, the exclusion, the centring, k and the seeds are unchanged.
+4. The random references (R2, swap tests a and b) follow the same rule.
+5. The partner of R7 stays "always mirrored": it is the other hip.
+
+**Check 1, version 2.** Check 1 is now the share of femurs with a partner whose partner the rule mirrors. Its decision lines are unchanged (≥ 80%: use as written). The review predicts 804 of 810 (99.3%). The version-1 share (58.4%) stays in `sanity.json` and `summary.md` as `features_share`, reported only. Check 5 now uses the partner mirrored, as R7 does.
+
+**Run.** `R00_reference_bank_r2` (about 3 min, one T4): the same script with the version-2 rule.
+- Every R run will read its `pairs.csv` and `references.csv`.
+- `R00_reference_bank` stays filed as the record of version 1.
+- B-2 starts once `R00_reference_bank_r2` passes check 1 and its figure shows every reference with the pelvis on the target's side.
+
+**Limitation, stated now.** About 0.5% of femurs may get the wrong side: 3 of 405 x-rays failed, and 13 femurs are ambiguous. Their references are then mirrored the wrong way. The Siamese model's cross-attention alignment (B-2) must cope with such a reference; this is a small share of femurs.

@@ -19,9 +19,9 @@ Sources:
 | Fixed 5-fold split of the training set | Done (`splits/folds_v1.csv`) |
 | Kaggle environment check | Done: data and folds on Kaggle are identical to `splits/folds_v1.csv` (Kaggle's val/ pooled into train) |
 | Data loader, metrics, statistics, tests | Done (`src/femurseg/data.py`, `metrics.py`, `stats.py`, `tests/`) |
-| Shared baselines S1–S9 and core model M0 | In progress: S01 and S02 (YOLOv8s-seg) done and analysed: they reproduce the article's accuracy and AUC (`results/analysis/C01_yolo_1024_vs_640/report.md`). S03 (YOLO11s-seg) adds nothing over YOLOv8s-seg (`results/analysis/C02_yolov8_vs_yolo11/report.md`). The core model M0 (S10) classifies better than the ConvNeXt-T classifier S06 and segments better than YOLO (`results/analysis/C05_mask_task_s06_vs_s10/report.md`). Next: S07, S04, S08, S09, S05. Protocol in `Analysis/05_Step2_Baselines_Protocol.md` |
-| Paper A (SLG-Net) | Step 3 protocol (`Analysis/06_Step3_PaperA_Protocol.md`) and code (`src/femurseg/slg.py`: variants A2–A6, oracle and region-deletion tests) done and tested on the CPU; fold-0 development runs ready to launch |
-| Paper B (RefFrac) | Not started |
+| Shared baselines S1–S9 and core model M0 | Nearly done: S01–S08 and S10 done. S01 and S02 (YOLOv8s-seg) reproduce the article's accuracy and AUC (`results/analysis/C01_yolo_1024_vs_640/report.md`); S03 (YOLO11s-seg) adds nothing (`C02_yolov8_vs_yolo11`). The image classifiers S04–S06 classify better than YOLO out of fold and reproduce the article's DenseNet121 and EfficientNet-B4 (`C03_classifiers_vs_yolo`). The core model M0 (S10) classifies better than the ConvNeXt-T classifier S06 and segments better than YOLO (`C05_mask_task_s06_vs_s10`). S09 (SegFormer) is running; analysis C04 (segmenters S07–S10 vs YOLO) follows. Protocol in `Analysis/05_Step2_Baselines_Protocol.md` |
+| Paper A (SLG-Net) | Fold-0 development done (`results/analysis/C06_paperA_dev_fold0/report.md`): the base setting missed the go/no-go line (macro-F1 .776 < .79); the design review traced this to the 1/16 region features, and region pooling at 1/32 only reaches M0's level (.827). Freeze proposed (teacher forcing over 30 epochs, end-to-end mask, region pooling at 1/32 only; tag `A-v1-frozen`); the five final runs A2–A6 are in `kaggle/runs.json` |
+| Paper B (RefFrac) | Step B-1 (`Analysis/07_Step4_PaperB_Reference_Bank_Protocol.md`): pair index and bank of healthy reference femurs built (R00). Its mirror check failed because ImageNet features hardly see left and right; version 2 of the orientation rule reads the pelvis side from the image (the two femurs of an x-ray get opposite sides in 402 of 405 x-rays, `results/analysis/C10_paperB_orientation_review/`) and is re-run as `R00_reference_bank_r2`. Next: the protocol of step B-2 |
 
 Details: [`PROJECT_TRACKER.md`](PROJECT_TRACKER.md) (overall) and [`PROGRESS_LOG.md`](PROGRESS_LOG.md) (step by step).
 
@@ -52,7 +52,8 @@ Details: [`PROJECT_TRACKER.md`](PROJECT_TRACKER.md) (overall) and [`PROGRESS_LOG
 │                           train_net.py (S04–S10: classifiers, segmenters, M0; S00_net_check; SLG-Net A2–A6),
 │                           run_stats.py (95% intervals, paired comparisons and calibration of filed runs),
 │                           run_breakdown.py (per class, mean ± SD over folds, comparison with the article),
-│                           build_reference_bank.py (R00: Paper B's reference femurs)
+│                           build_reference_bank.py (R00: Paper B's reference femurs),
+│                           check_orientation.py (C10: Paper B's orientation review; runs on a laptop)
 ├── tests/                  checks of metrics, statistics, folds, the article's numbers, the breakdown, the
 │                           networks and SLG-Net, Paper B's reference bank, the Kaggle launcher's data check, and
 │                           CPU smoke tests of both training scripts, both analysis scripts, the reference bank
@@ -61,7 +62,8 @@ Details: [`PROJECT_TRACKER.md`](PROJECT_TRACKER.md) (overall) and [`PROGRESS_LOG
 ├── kaggle/                 Kaggle launcher notebook, run list and Kaggle-only scripts
 ├── results/                every run's metrics, notes and small outputs (no model weights)
 │   ├── EXPERIMENTS.md      the experiment register: one line per run
-│   ├── analysis/           analyses across runs (C01 = S01 vs S02, C02 = S01 vs S03, C05 = S06 vs S10)
+│   ├── analysis/           analyses across runs (C01 = S01 vs S02, C02 = S01 vs S03, C03 = classifiers vs S01,
+│   │                       C05 = S06 vs S10, C06 = Paper A's fold-0 development, C10 = Paper B's orientation)
 │   └── _inbox/             drop zips downloaded from Kaggle here
 └── manuscript/             paper drafts, tables and figures (later)
 ```

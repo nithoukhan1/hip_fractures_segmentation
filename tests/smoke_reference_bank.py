@@ -2,8 +2,8 @@
 
 It builds the fake dataset of tests/synthetic_data.py, pairs some femurs into two-femur x-rays (a healthy femur with
 a fractured one, like the real data), runs the script with random weights (--no-pretrained, no download) through
-kaggle/run.py, and checks every output: pairs.csv, references.csv (5 fold models x every femur), sanity.json,
-summary.md, the figure, config.json and features.npz. Needs torch, timm, opencv and matplotlib:
+kaggle/run.py, and checks every output: pairs.csv (with pelvis sides), references.csv (5 fold models x every
+femur, oriented by the pelvis sides), sanity.json, summary.md, the figure, config.json and features.npz. Needs torch, timm, opencv and matplotlib:
 
     python tests/smoke_reference_bank.py --work /tmp/smoke_bank
 """
@@ -70,17 +70,27 @@ def main() -> None:
     assert len(pairs) == n and sum(p["partner"] != "" for p in pairs) == 2 * n_pairs > 0
     assert len(table) == 5 * n and {t["role"] for t in table} == {"train", "held_out", "test"}
     folds = {r["file"]: r for r in csv.DictReader(open(folds_csv))}
+    side = {p["file"]: p["pelvis_side"] for p in pairs}
+    assert set(side.values()) <= {"left", "right"} and all(
+        p["partner_pelvis_side"] == side[p["partner"]] for p in pairs if p["partner"])
     for t in table:  # every reference: a healthy training femur of another fold and another group
         for col in ("ref1", "ref2", "ref3", "ref4", "ref5", "random_healthy"):
             r = folds[t[col]]
             assert r["split"] == "train" and r["cls6"] == "0" and r["fold"] != t["fold_model"] and r["group"] != t["group"]
+    for t in table:  # orientation: mirrored exactly when the pelvis sides differ
+        for col in ("ref1", "random_healthy", "random_fractured"):
+            assert t[f"{col}_mirrored"] == str(int(side[t[col]] != side[t["file"]])), (t, col)
     checks = json.loads((out / "sanity.json").read_text())["checks"]
-    assert checks["1_mirror_check"]["femurs_with_partner"] == 2 * n_pairs
+    m1 = checks["1_mirror_check"]
+    assert m1["femurs_with_partner"] == 2 * n_pairs
+    assert m1["partner_mirrored_by_rule"] == sum(p["partner_mirrored_by_rule"] == "1" for p in pairs)
     assert "Mirror check" in (out / "summary.md").read_text()
     cfg = json.loads((out / "config.json").read_text())
     assert not cfg["pretrained"] and cfg["feature_dim"] == 768 and cfg["n_femurs"] == n
     feats = np.load(root / "kaggle_working" / "work" / "R00_smoke" / "features.npz")
     assert feats["features"].shape == (n, 2, 768) and list(feats["files"]) == list(folds)
+    assert [side[f] for f in feats["files"]] == list(feats["pelvis_sides"])
+    assert "orientation_rule" in cfg and "Pelvis on the left" in (out / "summary.md").read_text()
     assert json.loads((out / "run_meta.json").read_text())["exit_code"] == 0
     print(f"ok  reference bank: {n} femurs ({n_pairs} pairs), {len(table)} reference rows, checks, figure, features")
     print("SMOKE TEST PASSED")
