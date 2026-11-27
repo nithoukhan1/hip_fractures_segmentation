@@ -1,0 +1,19 @@
+{
+  "run": "R00_reference_bank_r2",
+  "net": "convnext_tiny.fb_in22k_ft_in1k",
+  "pretrained": true,
+  "size_hw": [
+    768,
+    512
+  ],
+  "feature_dim": 768,
+  "n_femurs": 1253,
+  "top_k": 5,
+  "folds_csv": "/tmp/code/splits/folds_v1.csv",
+  "orientation_rule": "version 2 (protocol \u00a78): a reference is mirrored when its pelvis side (the brighter half of the upper image) differs from the femur's",
+  "device": "cuda",
+  "gpu": "Tesla T4",
+  "seconds": 153.78378176689148,
+  "torch": "2.11.0+cu130",
+  "timm": "1.0.30"
+}

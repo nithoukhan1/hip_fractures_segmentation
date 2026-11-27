@@ -1,0 +1,216 @@
+{
+  "counts": {
+    "train": {
+      "femurs": 1043,
+      "healthy": 363,
+      "fractured": 680,
+      "by_pair_type": {
+        "fractured, healthy partner": 334,
+        "healthy, fractured partner": 334,
+        "single": 361,
+        "healthy, healthy partner": 14
+      }
+    },
+    "test": {
+      "femurs": 210,
+      "healthy": 65,
+      "fractured": 145,
+      "by_pair_type": {
+        "fractured, healthy partner": 64,
+        "healthy, fractured partner": 64,
+        "single": 82
+      }
+    }
+  },
+  "checks": {
+    "1_mirror_check": {
+      "femurs_with_partner": 810,
+      "partner_mirrored_by_rule": 804,
+      "share": 0.9925925925925926,
+      "features_mirrored_partner_closer": 473,
+      "features_share": 0.5839506172839506,
+      "rule": ">= 0.80 use the orientation rule as written; 0.60-0.80 use it and state it as a limitation; < 0.60 review the orientation rule before B-2",
+      "about": "share: femurs whose partner (the other hip) the pelvis-side rule mirrors; features_share: femurs whose mirrored partner has the higher feature cosine (the version-1 rule, reported only)"
+    },
+    "2_retrieval_vs_chance": {
+      "per_fold_model": [
+        {
+          "fold_model": 0,
+          "held_out_top3_mean_cos": 0.5575958782051281,
+          "held_out_random_cos": 0.04659023076923077
+        },
+        {
+          "fold_model": 1,
+          "held_out_top3_mean_cos": 0.5408833014354067,
+          "held_out_random_cos": -0.007626492822966506
+        },
+        {
+          "fold_model": 2,
+          "held_out_top3_mean_cos": 0.5664058245614035,
+          "held_out_random_cos": -0.007229923444976071
+        },
+        {
+          "fold_model": 3,
+          "held_out_top3_mean_cos": 0.5683191818181818,
+          "held_out_random_cos": 0.017885071770334927
+        },
+        {
+          "fold_model": 4,
+          "held_out_top3_mean_cos": 0.5514750641025642,
+          "held_out_random_cos": -0.0012513317307692275
+        }
+      ],
+      "top3_minus_random_mean": 0.5472623391163661
+    },
+    "3_duplicates": {
+      "pixel_identical_references": 0,
+      "references_with_cos_ge_0.995": []
+    },
+    "4_held_out_vs_test_top1": [
+      {
+        "fold_model": 0,
+        "held_out": {
+          "n": 208,
+          "mean": 0.5892080673076923,
+          "median": 0.5810085,
+          "q1": 0.5066695,
+          "q3": 0.66365675
+        },
+        "test": {
+          "n": 210,
+          "mean": 0.5805959666666667,
+          "median": 0.600124,
+          "q1": 0.5027225,
+          "q3": 0.664571
+        }
+      },
+      {
+        "fold_model": 1,
+        "held_out": {
+          "n": 209,
+          "mean": 0.569716052631579,
+          "median": 0.559405,
+          "q1": 0.480889,
+          "q3": 0.656931
+        },
+        "test": {
+          "n": 210,
+          "mean": 0.5819224809523809,
+          "median": 0.60077,
+          "q1": 0.50107375,
+          "q3": 0.66258125
+        }
+      },
+      {
+        "fold_model": 2,
+        "held_out": {
+          "n": 209,
+          "mean": 0.5952177607655502,
+          "median": 0.593143,
+          "q1": 0.509647,
+          "q3": 0.678814
+        },
+        "test": {
+          "n": 210,
+          "mean": 0.5816388380952381,
+          "median": 0.5945929999999999,
+          "q1": 0.49330025,
+          "q3": 0.664917
+        }
+      },
+      {
+        "fold_model": 3,
+        "held_out": {
+          "n": 209,
+          "mean": 0.6003664354066985,
+          "median": 0.588739,
+          "q1": 0.512546,
+          "q3": 0.686333
+        },
+        "test": {
+          "n": 210,
+          "mean": 0.5806713952380952,
+          "median": 0.5950565000000001,
+          "q1": 0.49833900000000003,
+          "q3": 0.6685705
+        }
+      },
+      {
+        "fold_model": 4,
+        "held_out": {
+          "n": 208,
+          "mean": 0.5800988701923077,
+          "median": 0.584349,
+          "q1": 0.49367225,
+          "q3": 0.65468025
+        },
+        "test": {
+          "n": 210,
+          "mean": 0.5807864714285714,
+          "median": 0.5976025,
+          "q1": 0.50138025,
+          "q3": 0.672132
+        }
+      }
+    ],
+    "5_partner_rank": {
+      "femurs": 668,
+      "median_rank": 6.0,
+      "share_rank_1": 0.25149700598802394,
+      "share_top5": 0.4745508982035928,
+      "about": "rank the own healthy partner (mirrored, as run R7 uses it) would have among the fold model's bank (oriented by the pelvis-side rule), for held-out and test femurs with a healthy partner; test femurs count once per fold model"
+    },
+    "6_bank": [
+      {
+        "fold_model": 0,
+        "healthy_femurs": 291,
+        "fractured_femurs": 544,
+        "healthy_by_pair_type": {
+          "healthy, fractured partner": 267,
+          "healthy, healthy partner": 12,
+          "single": 12
+        }
+      },
+      {
+        "fold_model": 1,
+        "healthy_femurs": 290,
+        "fractured_femurs": 544,
+        "healthy_by_pair_type": {
+          "healthy, fractured partner": 268,
+          "single": 12,
+          "healthy, healthy partner": 10
+        }
+      },
+      {
+        "fold_model": 2,
+        "healthy_femurs": 290,
+        "fractured_femurs": 544,
+        "healthy_by_pair_type": {
+          "healthy, fractured partner": 268,
+          "single": 12,
+          "healthy, healthy partner": 10
+        }
+      },
+      {
+        "fold_model": 3,
+        "healthy_femurs": 291,
+        "fractured_femurs": 543,
+        "healthy_by_pair_type": {
+          "healthy, fractured partner": 267,
+          "single": 12,
+          "healthy, healthy partner": 12
+        }
+      },
+      {
+        "fold_model": 4,
+        "healthy_femurs": 290,
+        "fractured_femurs": 545,
+        "healthy_by_pair_type": {
+          "healthy, fractured partner": 266,
+          "single": 12,
+          "healthy, healthy partner": 12
+        }
+      }
+    ]
+  }
+}

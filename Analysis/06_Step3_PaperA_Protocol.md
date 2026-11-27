@@ -215,3 +215,36 @@ The two development rounds ran on Kaggle (commit `f342b8a`, about 50 min each on
 - The 0 is below their 8 decimals, and it is read as 10⁻¹² like every other written 0.
 - One femur of `A6_dev_detach` and one of S05 had such a 0.
 - YOLO runs stay "not applicable", because there a 0 means that no instance of the class was detected.
+
+## 10. Addendum (2026-11-27): freeze approved, and a second seed for the base and 1/32 pooling
+
+Written on 2026-11-27, before either second-seed run was launched. §1–§9 are unchanged.
+
+**The person's decision (2026-11-27).** The freeze of §9 is approved, and the five final runs start. The second-seed check offered as the alternative in §9 runs as well, at the same time.
+
+**Tag `A-v1-frozen`.**
+- The tag goes on `main` after the pull request of Step 16 is merged. The person creates it on GitHub (Releases), because this project's Claude sessions cannot push tags.
+- The training code at that commit is identical to commit `f342b8a`, which trained the development runs: `scripts/train_net.py` and `src/femurseg/slg.py`, `nets.py`, `torchdata.py`, `runner.py`, `data.py`.
+- Since `f342b8a` only these changed: the evaluation (a refactor with identical numbers, plus calibration functions used by `scripts/run_stats.py`), clearer error messages, and the dataset check of `kaggle/run.py`. The rest is Paper B code. No setting of §1–§9 changed.
+- The final runs are launched with `BRANCH = "A-v1-frozen"` (`kaggle/README.md`).
+
+**Second-seed runs** (`kaggle/runs.json`, parallel group `A_dev_seed2`, one session on T4 x2, about 55 min, launched from `main`):
+
+| Run | Same as | Only difference |
+|---|---|---|
+| `A6_dev_base_s2` | `A6_dev_base` (register line 13) | `--seed 2027` instead of the default 2026 |
+| `A6_dev_scale32_s2` | `A6_dev_scale32` (register line 16) | `--seed 2027` |
+
+- The seed sets the random start of the new layers, the order of the training images and the augmentation (`torch`, `numpy` and the data loader, each seeded with seed + fold).
+- As in round 1 and round 2: fold 0 only, 60 epochs, no test-set predictions, with the oracle test.
+
+**Rule, fixed now** (analysis C11, `results/analysis/C11_paperA_seed2/`). It uses the same scoring as C06: fold 0's 208 femurs, with the threshold refitted on fold 0. Each setting's result is the mean of its two seeds.
+1. **Pooling at 1/32 only stays in the freeze if all three conditions hold:**
+   - its mean macro-F1 is at least .02 above the base's (the margin of §4);
+   - its mean Dice on fractured femurs (missed = 0) is no more than .01 below the base's;
+   - its mean macro-F1 is at least .79 (the go/no-go of §4).
+2. **If any condition fails, the freeze goes back to the person before any final-run result is analysed.**
+   - Final runs that are already running finish, but their results are not opened until the person decides.
+   - If the person then changes the frozen settings, the five final runs are repeated from a new tag (about 13 h).
+3. **Seed noise is reported:** the difference between the two seeds of each setting, for macro-F1 and Dice. It shows how large a single-seed difference on fold 0 can be by chance, the yardstick behind the .02 margin of §4.
+4. **No other decision of C06 is reopened.** Teacher forcing and the end-to-end mask stay as decided in §9.
