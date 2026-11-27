@@ -1,0 +1,18 @@
+{
+  "run": "R00_reference_bank",
+  "net": "convnext_tiny.fb_in22k_ft_in1k",
+  "pretrained": true,
+  "size_hw": [
+    768,
+    512
+  ],
+  "feature_dim": 768,
+  "n_femurs": 1253,
+  "top_k": 5,
+  "folds_csv": "/tmp/code/splits/folds_v1.csv",
+  "device": "cuda",
+  "gpu": "Tesla T4",
+  "seconds": 142.775377035141,
+  "torch": "2.11.0+cu130",
+  "timm": "1.0.30"
+}

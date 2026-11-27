@@ -1,6 +1,6 @@
 """Checks of Paper B's pair index and reference table (src/femurseg/refbank.py): the counts of the real fold file,
-the bank of each fold model, the exclusion of a femur's own group, the orientation rule, the seeded random
-references and the sanity checks. numpy only, no images.
+the bank of each fold model, the exclusion of a femur's own group, the pelvis side and the orientation rule, the
+seeded random references and the sanity checks. numpy only, no images.
 
 Run with ``python tests/test_refbank.py`` or pytest.
 """
@@ -73,6 +73,35 @@ def test_real_fold_file_counts_and_banks():
     assert sorted(r.file for r in dup) == ["00397_00261.png", "00398_00261.png", "00399_00262.png"]
 
 
+def _sides(recs: list[FemurRecord]) -> dict:
+    """Pelvis sides that match _features: side bit 0 = 'left' (features as released = the anatomy vector)."""
+    return {r.key: "left" if int(r.femur_id) % 2 == 0 else "right" for r in recs}
+
+
+def test_pelvis_side_reads_the_brighter_upper_half():
+    img = np.zeros((96, 64), np.uint8)
+    img[:30, :20] = 200   # pelvis: bright bone in the upper left
+    img[40:, 25:40] = 150  # the shaft, in the lower half (ignored)
+    assert RB.pelvis_side(img) == "left" and RB.pelvis_side(img[:, ::-1]) == "right"
+    assert RB.pelvis_side(np.stack([img] * 3, axis=2)) == "left"  # colour images too
+    assert RB.pelvis_side(img[:, :63]) == "left"  # odd width: the middle column is ignored
+    o = RB.orientation(["left", "right"], ["left", "right", "right"])
+    assert o.tolist() == [[False, True, True], [True, False, False]]
+
+
+def test_given_orientation_overrides_the_feature_choice():
+    rng = np.random.default_rng(2)
+    bank = rng.normal(size=(3, 2, D))
+    target = bank[1, 1] + 0.01 * rng.normal(size=D)  # matches bank femur 1 mirrored
+    cos_f, mir_f = RB.similarities(target[None], bank)
+    assert mir_f[0, 1]
+    given = np.array([[False, False, True]])
+    cos_g, mir_g = RB.similarities(target[None], bank, mirrored=given)
+    assert (mir_g == given).all() and cos_g[0, 1] < cos_f[0, 1]  # bank femur 1 as released: a worse match
+    s = np.array([[RB.unit(bank[m, int(given[0, m])]) @ RB.unit(target) for m in range(3)]])
+    assert np.allclose(cos_g, s)
+
+
 def test_nearest_skips_own_group_and_keeps_the_better_orientation():
     rng = np.random.default_rng(1)
     bank = rng.normal(size=(4, 2, D))
@@ -92,11 +121,11 @@ def test_nearest_skips_own_group_and_keeps_the_better_orientation():
 
 def test_reference_table_follows_the_rules():
     recs = _records()
-    feats = _features(recs)
+    feats, sides = _features(recs), _sides(recs)
     by_file = {r.file: r for r in recs}
-    table = RB.reference_table(recs, feats)
+    table = RB.reference_table(recs, feats, sides)
     assert len(table) == 5 * len(recs)
-    assert table == RB.reference_table(recs, feats)  # deterministic
+    assert table == RB.reference_table(recs, feats, sides)  # deterministic
     for t in table:
         m = t["fold_model"]
         target = by_file[t["file"]]
@@ -108,6 +137,8 @@ def test_reference_table_follows_the_rules():
             assert r.split == "train" and r.fold != m and r.cls6 == 0 and r.group != target.group, (t, f)
         rf = by_file[t["random_fractured"]]
         assert rf.split == "train" and rf.fold != m and rf.cls6 > 0 and rf.group != target.group
+        for col in [f"ref{j}" for j in range(1, RB.TOP_K + 1)] + ["random_healthy", "random_fractured"]:
+            assert t[f"{col}_mirrored"] == int(sides[by_file[t[col]].key] != sides[target.key]), (t, col)
         cos = [t[f"ref{j}_cos"] for j in range(1, RB.TOP_K + 1)]
         assert cos == sorted(cos, reverse=True) and cos[0] >= t["random_healthy_cos"] - 1e-9
     # the random references are spread over the bank, not always the same femur
@@ -123,8 +154,9 @@ def test_centre_uses_only_the_training_femurs_of_the_fold_model():
     changed = {k: (v + 100.0 if k[0] == "test" or any(r.key == k and r.fold == 0 for r in recs) else v)
                for k, v in feats.items()}  # held-out fold 0 and the test set: never in fold model 0's centre
     assert np.allclose(RB.center_of(recs, changed, 0), mu0)
-    rows0 = [t for t in RB.reference_table(recs, feats) if t["fold_model"] == 0 and t["role"] == "train"]
-    rows0c = [t for t in RB.reference_table(recs, changed) if t["fold_model"] == 0 and t["role"] == "train"]
+    sides = _sides(recs)
+    rows0 = [t for t in RB.reference_table(recs, feats, sides) if t["fold_model"] == 0 and t["role"] == "train"]
+    rows0c = [t for t in RB.reference_table(recs, changed, sides) if t["fold_model"] == 0 and t["role"] == "train"]
     assert rows0 == rows0c  # the references of fold model 0's training femurs do not depend on them either
 
 
@@ -141,11 +173,14 @@ def test_seeded_pick_is_reproducible():
 
 def test_sanity_checks():
     recs = _records()
-    feats = _features(recs)
-    pairs, table = RB.pair_rows(recs, feats), RB.reference_table(recs, feats)
+    feats, sides = _features(recs), _sides(recs)
+    pairs, table = RB.pair_rows(recs, feats, sides), RB.reference_table(recs, feats, sides)
+    assert all(p["partner_mirrored_by_rule"] == 1 for p in pairs if p["partner"])  # partners: opposite sides
+    assert {p["pelvis_side"] for p in pairs} == {"left", "right"}
     out = RB.sanity(recs, feats, table, pairs)
     m1 = out["1_mirror_check"]
-    assert m1["femurs_with_partner"] == sum(1 for r in recs if r.pair_file) and m1["share"] > 0.9, m1
+    assert m1["femurs_with_partner"] == sum(1 for r in recs if r.pair_file) and m1["share"] == 1.0, m1
+    assert m1["features_share"] > 0.9, m1  # the synthetic features do see left and right
     assert out["2_retrieval_vs_chance"]["top3_minus_random_mean"] > 0
     assert out["3_duplicates"]["pixel_identical_references"] == 0
     assert out["5_partner_rank"]["femurs"] > 0 and out["5_partner_rank"]["share_rank_1"] > 0.5, out["5_partner_rank"]

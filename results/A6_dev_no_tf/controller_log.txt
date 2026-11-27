@@ -1,0 +1,57 @@
+{
+  "run": "A6_dev_no_tf",
+  "step": "3",
+  "git_commit": "f342b8a17a736f8267fe9d7574f5d227e641b360",
+  "command": "/usr/bin/python3 /tmp/code/scripts/train_net.py --net slg:convnext_tiny.fb_in22k_ft_in1k:A6 --size 768x512 --epochs 60 --batch 16 --folds 0 --no-test --extra-tests oracle --tf-epochs 0 --out /kaggle/working/results/A_dev_round1/A6_dev_no_tf --gpus 1 --workers 2 --work /kaggle/working/work/A6_dev_no_tf",
+  "started_utc": "2026-11-27T02:44:05Z",
+  "group": "A_dev_round1"
+}
+image cache /tmp/femurseg_cache/768x512_7ba784de8d7c ready in 40 s
+pre-flight: micro-batch 16 x 1, 0.8965 s per micro-step, peak 11.22 GB; about 52.8 min per fold
+[fold 0] started on GPU 1; log /kaggle/working/work/A6_dev_no_tf/logs/fold0.log
+[fold 0] finished after 49.9 min
+# A6_dev_no_tf: summary
+
+Network `slg:convnext_tiny.fb_in22k_ft_in1k:A6`, input 768 x 512, 60 epochs, batch 16 (micro-batch 16 x 1), lr 0.0002, final weights. SLG-Net A6: no teacher forcing, region pooling at 1/16 and 1/32, logit adjustment tau 1.
+Folds completed [0], skipped [], failed []. Runtime 51.8 min on Tesla T4.
+
+## Fracture threshold fitted on the OOF predictions (Youden): 0.0004
+
+| Metric | OOF (n=208) |
+|---|---|
+| Fracture AUC | 0.998 |
+| Fracture sensitivity | 0.985 |
+| Fracture specificity | 0.986 |
+| 6-class accuracy (%) | 88.5 |
+| 6-class macro-F1 | 0.783 |
+| Garden I-II recall | 0.727 |
+| Dice, fractured femurs (missed = 0) | 0.754 |
+| Dice, detected fractures only | 0.765 |
+| NSD at 10 px, fractured femurs | 0.233 |
+
+## Plain threshold 0.5 on the fracture probability
+
+| Metric | OOF (n=208) |
+|---|---|
+| Fracture AUC | 0.998 |
+| Fracture sensitivity | 0.949 |
+| Fracture specificity | 1.000 |
+| 6-class accuracy (%) | 88.5 |
+| 6-class macro-F1 | 0.799 |
+| Garden I-II recall | 0.636 |
+| Dice, fractured femurs (missed = 0) | 0.754 |
+| Dice, detected fractures only | 0.795 |
+| NSD at 10 px, fractured femurs | 0.233 |
+
+## Interpretability tests (SLG-Net, Analysis/06 §5), at the OOF threshold
+
+| Mode | OOF 6-class accuracy (%) | OOF macro-F1 | OOF Garden I-II recall | Change of P(true class), fractured | Correct fractured femurs that become wrong |
+|---|---|---|---|---|---|
+| as used | 88.5 | 0.783 | 0.727 | | |
+| oracle | 88.9 | 0.791 | 0.727 | 0.002 | 0.0% of 113 |
+
+Development run (`--no-test`): the held-out folds only; the test set was not predicted.
+
+folds done [0], skipped [], failed []; total 51.9 min
+
+run 'A6_dev_no_tf' finished with exit code 0 in 51.88 min; outputs in /kaggle/working/results/A_dev_round1/A6_dev_no_tf

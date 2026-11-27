@@ -1,0 +1,10 @@
+{
+  "run": "A6_dev_detach",
+  "step": "3",
+  "git_commit": "f342b8a17a736f8267fe9d7574f5d227e641b360",
+  "command": "/usr/bin/python3 /tmp/code/scripts/train_net.py --net slg:convnext_tiny.fb_in22k_ft_in1k:A6 --size 768x512 --epochs 60 --batch 16 --folds 0 --no-test --extra-tests oracle --slg-detach --out /kaggle/working/results/A_dev_round2/A6_dev_detach --gpus 0 --workers 2 --work /kaggle/working/work/A6_dev_detach",
+  "started_utc": "2026-11-27T02:45:57Z",
+  "group": "A_dev_round2",
+  "runtime_minutes": 49.87,
+  "exit_code": 0
+}

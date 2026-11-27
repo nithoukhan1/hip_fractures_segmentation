@@ -4,13 +4,15 @@
 Protocol: Analysis/07_Step4_PaperB_Reference_Bank_Protocol.md. Trains nothing. Step by step:
   1. reads every femur (1,043 training + 210 test) into the same 768 x 512 cache as the training runs;
   2. encodes each femur as released and mirrored left-right with the frozen ImageNet weights of M0's backbone
-     (global average of the last stage, after the network's final normalisation: 768 numbers per image);
+     (global average of the last stage, after the network's final normalisation: 768 numbers per image), and reads
+     its pelvis side from the image (the brighter half of the upper image; protocol §8);
   3. picks each femur's references from the bank of each of the 5 fold models (src/femurseg/refbank.py): the 5 most
-     similar healthy femurs, one random healthy femur and one random fractured femur, each in its better orientation;
+     similar healthy femurs, one random healthy femur and one random fractured femur, each mirrored when its pelvis
+     side differs from the femur's;
   4. runs the sanity checks of the protocol (§4) and draws the nearest-neighbour figure of fold 0.
 
 Writes to --out (results/<RUN>/, small, committed): pairs.csv, references.csv, sanity.json, summary.md,
-nn_fold0.png, config.json; and to --work (not committed): features.npz.
+nn_fold0.png, config.json; and to --work (not committed): features.npz (features, files, splits, pelvis sides).
 
 Examples
   python scripts/build_reference_bank.py --out /kaggle/working/results/R00_reference_bank      (Kaggle, one GPU)
@@ -115,22 +117,27 @@ def figure(path: Path, cache: Cache, records, table: list[dict]) -> list[str]:
     return [t["file"] for t in picks]
 
 
-def summary_md(cfg: dict, counts: dict, checks: dict, picks: list[str]) -> str:
+def summary_md(cfg: dict, counts: dict, checks: dict, picks: list[str], sides: dict) -> str:
     m1, m2, m5 = checks["1_mirror_check"], checks["2_retrieval_vs_chance"], checks["5_partner_rank"]
     close = checks["3_duplicates"][f"references_with_cos_ge_{RB.DUPLICATE_COS}"]
     lines = [f"# {cfg['run']}: pair index and reference bank (Paper B, step B-1)", "",
              f"Features: `{cfg['net']}` ({'ImageNet weights' if cfg['pretrained'] else 'RANDOM weights: smoke test'}"
              f", frozen), input {cfg['size_hw'][0]} x {cfg['size_hw'][1]}, {cfg['feature_dim']} numbers per image; "
-             f"{cfg['n_femurs']} femurs, each as released and mirrored. Took {cfg['seconds']:.0f} s on "
-             f"{cfg['device']}. Protocol: `Analysis/07_Step4_PaperB_Reference_Bank_Protocol.md`.", "",
-             "## Data (pair types)", "", "| Split | Femurs | Healthy | Fractured | Pair types |", "|---|---|---|---|---|"]
+             f"{cfg['n_femurs']} femurs, each as released and mirrored. Orientation: {cfg['orientation_rule']}. "
+             f"Took {cfg['seconds']:.0f} s on {cfg['device']}. Protocol: "
+             "`Analysis/07_Step4_PaperB_Reference_Bank_Protocol.md`.", "",
+             "## Data (pair types)", "", "| Split | Femurs | Healthy | Fractured | Pelvis on the left | Pair types |",
+             "|---|---|---|---|---|---|"]
     for split, c in counts.items():
         types = "; ".join(f"{k}: {v}" for k, v in sorted(c["by_pair_type"].items()))
-        lines.append(f"| {split} | {c['femurs']} | {c['healthy']} | {c['fractured']} | {types} |")
+        left = sum(v == "left" for k, v in sides.items() if k[0] == split)
+        lines.append(f"| {split} | {c['femurs']} | {c['healthy']} | {c['fractured']} | {left} | {types} |")
     lines += ["", "## Checks (protocol §4)", "",
-              f"1. **Mirror check:** for {m1['mirrored_partner_closer']} of {m1['femurs_with_partner']} femurs with a "
-              f"partner ({m1['share']:.1%}), the mirrored partner is closer than the partner as released. Rule: "
-              f"{m1['rule']}.",
+              f"1. **Mirror check:** the orientation rule mirrors the partner (the other hip) for "
+              f"{m1['partner_mirrored_by_rule']} of {m1['femurs_with_partner']} femurs with a partner "
+              f"({m1['share']:.1%}). Rule: {m1['rule']}. With the ImageNet features alone (the version-1 rule, "
+              f"reported only), the mirrored partner is closer for {m1['features_mirrored_partner_closer']} "
+              f"({m1['features_share']:.1%}).",
               f"2. **Retrieval vs chance** (held-out femurs): mean cosine of the 3 nearest minus that of the random "
               f"healthy femur = {m2['top3_minus_random_mean']:.3f} (mean over the 5 fold models).", "",
               "| Fold model | Held-out: 3 nearest | Held-out: random healthy | Held-out: nearest, median (IQR) | "
@@ -146,8 +153,8 @@ def summary_md(cfg: dict, counts: dict, checks: dict, picks: list[str]) -> str:
                 for c in close[:20]],
               "4. **Held-out vs test:** see the last two columns of the table above.",
               f"5. **Partner rank** ({m5['femurs']} held-out and test femurs with a healthy partner, counted once per "
-              f"fold model for test femurs): the own partner would rank {m5['median_rank']:.0f} (median) among the "
-              f"bank; rank 1 for {m5['share_rank_1']:.1%}, top 5 for {m5['share_top5']:.1%}.",
+              f"fold model for test femurs): the own partner, mirrored, would rank {m5['median_rank']:.0f} (median) "
+              f"among the bank; rank 1 for {m5['share_rank_1']:.1%}, top 5 for {m5['share_top5']:.1%}.",
               "6. **Bank:** " + "; ".join(f"fold model {b['fold_model']}: {b['healthy_femurs']} healthy "
                                           f"({', '.join(f'{k}: {v}' for k, v in sorted(b['healthy_by_pair_type'].items()))})"
                                           for b in checks["6_bank"]) + ".",
@@ -165,10 +172,12 @@ def main(argv=None) -> int:
     rows = cache.rows(records)
     f = encode(cache, rows, a.net, not a.no_pretrained, a.device, a.batch)
     feats = {r.key: f[i] for i, r in enumerate(records)}
+    sides = {r.key: RB.pelvis_side(cache.images[row]) for r, row in zip(records, rows)}
     np.savez_compressed(a.work / "features.npz", files=np.array([r.file for r in records]),
-                        splits=np.array([r.split for r in records]), features=f.astype(np.float16))
-    pairs = RB.pair_rows(records, feats)
-    table = RB.reference_table(records, feats)
+                        splits=np.array([r.split for r in records]), features=f.astype(np.float16),
+                        pelvis_sides=np.array([sides[r.key] for r in records]))
+    pairs = RB.pair_rows(records, feats, sides)
+    table = RB.reference_table(records, feats, sides)
     checks = RB.sanity(records, feats, table, pairs)
     counts = RB.counts(records)
     write_csv(a.out / "pairs.csv", pairs)
@@ -178,14 +187,17 @@ def main(argv=None) -> int:
 
     cfg = {"run": a.out.name, "net": a.net, "pretrained": not a.no_pretrained, "size_hw": list(a.size_hw),
            "feature_dim": int(f.shape[-1]), "n_femurs": len(records), "top_k": RB.TOP_K, "folds_csv": str(a.folds_csv),
+           "orientation_rule": "version 2 (protocol §8): a reference is mirrored when its pelvis side (the brighter "
+                               "half of the upper image) differs from the femur's",
            "device": a.device or ("cuda" if torch.cuda.is_available() else "cpu"),
            "gpu": torch.cuda.get_device_name(0) if torch.cuda.is_available() else "", "seconds": time.time() - t0,
            "torch": torch.__version__, "timm": __import__("timm").__version__}
     (a.out / "config.json").write_text(json.dumps(cfg, indent=2))
     (a.out / "sanity.json").write_text(json.dumps({"counts": counts, "checks": checks}, indent=2))
-    (a.out / "summary.md").write_text(summary_md(cfg, counts, checks, picks))
-    m1 = checks["1_mirror_check"]["share"]
-    print(f"done in {cfg['seconds']:.0f} s: {len(table)} reference rows, mirror check {m1:.1%}; see {a.out / 'summary.md'}")
+    (a.out / "summary.md").write_text(summary_md(cfg, counts, checks, picks, sides))
+    m1 = checks["1_mirror_check"]
+    print(f"done in {cfg['seconds']:.0f} s: {len(table)} reference rows, mirror check {m1['share']:.1%} (features "
+          f"alone {m1['features_share']:.1%}); see {a.out / 'summary.md'}")
     return 0
 
 

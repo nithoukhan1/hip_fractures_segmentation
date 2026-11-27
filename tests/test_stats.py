@@ -139,6 +139,40 @@ def test_paired_difference_tests():
     assert S.permutation_test(acc, y, pa, pb, n_perm=300)["p"] < 0.01
 
 
+def test_calibration_reads_a_networks_written_zero_as_rounding():
+    """scripts/run_stats.py: a network run writes probabilities with 8 decimals, so a true class written as 0 still
+    gets a temperature; a YOLO run with such a femur stays 'not applicable' (no probability for an undetected class)."""
+    import csv
+    import json
+    import tempfile
+
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
+    import run_stats as RS
+
+    rng = np.random.default_rng(3)
+    z = 4 * rng.normal(size=(60, 6))
+    p = np.exp(z - z.max(1, keepdims=True))
+    p /= p.sum(1, keepdims=True)
+    y = rng.integers(0, 6, 60)
+    p[0] = [0.0, 1.0, 0.0, 0.0, 0.0, 0.0]  # femur 0: true class 0 written as 0
+    y[0] = 0
+    rows = [{"file": f"{i:05d}_x.png", "fold": 0, "model": 0, "cls6_true": int(c), "score": round(1 - q[0], 8),
+             **{f"conf_{k}": round(q[k], 8) for k in range(1, 6)}} for i, (q, c) in enumerate(zip(p, y))]
+    with tempfile.TemporaryDirectory() as tmp:
+        for run, cfg in (("NET", {"net": "cls:convnext_tiny"}), ("YOLO", {"model": "yolov8s-seg.pt"})):
+            d = Path(tmp) / run
+            d.mkdir()
+            (d / "config.json").write_text(json.dumps(cfg))
+            with open(d / "per_case_oof.csv", "w", newline="") as f:
+                w = csv.DictWriter(f, fieldnames=list(rows[0]))
+                w.writeheader()
+                w.writerows(rows)
+        net, yolo = RS.calibration(Path(tmp), "NET"), RS.calibration(Path(tmp), "YOLO")
+    assert net["temperature"] is not None and "rounded_zeros" in net and "not_applicable" not in net, net
+    assert net["oof"]["nll_before"] >= -np.log(M.PROB_FLOOR) / 60 and net["oof"]["nll_after"] is not None
+    assert yolo["temperature"] is None and "not_applicable" in yolo and yolo["oof"]["nll_before"] is None, yolo
+
+
 if __name__ == "__main__":
     tests = [(n, f) for n, f in sorted(globals().items()) if n.startswith("test_") and callable(f)]
     for name, fn in tests:

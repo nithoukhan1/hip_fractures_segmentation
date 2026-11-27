@@ -1,0 +1,9 @@
+{
+  "run": "S04_densenet121",
+  "step": "2",
+  "git_commit": "4820f6b28eba26286114339aebe3f3c7cc331063",
+  "command": "/usr/bin/python3 /tmp/code/scripts/train_net.py --net cls:densenet121.tv_in1k --size 768x512 --epochs 60 --batch 16 --folds 0,1,2,3,4 --gpus 0,1 --out /kaggle/working/results/S04_densenet121",
+  "started_utc": "2026-11-27T02:00:21Z",
+  "runtime_minutes": 82.46,
+  "exit_code": 0
+}

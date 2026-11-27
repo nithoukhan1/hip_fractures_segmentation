@@ -1,0 +1,76 @@
+{
+  "femurs": 1253,
+  "thumbnail_hw": [
+    96,
+    64
+  ],
+  "blur_sigma": 2.0,
+  "pixel_mirror_check": {
+    "femurs_with_partner": 810,
+    "mirrored_partner_closer": 796,
+    "share": 0.9827160493827161
+  },
+  "pelvis_side": {
+    "left_share": {
+      "all": 0.4972067039106145,
+      "train": 0.4956855225311601,
+      "test": 0.5047619047619047
+    },
+    "pairs_opposite": 402,
+    "pairs": 405,
+    "share": 0.9925925925925926,
+    "pairs_with_the_same_side": [
+      [
+        "00031_00022.png",
+        "00032_00022.png"
+      ],
+      [
+        "00415_00273.png",
+        "00416_00273.png"
+      ],
+      [
+        "00456_00298.png",
+        "00457_00298.png"
+      ]
+    ],
+    "relative_difference": {
+      "median": 0.5837265849113464,
+      "p05": 0.26430797576904297,
+      "min": 0.004219106864184141,
+      "femurs_below_0.05": 13,
+      "files_below_0.05": [
+        "00032_00022.png",
+        "00219_00144.png",
+        "00249_00162.png",
+        "00261_00169.png",
+        "00457_00298.png",
+        "00579_00384.png",
+        "01030_00686.png",
+        "01147_00764.png",
+        "00563_00374.png",
+        "00742_00490.png",
+        "00953_00633.png",
+        "00964_00640.png",
+        "01278_00850.png"
+      ]
+    }
+  },
+  "variants_reported_only": {
+    "whole image": {
+      "opposite": 383,
+      "pairs": 405,
+      "share": 0.945679012345679
+    },
+    "upper third": {
+      "opposite": 404,
+      "pairs": 405,
+      "share": 0.9975308641975309
+    }
+  },
+  "random_pairs_other_groups": {
+    "pairs": 20000,
+    "side_rule_agrees_with_pixels": 19832,
+    "share": 0.9916,
+    "seed": 2026
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "net": "seg:Unet:resnet34",
+  "ok": true,
+  "device": "cuda:0",
+  "gpu": "Tesla T4",
+  "pretrained": true,
+  "build_seconds": 4.4,
+  "params_m": 24.44,
+  "tried": [
+    {
+      "micro_batch": 16,
+      "s_per_step": 0.517,
+      "peak_gb": 8.38
+    }
+  ],
+  "micro_batch": 16,
+  "accumulation": 1,
+  "s_per_micro_step": 0.517,
+  "peak_gb": 8.38,
+  "gpu_total_gb": 15.6,
+  "s_per_image_inference": 0.0107,
+  "est_fold_min": 31.0,
+  "log_tail": []
+}

@@ -466,5 +466,173 @@
     "expected_minutes": 10,
     "about": "Paper B step B-1 (Analysis/07_Step4_PaperB_Reference_Bank_Protocol.md). Trains nothing: encodes every femur, as released and mirrored, with the frozen ImageNet weights of M0's backbone, picks each femur's healthy references from the bank of each of the 5 fold models, and runs the sanity checks (mirror check, retrieval vs chance, duplicates, held-out vs test, partner rank) with a nearest-neighbour figure. Writes pairs.csv and references.csv, which every R run will read.",
     "estimate_note": "about 2 min to build the image cache, under 1 min of features on a T4, about 1 min of checks"
+  },
+  "R00_reference_bank_r2": {
+    "step": "4",
+    "script": "scripts/build_reference_bank.py",
+    "pip": [
+      "segmentation-models-pytorch==0.6.0"
+    ],
+    "gpu": "one T4 (the second stays idle)",
+    "track": "Paper B",
+    "args": [
+      "--size",
+      "768x512",
+      "--batch",
+      "16"
+    ],
+    "expected_minutes": 5,
+    "about": "Paper B step B-1, version 2 of the orientation rule (Analysis/07 §8): the same bank, exclusion, features and checks as R00_reference_bank, but each reference is mirrored when its pelvis side (read from the image) differs from the femur's, instead of when the ImageNet features prefer it (those features hardly see left and right: check 1 was 58.4%). Its pairs.csv and references.csv are the ones every R run reads.",
+    "estimate_note": "R00_reference_bank took 2.46 min on a T4 (register line 17); the side rule adds under a second"
+  },
+  "A2_region": {
+    "step": "3",
+    "script": "scripts/train_net.py",
+    "pip": [
+      "segmentation-models-pytorch==0.6.0"
+    ],
+    "gpu": "T4 x2 (two folds at a time)",
+    "track": "Paper A",
+    "args": [
+      "--net",
+      "slg:convnext_tiny.fb_in22k_ft_in1k:A2",
+      "--size",
+      "768x512",
+      "--epochs",
+      "60",
+      "--batch",
+      "16",
+      "--folds",
+      "0,1,2,3,4",
+      "--gpus",
+      "0,1",
+      "--slg-scales",
+      "32",
+      "--extra-tests",
+      "oracle"
+    ],
+    "expected_minutes": 155,
+    "about": "Paper A final run A2 (Analysis/06 §7 and §9, settings frozen by analysis C06: teacher forcing over 30 epochs, end-to-end mask, region pooling at 1/32 only): M0 + region pooling (C2) at 1/32: a flat 6-class head on [c, r]. Answers: does looking inside the predicted region help?. 5 folds and the test set. Launch from the tag A-v1-frozen (BRANCH = \"A-v1-frozen\").",
+    "estimate_note": "M0 (S10) took 140 min on T4 x2 (register line 8); the SLG-Net development runs took 49-52 min for fold 0 on one T4 against M0's 44.5 min, so about 10% more"
+  },
+  "A3_geometry": {
+    "step": "3",
+    "script": "scripts/train_net.py",
+    "pip": [
+      "segmentation-models-pytorch==0.6.0"
+    ],
+    "gpu": "T4 x2 (two folds at a time)",
+    "track": "Paper A",
+    "args": [
+      "--net",
+      "slg:convnext_tiny.fb_in22k_ft_in1k:A3",
+      "--size",
+      "768x512",
+      "--epochs",
+      "60",
+      "--batch",
+      "16",
+      "--folds",
+      "0,1,2,3,4",
+      "--gpus",
+      "0,1",
+      "--slg-scales",
+      "32",
+      "--extra-tests",
+      "oracle"
+    ],
+    "expected_minutes": 155,
+    "about": "Paper A final run A3 (Analysis/06 §7 and §9, settings frozen by analysis C06: teacher forcing over 30 epochs, end-to-end mask, region pooling at 1/32 only): M0 + region geometry (C3): 8 numbers of the predicted region. Answers: does the region's shape and position help?. 5 folds and the test set. Launch from the tag A-v1-frozen (BRANCH = \"A-v1-frozen\").",
+    "estimate_note": "M0 (S10) took 140 min on T4 x2 (register line 8); the SLG-Net development runs took 49-52 min for fold 0 on one T4 against M0's 44.5 min, so about 10% more"
+  },
+  "A4_hierarchy": {
+    "step": "3",
+    "script": "scripts/train_net.py",
+    "pip": [
+      "segmentation-models-pytorch==0.6.0"
+    ],
+    "gpu": "T4 x2 (two folds at a time)",
+    "track": "Paper A",
+    "args": [
+      "--net",
+      "slg:convnext_tiny.fb_in22k_ft_in1k:A4",
+      "--size",
+      "768x512",
+      "--epochs",
+      "60",
+      "--batch",
+      "16",
+      "--folds",
+      "0,1,2,3,4",
+      "--gpus",
+      "0,1",
+      "--slg-scales",
+      "32",
+      "--extra-tests",
+      "oracle"
+    ],
+    "expected_minutes": 155,
+    "about": "Paper A final run A4 (Analysis/06 §7 and §9, settings frozen by analysis C06: teacher forcing over 30 epochs, end-to-end mask, region pooling at 1/32 only): M0 + fracture -> location -> grade heads (C4), one grade trunk per location. Answers: does deciding location first, then grade, help?. 5 folds and the test set. Launch from the tag A-v1-frozen (BRANCH = \"A-v1-frozen\").",
+    "estimate_note": "M0 (S10) took 140 min on T4 x2 (register line 8); the SLG-Net development runs took 49-52 min for fold 0 on one T4 against M0's 44.5 min, so about 10% more"
+  },
+  "A5_shared_grade": {
+    "step": "3",
+    "script": "scripts/train_net.py",
+    "pip": [
+      "segmentation-models-pytorch==0.6.0"
+    ],
+    "gpu": "T4 x2 (two folds at a time)",
+    "track": "Paper A",
+    "args": [
+      "--net",
+      "slg:convnext_tiny.fb_in22k_ft_in1k:A5",
+      "--size",
+      "768x512",
+      "--epochs",
+      "60",
+      "--batch",
+      "16",
+      "--folds",
+      "0,1,2,3,4",
+      "--gpus",
+      "0,1",
+      "--slg-scales",
+      "32",
+      "--extra-tests",
+      "oracle"
+    ],
+    "expected_minutes": 155,
+    "about": "Paper A final run A5 (Analysis/06 §7 and §9, settings frozen by analysis C06: teacher forcing over 30 epochs, end-to-end mask, region pooling at 1/32 only): M0 + one shared severity trunk (C5). Answers: does sharing one grade trunk help Garden I-II?. 5 folds and the test set. Launch from the tag A-v1-frozen (BRANCH = \"A-v1-frozen\").",
+    "estimate_note": "M0 (S10) took 140 min on T4 x2 (register line 8); the SLG-Net development runs took 49-52 min for fold 0 on one T4 against M0's 44.5 min, so about 10% more"
+  },
+  "A6_slgnet": {
+    "step": "3",
+    "script": "scripts/train_net.py",
+    "pip": [
+      "segmentation-models-pytorch==0.6.0"
+    ],
+    "gpu": "T4 x2 (two folds at a time)",
+    "track": "Paper A",
+    "args": [
+      "--net",
+      "slg:convnext_tiny.fb_in22k_ft_in1k:A6",
+      "--size",
+      "768x512",
+      "--epochs",
+      "60",
+      "--batch",
+      "16",
+      "--folds",
+      "0,1,2,3,4",
+      "--gpus",
+      "0,1",
+      "--slg-scales",
+      "32",
+      "--extra-tests",
+      "oracle,deletion"
+    ],
+    "expected_minutes": 170,
+    "about": "Paper A final run A6 (Analysis/06 §7 and §9, settings frozen by analysis C06: teacher forcing over 30 epochs, end-to-end mask, region pooling at 1/32 only): M0 + logit adjustment (C6) = SLG-Net, with both interpretability tests (oracle and region deletion). Answers: does it help the rare classes? Paper A's main model. 5 folds and the test set. Launch from the tag A-v1-frozen (BRANCH = \"A-v1-frozen\").",
+    "estimate_note": "M0 (S10) took 140 min on T4 x2 (register line 8); the SLG-Net development runs took 49-52 min for fold 0 on one T4 against M0's 44.5 min, so about 10% more; the deletion test predicts every held-out and test femur twice more"
   }
 }

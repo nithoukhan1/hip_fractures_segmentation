@@ -23,13 +23,13 @@
 | 6 | Repository, fixed splits, Kaggle launcher, run register | Done; merged into `main` 2026-11-26 (PR #1); default branch = `main` | README, `splits/folds_v1.csv`, `kaggle/`, `results/`, `scripts/register_run.py` | 5 grouped, stratified folds; counts match paper Table 1 |
 | 7 | Kaggle environment check | Done 2026-11-26: run 1 found Kaggle's val/ holds 104 training femurs (now pooled into train); `S00_env_check_r2` confirmed same data, same folds, all files found | `results/S00_env_check/`, `results/S00_env_check_r2/` | 2 × T4, 4 CPU cores, 32 GB RAM; all 1,253 files identical to local |
 | 8 | Data loader, metrics and statistics modules | Done 2026-11-26: loader, metrics (13 checks incl. scikit-learn), statistics (9 checks; reproduces the paper's accuracy interval 80.77–90.55 exactly), fold checks, CPU smoke test of the YOLO script and the statistics script | `src/femurseg/data.py`, `metrics.py`, `stats.py`, `scripts/run_stats.py`, `tests/` | Same code for both papers |
-| 9 | Baselines S1–S9 and core model M0 (5 folds each) | In progress: **S01 and S02 done 2026-11-26** (register lines 3–4; analysis `results/analysis/C01_yolo_1024_vs_640/`): classification reproduces the article, Dice .02–.04 lower. **Step 2 code merged 2026-11-26 (PR #5):** `scripts/train_net.py` for S04–S10 (protocol `Analysis/05_…`); **S00_net_check done** (register line 5). **S03, S06 and S10 done 2026-11-27** (register lines 6–8, PR #7 merged): YOLO11 = YOLOv8 (C02); the mask task helps classification (C05: OOF accuracy +2.0 points, macro-F1 +.042, Holm p ≤ .03); M0's Dice is above YOLO's. **S07, S04, S08 and S05 running since 2026-11-27**; S09's first launch found no dataset in its notebook and trained nothing (not filed): relaunch with the dataset attached → C03, C04 → **M1** | `results/S*`, `results/analysis/` | M0 = run S10 = A1 in Paper A = R0 in Paper B |
+| 9 | Baselines S1–S9 and core model M0 (5 folds each) | In progress: **S01 and S02 done 2026-11-26** (register lines 3–4; analysis `results/analysis/C01_yolo_1024_vs_640/`): classification reproduces the article, Dice .02–.04 lower. **Step 2 code merged 2026-11-26 (PR #5):** `scripts/train_net.py` for S04–S10 (protocol `Analysis/05_…`); **S00_net_check done** (register line 5). **S03, S06 and S10 done 2026-11-27** (register lines 6–8, PR #7 merged): YOLO11 = YOLOv8 (C02); the mask task helps classification (C05: OOF accuracy +2.0 points, macro-F1 +.042, Holm p ≤ .03); M0's Dice is above YOLO's. **S04, S05, S07 and S08 done 2026-11-27** (register lines 9–12): both article classifiers reproduced; DenseNet121 and ConvNeXt-T beat YOLO out of fold, YOLO's ensemble leads on the test set, not significantly (C03, `results/analysis/C03_classifiers_vs_yolo/`). **S09 relaunched with the dataset, running** → C04 → **M1** | `results/S*`, `results/analysis/` | M0 = run S10 = A1 in Paper A = R0 in Paper B |
 
 ### Track A: Paper 1, SLG-Net
 | # | Phase | Weeks | Status |
 |---|-------|-------|--------|
-| A-1 | Build region pooling, geometry and location → grade heads; fold-0 development | 3–4 | In progress: protocol (`Analysis/06_Step3_PaperA_Protocol.md`) and code (`src/femurseg/slg.py`, variants A2–A6, oracle and deletion tests) done and tested on the CPU 2026-11-27; fold-0 development runs `A_dev_round1` and `A_dev_round2` **running since 2026-11-27** → analysis C06 |
-| A-2 | Rare classes, calibration; freeze the method (git tag) → **M2-A** | 5 | In progress: calibration (temperature scaling, ECE, Brier, NLL) added to `scripts/run_stats.py` 2026-11-27; first values S06 temperature 3.43, M0 3.14 (protocol §6) |
+| A-1 | Build region pooling, geometry and location → grade heads; fold-0 development | 3–4 | **Done 2026-11-27:** protocol (`Analysis/06_…`), code (`src/femurseg/slg.py`) and the fold-0 development runs (register lines 13–16). C06 (`results/analysis/C06_paperA_dev_fold0/`): the base failed the go/no-go (macro-F1 .776 < .79); design review: the 1/16 region features caused it; teacher forcing and the end-to-end mask stay, **pooling moves to 1/32 only** (.827, M0's level) |
+| A-2 | Rare classes, calibration; freeze the method (git tag) → **M2-A** | 5 | In progress: calibration in `scripts/run_stats.py` (S06 temperature 3.43, M0 3.14; development runs 3.1–3.4). **Freeze proposed** (Analysis/06 §9): final runs `A2_region` … `A6_slgnet` in `kaggle/runs.json`; waiting for the person's approval, then tag `A-v1-frozen` |
 | A-3 | Final runs and ablations A2–A6, oracle and region-deletion tests, sensitivity → **M3-A** | 6–7 | Not started |
 | A-4 | Statistics and figures → **M4-A** | 8 | Not started |
 | A-5 | Manuscript A, internal review, submission → **M5-A** | 9–12 | Not started |
@@ -37,7 +37,7 @@
 ### Track B: Paper 2, RefFrac
 | # | Phase | Weeks | Status |
 |---|-------|-------|--------|
-| B-1 | Pair index and retrieval bank (CPU), nearest-neighbour sanity figure | 1–2 | In progress: protocol (`Analysis/07_Step4_PaperB_Reference_Bank_Protocol.md`) and code (`src/femurseg/refbank.py`, `scripts/build_reference_bank.py`) done and tested on the CPU 2026-11-27; run `R00_reference_bank` (about 10 min, one T4) ready to launch → checks of §4 → B-2 |
+| B-1 | Pair index and retrieval bank (CPU), nearest-neighbour sanity figure | 1–2 | In progress: `R00_reference_bank` done 2026-11-27 (register line 17); **check 1 failed** (mirror check 58.4% < 60%), so the orientation rule was reviewed (Analysis/07 §8; C10): version 2 orients each reference by the pelvis side read from the image (partners opposite in 402 of 405 x-rays). Run `R00_reference_bank_r2` (about 3 min) → checks → B-2 |
 | B-2 | Siamese encoder, alignment and difference fusion; fold-0 development | 3–4 | Not started |
 | B-3 | Alignment variants, k, R1 (AASN-style) baseline; freeze → **M2-B** | 5–6 | Not started |
 | B-4 | Final runs R2–R6 | 7–8 | Not started |
@@ -62,10 +62,10 @@
 ## Compute budget (Kaggle GPU-hours, from Report 04 §6)
 | Block | GPU-hours | Used so far |
 |---|---|---|
-| Shared | 28–34 | 11.2 h of session time (S00 + S00_r2 0.12, S01 2.94, S02 1.35, S00_net_check 0.06, S03 2.96, S06 1.46, S10 2.33; T4 × 2), plus about 6.9 h running since 2026-11-27 (S04, S05, S07, S08); S09 (3.3 h) to relaunch |
-| Track A only | 35–38 | 0 (about 1.8 h running: A_dev_round1 and A_dev_round2) |
-| Track B only | 55–60 | 0 |
-| **Total** | **120–135** (peak about 20 h in one week) | 11.2 |
+| Shared | 28–34 | 17.2 h of session time (S00 + S00_r2 0.12, S01 2.94, S02 1.35, S00_net_check 0.06, S03 2.96, S06 1.46, S10 2.33, S04 1.37, S05 1.92, S07 1.45, S08 1.22; T4 × 2); S09 (about 3.3 h) running |
+| Track A only | 35–38 | 1.7 h (A_dev_round1 0.87, A_dev_round2 0.84; one run per T4); final runs about 13 h when approved |
+| Track B only | 55–60 | 0.04 h (R00_reference_bank) |
+| **Total** | **120–135** (peak about 20 h in one week) | 18.9 (plus S09 running) |
 
 ## Key decisions log
 | Date | Decision | Why |
@@ -105,10 +105,15 @@
 | 2026-11-27 | `kaggle/run.py` checks for the dataset before installing anything; without it a training run stops within seconds (exit code 2, **NO DATASET FOUND**, what `/kaggle/input` holds, how to attach the dataset). `register_run.py` does not file a run that never started, but still files the other run of a parallel group | S09's first launch had no dataset; a clear message replaces a traceback, and an empty zip must not take a run name or a register line |
 | 2026-11-27 | Calibration = one temperature per run, fitted by NLL on its OOF femurs and applied unchanged to the test set; ECE (15 bins), Brier and NLL before and after; reported only, never used for a decision. Not applicable to the YOLO runs (S01–S03) | Protocol §6. YOLO gives probability 0 to the true class of 73–99 OOF femurs, so the NLL that fits the temperature is undefined |
 | 2026-11-27 | **Paper B's reference bank fixed before any feature** (`Analysis/07_…`): the bank of fold model k = the healthy femurs of its 4 training folds (290–291); never a reference from the femur's own group; cosine of frozen ImageNet ConvNeXt-T features, centred on the mean of the fold model's training femurs, best of as released / mirrored; kept: the 5 nearest, one random healthy and one random fractured femur (seeded by md5); one fixed table read by every R run | No patient's own other hip during training, nothing from the held-out fold or the test set, and R2, R3, R4 and R7 differ only in the reference they test |
+| 2026-11-27 | C03: both article classifiers are reproduced; DenseNet121 (S04) joins Paper A's main table as the strongest plain classifier; ConvNeXt-T stays the backbone of M0 and both papers | DenseNet121 = ConvNeXt-T (no significant difference), and the mask task was shown on ConvNeXt-T (C05) |
+| 2026-11-27 | C06 (Paper A, fold 0): the base failed the go/no-go (.776 < .79), so the design was reviewed. Teacher forcing (D1) and the end-to-end mask (D2) stay; region pooling moves to 1/32 only (D3: +.052, Dice +.006). **Freeze proposed, waiting for the person's approval** | Fixed rule of Analysis/06 §4; with 1/32 pooling the heads match M0 (.827 vs .822), so the 1/16 features caused the shortfall |
+| 2026-11-27 | Paper B's orientation rule, version 2 (Analysis/07 §8): a reference is mirrored when its pelvis side (the brighter half of the upper image) differs from the target's; re-run as `R00_reference_bank_r2` | Check 1 failed (58.4%): ImageNet features hardly see left and right. The pelvis side gives partners opposite sides in 402 of 405 x-rays (C10) |
+| 2026-11-27 | `run_stats.py`: a network run's true-class probability written as 0 (below the per-case file's 8 decimals) is read as 10⁻¹² like every other written 0, so its temperature is fitted; YOLO stays not applicable | It affected one femur of S05 and one of A6_dev_detach; no earlier value changed |
 | 2026-11-26 | Micro-batches set by the pre-flight (`S00_net_check`): 16 × 1 for DenseNet121, ConvNeXt-T, U-Net, DeepLabV3+ and M0; 8 × 2 for EfficientNet-B4 and SegFormer | The protocol's rule (largest micro-batch under 85% of a T4); the optimiser still sees 16 images per update |
 
 ## Open questions
 - Resolved 2026-11-26 (`S00_env_check_r2`): Kaggle's 104 val/ images are identical to the local ones; data, folds and file list all match.
+- Paper A's freeze (C06): approve the proposed settings and launch the five final runs, or first repeat `A6_dev_base` and `A6_dev_scale32` with a second seed (one session, about 55 min)?
 - Is a T4 x2 session metered like one GPU? All runs to 2026-11-27 took 11.2 h of session time: if Kaggle shows about 11 h used, a T4 × 2 session counts once; about 22 h means it counts per GPU.
 - Resolved 2026-11-26: real run times on T4 × 2 (two folds at a time): YOLOv8s-seg 2.9 h at 1024 px (about 58 min per fold), 1.35 h at 640 px (about 27 min per fold). The plan's estimates were about twice too high.
 - Repository visibility: it is public now. Consider making it private until submission, so the methods are not visible before the papers; Kaggle can still clone it with a token (see `kaggle/launcher.ipynb`).
