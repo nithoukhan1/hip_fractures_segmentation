@@ -29,7 +29,7 @@
 | # | Phase | Weeks | Status |
 |---|-------|-------|--------|
 | A-1 | Build region pooling, geometry and location → grade heads; fold-0 development | 3–4 | **Done 2026-11-27:** protocol (`Analysis/06_…`), code (`src/femurseg/slg.py`) and the fold-0 development runs (register lines 13–16). C06 (`results/analysis/C06_paperA_dev_fold0/`): the base failed the go/no-go (macro-F1 .776 < .79); design review: the 1/16 region features caused it; teacher forcing and the end-to-end mask stay, **pooling moves to 1/32 only** (.827, M0's level) |
-| A-2 | Rare classes, calibration; freeze the method (git tag) → **M2-A** | 5 | In progress: calibration in `scripts/run_stats.py` (S06 temperature 3.43, M0 3.14; development runs 3.1–3.4). **Freeze approved by the person 2026-11-27** (Analysis/06 §10): the person creates the tag `A-v1-frozen` on `main` after PR #12. Second-seed check `A_dev_seed2` (seed 2027) runs in parallel; its rule is fixed (§10, analysis C11) |
+| A-2 | Rare classes, calibration; freeze the method (git tag) → **M2-A** | 5 | In progress: calibration in `scripts/run_stats.py` (S06 temperature 3.43, M0 3.14; development runs 3.1–3.4). **Freeze approved by the person 2026-11-27** (Analysis/06 §10): the person created the tag `A-v1-frozen` on `main` (`f96f84c`) after PR #12. Second-seed check `A_dev_seed2` (seed 2027) runs in parallel; its rule is fixed (§10, analysis C11) |
 | A-3 | Final runs and ablations A2–A6, oracle and region-deletion tests, sensitivity → **M3-A** | 6–7 | Launching 2026-11-27: `A2_region` … `A6_slgnet` from the tag (about 13 h); results analysed after C11 (C07–C09) |
 | A-4 | Statistics and figures → **M4-A** | 8 | Not started |
 | A-5 | Manuscript A, internal review, submission → **M5-A** | 9–12 | Not started |
@@ -38,7 +38,7 @@
 | # | Phase | Weeks | Status |
 |---|-------|-------|--------|
 | B-1 | Pair index and retrieval bank (CPU), nearest-neighbour sanity figure | 1–2 | **Done 2026-11-27.** `R00_reference_bank` (register line 17): check 1 failed (58.4% < 60%), so the orientation rule was reviewed (Analysis/07 §8; C10). **`R00_reference_bank_r2`** (register line 19): version 2 (pelvis side read from the image) passes, 804 of 810 (99.3%); every R run reads its tables (Analysis/07 §9) |
-| B-2 | Siamese encoder, alignment and difference fusion; fold-0 development | 3–4 | Next: the protocol (written before any R run), then the code and fold-0 development |
+| B-2 | Siamese encoder, alignment and difference fusion; fold-0 development | 3–4 | **In progress 2026-11-27:** protocol written before any R run (`Analysis/08_Step5_PaperB_RefFrac_Protocol.md`); code `src/femurseg/refnet.py` (`--net ref:<timm model>:R1..R7`), tested on the CPU: all 8 variants train end to end, the untrained RefFrac equals M0, and M0 and SLG-Net give byte-identical outputs to `main`. Fold-0 development `R_dev_round1` (`R4_dev_base` + `R4_dev_base_s2`) and `R_dev_round2` (`R4_dev_global` + `R4_dev_margin`) are in `kaggle/runs.json`, about 80 min each; decision rule fixed (§4, analysis C12) |
 | B-3 | Alignment variants, k, R1 (AASN-style) baseline; freeze → **M2-B** | 5–6 | Not started |
 | B-4 | Final runs R2–R6 | 7–8 | Not started |
 | B-5 | R7 shortcut study (partner and swap tests), sensitivity → **M3-B** | 9 | Not started |
@@ -50,7 +50,7 @@
 |---|---|---|---|
 | M0 | Setup merged into `main`, Kaggle environment check passed | 29 Nov 2026 | **Reached 26 Nov 2026** |
 | M1 | Baseline table v1 (S1–S9 + M0) | 13 Dec 2026 | **Reached 27 Nov 2026** (`results/analysis/M1_baseline_table/`) |
-| M2-A | SLG-Net frozen | 3 Jan 2027 | Approved 27 Nov 2026; reached when the tag `A-v1-frozen` exists, subject to the second-seed check (C11) |
+| M2-A | SLG-Net frozen | 3 Jan 2027 | **Reached 27 Nov 2026:** tag `A-v1-frozen` on `f96f84c`, created by the person; subject to the second-seed check (C11) |
 | M2-B | RefFrac frozen | 10 Jan 2027 | |
 | M3-A | Paper A final runs, ablations and tests done | 17 Jan 2027 | |
 | M4-A | Paper A results package (statistics, figures) | 24 Jan 2027 | |
@@ -64,7 +64,7 @@
 |---|---|---|
 | Shared | 28–34 | 20.0 h of session time (S00 + S00_r2 0.12, S01 2.94, S02 1.35, S00_net_check 0.06, S03 2.96, S06 1.46, S10 2.33, S04 1.37, S05 1.92, S07 1.45, S08 1.22, S09 2.81; T4 × 2). Baselines complete |
 | Track A only | 35–38 | 1.7 h (A_dev_round1 0.87, A_dev_round2 0.84; one run per T4). Next: A_dev_seed2 about 0.9 h and the final runs about 13 h |
-| Track B only | 55–60 | 0.09 h (R00_reference_bank 0.04, R00_reference_bank_r2 0.04) |
+| Track B only | 55–60 | 0.09 h (R00_reference_bank 0.04, R00_reference_bank_r2 0.04). Next: R_dev_round1 and R_dev_round2 about 2.7 h, then the final runs R1–R7 about 26 h (Analysis/08 §5) |
 | **Total** | **120–135** (peak about 20 h in one week) | 21.8 |
 
 ## Key decisions log
@@ -113,6 +113,8 @@
 | 2026-11-27 | **Paper A frozen (approved by the person):** teacher forcing over 30 epochs, end-to-end mask, region pooling at 1/32 only; tag `A-v1-frozen` on `main`, created by the person (this session cannot push tags). At the same time, a second-seed check of the base and of 1/32 pooling (`A_dev_seed2`, seed 2027) with a rule fixed before it runs (Analysis/06 §10): 1/32 stays if the mean of two seeds beats the base by ≥ .02 macro-F1, loses ≤ .01 Dice and reaches ≥ .79; otherwise the freeze goes back to the person before any final result is opened | The person chose to run the final runs and the check together; the check guards against a single-seed result on 208 femurs |
 | 2026-11-27 | **Paper B step B-1 complete:** `R00_reference_bank_r2` passes check 1 (804 of 810, 99.3%); every R run reads its tables | Version 2 changed mainly the orientation of the references (same nearest femur in 87.1% of rows, same orientation in 57.6%) |
 | 2026-11-27 | `run_stats.py`: a network run's true-class probability written as 0 (below the per-case file's 8 decimals) is read as 10⁻¹² like every other written 0, so its temperature is fitted; YOLO stays not applicable | It affected one femur of S05 and one of A6_dev_detach; no earlier value changed |
+| 2026-11-27 | **Paper B protocol fixed before any R run** (`Analysis/08_Step5_PaperB_RefFrac_Protocol.md`): R1–R7 on M0's trunk with the Step 2 recipe unchanged; the references pass through the same encoder without gradients; alignment and fusion at 1/16 and 1/32, started as the identity, so the untrained RefFrac equals M0. Main model R4 = the 3 nearest healthy references, one-head local cross-attention within ±1/8 of the image height, difference fusion [T, T−R̃, \|T−R̃\|]; R1 = AASN adapted to femur crops (affine alignment, concatenation, margin loss 0.5); R7 trains with the healthy partner and is tested with five kinds of reference. Every run records the reference tests (`self` and `random`; R7 instead `blind`, `retrieved`, `random` and `fractured`) and the pointing game | Each run differs from R4 in one component, so each comparison answers one question; the tests show whether a model uses its references |
+| 2026-11-27 | Paper B fold-0 development = two questions (D1 local window vs the whole reference, D2 AASN's margin loss) and a second seed of the base from the start, compared with M0's fold-0 model on Dice (Paper B's first primary endpoint). An alternative is adopted only if its Dice beats the base (mean of two seeds) by ≥ .01 and by more than the seed noise, with macro-F1 at most .02 lower; go/no-go: the base needs Dice ≥ .739 and macro-F1 ≥ .79 (Analysis/08 §4, analysis C12) | Fold 0 has 136 fractured femurs, so a change of .01 in mean Dice is within one seed's noise: only clear effects may change a default |
 | 2026-11-26 | Micro-batches set by the pre-flight (`S00_net_check`): 16 × 1 for DenseNet121, ConvNeXt-T, U-Net, DeepLabV3+ and M0; 8 × 2 for EfficientNet-B4 and SegFormer | The protocol's rule (largest micro-batch under 85% of a T4); the optimiser still sees 16 images per update |
 
 ## Open questions

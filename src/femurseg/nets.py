@@ -15,6 +15,9 @@ A network is named by a ``--net`` string:
                               decide from the predicted region; variant A2..A6 (the ablation chain, Analysis/06). Its
                               "cls" output holds 6-class log-probabilities (chain rule in A4-A6), so the M0 rule below
                               applies unchanged.
+  ref:<timm model>:<variant>  RefFrac of Paper B (src/femurseg/refnet.py): M0 plus healthy reference femurs encoded by
+                              the same encoder, aligned and fused into M0's decoder and head; variant R1..R7
+                              (Analysis/08). Its outputs are M0's, so the M0 rule below applies unchanged.
 
 Every network returns a dict with "cls" (B, 6) logits and/or "seg" (B, C, H, W) logits at the input size.
 
@@ -36,14 +39,14 @@ TOPK = 500  # pixels at 768 x 512; the smallest released fracture mask has 1,722
 
 @dataclass(frozen=True)
 class NetSpec:
-    kind: str          # cls | seg | m0 | slg
-    arch: str          # timm model name (cls, m0, slg) or smp architecture (seg)
+    kind: str          # cls | seg | m0 | slg | ref
+    arch: str          # timm model name (cls, m0, slg, ref) or smp architecture (seg)
     encoder: str       # smp encoder (seg); "" otherwise
-    variant: str = ""  # SLG-Net variant A2..A6 (slg); "" otherwise
+    variant: str = ""  # SLG-Net variant A2..A6 (slg) or RefFrac variant R1..R7 (ref); "" otherwise
 
     @property
     def has_mask(self) -> bool:
-        return self.kind in ("seg", "m0", "slg")
+        return self.kind in ("seg", "m0", "slg", "ref")
 
     @property
     def text(self) -> str:
@@ -63,16 +66,29 @@ def parse_net(text: str) -> NetSpec:
         if parts[2] not in VARIANTS:
             raise ValueError(f"--net '{text}': SLG-Net variant must be one of {', '.join(VARIANTS)}")
         return NetSpec("slg", parts[1], "", parts[2])
-    raise ValueError(f"--net '{text}': expected cls:<timm model>, m0:<timm model>, seg:<smp arch>:<encoder> or "
-                     "slg:<timm model>:<A2..A6>")
+    if parts[0] == "ref" and len(parts) == 3:
+        from .refnet import VARIANTS as REF_VARIANTS
+
+        if parts[2] not in REF_VARIANTS:
+            raise ValueError(f"--net '{text}': RefFrac variant must be one of {', '.join(REF_VARIANTS)}")
+        return NetSpec("ref", parts[1], "", parts[2])
+    raise ValueError(f"--net '{text}': expected cls:<timm model>, m0:<timm model>, seg:<smp arch>:<encoder>, "
+                     "slg:<timm model>:<A2..A6> or ref:<timm model>:<R1..R7>")
 
 
 def build_net(spec: NetSpec, pretrained: bool = True, drop_rate: float = 0.2, slg_scales=(16, 32),
-              slg_detach: bool = False):
+              slg_detach: bool = False, ref_k: int = 0, ref_margin: float | None = None, ref_window: float = 0.125):
     """Create the network (downloads ImageNet weights when ``pretrained``). SLG-Net options: the encoder scales
-    of region pooling and whether the decision losses may reach the mask (see slg.build_slg)."""
+    of region pooling and whether the decision losses may reach the mask (see slg.build_slg). RefFrac options: the
+    number of references, the margin-loss weight and the attention window (None / 0 keep the variant's; see
+    refnet.build_refnet)."""
     import torch.nn as nn
 
+    if spec.kind == "ref":
+        from .refnet import build_refnet
+
+        return build_refnet(spec.arch, spec.variant, pretrained=pretrained, drop_rate=drop_rate, k=ref_k,
+                            margin=ref_margin, window=ref_window)
     if spec.kind == "slg":
         from .slg import build_slg
 
@@ -117,12 +133,17 @@ def build_net(spec: NetSpec, pretrained: bool = True, drop_rate: float = 0.2, sl
 
 
 def make_loss(spec: NetSpec, seg_weight: float = 1.0, priors: dict | None = None, la_tau: float = 1.0,
-              joint_weight: float = 0.5):
+              joint_weight: float = 0.5, ref_margin: float = 0.0):
     """Loss function (outputs, mask (B, H, W) long, cls6 (B,) long) -> (total, {part: value}). SLG-Net: see
-    slg.make_slg_loss (``priors`` = training-fold log-priors for logit adjustment, A6 only)."""
+    slg.make_slg_loss (``priors`` = training-fold log-priors for logit adjustment, A6 only). RefFrac: M0's loss plus
+    ref_margin x the margin loss (refnet.make_ref_loss)."""
     import torch.nn.functional as F
     from segmentation_models_pytorch.losses import DiceLoss
 
+    if spec.kind == "ref":
+        from .refnet import make_ref_loss
+
+        return make_ref_loss(margin_weight=ref_margin, seg_weight=seg_weight)
     if spec.kind == "slg":
         from .slg import make_slg_loss
 
@@ -157,12 +178,14 @@ def postprocess(spec: NetSpec, out: dict, topk: int = TOPK) -> dict:
     and fmap (B, H, W) = fracture probability per pixel (None for classifiers)."""
     import torch
 
-    if spec.kind in ("cls", "m0", "slg"):
+    if spec.kind in ("cls", "m0", "slg", "ref"):
         p = torch.softmax(out["cls"].float(), dim=1)  # SLG-Net A4-A6: "cls" = log-probabilities, softmax returns them
         conf = p[:, 1:]
         res = {"conf": conf, "score": conf.sum(dim=1), "top_cls6": conf.argmax(dim=1) + 1, "fmap": None}
-        if spec.kind in ("m0", "slg"):
+        if spec.kind in ("m0", "slg", "ref"):
             res["fmap"] = torch.sigmoid(out["seg"].float()[:, 0])
+        if spec.kind == "ref":
+            res["diff16"] = out.get("diff16")  # RefFrac: |T - R~| at 1/16, for the pointing game
         return res
     p = torch.softmax(out["seg"].float(), dim=1)                     # (B, 6, H, W)
     f = 1.0 - p[:, 0]                                                # fracture probability

@@ -705,5 +705,141 @@
     "expected_minutes": 170,
     "about": "Paper A final run A6 (Analysis/06 §7 and §9, settings frozen by analysis C06: teacher forcing over 30 epochs, end-to-end mask, region pooling at 1/32 only): M0 + logit adjustment (C6) = SLG-Net, with both interpretability tests (oracle and region deletion). Answers: does it help the rare classes? Paper A's main model. 5 folds and the test set. Launch from the tag A-v1-frozen (BRANCH = \"A-v1-frozen\").",
     "estimate_note": "M0 (S10) took 140 min on T4 x2 (register line 8); the SLG-Net development runs took 49-52 min for fold 0 on one T4 against M0's 44.5 min, so about 10% more; the deletion test predicts every held-out and test femur twice more"
+  },
+  "R4_dev_base": {
+    "step": "5",
+    "script": "scripts/train_net.py",
+    "pip": [
+      "segmentation-models-pytorch==0.6.0"
+    ],
+    "gpu": "one T4 (started by a parallel group, one run per GPU)",
+    "track": "Paper B",
+    "expected_minutes": 75,
+    "estimate_note": "M0's fold 0 trained in 44.5 min on one T4 (S10, register line 8); R4 also encodes 3 references per femur without gradients, about 1.6 times M0's step (Analysis/08 §5); + pre-flight, image cache and the self and random tests",
+    "args": [
+      "--net",
+      "ref:convnext_tiny.fb_in22k_ft_in1k:R4",
+      "--size",
+      "768x512",
+      "--epochs",
+      "60",
+      "--batch",
+      "16",
+      "--folds",
+      "0",
+      "--no-test",
+      "--extra-tests",
+      "self,random"
+    ],
+    "about": "Paper B fold-0 development (Analysis/08 §4). RefFrac R4 with the base settings of Analysis/08 §2: the 3 nearest healthy references of R00_reference_bank_r2, local cross-attention within ±1/8 of the image height at 1/16 and 1/32, difference fusion, no margin loss, seed 2026. Fold 0 only, no test-set predictions; with the tests self and random (Analysis/08 §2.6)."
+  },
+  "R4_dev_base_s2": {
+    "step": "5",
+    "script": "scripts/train_net.py",
+    "pip": [
+      "segmentation-models-pytorch==0.6.0"
+    ],
+    "gpu": "one T4 (started by a parallel group, one run per GPU)",
+    "track": "Paper B",
+    "expected_minutes": 75,
+    "estimate_note": "M0's fold 0 trained in 44.5 min on one T4 (S10, register line 8); R4 also encodes 3 references per femur without gradients, about 1.6 times M0's step (Analysis/08 §5); + pre-flight, image cache and the self and random tests",
+    "args": [
+      "--net",
+      "ref:convnext_tiny.fb_in22k_ft_in1k:R4",
+      "--size",
+      "768x512",
+      "--epochs",
+      "60",
+      "--batch",
+      "16",
+      "--folds",
+      "0",
+      "--no-test",
+      "--extra-tests",
+      "self,random",
+      "--seed",
+      "2027"
+    ],
+    "about": "Paper B fold-0 development (Analysis/08 §4): R4_dev_base repeated with seed 2027; everything else identical. The mean of the two seeds is the base of analysis C12, and their difference in Dice is its seed noise N. Fold 0 only, no test-set predictions; with the tests self and random (Analysis/08 §2.6)."
+  },
+  "R4_dev_global": {
+    "step": "5",
+    "script": "scripts/train_net.py",
+    "pip": [
+      "segmentation-models-pytorch==0.6.0"
+    ],
+    "gpu": "one T4 (started by a parallel group, one run per GPU)",
+    "track": "Paper B",
+    "expected_minutes": 75,
+    "estimate_note": "M0's fold 0 trained in 44.5 min on one T4 (S10, register line 8); R4 also encodes 3 references per femur without gradients, about 1.6 times M0's step (Analysis/08 §5); + pre-flight, image cache and the self and random tests",
+    "args": [
+      "--net",
+      "ref:convnext_tiny.fb_in22k_ft_in1k:R4",
+      "--size",
+      "768x512",
+      "--epochs",
+      "60",
+      "--batch",
+      "16",
+      "--folds",
+      "0",
+      "--no-test",
+      "--extra-tests",
+      "self,random",
+      "--ref-window",
+      "0"
+    ],
+    "about": "Paper B fold-0 development (Analysis/08 §4). D1: as R4_dev_base, but the attention sees every position of the references (no local window). Fold 0 only, no test-set predictions; with the tests self and random (Analysis/08 §2.6)."
+  },
+  "R4_dev_margin": {
+    "step": "5",
+    "script": "scripts/train_net.py",
+    "pip": [
+      "segmentation-models-pytorch==0.6.0"
+    ],
+    "gpu": "one T4 (started by a parallel group, one run per GPU)",
+    "track": "Paper B",
+    "expected_minutes": 75,
+    "estimate_note": "M0's fold 0 trained in 44.5 min on one T4 (S10, register line 8); R4 also encodes 3 references per femur without gradients, about 1.6 times M0's step (Analysis/08 §5); + pre-flight, image cache and the self and random tests",
+    "args": [
+      "--net",
+      "ref:convnext_tiny.fb_in22k_ft_in1k:R4",
+      "--size",
+      "768x512",
+      "--epochs",
+      "60",
+      "--batch",
+      "16",
+      "--folds",
+      "0",
+      "--no-test",
+      "--extra-tests",
+      "self,random",
+      "--ref-margin",
+      "0.5"
+    ],
+    "about": "Paper B fold-0 development (Analysis/08 §4). D2: as R4_dev_base, plus AASN's margin loss at weight 0.5 (Analysis/08 §2.4). Fold 0 only, no test-set predictions; with the tests self and random (Analysis/08 §2.6)."
+  },
+  "R_dev_round1": {
+    "step": "5",
+    "track": "Paper B",
+    "parallel": [
+      "R4_dev_base",
+      "R4_dev_base_s2"
+    ],
+    "gpu": "T4 x2 (one run per GPU)",
+    "expected_minutes": 80,
+    "about": "Paper B fold-0 development, round 1 (Analysis/08 §4): R4_dev_base on GPU 0 and R4_dev_base_s2 on GPU 1, in one session, launched from main. Analysis C12 uses the mean of the two seeds as the base and their difference as the seed noise."
+  },
+  "R_dev_round2": {
+    "step": "5",
+    "track": "Paper B",
+    "parallel": [
+      "R4_dev_global",
+      "R4_dev_margin"
+    ],
+    "gpu": "T4 x2 (one run per GPU)",
+    "expected_minutes": 80,
+    "about": "Paper B fold-0 development, round 2 (Analysis/08 §4): R4_dev_global (D1) on GPU 0 and R4_dev_margin (D2) on GPU 1, in one session, launched from main. Analysis C12 compares each with the base of round 1."
   }
 }

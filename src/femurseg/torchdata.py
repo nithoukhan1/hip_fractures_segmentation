@@ -16,6 +16,9 @@ group of kaggle/run.py) share the cache too: a lock file makes the second wait w
 Augmentations (training only; Report 03 §6): horizontal flip, small affine (scale 0.9-1.1, rotation +-10 degrees,
 shift +-5%), brightness/contrast, gamma, and mild noise or blur. No vertical flip (anatomy). The image stays uint8
 until it reaches the GPU, where normalize() turns it into the 3-channel ImageNet-normalised float tensor.
+
+RefFemurDataset (Paper B, RefFrac; Analysis/08 §2.1) adds each femur's reference images: mirrored as the reference
+table says, flipped together with the target, and each with its own draw of the other augmentations.
 """
 from __future__ import annotations
 
@@ -33,6 +36,7 @@ from .paths import build_index, find_data_root
 
 IMAGENET_MEAN = (0.485, 0.456, 0.406)
 IMAGENET_STD = (0.229, 0.224, 0.225)
+REF_SEED_OFFSET = 7919  # RefFemurDataset: the references' augmentation stream is seeded apart from the target's
 
 
 # ------------------------------------------------------------------------------------------------ cache
@@ -156,12 +160,13 @@ class Cache:
 # ---------------------------------------------------------------------------------------------- dataset
 
 
-def train_transforms(seed: int | None = None):
+def train_transforms(seed: int | None = None, flip: bool = True):
+    """The training augmentations. flip=False leaves out the horizontal flip (RefFemurDataset flips the target and its
+    references together itself); the default is the pipeline of every model of Step 2 and Paper A."""
     import albumentations as A
     import cv2
 
-    return A.Compose([
-        A.HorizontalFlip(p=0.5),
+    return A.Compose(([A.HorizontalFlip(p=0.5)] if flip else []) + [
         A.Affine(scale=(0.9, 1.1), translate_percent=(-0.05, 0.05), rotate=(-10, 10), border_mode=cv2.BORDER_CONSTANT,
                  fill=0, fill_mask=0, p=0.7),
         A.RandomBrightnessContrast(brightness_limit=0.2, contrast_limit=0.2, p=0.5),
@@ -192,6 +197,47 @@ class FemurDataset:
         return torch.from_numpy(np.ascontiguousarray(img))[None], torch.from_numpy(np.ascontiguousarray(msk)), self.cls6[i]
 
 
+class RefFemurDataset(FemurDataset):
+    """(image (1, H, W), mask (H, W), cls6, references (k, 1, H, W)), all uint8 but cls6, for RefFrac (Paper B).
+
+    ``refs`` gives, per item, its references as (cache row, mirrored) pairs (refnet.RefTable.sources). Each reference
+    is mirrored left-right when the table says so (pelvis on the target's side). In training (``augment``):
+      1. the target and all its references are flipped left-right together with probability 0.5, so the references
+         keep the orientation the table chose (Analysis/07 §3.6);
+      2. the target then gets the other augmentations of train_transforms, as every other model;
+      3. each reference gets its own, independent draw of those augmentations (Analysis/08 §2.1).
+    Without ``augment`` (prediction) every image is used as cached, apart from the table's mirroring."""
+
+    def __init__(self, cache: Cache, rows: list[int], refs: list[list[tuple[int, bool]]], augment: bool,
+                 seed: int | None = None):
+        super().__init__(cache, rows, augment=False)
+        if len(refs) != len(self.rows) or len({len(r) for r in refs}) > 1:
+            raise ValueError("RefFemurDataset: every femur needs the same number of references")
+        self.refs = [list(r) for r in refs]
+        self.augment = augment
+        self.aug = train_transforms(seed, flip=False) if augment else None
+        self.ref_aug = train_transforms(None if seed is None else seed + REF_SEED_OFFSET, flip=False) if augment else None
+
+    def __getitem__(self, i: int):
+        import torch
+
+        from .refnet import reference_image
+
+        row = self.rows[i]
+        img, msk = np.array(self.cache.images[row]), np.array(self.cache.masks[row])
+        refs = [reference_image(self.cache.images, r, m) for r, m in self.refs[i]]
+        if self.augment:
+            if np.random.random() < 0.5:
+                img, msk = img[:, ::-1], msk[:, ::-1]
+                refs = [r[:, ::-1] for r in refs]
+            t = self.aug(image=np.ascontiguousarray(img), mask=np.ascontiguousarray(msk))
+            img, msk = t["image"], t["mask"]
+            refs = [self.ref_aug(image=np.ascontiguousarray(r))["image"] for r in refs]
+        stack = np.stack([np.ascontiguousarray(r) for r in refs])[:, None]
+        return (torch.from_numpy(np.ascontiguousarray(img))[None], torch.from_numpy(np.ascontiguousarray(msk)),
+                self.cls6[i], torch.from_numpy(stack))
+
+
 def worker_init_fn(worker_id: int) -> None:
     """Give every data-loader worker its own augmentation random stream (torch seeds each worker differently)."""
     import random
@@ -206,6 +252,8 @@ def worker_init_fn(worker_id: int) -> None:
     info = torch.utils.data.get_worker_info()
     if info is not None and getattr(info.dataset, "aug", None) is not None:
         info.dataset.aug.set_random_seed(seed)
+    if info is not None and getattr(info.dataset, "ref_aug", None) is not None:  # RefFemurDataset
+        info.dataset.ref_aug.set_random_seed((seed + REF_SEED_OFFSET) % 2**32)
 
 
 def normalize(x, device):
