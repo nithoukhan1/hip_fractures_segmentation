@@ -141,7 +141,12 @@ def main() -> None:
     assert "dice_fractured" not in st["comparisons"]["SMOKE_CLS vs SMOKE_SEG"]["oof"]
     assert "dice_fractured" in st["comparisons"]["SMOKE_SEG vs SMOKE_M0"]["oof"]
     assert math.isnan(st["intervals"]["SMOKE_CLS"]["oof"]["dice_fractured_mean"]["estimate"])
-    print("ok  statistics: intervals and paired comparisons (no Dice test against a classifier)")
+    for name in names:  # temperature scaling: fitted on OOF, applied to the test ensemble and the fold models
+        cal = st["calibration"][name]
+        assert cal["temperature"] > 0 and cal["oof"]["n"] == 60 and cal["test_ensemble"]["n"] == 12, name
+        assert cal["test_models"]["n_models"] == 5 and cal["oof"]["nll_after"] <= cal["oof"]["nll_before"] + 1e-9, name
+    assert "## Calibration" in (results / "analysis" / "SMOKE_stats" / "stats.md").read_text()
+    print("ok  statistics: intervals, paired comparisons (no Dice test against a classifier), calibration")
     assert run([*names, "--name", "SMOKE_breakdown", "--results", str(results)], script="run_breakdown.py",
                quiet=True) == 0
     bd = json.loads((results / "analysis" / "SMOKE_breakdown" / "breakdown.json").read_text())["runs"]
@@ -243,6 +248,9 @@ def dev_path(root: Path, common: list[str], folds_csv: Path, results: Path) -> N
     st = json.loads((results / "analysis" / "SMOKE_dev" / "stats.json").read_text())
     assert st["folds"] == [0] and st["intervals"]["SMOKE_M0"]["oof"]["n_femurs"] == 12
     assert "test_ensemble" not in st["intervals"]["SMOKE_M0"] and "SMOKE_M0 vs A6_dev_a" in st["comparisons"]
+    cal = st["calibration"]["SMOKE_M0"]  # fitted on fold 0 only, and no test set
+    assert cal["oof"]["n"] == 12 and not {"test_ensemble", "test_models"} & set(cal), sorted(cal)
+    assert st["calibration"]["A6_dev_a"]["oof"]["n"] == 12
     print("ok  run_stats --folds 0: fold-0 development runs against M0 on the same 12 femurs")
 
 

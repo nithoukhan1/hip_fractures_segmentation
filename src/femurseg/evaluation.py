@@ -104,10 +104,17 @@ def evaluate(rows: list[dict], tau: float) -> dict:
         key = f"nsd{t:g}_top"
         if fx and all(r.get(key) is not None for r in fx):
             out[f"nsd{t:g}_fractured_mean"] = fx_mean(key)
-    probs = np.array([[1 - r["score"]] + [r[f"conf_{c}"] for c in range(1, 6)] for r in rows])
-    probs = probs / np.clip(probs.sum(axis=1, keepdims=True), 1e-9, None)
+    probs, _ = case_probs(rows)
     out.update(ece_derived=M.expected_calibration_error(probs, y), brier_derived=M.brier_score(probs, y))
     return out
+
+
+def case_probs(rows: list[dict]) -> tuple[np.ndarray, np.ndarray]:
+    """The 6-class probabilities derived from per-case rows ([1 - score, conf_1..conf_5], normalised to sum 1) and
+    the true classes. Rows may hold numbers or the strings of a CSV file."""
+    probs = np.array([[1 - float(r["score"])] + [float(r[f"conf_{c}"]) for c in range(1, 6)] for r in rows])
+    probs = probs / np.clip(probs.sum(axis=1, keepdims=True), 1e-9, None)
+    return probs, np.array([int(float(r["cls6_true"])) for r in rows])
 
 
 def _nanmedian(x: list[float]) -> float:

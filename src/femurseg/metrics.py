@@ -201,6 +201,53 @@ def brier_score(probs: np.ndarray, y_true) -> float:
     return float(np.mean(np.sum((probs - onehot) ** 2, axis=1)))
 
 
+PROB_FLOOR = 1e-12  # probabilities are clipped here before taking logs (per-case files round them to 8 decimals)
+
+
+def nll(probs: np.ndarray, y_true) -> float:
+    """Mean negative log-likelihood of the true classes."""
+    probs = np.asarray(probs, dtype=float)
+    y = np.asarray(y_true, int)
+    return float(-np.mean(np.log(np.clip(probs[np.arange(len(y)), y], PROB_FLOOR, None))))
+
+
+def apply_temperature(probs: np.ndarray, t: float) -> np.ndarray:
+    """Temperature scaling (Guo et al. 2017) of class probabilities: softmax(log p / t). t > 1 softens them, t = 1
+    leaves them unchanged, and the most probable class never changes."""
+    z = np.log(np.clip(np.asarray(probs, dtype=float), PROB_FLOOR, None)) / float(t)
+    z -= z.max(axis=1, keepdims=True)
+    e = np.exp(z)
+    return e / e.sum(axis=1, keepdims=True)
+
+
+TEMPERATURE_RANGE = (0.05, 100.0)  # search range of fit_temperature
+
+
+def fit_temperature(probs: np.ndarray, y_true, lo: float = TEMPERATURE_RANGE[0],
+                    hi: float = TEMPERATURE_RANGE[1]) -> float:
+    """The temperature in [lo, hi] that minimises the NLL of apply_temperature(probs, t): a grid over log t, then a
+    golden-section search around the best grid point (the NLL is smooth and, in practice, unimodal in log t)."""
+    y = np.asarray(y_true, int)
+    f = lambda u: nll(apply_temperature(probs, math.exp(u)), y)  # noqa: E731
+    grid = np.linspace(math.log(lo), math.log(hi), 121)
+    vals = [f(u) for u in grid]
+    i = int(np.argmin(vals))
+    a, b = grid[max(i - 1, 0)], grid[min(i + 1, len(grid) - 1)]
+    g = (math.sqrt(5) - 1) / 2
+    c, d = b - g * (b - a), a + g * (b - a)
+    fc, fd = f(c), f(d)
+    for _ in range(60):
+        if fc < fd:
+            b, d, fd = d, c, fc
+            c = b - g * (b - a)
+            fc = f(c)
+        else:
+            a, c, fc = c, d, fd
+            d = a + g * (b - a)
+            fd = f(d)
+    return float(math.exp((a + b) / 2))
+
+
 def youden_threshold(y_true, score) -> float:
     """Observed score ``t`` that maximises sensitivity + specificity - 1 for the rule ``score >= t``.
 

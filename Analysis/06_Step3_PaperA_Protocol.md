@@ -146,8 +146,13 @@ The development runs record the oracle test only. The final A2–A5 runs record 
 
 ## 6. Calibration (before freezing, Week 5 of the plan)
 - **Temperature scaling:** one temperature for the 6-class probabilities, fitted on the pooled OOF predictions by negative log-likelihood, then applied unchanged to the test set.
-- **Reported:** ECE and Brier, before and after, for every model (A0–A6 and the baselines).
-- It is an analysis step and needs no new training. It will be added to `run_stats.py` and `run_breakdown.py` before M2-A.
+- **Reported:** ECE, Brier score and NLL, before and after, for every model (A0–A6 and the baselines).
+- It is an analysis step and needs no new training. **Implemented 2026-11-27 in `scripts/run_stats.py`** (section "Calibration" of `stats.md`, key `calibration` of `stats.json`):
+  - one temperature per run, fitted on its OOF femurs (with `--folds 0`, on fold 0's femurs only), then applied unchanged to the test ensemble and to each fold model on the test set;
+  - ECE uses 15 equal-width bins of the top-class probability;
+  - the temperature never changes a femur's most probable class, and no threshold or decision uses it.
+- **Not applicable to the YOLO baselines (S01–S03):** YOLO gives probability 0 to every class without a detected instance, and 73–99 of the 1,043 OOF femurs get probability 0 for their true class. The NLL that fits the temperature is then undefined, so their ECE and Brier are reported before calibration only.
+- **First values** (filed runs, no new training): S06 temperature 3.43, OOF ECE .127 → .046, test-ensemble ECE .102 → .066; S10 (M0) temperature 3.14, OOF ECE .108 → .040, test-ensemble ECE .103 → .064. Both ConvNeXt models are over-confident by about the same factor.
 
 ## 7. Final runs, analyses and compute
 

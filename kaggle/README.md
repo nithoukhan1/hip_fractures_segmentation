@@ -5,7 +5,7 @@
 |---|---|
 | `launcher.ipynb` | The only notebook you need. Import it into Kaggle once, then change `RUN` for each run. |
 | `runs.json` | The list of runs: script, arguments, extra packages, expected time. New runs are added here, not in the notebook. |
-| `run.py` | Starts one run from `runs.json`, or a *parallel group* of runs (one per GPU, see below), and writes `run_meta.json` (git commit, command, runtime, exit code). |
+| `run.py` | Starts one run from `runs.json`, or a *parallel group* of runs (one per GPU, see below), and writes `run_meta.json` (git commit, command, runtime, exit code). It first checks that the dataset is attached (see step 5 below). |
 | `env_check.py` | Step 0 (`S00_env_check`): checks GPU, packages, internet and data, and confirms the Kaggle data and folds match `splits/folds_v1.csv`. |
 
 ## One-time set-up (about 5 minutes)
@@ -21,6 +21,7 @@
 2. Click **Save Version** → choose **Save & Run All (Commit)** → **Save**. Kaggle runs the whole notebook in the background (up to 12 hours) and you can close the browser.
 3. When the version shows *Complete*, open it → **Output** → download `results_<RUN>.zip`.
 4. Put the zip in `results/_inbox/` in your local folder and tell Claude, or run `python scripts/register_run.py results/_inbox/results_<RUN>.zip --version <n>`. It files the run into `results/<RUN>/`, adds a notes stub and a line to `results/EXPERIMENTS.md`. The zip of a parallel group is filed as separate runs, each with its own line. Then the same files go to the repository.
+5. **If the log says `NO DATASET FOUND`**, the notebook has no dataset attached (this happened to S09's first launch on 2026-11-27). The run stops within seconds, before installing anything, and the log shows what `/kaggle/input` holds. Attach **utopianstar/dataset** (right panel → **Input** → **Add Input**) and Save Version again with the same `RUN`. The zip of such a run holds only `run_meta.json`; `register_run.py` refuses it, so rename it (for example `..._failed_no_data.zip`) and keep the name free for the real run. Every notebook you launch from needs the dataset attached, so check its Input panel first.
 
 ## Runs available now
 | RUN | Step | GPU time | What it does |
