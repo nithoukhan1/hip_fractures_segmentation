@@ -1,0 +1,10 @@
+{
+  "run": "R4_dev_base_s2",
+  "step": "5",
+  "git_commit": "2619b394ca36503c6b7e7017512d0b87fa279973",
+  "command": "/usr/bin/python3 /tmp/code/scripts/train_net.py --net ref:convnext_tiny.fb_in22k_ft_in1k:R4 --size 768x512 --epochs 60 --batch 16 --folds 0 --no-test --extra-tests self,random --seed 2027 --out /kaggle/working/results/R_dev_round1/R4_dev_base_s2 --gpus 1 --workers 2 --work /kaggle/working/work/R4_dev_base_s2",
+  "started_utc": "2026-11-27T08:16:27Z",
+  "group": "R_dev_round1",
+  "runtime_minutes": 80.82,
+  "exit_code": 0
+}

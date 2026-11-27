@@ -258,3 +258,28 @@ Statistics as in Paper A: cluster bootstrap over x-rays, paired tests, and Holm 
   - `tests/test_refnet.py`: 11 checks, including the untrained network = M0, the attention window, the alignments, the losses, the table's policies and rules, and the joint flip;
   - `tests/smoke_train_refnet.py`: end to end on the CPU. It covers the pre-flight of every variant, 5-fold runs of R4 and R7 with their tests, and the development group through `kaggle/run.py`, filed by `register_run.py` and compared with M0 by `run_stats.py --folds 0`.
   - **Both pass** (2026-11-27): the smoke test in 9 min, and all 73 unit tests of the repository (every file except `tests/test_data.py`, which needs the dataset).
+
+## 8. Addendum (2026-11-27): result of the fold-0 development (C12) and the freeze
+
+Written on 2026-11-27, after the four development runs and before any final R run. §1–§7 are unchanged.
+
+- **Runs:** `R4_dev_base`, `R4_dev_base_s2`, `R4_dev_global` and `R4_dev_margin` (register lines 27–30), launched from `main` = `2619b39` in the groups `R_dev_round1` and `R_dev_round2` (83 and 87 min). Each trained fold 0 completely, at micro-batch 16 (12.6 GB of a T4's 15 GB).
+- **Result** (`results/analysis/C12_paperB_dev_fold0/report.md`), on fold 0's 208 femurs:
+
+  | Run | Dice, fractured femurs | Macro-F1 |
+  |---|---|---|
+  | M0 (S10, fold 0) | .749 | .822 |
+  | Base (mean of seeds 2026 and 2027) | **.770** | **.818** |
+  | D1 whole reference | .778 | .796 |
+  | D2 margin loss | .755 | .829 |
+
+- **Decisions by the rule of §4:**
+  1. go / no-go: **passes** (Dice .770 ≥ .739; macro-F1 .818 ≥ .79);
+  2. D1: Dice +.009, below .01 and within the seed noise N = .009, and macro-F1 −.022: **the local window stays**;
+  3. D2: Dice −.014: **no margin loss** in R2–R7 (R1 keeps it, as AASN's own loss);
+  4. no combination run is needed;
+  5. the base uses its references: with itself as the reference, its Dice falls by .090 and its P(fracture) on fractured femurs by .49 (means of the two seeds).
+- **Reported, not used:** a random healthy reference instead of the 3 nearest changes the base's Dice by only .004–.005 at prediction time (a first hint for RQ-B1); the pointing game hits the fracture in 64% and 92% of fractured femurs (two seeds; chance 8%).
+- **Freeze (milestone M2-B, §3.3):** no setting of §1–§2 changes. The eight final runs (`R4_refrac`, `R3_nearest_ref`, `R2_random_ref`, `R7_partner`, `R1_aasn`, `R5_concat`, `R6a_no_align`, `R6b_affine`) are written into `kaggle/runs.json` with exactly these settings. After the pull request of Step 18 is merged, the person creates the tag `B-v1-frozen` on `main`, and every final R run is launched from it. The training code at that commit is the code that trained the development runs (`2619b39`): the pull request changes results, analyses, documents and run entries only.
+- **Compute, measured:** an R4 fold took 81 min on one T4 (81 s per epoch, against M0's 45 s), 1.8 times M0's fold rather than the 1.6 times of §5; the pre-flight measured 1.40–1.55 s per micro-step (M0: 0.91 s). So R4, R5, R6a and R6b take about 4.2 h each on T4 x2, and R1, R2, R3 and R7 about 3 h each (not yet measured): **about 29 h** of session time, instead of the 26 h of §5.
+- **Order of the final runs (§5):** R4 first; then R3 and R2; R7; R1; R5, R6a and R6b.

@@ -841,5 +841,229 @@
     "gpu": "T4 x2 (one run per GPU)",
     "expected_minutes": 80,
     "about": "Paper B fold-0 development, round 2 (Analysis/08 §4): R4_dev_global (D1) on GPU 0 and R4_dev_margin (D2) on GPU 1, in one session, launched from main. Analysis C12 compares each with the base of round 1."
+  },
+  "R4_refrac": {
+    "step": "5",
+    "script": "scripts/train_net.py",
+    "pip": [
+      "segmentation-models-pytorch==0.6.0"
+    ],
+    "gpu": "T4 x2 (two folds at a time)",
+    "track": "Paper B",
+    "args": [
+      "--net",
+      "ref:convnext_tiny.fb_in22k_ft_in1k:R4",
+      "--size",
+      "768x512",
+      "--epochs",
+      "60",
+      "--batch",
+      "16",
+      "--folds",
+      "0,1,2,3,4",
+      "--gpus",
+      "0,1",
+      "--extra-tests",
+      "self,random"
+    ],
+    "expected_minutes": 255,
+    "about": "Paper B final run R4 (Analysis/08 §1, §2 and §5; settings frozen by analysis C12: 60 epochs, M0's recipe, the references of R00_reference_bank_r2, local window ±1/8 of the image height, no margin loss unless the variant has one): RefFrac, the main method: the 3 nearest healthy references, local cross-attention at 1/16 and 1/32, difference fusion [T, T-R, |T-R|]. With the reference tests self and random. Answers RQ-B1 with R2 and R3, and is the reference of every other R run. 5 folds and the test set. Launch from the tag B-v1-frozen (BRANCH = \"B-v1-frozen\").",
+    "estimate_note": "measured: an R4 fold took 81 min on one T4 in the development runs (81 s per epoch; register lines 27-30), so 3 rounds of folds on T4 x2 + the test set in 3 modes + set-up"
+  },
+  "R3_nearest_ref": {
+    "step": "5",
+    "script": "scripts/train_net.py",
+    "pip": [
+      "segmentation-models-pytorch==0.6.0"
+    ],
+    "gpu": "T4 x2 (two folds at a time)",
+    "track": "Paper B",
+    "args": [
+      "--net",
+      "ref:convnext_tiny.fb_in22k_ft_in1k:R3",
+      "--size",
+      "768x512",
+      "--epochs",
+      "60",
+      "--batch",
+      "16",
+      "--folds",
+      "0,1,2,3,4",
+      "--gpus",
+      "0,1",
+      "--extra-tests",
+      "self,random"
+    ],
+    "expected_minutes": 180,
+    "about": "Paper B final run R3 (Analysis/08 §1, §2 and §5; settings frozen by analysis C12: 60 epochs, M0's recipe, the references of R00_reference_bank_r2, local window ±1/8 of the image height, no margin loss unless the variant has one): as R4 with only the nearest healthy reference (k = 1). R3 vs R2: does retrieval help?; R4 vs R3: do 3 references help? With the reference tests self and random. 5 folds and the test set. Launch from the tag B-v1-frozen (BRANCH = \"B-v1-frozen\").",
+    "estimate_note": "estimate: one reference instead of three; no k = 1 run timed on a T4 yet (an R4 fold took 81 min, M0's 45 min); 3 rounds of folds on T4 x2 + the test set in every mode + set-up"
+  },
+  "R2_random_ref": {
+    "step": "5",
+    "script": "scripts/train_net.py",
+    "pip": [
+      "segmentation-models-pytorch==0.6.0"
+    ],
+    "gpu": "T4 x2 (two folds at a time)",
+    "track": "Paper B",
+    "args": [
+      "--net",
+      "ref:convnext_tiny.fb_in22k_ft_in1k:R2",
+      "--size",
+      "768x512",
+      "--epochs",
+      "60",
+      "--batch",
+      "16",
+      "--folds",
+      "0,1,2,3,4",
+      "--gpus",
+      "0,1",
+      "--extra-tests",
+      "self,random"
+    ],
+    "expected_minutes": 180,
+    "about": "Paper B final run R2 (Analysis/08 §1, §2 and §5; settings frozen by analysis C12: 60 epochs, M0's recipe, the references of R00_reference_bank_r2, local window ±1/8 of the image height, no margin loss unless the variant has one): as R3, but the reference is a random healthy femur of the fold model's bank (fixed per femur in the table). Does any healthy second image help? With the reference tests self and random. 5 folds and the test set. Launch from the tag B-v1-frozen (BRANCH = \"B-v1-frozen\").",
+    "estimate_note": "estimate: one reference instead of three; no k = 1 run timed on a T4 yet (an R4 fold took 81 min, M0's 45 min); 3 rounds of folds on T4 x2 + the test set in every mode + set-up"
+  },
+  "R7_partner": {
+    "step": "5",
+    "script": "scripts/train_net.py",
+    "pip": [
+      "segmentation-models-pytorch==0.6.0"
+    ],
+    "gpu": "T4 x2 (two folds at a time)",
+    "track": "Paper B",
+    "args": [
+      "--net",
+      "ref:convnext_tiny.fb_in22k_ft_in1k:R7",
+      "--size",
+      "768x512",
+      "--epochs",
+      "60",
+      "--batch",
+      "16",
+      "--folds",
+      "0,1,2,3,4",
+      "--gpus",
+      "0,1",
+      "--extra-tests",
+      "blind,retrieved,random,fractured"
+    ],
+    "expected_minutes": 190,
+    "about": "Paper B final run R7 (Analysis/08 §1, §2 and §5; settings frozen by analysis C12: 60 epochs, M0's recipe, the references of R00_reference_bank_r2, local window ±1/8 of the image height, no margin loss unless the variant has one): as R3, but trained with the femur's own healthy partner from the same x-ray (mirrored), else the nearest. Own hip vs retrieved (RQ-B2) and the pairing shortcut (RQ-B3, §2.5), with the test modes blind, retrieved, random and fractured. 5 folds and the test set. Launch from the tag B-v1-frozen (BRANCH = \"B-v1-frozen\").",
+    "estimate_note": "estimate: one reference instead of three; no k = 1 run timed on a T4 yet (an R4 fold took 81 min, M0's 45 min); 3 rounds of folds on T4 x2 + the test set in every mode + set-up"
+  },
+  "R1_aasn": {
+    "step": "5",
+    "script": "scripts/train_net.py",
+    "pip": [
+      "segmentation-models-pytorch==0.6.0"
+    ],
+    "gpu": "T4 x2 (two folds at a time)",
+    "track": "Paper B",
+    "args": [
+      "--net",
+      "ref:convnext_tiny.fb_in22k_ft_in1k:R1",
+      "--size",
+      "768x512",
+      "--epochs",
+      "60",
+      "--batch",
+      "16",
+      "--folds",
+      "0,1,2,3,4",
+      "--gpus",
+      "0,1",
+      "--extra-tests",
+      "self,random"
+    ],
+    "expected_minutes": 180,
+    "about": "Paper B final run R1 (Analysis/08 §1, §2 and §5; settings frozen by analysis C12: 60 epochs, M0's recipe, the references of R00_reference_bank_r2, local window ±1/8 of the image height, no margin loss unless the variant has one): the closest published idea (AASN), adapted to femur crops (§2.4): the nearest healthy reference, a global affine alignment, concatenation and AASN's margin loss (weight 0.5). With the reference tests self and random. 5 folds and the test set. Launch from the tag B-v1-frozen (BRANCH = \"B-v1-frozen\").",
+    "estimate_note": "estimate: one reference instead of three; no k = 1 run timed on a T4 yet (an R4 fold took 81 min, M0's 45 min); 3 rounds of folds on T4 x2 + the test set in every mode + set-up"
+  },
+  "R5_concat": {
+    "step": "5",
+    "script": "scripts/train_net.py",
+    "pip": [
+      "segmentation-models-pytorch==0.6.0"
+    ],
+    "gpu": "T4 x2 (two folds at a time)",
+    "track": "Paper B",
+    "args": [
+      "--net",
+      "ref:convnext_tiny.fb_in22k_ft_in1k:R5",
+      "--size",
+      "768x512",
+      "--epochs",
+      "60",
+      "--batch",
+      "16",
+      "--folds",
+      "0,1,2,3,4",
+      "--gpus",
+      "0,1",
+      "--extra-tests",
+      "self,random"
+    ],
+    "expected_minutes": 255,
+    "about": "Paper B final run R5 (Analysis/08 §1, §2 and §5; settings frozen by analysis C12: 60 epochs, M0's recipe, the references of R00_reference_bank_r2, local window ±1/8 of the image height, no margin loss unless the variant has one): as R4 with concatenation [T, R] instead of the difference: difference or concatenation? With the reference tests self and random. 5 folds and the test set. Launch from the tag B-v1-frozen (BRANCH = \"B-v1-frozen\").",
+    "estimate_note": "measured: an R4 fold took 81 min on one T4 in the development runs (81 s per epoch; register lines 27-30), so 3 rounds of folds on T4 x2 + the test set in 3 modes + set-up"
+  },
+  "R6a_no_align": {
+    "step": "5",
+    "script": "scripts/train_net.py",
+    "pip": [
+      "segmentation-models-pytorch==0.6.0"
+    ],
+    "gpu": "T4 x2 (two folds at a time)",
+    "track": "Paper B",
+    "args": [
+      "--net",
+      "ref:convnext_tiny.fb_in22k_ft_in1k:R6a",
+      "--size",
+      "768x512",
+      "--epochs",
+      "60",
+      "--batch",
+      "16",
+      "--folds",
+      "0,1,2,3,4",
+      "--gpus",
+      "0,1",
+      "--extra-tests",
+      "self,random"
+    ],
+    "expected_minutes": 245,
+    "about": "Paper B final run R6a (Analysis/08 §1, §2 and §5; settings frozen by analysis C12: 60 epochs, M0's recipe, the references of R00_reference_bank_r2, local window ±1/8 of the image height, no margin loss unless the variant has one): as R4 without alignment (the mean of the 3 references at each position): is alignment needed? With the reference tests self and random. 5 folds and the test set. Launch from the tag B-v1-frozen (BRANCH = \"B-v1-frozen\").",
+    "estimate_note": "measured: an R4 fold took 81 min on one T4 in the development runs (81 s per epoch; register lines 27-30), so 3 rounds of folds on T4 x2 + the test set in 3 modes + set-up; no attention, so slightly faster"
+  },
+  "R6b_affine": {
+    "step": "5",
+    "script": "scripts/train_net.py",
+    "pip": [
+      "segmentation-models-pytorch==0.6.0"
+    ],
+    "gpu": "T4 x2 (two folds at a time)",
+    "track": "Paper B",
+    "args": [
+      "--net",
+      "ref:convnext_tiny.fb_in22k_ft_in1k:R6b",
+      "--size",
+      "768x512",
+      "--epochs",
+      "60",
+      "--batch",
+      "16",
+      "--folds",
+      "0,1,2,3,4",
+      "--gpus",
+      "0,1",
+      "--extra-tests",
+      "self,random"
+    ],
+    "expected_minutes": 255,
+    "about": "Paper B final run R6b (Analysis/08 §1, §2 and §5; settings frozen by analysis C12: 60 epochs, M0's recipe, the references of R00_reference_bank_r2, local window ±1/8 of the image height, no margin loss unless the variant has one): as R4 with one global affine alignment per reference instead of local cross-attention: local or global alignment? With the reference tests self and random. 5 folds and the test set. Launch from the tag B-v1-frozen (BRANCH = \"B-v1-frozen\").",
+    "estimate_note": "measured: an R4 fold took 81 min on one T4 in the development runs (81 s per epoch; register lines 27-30), so 3 rounds of folds on T4 x2 + the test set in 3 modes + set-up"
   }
 }
