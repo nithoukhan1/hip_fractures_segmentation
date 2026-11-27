@@ -37,7 +37,7 @@
 ### Track B: Paper 2, RefFrac
 | # | Phase | Weeks | Status |
 |---|-------|-------|--------|
-| B-1 | Pair index and retrieval bank (CPU), nearest-neighbour sanity figure | 1–2 | Not started |
+| B-1 | Pair index and retrieval bank (CPU), nearest-neighbour sanity figure | 1–2 | In progress: protocol (`Analysis/07_Step4_PaperB_Reference_Bank_Protocol.md`) and code (`src/femurseg/refbank.py`, `scripts/build_reference_bank.py`) done and tested on the CPU 2026-11-27; run `R00_reference_bank` (about 10 min, one T4) ready to launch → checks of §4 → B-2 |
 | B-2 | Siamese encoder, alignment and difference fusion; fold-0 development | 3–4 | Not started |
 | B-3 | Alignment variants, k, R1 (AASN-style) baseline; freeze → **M2-B** | 5–6 | Not started |
 | B-4 | Final runs R2–R6 | 7–8 | Not started |
@@ -104,6 +104,7 @@
 | 2026-11-27 | Fold-0 development runs share a Kaggle session, one per T4 (parallel groups `A_dev_round1`, `A_dev_round2`) | A one-fold run uses one GPU, so two of them fit one session |
 | 2026-11-27 | `kaggle/run.py` checks for the dataset before installing anything; without it a training run stops within seconds (exit code 2, **NO DATASET FOUND**, what `/kaggle/input` holds, how to attach the dataset). `register_run.py` does not file a run that never started, but still files the other run of a parallel group | S09's first launch had no dataset; a clear message replaces a traceback, and an empty zip must not take a run name or a register line |
 | 2026-11-27 | Calibration = one temperature per run, fitted by NLL on its OOF femurs and applied unchanged to the test set; ECE (15 bins), Brier and NLL before and after; reported only, never used for a decision. Not applicable to the YOLO runs (S01–S03) | Protocol §6. YOLO gives probability 0 to the true class of 73–99 OOF femurs, so the NLL that fits the temperature is undefined |
+| 2026-11-27 | **Paper B's reference bank fixed before any feature** (`Analysis/07_…`): the bank of fold model k = the healthy femurs of its 4 training folds (290–291); never a reference from the femur's own group; cosine of frozen ImageNet ConvNeXt-T features, centred on the mean of the fold model's training femurs, best of as released / mirrored; kept: the 5 nearest, one random healthy and one random fractured femur (seeded by md5); one fixed table read by every R run | No patient's own other hip during training, nothing from the held-out fold or the test set, and R2, R3, R4 and R7 differ only in the reference they test |
 | 2026-11-26 | Micro-batches set by the pre-flight (`S00_net_check`): 16 × 1 for DenseNet121, ConvNeXt-T, U-Net, DeepLabV3+ and M0; 8 × 2 for EfficientNet-B4 and SegFormer | The protocol's rule (largest micro-batch under 85% of a T4); the optimiser still sees 16 images per update |
 
 ## Open questions

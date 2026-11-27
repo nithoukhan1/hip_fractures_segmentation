@@ -12,8 +12,8 @@ the session (GPU 0, 1, ...), for example two fold-0 development runs on Kaggle's
 /kaggle/working/work/<run>/; scripts/register_run.py files each run of the group separately. The runs of a group
 must accept --gpus, --workers and --work (scripts/train_net.py does).
 
-Data check: a training run (scripts/train_*.py) first checks that its data root (--data-root, default /kaggle/input)
-holds train/images and test/images. If not, for example because the dataset is not attached to the notebook, it
+Data check: a run of a script that reads the dataset (scripts/train_*.py, scripts/build_*.py) first checks that its
+data root (--data-root, default /kaggle/input) holds train/images and test/images. If not, for example because the dataset is not attached to the notebook, it
 stops within seconds, before any package install, with a message that says how to attach the dataset, and its
 run_meta.json records the error (exit code 2).
 """
@@ -30,15 +30,16 @@ import time
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parents[1]
-DEFAULT_DATA_ROOT = "/kaggle/input"  # the training scripts' default --data-root
+DEFAULT_DATA_ROOT = "/kaggle/input"  # the default --data-root of the scripts that read the dataset
+DATA_SCRIPTS = ("scripts/train_", "scripts/build_")  # those scripts (training runs, Paper B's reference bank)
 NO_DATA_EXIT = 2
 ATTACH_HELP = ("Fix: in the Kaggle notebook editor, open the right panel -> Input -> Add Input, search for "
                "'utopianstar/dataset' and add it. Then click Save Version -> Save & Run All (Commit) again.")
 
 
 def data_problem(spec: dict, extra: str) -> str:
-    """'' if a training run finds its data, otherwise why not (other scripts are not checked)."""
-    if not str(spec.get("script", "")).startswith("scripts/train_"):
+    """'' if a run that reads the dataset finds it, otherwise why not (other scripts are not checked)."""
+    if not str(spec.get("script", "")).startswith(DATA_SCRIPTS):
         return ""
     args, root = [*spec.get("args", []), *shlex.split(extra)], DEFAULT_DATA_ROOT
     for i, a in enumerate(args):

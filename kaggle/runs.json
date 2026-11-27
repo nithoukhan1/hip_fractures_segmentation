@@ -448,5 +448,23 @@
     "gpu": "T4 x2 (one run per GPU)",
     "expected_minutes": 55,
     "about": "Paper A fold-0 development, round 2 (Analysis/06 §4): A6_dev_detach on GPU 0 and A6_dev_scale32 on GPU 1, in one session."
+  },
+  "R00_reference_bank": {
+    "step": "4",
+    "script": "scripts/build_reference_bank.py",
+    "pip": [
+      "segmentation-models-pytorch==0.6.0"
+    ],
+    "gpu": "one T4 (the second stays idle)",
+    "track": "Paper B",
+    "args": [
+      "--size",
+      "768x512",
+      "--batch",
+      "16"
+    ],
+    "expected_minutes": 10,
+    "about": "Paper B step B-1 (Analysis/07_Step4_PaperB_Reference_Bank_Protocol.md). Trains nothing: encodes every femur, as released and mirrored, with the frozen ImageNet weights of M0's backbone, picks each femur's healthy references from the bank of each of the 5 fold models, and runs the sanity checks (mirror check, retrieval vs chance, duplicates, held-out vs test, partner rank) with a nearest-neighbour figure. Writes pairs.csv and references.csv, which every R run will read.",
+    "estimate_note": "about 2 min to build the image cache, under 1 min of features on a T4, about 1 min of checks"
   }
 }

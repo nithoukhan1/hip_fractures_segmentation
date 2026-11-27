@@ -63,6 +63,9 @@ def test_training_run_without_data_stops_before_pip():
         meta = json.loads((tmp / "results" / "R" / "run_meta.json").read_text())
         assert meta["exit_code"] == 2 and meta["runtime_minutes"] == 0.0 and "no dataset found" in meta["error"]
         assert secs < 60, secs
+        runs["B"] = {**runs["R"], "script": "scripts/build_reference_bank.py"}  # Paper B's bank reads the data too
+        rc, log, _ = _launch(tmp, runs, "B")
+        assert rc == 2 and "NO DATASET FOUND" in log, log
 
 
 def test_group_without_data_starts_nothing():
