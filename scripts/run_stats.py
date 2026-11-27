@@ -8,7 +8,11 @@ Intervals: percentile bootstrap with 2,000 resamples of whole x-rays (the two fe
 independent), DeLong for AUC, and the exact Clopper-Pearson interval for 6-class accuracy (as the base article).
 Paired comparisons (same femurs): DeLong for AUC, exact McNemar (and mid-p) for right/wrong decisions, a
 randomisation test that swaps the two runs' predictions per x-ray for macro-F1, and Wilcoxon signed-rank (Pratt)
-for per-femur Dice; Holm-adjusted p-values over the comparisons of each scope.
+for per-femur Dice. p (Holm) adjusts over the endpoints of one comparison (one pair, one scope).
+
+--compare compares every pair of runs; --pairs compares only the pairs given (A:B, difference A − B). With
+--family-holm, each endpoint is also Holm-adjusted across all the compared pairs, scope by scope (p_holm_family): the
+family of an ablation chain, where each step is tested against the one before (Analysis/06 §7, analysis C07).
 
 With --folds (fold-0 development, Analysis/06 §4): only the out-of-fold femurs of those folds are used, the test
 set is skipped, and each run's fracture threshold is fitted again (Youden) on exactly those femurs, so a
@@ -27,6 +31,8 @@ Examples
   python scripts/run_stats.py S01_yolov8s_seg_1024
   python scripts/run_stats.py S01_yolov8s_seg_1024 S02_yolov8s_seg_640 --compare --name C01_yolo_1024_vs_640
   python scripts/run_stats.py S10_m0_convnext_unet A6_dev_base A6_dev_no_tf --compare --folds 0 --name C06_dev_round1
+  python scripts/run_stats.py S06_convnext_tiny S10_m0_convnext_unet A2_region --family-holm \\
+      --pairs S10_m0_convnext_unet:S06_convnext_tiny,A2_region:S10_m0_convnext_unet --name C07_chain
 """
 from __future__ import annotations
 
@@ -152,6 +158,38 @@ def compare(da: dict, db: dict, groups: np.ndarray, n_boot: int, n_perm: int, se
     return res
 
 
+def parse_pairs(runs: list[str], spec: str = "") -> list[tuple[str, str]]:
+    """The pairs to compare, as (A, B) with difference A − B: every pair of ``runs`` in list order when ``spec`` is
+    empty, otherwise exactly the pairs of ``spec`` ("A:B,C:D"), each made of two different runs of the list."""
+    if not spec.strip():
+        return [(ra, rb) for i, ra in enumerate(runs) for rb in runs[i + 1:]]
+    out = []
+    for item in (s.strip() for s in spec.split(",")):
+        if not item:
+            continue
+        ra, sep, rb = item.partition(":")
+        if not sep or ra not in runs or rb not in runs or ra == rb:
+            raise SystemExit(f"--pairs: '{item}' must be RUN_A:RUN_B, two different runs named in the run list")
+        if (ra, rb) in out:
+            raise SystemExit(f"--pairs: '{item}' is given twice")
+        out.append((ra, rb))
+    return out
+
+
+def family_holm(comparisons: dict) -> None:
+    """Holm across all compared pairs, endpoint by endpoint and scope by scope, written as ``p_holm_family`` next to
+    each result's own ``p_holm`` (which adjusts across the endpoints of that one comparison). An endpoint enters the
+    family only where it was tested (no Dice test against an image classifier)."""
+    family: dict[tuple[str, str], list[dict]] = {}
+    for scopes in comparisons.values():
+        for sc, res in scopes.items():
+            for name, r in res.items():
+                family.setdefault((sc, name), []).append(r)
+    for results in family.values():
+        for r, adj in zip(results, S.holm([r["p"] for r in results])):
+            r["p_holm_family"] = float(adj)
+
+
 # ------------------------------------------------------------------------------------------------------- main
 
 
@@ -244,6 +282,10 @@ def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("runs", nargs="+", help="run names (folders in --results)")
     ap.add_argument("--compare", action="store_true", help="also compare every pair of runs")
+    ap.add_argument("--pairs", default="", help="compare only these pairs, 'A:B,C:D' (difference A − B); "
+                                                "implies --compare")
+    ap.add_argument("--family-holm", action="store_true", help="also Holm-adjust each endpoint across all compared "
+                                                               "pairs, per scope (p_holm_family)")
     ap.add_argument("--name", default="", help="output folder name under results/analysis/ (default: first run)")
     ap.add_argument("--results", default=str(REPO / "results"))
     ap.add_argument("--folds-csv", default=str(DEFAULT_FOLDS_CSV))
@@ -254,6 +296,9 @@ def main(argv=None) -> int:
                                                 "thresholds refitted on them")
     a = ap.parse_args(argv)
     folds = [int(v) for v in a.folds.split(",") if v.strip()]
+    pairs = parse_pairs(a.runs, a.pairs) if (a.compare or a.pairs) else []
+    if a.family_holm and len(pairs) < 2:
+        raise SystemExit("--family-holm needs at least two compared pairs (--compare or --pairs)")
     results = Path(a.results)
     group_of = {(r.split, r.file): r.group for r in load_records(a.folds_csv)}
     out_dir = results / "analysis" / (a.name or a.runs[0])
@@ -269,23 +314,25 @@ def main(argv=None) -> int:
             split = "test" if sc.startswith("test") else "train"
             groups = np.array([group_of[(split, f)] for f in dec["file"]])
             report["intervals"][run][sc] = intervals(dec, groups, a.n_boot, a.seed)
-    if a.compare:
-        for i, ra in enumerate(a.runs):
-            for rb in a.runs[i + 1:]:
-                key = f"{ra} vs {rb}"
-                report["comparisons"][key] = {}
-                for sc in SCOPES:
-                    if sc not in loaded[ra][1] or sc not in loaded[rb][1]:
-                        continue
-                    da, db = loaded[ra][1][sc], loaded[rb][1][sc]
-                    order_b = {f: i for i, f in enumerate(db["file"])}
-                    if set(order_b) != set(da["file"]):
-                        raise SystemExit(f"{key} ({sc}): the two runs did not predict the same femurs")
-                    idx = np.array([order_b[f] for f in da["file"]])
-                    db = {k: v[idx] for k, v in db.items()}
-                    split = "test" if sc.startswith("test") else "train"
-                    groups = np.array([group_of[(split, f)] for f in da["file"]])
-                    report["comparisons"][key][sc] = compare(da, db, groups, a.n_boot, a.n_perm, a.seed)
+    for ra, rb in pairs:
+        key = f"{ra} vs {rb}"
+        report["comparisons"][key] = {}
+        for sc in SCOPES:
+            if sc not in loaded[ra][1] or sc not in loaded[rb][1]:
+                continue
+            da, db = loaded[ra][1][sc], loaded[rb][1][sc]
+            order_b = {f: i for i, f in enumerate(db["file"])}
+            if set(order_b) != set(da["file"]):
+                raise SystemExit(f"{key} ({sc}): the two runs did not predict the same femurs")
+            idx = np.array([order_b[f] for f in da["file"]])
+            db = {k: v[idx] for k, v in db.items()}
+            split = "test" if sc.startswith("test") else "train"
+            groups = np.array([group_of[(split, f)] for f in da["file"]])
+            report["comparisons"][key][sc] = compare(da, db, groups, a.n_boot, a.n_perm, a.seed)
+    if a.family_holm:
+        family_holm(report["comparisons"])
+        report["family_holm"] = (f"p_holm_family: Holm across the {len(pairs)} compared pairs, each endpoint and "
+                                 "scope separately (an endpoint counts only where it was tested)")
 
     (out_dir / "stats.json").write_text(json.dumps(report, indent=2, default=float))
     lines = [f"# Statistics: {', '.join(a.runs)}", "",
@@ -326,12 +373,18 @@ def main(argv=None) -> int:
     lines += [f"{run}: {'not applicable, ' if k == 'not_applicable' else ''}{cal[k]}." for run, cal in
               report["calibration"].items() for k in ("not_applicable", "rounded_zeros", "at_search_bound")
               if cal.get(k)] + [""]
+    fam = a.family_holm
+    if fam:
+        lines += [f"p (Holm, family): {report['family_holm']}.", ""]
     for key, scopes in report["comparisons"].items():
         for sc, res in scopes.items():
-            lines += [f"## {key}: {sc}", "", "| Endpoint | Test | Difference (A − B) | p | p (Holm) |", "|---|---|---|---|---|"]
+            lines += [f"## {key}: {sc}", "",
+                      "| Endpoint | Test | Difference (A − B) | p | p (Holm) |" + (" p (Holm, family) |" if fam else ""),
+                      "|---|---|---|---|---|" + ("---|" if fam else "")]
             for name, r in res.items():
                 diff = r.get("diff", r.get("mean_diff"))
-                lines.append(f"| {name} | {r['test']} | {diff:+.3f} | {r['p']:.4f} | {r['p_holm']:.4f} |")
+                lines.append(f"| {name} | {r['test']} | {diff:+.3f} | {r['p']:.4f} | {r['p_holm']:.4f} |"
+                             + (f" {r['p_holm_family']:.4f} |" if fam else ""))
             lines.append("")
     (out_dir / "stats.md").write_text("\n".join(lines))
     print("\n".join(lines))

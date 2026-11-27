@@ -283,3 +283,9 @@ Written on 2026-11-27, after the four development runs and before any final R ru
 - **Freeze (milestone M2-B, §3.3):** no setting of §1–§2 changes. The eight final runs (`R4_refrac`, `R3_nearest_ref`, `R2_random_ref`, `R7_partner`, `R1_aasn`, `R5_concat`, `R6a_no_align`, `R6b_affine`) are written into `kaggle/runs.json` with exactly these settings. After the pull request of Step 18 is merged, the person creates the tag `B-v1-frozen` on `main`, and every final R run is launched from it. The training code at that commit is the code that trained the development runs (`2619b39`): the pull request changes results, analyses, documents and run entries only.
 - **Compute, measured:** an R4 fold took 81 min on one T4 (81 s per epoch, against M0's 45 s), 1.8 times M0's fold rather than the 1.6 times of §5; the pre-flight measured 1.40–1.55 s per micro-step (M0: 0.91 s). So R4, R5, R6a and R6b take about 4.2 h each on T4 x2, and R1, R2, R3 and R7 about 3 h each (not yet measured): **about 29 h** of session time, instead of the 26 h of §5.
 - **Order of the final runs (§5):** R4 first; then R3 and R2; R7; R1; R5, R6a and R6b.
+
+## 9. Addendum (2026-11-27): the tag `B-v1-frozen` exists
+
+- **Created** by the person on 2026-11-27 on `1c88912`, the merge of PR #14 (Step 18). Milestone M2-B is reached.
+- **Its files are identical to `3c52ed7`** (Step 18). Its training code is identical to `2619b39`, which trained the development runs: `scripts/train_net.py`, `src/femurseg/`, `kaggle/run.py` and `kaggle/launcher.ipynb` have no difference between the two commits.
+- **Every final R run** is launched with `BRANCH = "B-v1-frozen"`, and its log must show `1c88912`.

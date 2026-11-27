@@ -4,6 +4,43 @@ Newest entries at the top. Each entry: what was done, what it produced, what com
 
 ---
 
+## 2026-11-27 · Step 19: analyses of Paper A's final runs (C07, C08, C09)
+
+**Done (you)**
+- Merged PR #14 and created the tag `B-v1-frozen` (on `1c88912`, the merge of PR #14). Milestone M2-B is reached.
+
+**Done (me)**
+1. **Analysis tools:**
+   - `scripts/run_stats.py`: `--pairs` compares chosen pairs instead of every pair, and `--family-holm` adds Holm across the compared pairs (each endpoint and scope separately). Re-running C11 gives an identical `stats.json`.
+   - `scripts/run_interpretability.py` (new, C08): the oracle test, region deletion against its control, risk–coverage and geometry consistency, from the per-case files. Every change it computes equals what the run wrote in `metrics.json`.
+   - `scripts/map_geometry.py` (new): the geometry of each femur's predicted region from a run's saved probability maps. It needs only numpy and OpenCV, so it runs on your PC next to the large Kaggle zips.
+   - 5 new tests (82 in all), all passing.
+2. **C07, the ablation chain** (`results/analysis/C07_paperA_ablation_chain/report.md`):
+   - only the mask task helps significantly (A1 vs A0: macro-F1 +.042, Holm within the chain p = .022);
+   - **SLG-Net (A6) is not more accurate than M0 out of fold:** macro-F1 .806 vs .825 (p = .17), Dice .774 vs .777 (p = .08). On the test set it is ahead (+.041, 186 vs 182 correct), not significantly;
+   - A3 (geometry) has the best out-of-fold macro-F1 (.838), but A6 was named the final model before any result, so A3 is exploratory only;
+   - folds 1–4 alone move every value by .009 or less, so the fold-0 development did not inflate the results.
+3. **C08, interpretability** (`results/analysis/C08_paperA_interpretability/report.md`):
+   - **deletion:** removing A6's predicted region loses 64.7% of its correct fractured decisions; the same shape elsewhere loses 1.3% (p < .001). Location and grade depend on the region; the fracture decision does not;
+   - **oracle:** the released mask fixes 8 of A6's 130 wrong fractured femurs and breaks 3, so better masks would help little;
+   - **risk–coverage:** the 10% least confident femurs hold 32–40% of the errors for every model; A6 (32.4%) is not better than M0 (35.5%);
+   - **geometry:** done for M0 (its decided grades follow its own region, AUC .92 for Garden height). A6 waits for its maps.
+4. **C09, the main table** (`results/analysis/C09_paperA_main_table/report.md`, Holm across 8 comparisons):
+   - out of fold, A6 beats the base article's model S01 (macro-F1 +.061, Holm p = .006; Dice +.034) and EfficientNet-B4, and has a higher Dice than U-Net, DeepLabV3+ and SegFormer;
+   - it is not significantly different from DenseNet-121, ConvNeXt-T, U-Net, DeepLabV3+, SegFormer or M0 in macro-F1;
+   - test set: no macro-F1 difference survives Holm; A6 has the most correct femurs (186 of 210).
+5. **Trackers:** Analysis/06 §12 (results and how Holm was applied), Analysis/08 §9 (the tag `B-v1-frozen`), decisions on register lines 22–26, `EXPERIMENTS.md`, `PROJECT_TRACKER.md`, `README.md`, `kaggle/README.md`.
+
+**Next**
+- You:
+  1. merge this PR;
+  2. choose how Paper A presents SLG-Net (the decision in our thread);
+  3. send `A6_slgnet.zip`, the full Kaggle output of the A6 version (it holds `work/A6_slgnet/prob_maps/`), for the geometry test;
+  4. keep launching the Paper B final runs from `B-v1-frozen`, and send their zips.
+- Me: A6's geometry test when its maps arrive; C13–C16 as the R runs arrive.
+
+---
+
 ## 2026-11-27 · Step 18: 11 runs filed; C11 (Paper A's freeze stands); C12 (Paper B's settings frozen)
 
 **Done (you)**

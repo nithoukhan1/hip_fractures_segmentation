@@ -173,6 +173,30 @@ def test_calibration_reads_a_networks_written_zero_as_rounding():
     assert yolo["temperature"] is None and "not_applicable" in yolo and yolo["oof"]["nll_before"] is None, yolo
 
 
+def test_chosen_pairs_and_family_holm():
+    """scripts/run_stats.py --pairs and --family-holm (analysis C07): only the pairs given are compared, and each
+    endpoint is Holm-adjusted across the pairs where it was tested, leaving each comparison's own p_holm alone."""
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
+    import run_stats as RS
+
+    assert RS.parse_pairs(["a", "b", "c"]) == [("a", "b"), ("a", "c"), ("b", "c")]
+    assert RS.parse_pairs(["a", "b", "c"], "b:a, c:b,") == [("b", "a"), ("c", "b")]
+    for bad in ("a:a", "a:d", "ab", "b:a,b:a"):
+        try:
+            RS.parse_pairs(["a", "b", "c"], bad)
+        except SystemExit:
+            continue
+        raise AssertionError(f"--pairs {bad!r} was accepted")
+    comp = {k: {"oof": {"macro_f1": {"p": p, "p_holm": 0.9}} | ({"dice_fractured": {"p": d, "p_holm": 0.9}}
+                                                                  if d is not None else {})}
+            for k, p, d in (("b vs a", 0.01, None), ("c vs b", 0.04, 0.02), ("c vs a", 0.03, 0.5))}
+    RS.family_holm(comp)
+    got = [comp[k]["oof"]["macro_f1"]["p_holm_family"] for k in ("b vs a", "c vs b", "c vs a")]
+    assert np.allclose(got, [0.03, 0.06, 0.06]), got  # 3 tests: .01 x 3, .03 x 2, then .04 raised to .06
+    assert np.allclose([comp[k]["oof"]["dice_fractured"]["p_holm_family"] for k in ("c vs b", "c vs a")], [0.04, 0.5])
+    assert all(r["p_holm"] == 0.9 for c in comp.values() for r in c["oof"].values())
+
+
 if __name__ == "__main__":
     tests = [(n, f) for n, f in sorted(globals().items()) if n.startswith("test_") and callable(f)]
     for name, fn in tests:
