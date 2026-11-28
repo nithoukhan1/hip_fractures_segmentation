@@ -313,3 +313,9 @@ All eight final runs (R1–R7, register lines 31–38) were trained from `1c8891
 | Main table | **R4 ties M0** | OOF beats S01 (+.081 macro-F1, +.037 Dice), S05, S06, and S07–S09 on Dice; test: not better than M0 or S01 (C16) |
 
 **Consequence for Paper B:** the pre-registered primary hypothesis (a reference improves Dice and Garden I-II recall) is not confirmed. The defensible paper is an analysis of reference-based comparison: it is used, its match does not matter, the patient's own hip is not better, and there is no pairing shortcut; the Garden I-II gain is an exploratory out-of-fold trend. How to frame Paper B is a decision for the person (as for Paper A).
+
+## 11. Addendum (2026-11-28): the person's decision, one paper
+
+- **Paper B is not written as a separate paper.** Its findings become part of Paper A, which reports both extensions of the shared core model M0: SLG-Net (segmentation-guided hierarchy) and RefFrac (comparison with healthy references).
+- **What Paper A takes from Paper B:** the R runs as pre-registered (protocol and tag `B-v1-frozen`), the main results of C13 (no Dice gain; the Garden I-II trend as exploratory), the reference tests (the comparison is used, its match is not), C14 (the own hip is no better; no pairing shortcut) and C15 in short. C16's rows join Paper A's main table.
+- **No new Paper B runs.** The sensitivity runs (R-sens) are dropped. Milestones M4-B and M5-B lapse; B-6 figures are made as part of Paper A's results package (M4-A).
