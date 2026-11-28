@@ -33,7 +33,7 @@ from pathlib import Path
 
 REPO = Path(__file__).resolve().parents[1]
 RESULTS = REPO / "results"
-TRACKS = {"S": "Shared", "A": "Paper A", "R": "Paper B"}
+TRACKS = {"S": "Shared", "A": "Paper A", "R": "Paper B", "N": "New method"}
 
 
 def key_result(run_dir: Path) -> tuple[str, str]:

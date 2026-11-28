@@ -45,6 +45,15 @@
 | B step 6 | Statistics and figures → **Paper B milestone 4** | 10 | Statistics done 2026-11-28 (RefFrac analyses, Analysis/08 section 10; new `scripts/run_refstats.py`). Figures move to Paper A's results package (Paper A milestone 4) |
 | B step 7 | Manuscript B, internal review, submission → **Paper B milestone 5** | 11–15 | **Dropped 2026-11-28 (the person's choice):** Paper B's findings join Paper A as one paper (Analysis/08 section 11) |
 
+### New method (Analysis/11, approved 2026-11-28): must beat our own baselines, FracAtlas, explainability
+| # | Phase | Status |
+|---|-------|--------|
+| N step 1 | Fold-0 screening rules, the segment-and-zoom network in the code, the screening runs | **Done 2026-11-28 (Step 25):** rules in `Analysis/11` section 7 (base fold-0 macro-F1 .817, Dice .755; pass = macro-F1 ≥ .837 and Dice ≥ .745, mean of two seeds); `src/femurseg/zoomnet.py`; runs `N_screen_round1`–`N_screen_round3` |
+| N step 2 | Fold-0 screening on Kaggle (3 sessions, about 3.5–5 h) | Round 1 ready to launch |
+| N step 3 | The winner: 5 folds and the test set, second seed | Not started |
+| N step 4 | FracAtlas inclusion and crop rules, femur crops, zero-shot test of every model | Not started |
+| N step 5 | Standard-metric tables for every model; explainability (pointing game, deletion) | Not started |
+
 ## Milestones
 | ID | Milestone | Target date | Status |
 |---|---|---|---|
@@ -127,8 +136,8 @@
 | 2026-11-26 | Micro-batches set by the pre-flight (`S00_net_check`): 16 × 1 for DenseNet121, ConvNeXt-T, U-Net, DeepLabV3+ and ConvNeXt U-Net; 8 × 2 for EfficientNet-B4 and SegFormer | The protocol's rule (largest micro-batch under 85% of a T4); the optimiser still sees 16 images per update |
 
 ## Open questions
-- **Open 2026-11-28: approve the plan of `Analysis/11`** (standard metrics only; FracAtlas zero-shot external test; a new method, segment-and-zoom first, that must beat our own baselines; about 20–30 Kaggle hours). It replaces the second-backbone check.
-- **Open 2026-11-28 (recommended in `Analysis/10` section 5: write first, run it later): run the second-backbone check (ConvNeXt U-Net and SLG-Net with EfficientNetV2-S and the deletion test, about 6–8 h)?** Recommended so that the deletion result is shown twice (Analysis/09 section 6).
+- **Resolved 2026-11-28: the plan of `Analysis/11` is approved; the fold-0 screening rules are in its section 7 and the screening runs are ready (Step 25).** Was: approve the plan of `Analysis/11` (standard metrics only; FracAtlas zero-shot external test; a new method, segment-and-zoom first, that must beat our own baselines; about 20–30 Kaggle hours). It replaces the second-backbone check.
+- Resolved 2026-11-28: the second-backbone check is not run; the plan of `Analysis/11` replaces it. Was: run the second-backbone check (ConvNeXt U-Net and SLG-Net with EfficientNetV2-S and the deletion test, about 6–8 h)? Recommended so that the deletion result is shown twice (Analysis/09 section 6).
 - Resolved 2026-11-26 (`S00_env_check_r2`): Kaggle's 104 val/ images are identical to the local ones; data, folds and file list all match.
 - Resolved 2026-11-27: Paper A's freeze is approved, and the second-seed check runs at the same time as the final runs (Analysis/06 section 10).
 - **Resolved 2026-11-28: Paper A keeps SLG-Net as pre-registered and adds a deletion test of ConvNeXt U-Net (run `A1_m0_deletion`, rule in Analysis/06 section 13).** Was: how should Paper A present SLG-Net? It is not more accurate than ConvNeXt U-Net (SLG-Net ablation analysis), it beats the published approach out of fold (SLG-Net main-table analysis), and its location and grade decisions depend on the fracture region (SLG-Net interpretability analysis). Without a deletion test of ConvNeXt U-Net, "more interpretable than ConvNeXt U-Net" is not shown. Put to the person with the SLG-Net analyses results.

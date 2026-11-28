@@ -4,6 +4,30 @@ Newest entries at the top. Each entry: what was done, what it produced, what com
 
 ---
 
+## 2026-11-28 · Step 25: Fold-0 screening of the new method candidates (code and runs ready)
+
+**Done (you)**
+- Merged PR #22 and approved the plan of `Analysis/11`.
+
+**Done (me)**
+1. **Screening rules, written before any run** (`Analysis/11` section 7):
+   - the three candidates as built: the segment-and-zoom network, the ConvNeXt U-Net at 1152 × 768, and the ConvNeXt U-Net with a ConvNeXt-S encoder;
+   - the base to beat, from the two filed ConvNeXt U-Net runs on fold 0: macro-F1 .817, Dice .755;
+   - the pass rule: macro-F1 ≥ .837 and Dice ≥ .745, mean of two seeds.
+   - One change from the plan, stated before the runs: the higher-resolution candidate is screened at 1152 × 768 instead of 1536 × 1024, which would take about 3 h for one fold.
+2. **The segment-and-zoom network** (`src/femurseg/zoomnet.py`, `--net zoom:<model>` in `scripts/train_net.py`):
+   - the ConvNeXt U-Net finds the fracture;
+   - a second ConvNeXt-T grades it from a 640 × 640 full-resolution crop around the predicted mask;
+   - every femur's crop is saved, with the pointing game of the crop, for explainability.
+3. **Tests:** 5 new unit tests (`tests/test_zoomnet.py`) and an end-to-end training check on synthetic data (`tests/smoke_train_zoomnet.py`). All 97 unit tests pass, and the existing end-to-end check passes too.
+4. **Kaggle runs** (`kaggle/runs.json`): three sessions of two runs each, `N_screen_round1` to `N_screen_round3`. The register files them under the new track "New method".
+
+**Next**
+- You: merge the PR, then launch `N_screen_round1` (about 1.8 h on T4 x2).
+- Me, while it runs: the standard-metric tables for all filed runs, and the FracAtlas inclusion and crop rules.
+
+---
+
 ## 2026-11-28 · Step 24: New direction: standard metrics, FracAtlas, and a method that must beat our baselines (plan only)
 
 **Done (you)**

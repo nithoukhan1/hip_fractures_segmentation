@@ -35,8 +35,11 @@ The documents call every model, run and analysis by its full name. The folders a
 | `R6a_no_align` | no-alignment model | RefFrac without alignment |
 | `R6b_affine` | affine-alignment model | RefFrac with one global affine alignment |
 | `R7_partner` | own-hip model | Trained with the patient's own healthy other hip as the reference |
+| `N_segzoom_fold0`, `N_segzoom_fold0_seed2` | segment-and-zoom network (screening) | ConvNeXt U-Net finds the fracture; a second ConvNeXt-T grades it from a full-resolution crop around the predicted mask. Fold 0, seeds 2026 and 2027 |
+| `N_res1152_fold0`, `N_res1152_fold0_seed2` | ConvNeXt U-Net at 1152 × 768 (screening) | The ConvNeXt U-Net at 1.5 times the resolution. Fold 0, two seeds |
+| `N_convnext_s_fold0`, `N_convnext_s_fold0_seed2` | ConvNeXt U-Net with ConvNeXt-S (screening) | The ConvNeXt U-Net with the larger ConvNeXt-S encoder. Fold 0, two seeds |
 
-Run series in the register: **S** = shared baselines, **A** = Paper A (SLG-Net), **R** = Paper B (RefFrac).
+Run series in the register: **S** = shared baselines, **A** = Paper A (SLG-Net), **R** = Paper B (RefFrac), **N** = the new method (`Analysis/11`).
 
 ## Analyses (`results/analysis/<folder>/`)
 

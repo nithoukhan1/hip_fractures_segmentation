@@ -86,16 +86,20 @@ from femurseg.evaluation import evaluate, read_csv, scalar_summary, seg_case, wr
 from femurseg.nets import TOPK, build_net, make_loss, param_groups, parse_net, postprocess  # noqa: E402
 from femurseg.runner import argv_without, file_md5, git_commit, run_folds  # noqa: E402
 from femurseg.slg import priors_from_counts  # noqa: E402
+from femurseg import zoomnet as ZN  # noqa: E402
 from femurseg.torchdata import Cache, FemurDataset, RefFemurDataset, build_cache, normalize, worker_init_fn  # noqa: E402
 
 PLAIN_TAU = 0.5
 EXTRA_TESTS = {"slg": ("oracle", "deletion"),       # SLG-Net; "deletion" also writes "deletion_control"
                "m0": ("deletion",),                 # M0: deletion only (its head never sees the mask, so no oracle)
-               "ref": tuple(RN.TEST_POLICY)}         # RefFrac: self, random, fractured, retrieved, blind
+               "ref": tuple(RN.TEST_POLICY),         # RefFrac: self, random, fractured, retrieved, blind
+               "zoom": ("oracle", "deletion")}      # segment-and-zoom: oracle = crop at the released mask
 TEST_MODES = {"oracle": ("oracle",), "deletion": ("deletion", "deletion_control"), **{t: (t,) for t in RN.TEST_POLICY}}
 REF_TABLES = REPO / "results" / "R00_reference_bank_r2"  # the fixed reference table of step B-1 (Analysis/07 §9)
 REF_COLS = ["file", "split", "fold", "model", "cls6_true", "mode", "source", "refs", "diff_hit", "diff_chance",
             "diff_peak_y", "diff_peak_x"]
+ZOOM_COLS = ["file", "split", "fold", "model", "cls6_true", "zoom_cy", "zoom_cx", "zoom_window", "zoom_hit",
+             "zoom_mask_inside"]
 DELETE_DILATE_PX, DELETE_SIGMA_PX = 8, 16           # at 768 x 512; scaled with the input height otherwise
 PAPER_TABLE3 = {"densenet121": "DenseNet121", "efficientnet_b4": "EfficientNetB4"}  # same architecture in the article
 
@@ -136,6 +140,10 @@ def parse_args(argv=None) -> argparse.Namespace:
                     help="RefFrac: half-width of the attention window as a fraction of the image height (0 = global)")
     ap.add_argument("--ref-margin", type=float, default=None,
                     help="RefFrac: weight of AASN's margin loss; default = the variant's (0.5 in R1, 0 otherwise)")
+    ap.add_argument("--zoom-window", type=int, default=ZN.WINDOW,
+                    help="segment-and-zoom: side of the crop in input pixels (kept inside the image)")
+    ap.add_argument("--zoom-input", type=int, default=ZN.ZOOM_INPUT,
+                    help="segment-and-zoom: the crop is resampled to this size for the zoom encoder")
     ap.add_argument("--clip", type=float, default=1.0, help="gradient-norm clipping")
     ap.add_argument("--topk", type=int, default=TOPK, help="segmenters: pixels averaged for the fracture score")
     ap.add_argument("--no-pretrained", action="store_true", help="random initialisation (tests only)")
@@ -193,7 +201,8 @@ def parse_args(argv=None) -> argparse.Namespace:
 def net_options(args) -> dict:
     """Keyword arguments of nets.build_net for this run."""
     return {"slg_scales": args.slg_scale_list, "slg_detach": args.slg_detach, "ref_k": args.ref_k,
-            "ref_margin": args.ref_margin, "ref_window": args.ref_window}
+            "ref_margin": args.ref_margin, "ref_window": args.ref_window, "zoom_window": args.zoom_window,
+            "zoom_input": args.zoom_input}
 
 
 def ref_cfg(args, spec) -> dict:
@@ -204,7 +213,7 @@ def ref_cfg(args, spec) -> dict:
 def model_inputs(spec, gt=None, tf_prob: float = 0.0, refs=None) -> dict:
     """Extra forward arguments: SLG-Net gets the released mask for teacher forcing or the oracle test; RefFrac gets
     the reference images (B k, 3, H, W)."""
-    if spec.kind == "slg" and gt is not None:
+    if spec.kind in ("slg", "zoom") and gt is not None:  # segment-and-zoom: the crop centre (teacher forcing)
         return {"gt": gt, "tf_prob": tf_prob}
     if spec.kind == "ref" and refs is not None:
         return {"refs": refs}
@@ -332,7 +341,7 @@ def run_fold(args) -> None:
             n += 1
         row = {"epoch": epoch, "lr": round(opt.param_groups[0]["lr"], 8),
                **{name: round(v / max(n, 1), 5) for name, v in sums.items()}, "seconds": round(time.time() - te, 1)}
-        if spec.kind == "slg":
+        if spec.kind in ("slg", "zoom"):
             row["tf_prob"] = round(tf_prob, 4)  # chance of the released mask in the epoch's last step
         curve.append(row)
         print(f"[fold {k}] epoch {epoch}/{args.epochs} " + " ".join(f"{a} {b}" for a, b in row.items() if a != "epoch"),
@@ -353,8 +362,9 @@ def run_fold(args) -> None:
         map_dir = None if (args.no_maps or not spec.has_mask) else args.work / "prob_maps" / part / f"fold{k}"
         infos: list[dict] = []
         ref_infos: list[dict] = []
+        zoom_infos: list[dict] = []
         rows = predict_cases(model, spec, cache, rs, args, dev, k, map_dir, amp, info_out=infos, table=table,
-                             ref_out=ref_infos)
+                             ref_out=ref_infos, zoom_out=zoom_infos)
         for mode, mode_rows in rows.items():
             write_csv(fold_out / (f"{part}.csv" if mode == "base" else f"{part}_{mode}.csv"), mode_rows)
         if infos:  # where the deletion test's control region went, per femur
@@ -364,6 +374,11 @@ def run_fold(args) -> None:
                 wr.writerows(infos)
         if ref_infos:  # RefFrac: the references of every femur in every mode, and the pointing game
             write_ref_csv(fold_out / f"{part}_references.csv", ref_infos)
+        if zoom_infos:  # segment-and-zoom: every femur's crop and whether it holds the released mask
+            with open(fold_out / f"{part}_zoom.csv", "w", newline="") as fh:
+                wr = csv.DictWriter(fh, fieldnames=ZOOM_COLS, extrasaction="ignore")
+                wr.writeheader()
+                wr.writerows(zoom_infos)
     slg_meta = {} if spec.kind != "slg" else {
         "variant": spec.variant, "tf_epochs": args.tf_epochs, "slg_scales": list(args.slg_scale_list),
         "slg_detach": args.slg_detach, "la_tau": args.la_tau, "joint_weight": args.joint_weight,
@@ -379,6 +394,9 @@ def run_fold(args) -> None:
                     "extra_tests": args.test_list}
     if spec.kind == "m0" and args.test_list:
         slg_meta = {"extra_tests": args.test_list}
+    if spec.kind == "zoom":
+        slg_meta = {"tf_epochs": args.tf_epochs, "window": args.zoom_window, "zoom_input": args.zoom_input,
+                    "jitter": ZN.JITTER, "aux_weight": ZN.AUX_WEIGHT, "extra_tests": args.test_list}
     meta = {"fold": k, "net": spec.text, "device": str(dev), **slg_meta,
             "gpu": torch.cuda.get_device_name(dev) if dev.type == "cuda" else "cpu",
             "n_train": len(train), "n_held_out": len(held), "n_test": 0 if args.no_test else len(test),
@@ -392,8 +410,8 @@ def run_fold(args) -> None:
 
 
 def predict_cases(model, spec, cache: Cache, recs, args, dev, k: int, map_dir: Path | None,
-                  amp: bool, info_out: list | None = None, table=None, ref_out: list | None = None
-                  ) -> dict[str, list[dict]]:
+                  amp: bool, info_out: list | None = None, table=None, ref_out: list | None = None,
+                  zoom_out: list | None = None) -> dict[str, list[dict]]:
     """One row of per-case numbers per femur (src/femurseg/evaluation.py) for every mode in args.modes, and the
     saved probability maps (base mode only; RefFrac: every mode, in prob_maps/<part>_<mode>/).
 
@@ -405,7 +423,8 @@ def predict_cases(model, spec, cache: Cache, recs, args, dev, k: int, map_dir: P
     appended to ``info_out``, one dict per femur). RefFrac tests (Analysis/08 §2.6): the same femurs with other
     references from ``table`` (refnet.TEST_POLICY: self, random, fractured, retrieved = nearest, blind); the
     references every femur got in every mode, and the pointing game of the base mode's difference map, are appended
-    to ``ref_out``."""
+    to ``ref_out``. Segment-and-zoom (base mode): every femur's crop centre and, for fractured femurs, whether the
+    window holds the released mask's centroid (zoomnet.window_hit) are appended to ``zoom_out``."""
     import cv2
     import torch
 
@@ -480,6 +499,15 @@ def predict_cases(model, spec, cache: Cache, recs, args, dev, k: int, map_dir: P
                 continue
             pp = run(x)
             base = add("base", pp, chunk, idx, save_maps=True)
+            if spec.kind == "zoom" and zoom_out is not None:
+                cen = pp["centre"].float().cpu().numpy()
+                for j, rec in enumerate(chunk):
+                    zi = {"file": rec.file, "split": rec.split, "fold": rec.fold, "model": k, "cls6_true": rec.cls6,
+                          "zoom_cy": round(float(cen[j, 0]), 1), "zoom_cx": round(float(cen[j, 1]), 1),
+                          "zoom_window": args.zoom_window}
+                    if rec.cls6 > 0:
+                        zi.update(ZN.window_hit(cen[j], args.zoom_window, np.asarray(cache.masks[idx[j]]) > 0))
+                    zoom_out.append(zi)
             if "oracle" in rows:
                 gt = torch.from_numpy((np.stack([cache.masks[j] for j in idx]) > 0).astype(np.float32))[:, None]
                 add("oracle", run(x, **model_inputs(spec, gt.to(dev), 1.0)), chunk, idx, False, copy_seg_from=base)
@@ -887,7 +915,33 @@ def aggregate(args, cache: Cache, done: list[int], skipped: list[int], failed: l
             res["tests"]["deletion_control"]["control_placement_oof"] = dict(placed)
     if spec.kind == "ref":
         res["reference"] = reference_summary(args, done)
+    if spec.kind == "zoom":
+        res["zoom"] = zoom_summary(args, done)
     return res
+
+
+def zoom_summary(args, done: list[int]) -> dict:
+    """Segment-and-zoom: per_case_<oof|test>_zoom.csv (all folds) and the pointing game of the crop (fractured
+    femurs: does the window hold the centroid of the released mask?), with the mean share of the mask inside it."""
+    out: dict = {}
+    for part in ("oof", "test"):
+        rows: list[dict] = []
+        for k in sorted(done):
+            f = args.out / "folds" / f"fold{k}" / f"{part}_zoom.csv"
+            if f.exists():
+                with open(f, newline="") as fh:
+                    rows += list(csv.DictReader(fh))
+        if not rows:
+            continue
+        with open(args.out / f"per_case_{part}_zoom.csv", "w", newline="") as fh:
+            wr = csv.DictWriter(fh, fieldnames=ZOOM_COLS, extrasaction="ignore")
+            wr.writeheader()
+            wr.writerows(rows)
+        fr = [r for r in rows if r.get("zoom_hit", "") != ""]
+        out[part] = {"n_fractured": len(fr),
+                     "hit_rate": float(np.mean([int(r["zoom_hit"]) for r in fr])) if fr else float("nan"),
+                     "mask_inside_mean": float(np.mean([float(r["zoom_mask_inside"]) for r in fr])) if fr else float("nan")}
+    return out
 
 
 def reference_summary(args, done: list[int]) -> dict:
@@ -949,6 +1003,11 @@ def write_summary(args, res: dict) -> None:
         + " and 1/".join(str(v) for v in args.slg_scale_list)
         + (", mask detached from the decision losses" if args.slg_detach else "")
         + (f", logit adjustment tau {args.la_tau:g}" if spec.variant == "A6" else "") + ".")
+    if spec.kind == "zoom":
+        slg_text = (f" Segment-and-zoom: crop {args.zoom_window} x {args.zoom_window} input pixels around the "
+                    f"predicted mask, resampled to {args.zoom_input} x {args.zoom_input}; "
+                    + (f"teacher forcing of the crop centre over {args.tf_epochs:g} epochs" if args.tf_epochs > 0
+                       else "no teacher forcing") + ".")
     if spec.kind == "ref":
         rc = ref_cfg(args, spec)
         slg_text = (f" RefFrac {spec.variant}: {rc['k']} reference(s) per femur ({rc['policy']}), alignment "
@@ -992,8 +1051,9 @@ def write_summary(args, res: dict) -> None:
                          f"{e.get('n_correct_base', 'n/a')} |" + test_col(blk))
     elif res.get("tests"):
         test_col = (lambda blk: f" {f(blk, 'test_ensemble', 'accuracy_6class', 100, 1)} |") if has_test else (lambda blk: "")
-        lines += ["", "## Interpretability tests (" + ("SLG-Net, Analysis/06 §5" if spec.kind == "slg" else
-                                                    "M0, Analysis/06 §13") + "), at the OOF threshold", "",
+        lines += ["", "## Interpretability tests (" + {"slg": "SLG-Net, Analysis/06 §5",
+                                                    "zoom": "segment-and-zoom network, Analysis/11"}.get(
+                      spec.kind, "M0, Analysis/06 §13") + "), at the OOF threshold", "",
                   "| Mode | OOF 6-class accuracy (%) | OOF macro-F1 | OOF Garden I-II recall | Change of P(true class), "
                   "fractured | Correct fractured femurs that become wrong |" + (" Test ensemble accuracy (%) |" if has_test else ""),
                   "|---|---|---|---|---|---|" + ("---|" if has_test else ""),
@@ -1012,6 +1072,12 @@ def write_summary(args, res: dict) -> None:
                   + "; ".join(f"{'OOF' if part == 'oof' else 'test (fold models)'} {pg.get('hit_rate', float('nan')):.3f} "
                               f"(chance {pg.get('chance', float('nan')):.3f}, n = {pg.get('n')})" for part, pg in pgs)
                   + "."]
+    zs = [(part, blk) for part, blk in (res.get("zoom") or {}).items()]
+    if zs:
+        lines += ["", "Pointing game of the zoom crop (fractured femurs: the window holds the centroid of the released "
+                  "mask): " + "; ".join(f"{'OOF' if part == 'oof' else 'test (fold models)'} {b['hit_rate']:.3f} "
+                                       f"(mean share of the mask inside {b['mask_inside_mean']:.3f}, "
+                                       f"n = {b['n_fractured']})" for part, b in zs) + "."]
     if has_test:
         lines += ["", "Paper column: González et al. 2025 (Table 3; their final model's Dice is the mean over detected "
                   "fractures, definition not stated). Their classifiers and YOLO models were trained on one split, ours "
