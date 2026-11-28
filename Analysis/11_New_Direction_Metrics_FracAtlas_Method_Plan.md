@@ -231,3 +231,37 @@ A candidate passes the screening if both hold, for the mean of its two seeds on 
 
 Screening total: about 3.5–5 Kaggle hours.
 
+
+## 8. FracAtlas external test: inclusion and crop rules (fixed 2026-11-28, before any model sees a FracAtlas image)
+
+### 8.1 Which images and which hips
+Each **hip** is one test case, like each femur in HUSJA-UA. An image showing both hips can give two cases.
+
+**An image is screened if** `dataset.csv` flags it "hip" (338 images: 63 fractured, 275 not).
+
+**A hip is included if all of these hold** (judged by eye on the image, without the model and before any prediction):
+1. **Frontal view:** an AP view of the pelvis or of one hip. Lateral, oblique and frog-leg views are out.
+2. **Adult:** no open growth plates at the femoral head or the trochanters. HUSJA-UA has adults only.
+3. **No implant** on that side: plate, nail, screws or prosthesis. HUSJA-UA has no operated hips. An implant on the other side does not exclude this hip.
+4. **The proximal femur is visible:** the femoral head and the femur down to at least below the lesser trochanter, which is the part a HUSJA-UA image shows.
+
+**Its label:**
+- **Fractured:** a FracAtlas polygon lies on this hip's proximal femur (head, neck, trochanteric or subtrochanteric region).
+- **Healthy:** no polygon on this hip, in an image without fracture, or the other side of a fractured image.
+- **Excluded:** a polygon on this side that lies only on the femoral shaft below the subtrochanteric region, or only on the pelvis. These are not fractures of the HUSJA-UA classes.
+
+### 8.2 The crop: the same geometry as a HUSJA-UA image
+The base article made each HUSJA-UA image from a femur detection box with a 100% margin, resized with square pixels to 1024 × 1536 (black outside the X-ray), then windowed between the 2nd and 98th intensity percentiles. FracAtlas has no such boxes, so each hip is placed by two landmarks:
+1. **Landmarks**, read by eye for every included hip: the centre of the femoral head and its diameter, in pixels of the original image.
+2. **Calibration:** the same two landmarks are read on 20 HUSJA-UA training images chosen at random (seed 2026). Their mean gives where the femoral head sits in a HUSJA-UA image, as a share of the width and height, and how wide the image is in head diameters.
+3. **Crop:** a 2:3 portrait box placed so that the femoral head lands at that mean position, at that mean scale. The box is mirrored for left hips so that the medial side matches. Areas outside the X-ray become black. The box is resized to 1024 × 1536 and windowed 2–98%, as in HUSJA-UA.
+4. **Masks:** the FracAtlas polygons are drawn into the same crop, so the metrics compare like with like.
+5. **Check sheet:** every crop is shown with its outline on one sheet, so the person can check it before any model runs.
+
+The landmarks need only the anatomy, never the fracture outline, so the crop cannot leak the answer. The same crops go to every model.
+
+### 8.3 What is reported
+- **Per hip, zero-shot, with each model's HUSJA-UA threshold:** fracture AUC, sensitivity, specificity, accuracy and F1 (fracture yes/no). The 6 classes cannot be scored, because FracAtlas has no type or grade.
+- **On the fractured hips:** Dice, IoU and HD95 of the predicted mask against the FracAtlas outline, and the pointing game (does the most likely fracture pixel fall in the outline?).
+- **95% intervals:** bootstrap over patients. FracAtlas has no patient numbers, so images that clearly show the same patient (for example two views with consecutive numbers) are grouped by eye during the screening, and each group is resampled as one.
+- **Models:** every model of the main tables, and the method that passes the screening.

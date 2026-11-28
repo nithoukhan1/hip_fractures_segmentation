@@ -63,6 +63,7 @@ Run series in the register: **S** = shared baselines, **A** = Paper A (SLG-Net),
 | `C16_paperB_main_table` | RefFrac main-table analysis | RefFrac against every baseline |
 | `C17_ensembles` | ensemble analysis | Do ensembles of saved predictions buy accuracy? |
 | `M1_baseline_table` | baseline table | All ten baselines side by side |
+| `standard_metrics_all_runs` | standard-metrics tables | Every model with the standard metrics only (`Analysis/11` section 2.2): accuracy, macro precision, recall and F1, per-class precision, recall and F1, sensitivity, specificity, AUC, confusion matrices, Dice, IoU, HD95 |
 
 ## Other terms
 - **OOF (out of fold):** each of the 1,043 training femurs is predicted by the fold model that did not see it. This is the main evaluation scope.

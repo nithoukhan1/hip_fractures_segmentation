@@ -4,6 +4,30 @@ Newest entries at the top. Each entry: what was done, what it produced, what com
 
 ---
 
+## 2026-11-28 · Step 26: Standard-metric tables for every model, and the FracAtlas rules
+
+**Done (you)**
+- Merged PR #23 (the screening code and runs).
+
+**Done (me)**
+1. **Standard-metric tables** (`results/analysis/standard_metrics_all_runs/standard_metrics.md`, made by `scripts/run_standard_metrics.py`):
+   - all 24 models, out of fold and on the test set;
+   - classification: accuracy, macro precision, macro recall, macro-F1, sensitivity, specificity, fracture AUC and the 6-class AUC; per-class precision, recall and F1; confusion matrices;
+   - segmentation: Dice, IoU and HD95;
+   - 95% intervals.
+   - The numbers equal those of the earlier analyses: for example, ConvNeXt U-Net has 922/1043 correct, macro-F1 .825 and Dice .777 out of fold.
+2. **FracAtlas rules** (`Analysis/11` section 8), written before any model sees a FracAtlas image:
+   - which hips are included: adult, frontal view, no implant, proximal femur visible;
+   - how each hip is labelled;
+   - the crop, placed by the femoral head so that it matches the geometry of a HUSJA-UA image;
+   - what is reported.
+
+**Next**
+- You: launch `N_screen_round1` if it is not running yet, and send me its zip.
+- Me: screen the 338 FracAtlas hip images with the rules, make the crops and a check sheet for you.
+
+---
+
 ## 2026-11-28 · Step 25: Fold-0 screening of the new method candidates (code and runs ready)
 
 **Done (you)**
