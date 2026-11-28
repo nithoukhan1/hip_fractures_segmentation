@@ -24,12 +24,13 @@ Newest entries at the top. Each entry: what was done, what it produced, what com
 7. **C16, main table**: RefFrac ties M0 (macro-F1 .826, Dice .777 OOF) and beats the base article's model S01 out of fold (+.081 macro-F1, +.037 Dice); on the test set it is not better than M0 or S01.
 8. **Trackers:** `Analysis/08` §10, `EXPERIMENTS.md`, `PROJECT_TRACKER.md` (B-4 to B-6, M3-B, compute 66.7 h), `README.md`.
 
+**After this step (2026-11-28):** you merged PR #17 and chose to merge Paper B into Paper A as one paper (Analysis/08 §11; no R sensitivity runs).
+
 **Next**
 - You:
-  1. merge this PR;
-  2. launch `A1_m0_deletion` from `main` (about 2.9 h) and send its zip;
-  3. choose how Paper B presents RefFrac (in our thread).
-- Me: file `A1_m0_deletion` and run the §13 test; then the sensitivity runs and figures for whichever framing you choose.
+  1. merge the small tracker PR for the one-paper decision;
+  2. launch `A1_m0_deletion` from `main` (about 2.9 h) and send its zip.
+- Me: file `A1_m0_deletion` and run the §13 test; then plan the one combined paper (outline, main table, figures).
 
 ---
 
