@@ -1282,5 +1282,33 @@
     "gpu": "T4 x2 (one run per GPU)",
     "expected_minutes": 110,
     "about": "Fold-0 screening, round 3 (Analysis/11): the second seeds of the ConvNeXt U-Net at 1152 x 768 and with the ConvNeXt-S encoder. Launch it only if the screening rule asks for these seeds (a first seed at least .01 above the base). Both results are in results_N_screen_round3.zip."
+  },
+  "N1_segzoom": {
+    "step": "27",
+    "script": "scripts/train_net.py",
+    "pip": [
+      "segmentation-models-pytorch==0.6.0"
+    ],
+    "gpu": "T4 x2 (two folds at a time)",
+    "track": "New method",
+    "args": [
+      "--net",
+      "zoom:convnext_tiny.fb_in22k_ft_in1k",
+      "--size",
+      "1536x1024",
+      "--epochs",
+      "60",
+      "--batch",
+      "16",
+      "--folds",
+      "0,1,2,3,4",
+      "--gpus",
+      "0,1",
+      "--extra-tests",
+      "oracle,deletion"
+    ],
+    "expected_minutes": 250,
+    "estimate_note": "the fold-0 screening runs took 72.5 and 75.9 min on one T4; 5 folds two at a time = 3 rounds, plus the test set and the oracle and deletion tests",
+    "about": "Only if the person chooses it (Analysis/11 section 7.5): the segment-and-zoom network on 5 folds and the test set, seed 2026 as the ConvNeXt U-Net, with the oracle and region-deletion tests. It did not pass the fold-0 screening (+.013 macro-F1 against +.02 asked), so this run is a stated departure from the screening rule; its result is judged by the out-of-fold rule of Analysis/11 section 4.2. Launch from main (BRANCH = \"main\") after the pull request that adds it."
   }
 }

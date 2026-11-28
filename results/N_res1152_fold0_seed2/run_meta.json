@@ -1,0 +1,10 @@
+{
+  "run": "N_res1152_fold0_seed2",
+  "step": "25",
+  "git_commit": "eb22c1f8787e6fd8a4ea187a31976d6c698ae116",
+  "command": "/usr/bin/python3 /tmp/code/scripts/train_net.py --net m0:convnext_tiny.fb_in22k_ft_in1k --size 1152x768 --epochs 60 --batch 16 --folds 0 --no-test --seed 2027 --out /kaggle/working/results/N_screen_round3/N_res1152_fold0_seed2 --gpus 0 --workers 2 --work /kaggle/working/work/N_res1152_fold0_seed2",
+  "started_utc": "2026-11-28T12:15:41Z",
+  "group": "N_screen_round3",
+  "runtime_minutes": 102.4,
+  "exit_code": 0
+}

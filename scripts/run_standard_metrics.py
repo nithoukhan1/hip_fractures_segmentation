@@ -16,6 +16,7 @@ Reads only the filed run folders and writes results/analysis/<name>/ (standard_m
 
     python scripts/run_standard_metrics.py                      # every model run of the paper
     python scripts/run_standard_metrics.py S10_m0_convnext_unet S01_yolov8s_seg_1024 --name check
+    python scripts/run_standard_metrics.py S10_m0_convnext_unet A1_m0_deletion N_segzoom_fold0 --folds 0 --name x
 """
 from __future__ import annotations
 
@@ -63,9 +64,20 @@ NAMES = {
     "R6b_affine": "Affine-alignment model",
     "R7_partner": "Own-hip model",
 }
+# the fold-0 screening runs of the new method candidates (Analysis/11 section 7); not in the default all-runs table
+SCREENING = {
+    "N_segzoom_fold0": "Segment-and-zoom network, seed 2026",
+    "N_segzoom_fold0_seed2": "Segment-and-zoom network, seed 2027",
+    "N_res1152_fold0": "ConvNeXt U-Net at 1152 × 768, seed 2026",
+    "N_res1152_fold0_seed2": "ConvNeXt U-Net at 1152 × 768, seed 2027",
+    "N_convnext_s_fold0": "ConvNeXt U-Net with ConvNeXt-S, seed 2026",
+    "N_convnext_s_fold0_seed2": "ConvNeXt U-Net with ConvNeXt-S, seed 2027",
+}
 GROUPS = [("Baselines", [k for k in NAMES if k.startswith("S")] + ["A1_m0_deletion"]),
           ("SLG-Net and its ablation chain", [k for k in NAMES if k.startswith("A") and k != "A1_m0_deletion"]),
-          ("RefFrac and its variants", [k for k in NAMES if k.startswith("R")])]
+          ("RefFrac and its variants", [k for k in NAMES if k.startswith("R")]),
+          ("New method candidates (fold-0 screening)", list(SCREENING))]
+NAMES = {**NAMES, **SCREENING}
 SCOPE_TITLE = {"oof": "Out of fold (1,043 femurs)", "test_ensemble": "Test set (210 femurs, ensemble of the 5 fold models)"}
 
 
@@ -132,8 +144,19 @@ def write_md(path: Path, report: dict) -> None:
              f"95% intervals in brackets: bootstrap over whole x-rays ({report['n_boot']} resamples) for accuracy, "
              "macro-F1 and Dice, DeLong for the fracture AUC. Each run uses its own out-of-fold fracture threshold. "
              "Script: `scripts/run_standard_metrics.py`.", ""]
+    folds = report.get("folds", "all")
+    if folds != "all":
+        lines += [f"**Only the held-out femurs of fold(s) {', '.join(map(str, folds))}**, as in the fold-0 screening "
+                  "(Analysis/11 section 7): each run's fracture threshold is fitted again on exactly these femurs, and "
+                  "the test set is not used.", ""]
+    titles = dict(SCOPE_TITLE)
+    if folds != "all":
+        n = next((v["oof"]["n"] for v in res.values() if "oof" in v), 0)
+        titles["oof"] = f"Out of fold, fold(s) {', '.join(map(str, folds))} ({n:,} femurs)"
     for sc in SCOPES:
-        lines += [f"## {SCOPE_TITLE[sc]}", ""]
+        if not any(sc in v for v in res.values()):
+            continue
+        lines += [f"## {titles[sc]}", ""]
         for title, runs in GROUPS:
             runs = [r for r in runs if r in res and sc in res[r]]
             if not runs:
@@ -159,7 +182,7 @@ def write_md(path: Path, report: dict) -> None:
                     lines.append(f"| {NAMES.get(r, r)} | {ci(m['dice'])} | {f3(m['iou'])} | {hd} "
                                  f"| {m['n_missed']} of {m['n_fractured']} |")
             lines.append("")
-        lines += [f"### Per class: precision / recall / F1 ({SCOPE_TITLE[sc].split(' (')[0].lower()})", "",
+        lines += [f"### Per class: precision / recall / F1 ({titles[sc].split(' (')[0].lower()})", "",
                   "| Model | " + " | ".join(BY_CLS6[c].name for c in range(6)) + " |", "|---|" + "---|" * 6]
         for title, runs in GROUPS:
             for r in [r for r in runs if r in res and sc in res[r]]:
@@ -173,7 +196,7 @@ def write_md(path: Path, report: dict) -> None:
     for r in [r for r in ("S10_m0_convnext_unet", "S01_yolov8s_seg_1024") if r in res]:
         for sc in SCOPES:
             if sc in res[r]:
-                lines += [f"**{NAMES[r]}, {SCOPE_TITLE[sc].split(' (')[0].lower()}**", "",
+                lines += [f"**{NAMES[r]}, {titles[sc].split(' (')[0].lower()}**", "",
                           "| True \\ predicted | " + " | ".join(BY_CLS6[c].name for c in range(6)) + " |",
                           "|---|" + "---|" * 6]
                 lines += [f"| {BY_CLS6[i].name} | " + " | ".join(str(v) for v in row) + " |"
@@ -190,21 +213,31 @@ def main(argv=None) -> int:
     ap.add_argument("--folds-csv", default=str(DEFAULT_FOLDS_CSV))
     ap.add_argument("--n-boot", type=int, default=2000)
     ap.add_argument("--seed", type=int, default=2026)
+    ap.add_argument("--folds", default="", help="only the out-of-fold femurs of these folds (e.g. 0), the threshold "
+                    "fitted again on them and no test set, exactly as scripts/run_stats.py --folds (fold-0 screening)")
     a = ap.parse_args(argv)
+    folds = [int(v) for v in a.folds.split(",") if v.strip()]
     results = Path(a.results)
-    runs = a.runs or [r for r in NAMES if (results / r / "metrics.json").exists()]
+    runs = a.runs or [r for r in NAMES if r not in SCREENING and (results / r / "metrics.json").exists()]
     group_of = {(r.split, r.file): r.group for r in load_records(a.folds_csv)}
-    report = {"n_boot": a.n_boot, "seed": a.seed, "names": {r: NAMES.get(r, r) for r in runs}, "runs": {}}
+    report = {"n_boot": a.n_boot, "seed": a.seed, "folds": folds or "all", "names": {r: NAMES.get(r, r) for r in runs}, "runs": {}}
     for run in runs:
         d = results / run
         tau = (json.loads((d / "metrics.json").read_text()).get("thresholds") or {}).get("oof_youden")
+        if folds:
+            oof = [r for r in read_cases(d / SCOPES["oof"]) if int(float(r["fold"])) in folds]
+            if not oof:
+                raise SystemExit(f"{run}: no out-of-fold femurs in folds {folds}")
+            tau = M.youden_threshold([int(r["cls6_true"]) > 0 for r in oof], [_num(r["score"]) for r in oof])
         if tau is None:
             raise SystemExit(f"{run}: metrics.json has no out-of-fold threshold")
         report["runs"][run] = {"threshold": tau}
         for sc, fn in SCOPES.items():
-            if not (d / fn).exists():
+            if not (d / fn).exists() or (folds and sc != "oof"):
                 continue
             rows = read_cases(d / fn)
+            if folds:
+                rows = [r for r in rows if int(float(r["fold"])) in folds]
             split = "test" if sc.startswith("test") else "train"
             groups = np.array([group_of[(split, r["file"])] for r in rows])
             report["runs"][run][sc] = scope_metrics(rows, tau, groups, a.n_boot, a.seed)

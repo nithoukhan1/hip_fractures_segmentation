@@ -1,0 +1,50 @@
+{
+  "run": "N_res1152_fold0_seed2",
+  "step": "25",
+  "git_commit": "eb22c1f8787e6fd8a4ea187a31976d6c698ae116",
+  "command": "/usr/bin/python3 /tmp/code/scripts/train_net.py --net m0:convnext_tiny.fb_in22k_ft_in1k --size 1152x768 --epochs 60 --batch 16 --folds 0 --no-test --seed 2027 --out /kaggle/working/results/N_screen_round3/N_res1152_fold0_seed2 --gpus 0 --workers 2 --work /kaggle/working/work/N_res1152_fold0_seed2",
+  "started_utc": "2026-11-28T12:15:41Z",
+  "group": "N_screen_round3"
+}
+image cache /tmp/femurseg_cache/1152x768_f868e649e0e1 ready in 85 s
+pre-flight: micro-batch 8 x 2, 0.9536 s per micro-step, peak 13.22 GB; about 110.4 min per fold
+[fold 0] started on GPU 0; log /kaggle/working/work/N_res1152_fold0_seed2/logs/fold0.log
+[fold 0] finished after 99.8 min
+# N_res1152_fold0_seed2: summary
+
+Network `m0:convnext_tiny.fb_in22k_ft_in1k`, input 1152 x 768, 60 epochs, batch 16 (micro-batch 8 x 2), lr 0.0002, final weights.
+Folds completed [0], skipped [], failed []. Runtime 102.4 min on Tesla T4.
+
+## Fracture threshold fitted on the OOF predictions (Youden): 0.3886
+
+| Metric | OOF (n=208) |
+|---|---|
+| Fracture AUC | 0.999 |
+| Fracture sensitivity | 0.993 |
+| Fracture specificity | 1.000 |
+| 6-class accuracy (%) | 87.0 |
+| 6-class macro-F1 | 0.790 |
+| Garden I-II recall | 0.545 |
+| Dice, fractured femurs (missed = 0) | 0.779 |
+| Dice, detected fractures only | 0.785 |
+| NSD at 10 px, fractured femurs | 0.234 |
+
+## Plain threshold 0.5 on the fracture probability
+
+| Metric | OOF (n=208) |
+|---|---|
+| Fracture AUC | 0.999 |
+| Fracture sensitivity | 0.985 |
+| Fracture specificity | 1.000 |
+| 6-class accuracy (%) | 86.5 |
+| 6-class macro-F1 | 0.787 |
+| Garden I-II recall | 0.545 |
+| Dice, fractured femurs (missed = 0) | 0.775 |
+| Dice, detected fractures only | 0.787 |
+| NSD at 10 px, fractured femurs | 0.234 |
+
+Development run (`--no-test`): the held-out folds only; the test set was not predicted.
+
+folds done [0], skipped [], failed []; total 102.4 min
+
+run 'N_res1152_fold0_seed2' finished with exit code 0 in 102.4 min; outputs in /kaggle/working/results/N_screen_round3/N_res1152_fold0_seed2
