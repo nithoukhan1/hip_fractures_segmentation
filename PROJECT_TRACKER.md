@@ -127,6 +127,7 @@
 | 2026-11-26 | Micro-batches set by the pre-flight (`S00_net_check`): 16 × 1 for DenseNet121, ConvNeXt-T, U-Net, DeepLabV3+ and ConvNeXt U-Net; 8 × 2 for EfficientNet-B4 and SegFormer | The protocol's rule (largest micro-batch under 85% of a T4); the optimiser still sees 16 images per update |
 
 ## Open questions
+- **Open 2026-11-28: approve the plan of `Analysis/11`** (standard metrics only; FracAtlas zero-shot external test; a new method, segment-and-zoom first, that must beat our own baselines; about 20–30 Kaggle hours). It replaces the second-backbone check.
 - **Open 2026-11-28 (recommended in `Analysis/10` section 5: write first, run it later): run the second-backbone check (ConvNeXt U-Net and SLG-Net with EfficientNetV2-S and the deletion test, about 6–8 h)?** Recommended so that the deletion result is shown twice (Analysis/09 section 6).
 - Resolved 2026-11-26 (`S00_env_check_r2`): Kaggle's 104 val/ images are identical to the local ones; data, folds and file list all match.
 - Resolved 2026-11-27: Paper A's freeze is approved, and the second-seed check runs at the same time as the final runs (Analysis/06 section 10).
