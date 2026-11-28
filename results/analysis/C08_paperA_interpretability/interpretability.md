@@ -61,5 +61,7 @@ Location rule: centroid height (relative to the image) below 0.389 = neck, below
 |---|---|---|---|---|---|---|---|
 | S10_m0_convnext_unet | OOF | 555 of 662 (83.8%) | 0.92 (0.88–0.97), n = 299 | 0.85 (0.81–0.89), n = 335 | 0.87 (0.80–0.93), n = 299 | 0.82 (0.77–0.86), n = 329 | same empty/non-empty; max area difference 0.08% |
 | S10_m0_convnext_unet | test ensemble | 114 of 143 (79.7%) | 0.94 (0.87–1.00), n = 56 | 0.83 (0.74–0.93), n = 81 | 0.83 (0.68–0.99), n = 55 | 0.84 (0.75–0.93), n = 76 | same empty/non-empty; max area difference 0.00% |
+| A6_slgnet | OOF | 547 of 664 (82.4%) | 0.87 (0.81–0.93), n = 296 | 0.85 (0.81–0.89), n = 334 | 0.84 (0.78–0.91), n = 302 | 0.81 (0.77–0.86), n = 329 | same empty/non-empty; max area difference 0.09% |
+| A6_slgnet | test ensemble | 110 of 143 (76.9%) | 0.98 (0.96–1.00), n = 56 | 0.88 (0.80–0.96), n = 78 | 0.86 (0.73–0.99), n = 55 | 0.86 (0.78–0.94), n = 76 | same empty/non-empty; max area difference 0.00% |
 | released masks, released labels | OOF | 562 of 680 (82.6%) (released location) | – | – | 0.81 (0.75–0.88), n = 311 | 0.80 (0.75–0.85), n = 333 | – |
 | released masks, released labels | test ensemble | 116 of 145 (80.0%) (released location) | – | – | 0.84 (0.70–0.98), n = 57 | 0.75 (0.64–0.86), n = 76 | – |

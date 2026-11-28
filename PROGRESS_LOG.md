@@ -4,6 +4,35 @@ Newest entries at the top. Each entry: what was done, what it produced, what com
 
 ---
 
+## 2026-11-28 · Step 20: A6 geometry, the M0 deletion test prepared, Paper B's final runs analysed (C13–C16)
+
+**Done (you)**
+- Ran the eight Paper B final runs from `B-v1-frozen` and put their zips in `results\_inbox\filed\`, with `A6_slgnet.zip` (A6's maps).
+- Chose option A for Paper A: keep SLG-Net as pre-registered and add M0's deletion test. Merged PR #16 (the run `A1_m0_deletion` and its rule, `Analysis/06` §13).
+
+**Done (me)**
+1. **Filed the eight runs** (register lines 31–38): all from `1c88912`, 5/5 folds, exit 0, 28.6 h in all. Each has its `NOTES.md`.
+2. **A6's geometry test** (C08 §4): its decided grades follow its own region (Garden height AUC .87 OOF, .98 test; location 82.4% OOF) but no better than M0 (.92, .94; 83.8%).
+3. **New tool `scripts/run_refstats.py`** (6 new tests): Garden I-II McNemar between runs, C13's subgroups, every R run's reference tests, and R7's modes with their own thresholds.
+4. **C13, does a reference help?** (`results/analysis/C13_paperB_reference/report.md`):
+   - Dice: no (every difference ≤ .005, also for small masks and for femurs with or without a partner);
+   - Garden I-II recall out of fold rises with every reference model: M0 .544, R2 .614, R3 .684, R4 .702. R4 vs M0 is 12 vs 3 femurs (p .035) but Holm across the 4 pairs gives .14, the 16 test femurs show no gain, and folds 1–4 shrink it to +.109;
+   - retrieval does not matter, and a random reference at prediction time changes nothing;
+   - the model does use the comparison: with itself as the reference, R4 loses 201 of 663 found fractures.
+5. **C14, the own other hip (R7)**: not better than a retrieved femur; no pairing shortcut learnt; a fractured reference lowers P(fracture) of fractured femurs by .116.
+6. **C15, components**: alignment, fusion and AASN change how the reference is used, not accuracy; Garden I-II R4 > R6a (no alignment), Holm .031.
+7. **C16, main table**: RefFrac ties M0 (macro-F1 .826, Dice .777 OOF) and beats the base article's model S01 out of fold (+.081 macro-F1, +.037 Dice); on the test set it is not better than M0 or S01.
+8. **Trackers:** `Analysis/08` §10, `EXPERIMENTS.md`, `PROJECT_TRACKER.md` (B-4 to B-6, M3-B, compute 66.7 h), `README.md`.
+
+**Next**
+- You:
+  1. merge this PR;
+  2. launch `A1_m0_deletion` from `main` (about 2.9 h) and send its zip;
+  3. choose how Paper B presents RefFrac (in our thread).
+- Me: file `A1_m0_deletion` and run the §13 test; then the sensitivity runs and figures for whichever framing you choose.
+
+---
+
 ## 2026-11-27 · Step 19: analyses of Paper A's final runs (C07, C08, C09)
 
 **Done (you)**

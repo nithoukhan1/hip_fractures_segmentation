@@ -6,9 +6,9 @@
 
 **Where the numbers come from:**
 - `interpretability.md` / `interpretability.json` in this folder, made by
-  `python scripts/run_interpretability.py S10_m0_convnext_unet A2_region A3_geometry A4_hierarchy A5_shared_grade A6_slgnet --geometry S10_m0_convnext_unet=results/analysis/C08_paperA_interpretability/geometry_S10_m0_convnext_unet.csv --name C08_paperA_interpretability`.
+  `python scripts/run_interpretability.py S10_m0_convnext_unet A2_region A3_geometry A4_hierarchy A5_shared_grade A6_slgnet --geometry S10_m0_convnext_unet=results/analysis/C08_paperA_interpretability/geometry_S10_m0_convnext_unet.csv --geometry A6_slgnet=results/analysis/C08_paperA_interpretability/geometry_A6_slgnet.csv --name C08_paperA_interpretability` (re-run 2026-11-28 with A6's geometry; every other number is unchanged).
 - `geometry_<run>.csv` holds the geometry of each femur's predicted region, read from the run's saved probability maps.
-  - The maps are in the Kaggle work folder, which is not in the repository. The file was made on the person's PC with `python scripts/map_geometry.py <the run's output zip> --run <run> --out ...`.
+  - The maps are in the Kaggle work folder, which is not in the repository. Each file was made on the person's PC with `python scripts/map_geometry.py <the run's output zip> --run <run> --out ...`.
   - These regions reproduce the areas in the run's per-case files: out of fold to within 0.08% (the maps are saved with 8 bits), and exactly on the test set.
 - Every change and share in §1–§2 is recomputed from the per-case files. Each one equals what the run itself wrote in `metrics.json` (column "Same as metrics.json").
 
@@ -89,17 +89,19 @@ The released masks show that region height separates the Garden grades, area sep
 | M0 | OOF | 555 of 662 (83.8%) | .92 (.88–.97) | .85 (.81–.89) |
 | M0 | test | 114 of 143 (79.7%) | .94 (.87–1.00) | .83 (.74–.93) |
 | Released masks vs released labels | OOF / test | 82.6% / 80.0% | .81 / .84 | .80 / .75 |
-| **A6** | | **waiting for A6's maps** | | |
+| **A6** | OOF | 547 of 664 (82.4%) | .87 (.81–.93) | .85 (.81–.89) |
+| **A6** | test | 110 of 143 (76.9%) | .98 (.96–1.00) | .88 (.80–.96) |
 
 - **M0's decisions already agree with its own regions**, even though its head never sees the region's geometry. Its decided Garden grade follows its region's height more closely (AUC .92) than the released grades follow the released masks (.81).
-- **M0's regions also carry the grade information** about as well as the released masks: height vs the released Garden grade .87, area vs the released Evans grade .82 (`interpretability.md`).
-- **A6 is the model the test is about (protocol §5).** Its maps are only in its Kaggle output zip (`A6_slgnet.zip`), which has been asked for. When it arrives:
-  1. run `python scripts/map_geometry.py A6_slgnet.zip --run A6_slgnet --out results/analysis/C08_paperA_interpretability/geometry_A6_slgnet.csv` on the PC;
-  2. re-run the command above with `--geometry A6_slgnet=...` added;
-  3. add A6's row here.
+- **A6's decisions agree with its regions about as well as M0's do, not better** (added 2026-11-28, from `geometry_A6_slgnet.csv`, made on the PC from `A6_slgnet.zip`):
+  - out of fold, location 82.4% vs M0's 83.8%, Garden height AUC .87 vs .92 (the intervals overlap), Evans area .85 vs .85;
+  - on the test set, A6 is higher for the grades (.98 vs .94; .88 vs .83) and lower for location (76.9% vs 79.7%), on 56–143 femurs;
+  - its regions carry the released grades as well as M0's do: height vs the released Garden grade .84 (M0 .87), area vs the released Evans grade .81 (M0 .82).
+- **Region check:** A6's regions reproduce the areas in its per-case files to within 0.09% out of fold, and exactly on the test set.
 
 ## 5. What C08 shows
 1. **SLG-Net's location and grade decisions are tied to the predicted fracture region** (deletion −65% vs control −1%), which is what the design set out to achieve. Its fracture / no-fracture decision comes from the whole image.
 2. **Its remaining errors are mostly not caused by imperfect masks** (oracle: 8 fixed, 3 broken).
 3. **This dependence does not buy accuracy** (C07), and SLG-Net's confidence flags its errors no better than M0's.
-4. **No comparison with M0 is possible for the deletion test**, because M0 was not run with it. A claim that SLG-Net is *more* interpretable than M0 needs either that comparison or A6's geometry result against M0's.
+4. **The geometry test does not separate SLG-Net from M0:** both models' decided locations and grades agree with their own regions to a similar degree (out of fold, Garden AUC .87 vs .92, Evans .85 vs .85, location 82% vs 84%).
+5. **No comparison with M0 is possible for the deletion test**, because M0 was not run with it. So "more interpretable than M0" is not shown by any test so far; the only test left that could show it is the deletion test on M0 (the decision put to the person in Step 19).

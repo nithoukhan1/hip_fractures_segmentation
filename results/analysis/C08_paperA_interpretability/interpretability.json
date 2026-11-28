@@ -793,6 +793,126 @@
             }
           }
         }
+      },
+      "A6_slgnet": {
+        "oof": {
+          "femurs_called_with_region": 664,
+          "region_check": {
+            "same_empty_or_not": true,
+            "max_relative_area_difference": 0.0008695652173913044
+          },
+          "location_agreement": {
+            "agree": 547,
+            "n": 664
+          },
+          "garden_height_auc_decided": {
+            "n": 296,
+            "positives": 245,
+            "auc": 0.8677871148459385,
+            "lo": 0.806380023357113,
+            "hi": 0.929194206334764
+          },
+          "evans_area_auc_decided": {
+            "n": 334,
+            "positives": 189,
+            "auc": 0.8486042692939244,
+            "lo": 0.8078559172388478,
+            "hi": 0.8893526213490011
+          },
+          "garden_height_auc_released_grade": {
+            "n": 302,
+            "positives": 250,
+            "auc": 0.8436153846153845,
+            "lo": 0.775534859499966,
+            "hi": 0.9116959097308031
+          },
+          "evans_area_auc_released_grade": {
+            "n": 329,
+            "positives": 199,
+            "auc": 0.8144955546965598,
+            "lo": 0.7689957696635479,
+            "hi": 0.8599953397295717
+          },
+          "released": {
+            "location_agreement": {
+              "agree": 562,
+              "n": 680
+            },
+            "garden_height_auc": {
+              "n": 311,
+              "positives": 254,
+              "auc": 0.813613758806465,
+              "lo": 0.749361957198189,
+              "hi": 0.8778655604147411
+            },
+            "evans_area_auc": {
+              "n": 333,
+              "positives": 199,
+              "auc": 0.7956948923723093,
+              "lo": 0.7455090929472018,
+              "hi": 0.8458806917974168
+            }
+          }
+        },
+        "test_ensemble": {
+          "femurs_called_with_region": 143,
+          "region_check": {
+            "same_empty_or_not": true,
+            "max_relative_area_difference": 0.0
+          },
+          "location_agreement": {
+            "agree": 110,
+            "n": 143
+          },
+          "garden_height_auc_decided": {
+            "n": 56,
+            "positives": 51,
+            "auc": 0.9843137254901961,
+            "lo": 0.9552483505742083,
+            "hi": 1.0
+          },
+          "evans_area_auc_decided": {
+            "n": 78,
+            "positives": 38,
+            "auc": 0.8782894736842104,
+            "lo": 0.7951587134993737,
+            "hi": 0.9614202338690471
+          },
+          "garden_height_auc_released_grade": {
+            "n": 55,
+            "positives": 41,
+            "auc": 0.8597560975609758,
+            "lo": 0.7263394861955029,
+            "hi": 0.9931727089264487
+          },
+          "evans_area_auc_released_grade": {
+            "n": 76,
+            "positives": 42,
+            "auc": 0.861344537815126,
+            "lo": 0.7801508679197754,
+            "hi": 0.9425382077104766
+          },
+          "released": {
+            "location_agreement": {
+              "agree": 116,
+              "n": 145
+            },
+            "garden_height_auc": {
+              "n": 57,
+              "positives": 41,
+              "auc": 0.8376524390243905,
+              "lo": 0.6974788498056179,
+              "hi": 0.977826028243163
+            },
+            "evans_area_auc": {
+              "n": 76,
+              "positives": 42,
+              "auc": 0.7507002801120448,
+              "lo": 0.6412559872040056,
+              "hi": 0.8601445730200841
+            }
+          }
+        }
       }
     }
   }

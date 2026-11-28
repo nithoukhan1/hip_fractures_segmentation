@@ -1,0 +1,508 @@
+{
+ "command": "partner",
+ "thresholds": {
+  "R7_partner base": 0.06013406,
+  "R7_partner blind": 0.00312586,
+  "R7_partner retrieved": 0.06013406,
+  "R7_partner random": 0.00312586,
+  "R7_partner fractured": 0.00312586,
+  "R3_nearest_ref base": 0.00082831,
+  "R3_nearest_ref random": 0.00082831,
+  "R4_refrac base": 0.00714919,
+  "R4_refrac random": 0.00714919
+ },
+ "scopes": {
+  "oof": {
+   "n_fractured_healthy_partner": 334,
+   "n_healthy_fractured_partner": 334,
+   "modes": {
+    "base": {
+     "threshold": 0.06013406,
+     "correct": 916,
+     "n": 1043,
+     "macro_f1": 0.8192968995010995,
+     "dice": 0.7799047014705884,
+     "g12": 0.631578947368421,
+     "fp": 3,
+     "fn": 17
+    },
+    "blind": {
+     "threshold": 0.00312586,
+     "correct": 916,
+     "n": 1043,
+     "macro_f1": 0.8190725642875595,
+     "dice": 0.7799047014705884,
+     "g12": 0.631578947368421,
+     "fp": 3,
+     "fn": 16
+    },
+    "retrieved": {
+     "threshold": 0.06013406,
+     "correct": 917,
+     "n": 1043,
+     "macro_f1": 0.8217053179745709,
+     "dice": 0.780580217647059,
+     "g12": 0.631578947368421,
+     "fp": 3,
+     "fn": 17
+    },
+    "random": {
+     "threshold": 0.00312586,
+     "correct": 912,
+     "n": 1043,
+     "macro_f1": 0.8120591084105738,
+     "dice": 0.7791367029411764,
+     "g12": 0.631578947368421,
+     "fp": 9,
+     "fn": 16
+    },
+    "fractured": {
+     "threshold": 0.00312586,
+     "correct": 864,
+     "n": 1043,
+     "macro_f1": 0.7602353606009422,
+     "dice": 0.7427183044117647,
+     "g12": 0.5964912280701754,
+     "fp": 5,
+     "fn": 27
+    }
+   },
+   "rq_b2_dice": [
+    {
+     "a": "R7 blind (partner)",
+     "b": "R7 retrieved",
+     "n": 334,
+     "mean_a": 0.7833010748502994,
+     "mean_b": 0.784676377245509,
+     "diff": -0.0013753023952095544,
+     "lo": -0.0028128467814369064,
+     "hi": -0.00019725209580825928,
+     "p": 0.05145922583952933,
+     "p_holm": 0.10291845167905866
+    },
+    {
+     "a": "R7 blind (partner)",
+     "b": "R3 (retrieved, trained so)",
+     "n": 334,
+     "mean_a": 0.7833010748502994,
+     "mean_b": 0.783526248502994,
+     "diff": -0.000225173652694588,
+     "lo": -0.007293723577844383,
+     "hi": 0.007073042365269481,
+     "p": 0.7907886798963708,
+     "p_holm": 0.7907886798963708
+    }
+   ],
+   "rq_b2_g12_all_femurs": [
+    {
+     "a": "R7 blind",
+     "b": "R7 retrieved",
+     "n": 57,
+     "recall_a": 0.631578947368421,
+     "recall_b": 0.631578947368421,
+     "diff": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "only_a": 0,
+     "only_b": 0,
+     "p": 1.0,
+     "p_midp": 1.0,
+     "p_holm": 1.0
+    },
+    {
+     "a": "R7 blind",
+     "b": "R3",
+     "n": 57,
+     "recall_a": 0.631578947368421,
+     "recall_b": 0.6842105263157895,
+     "diff": -0.052631578947368474,
+     "lo": -0.14035087719298245,
+     "hi": 0.03508771929824561,
+     "only_a": 2,
+     "only_b": 5,
+     "p": 0.453125,
+     "p_midp": 0.2890625,
+     "p_holm": 0.90625
+    }
+   ],
+   "rq_b3_1": {
+    "n": 334,
+    "p_fracture_blind_mean": 0.007104474730538924,
+    "p_fracture_retrieved_mean": 0.009257840748502994,
+    "p_fracture_blind_median": 6.285e-06,
+    "p_fracture_retrieved_median": 4.57e-06,
+    "wilcoxon_p": 0.00756408051413268,
+    "fp_blind": 3,
+    "fp_retrieved": 3,
+    "mcnemar_fp": {
+     "b": 0,
+     "c": 0,
+     "p": 1.0,
+     "p_midp": 1.0
+    },
+    "fp_base_leak": 3
+   },
+   "rq_b3_2": {
+    "per_run": {
+     "R7 (partner \u2192 random)": {
+      "dp_mean": 0.0058389967964071815,
+      "dp_median": 0.0,
+      "ddice_mean": 0.0008613502994011969,
+      "fractures_lost": 0
+     },
+     "R3 (nearest \u2192 random)": {
+      "dp_mean": 0.0002887534131736498,
+      "dp_median": 0.0,
+      "ddice_mean": -8.135029940119977e-05,
+      "fractures_lost": 0
+     },
+     "R4 (3 nearest \u2192 random)": {
+      "dp_mean": 0.0007680304491017987,
+      "dp_median": 0.0,
+      "ddice_mean": -0.002391580838323356,
+      "fractures_lost": 2
+     }
+    },
+    "comparisons": [
+     {
+      "a": "R7 (partner \u2192 random)",
+      "b": "R3 (nearest \u2192 random)",
+      "metric": "dp",
+      "n": 334,
+      "mean_a": 0.0058389967964071815,
+      "mean_b": 0.0002887534131736498,
+      "diff": 0.0055502433832335316,
+      "lo": -0.0009117303263473022,
+      "hi": 0.013708994248502984,
+      "p": 0.040514346909193,
+      "p_holm": 0.081028693818386
+     },
+     {
+      "a": "R7 (partner \u2192 random)",
+      "b": "R3 (nearest \u2192 random)",
+      "metric": "ddice",
+      "n": 334,
+      "mean_a": 0.0008613502994011969,
+      "mean_b": -8.135029940119977e-05,
+      "diff": 0.0009427005988023966,
+      "lo": -0.00070605074850299,
+      "hi": 0.0029366297904191625,
+      "p": 0.23797702761006434,
+      "p_holm": 0.23797702761006434
+     },
+     {
+      "a": "R7 (partner \u2192 random)",
+      "b": "R4 (3 nearest \u2192 random)",
+      "metric": "dp",
+      "n": 334,
+      "mean_a": 0.0058389967964071815,
+      "mean_b": 0.0007680304491017987,
+      "diff": 0.005070966347305383,
+      "lo": -0.003540993919910185,
+      "hi": 0.013665571191616762,
+      "p": 0.3418804736269131,
+      "p_holm": 0.3418804736269131
+     },
+     {
+      "a": "R7 (partner \u2192 random)",
+      "b": "R4 (3 nearest \u2192 random)",
+      "metric": "ddice",
+      "n": 334,
+      "mean_a": 0.0008613502994011969,
+      "mean_b": -0.002391580838323356,
+      "diff": 0.003252931137724553,
+      "lo": 0.0008203827095808408,
+      "hi": 0.006321989820359278,
+      "p": 0.0025082680443584316,
+      "p_holm": 0.005016536088716863
+     }
+    ]
+   },
+   "rq_b3_3": {
+    "dp_fractured_mean": -0.11580012882352941,
+    "dp_healthy_mean": -0.0035029953719008266,
+    "dice": {
+     "n": 680,
+     "mean_a": 0.7427183044117647,
+     "mean_b": 0.7799047014705884,
+     "diff": -0.03718639705882376,
+     "lo": -0.046558908715687145,
+     "hi": -0.028887150049397296,
+     "p": 5.279367703580811e-21
+    },
+    "fractures_lost": 11,
+    "healthy_turned_fractured": 2
+   },
+   "leak": {
+    "fractured, healthy partner": {
+     "n": 334,
+     "correct_base": 273,
+     "correct_blind": 273,
+     "p_fracture_base": 0.9506592288023951,
+     "p_fracture_blind": 0.9506592288023951
+    },
+    "healthy, fractured partner": {
+     "n": 334,
+     "correct_base": 331,
+     "correct_blind": 331,
+     "p_fracture_base": 0.009257840748502994,
+     "p_fracture_blind": 0.007104474730538924
+    },
+    "single": {
+     "n": 361,
+     "correct_base": 298,
+     "correct_blind": 298,
+     "p_fracture_base": 0.9394889348199446,
+     "p_fracture_blind": 0.9394889348199446
+    }
+   }
+  },
+  "test_ensemble": {
+   "n_fractured_healthy_partner": 64,
+   "n_healthy_fractured_partner": 64,
+   "modes": {
+    "base": {
+     "threshold": 0.06013406,
+     "correct": 182,
+     "n": 210,
+     "macro_f1": 0.7960475910462614,
+     "dice": 0.7412602531027117,
+     "g12": 0.375,
+     "fp": 1,
+     "fn": 2
+    },
+    "blind": {
+     "threshold": 0.00312586,
+     "correct": 183,
+     "n": 210,
+     "macro_f1": 0.8075659828583804,
+     "dice": 0.7412602531027117,
+     "g12": 0.4375,
+     "fp": 1,
+     "fn": 1
+    },
+    "retrieved": {
+     "threshold": 0.06013406,
+     "correct": 182,
+     "n": 210,
+     "macro_f1": 0.7945317008003943,
+     "dice": 0.7413854309128403,
+     "g12": 0.4375,
+     "fp": 1,
+     "fn": 2
+    },
+    "random": {
+     "threshold": 0.00312586,
+     "correct": 181,
+     "n": 210,
+     "macro_f1": 0.7897193186217577,
+     "dice": 0.7416564936501341,
+     "g12": 0.4375,
+     "fp": 1,
+     "fn": 1
+    },
+    "fractured": {
+     "threshold": 0.00312586,
+     "correct": 181,
+     "n": 210,
+     "macro_f1": 0.817397340809377,
+     "dice": 0.7184690452439638,
+     "g12": 0.5,
+     "fp": 1,
+     "fn": 2
+    }
+   },
+   "rq_b2_dice": [
+    {
+     "a": "R7 blind (partner)",
+     "b": "R7 retrieved",
+     "n": 64,
+     "mean_a": 0.7306243140735893,
+     "mean_b": 0.7309079200496618,
+     "diff": -0.0002836059760724652,
+     "lo": -0.002444201587011291,
+     "hi": 0.0019416208470707538,
+     "p": 0.8593356923561061,
+     "p_holm": 1.0
+    },
+    {
+     "a": "R7 blind (partner)",
+     "b": "R3 (retrieved, trained so)",
+     "n": 64,
+     "mean_a": 0.7306243140735893,
+     "mean_b": 0.7313056823762942,
+     "diff": -0.0006813683027049322,
+     "lo": -0.005404963553857467,
+     "hi": 0.004108839994668215,
+     "p": 0.6662164699493034,
+     "p_holm": 1.0
+    }
+   ],
+   "rq_b2_g12_all_femurs": [
+    {
+     "a": "R7 blind",
+     "b": "R7 retrieved",
+     "n": 16,
+     "recall_a": 0.4375,
+     "recall_b": 0.4375,
+     "diff": 0.0,
+     "lo": -0.1875,
+     "hi": 0.1875,
+     "only_a": 1,
+     "only_b": 1,
+     "p": 1.0,
+     "p_midp": 0.4999999999999998,
+     "p_holm": 1.0
+    },
+    {
+     "a": "R7 blind",
+     "b": "R3",
+     "n": 16,
+     "recall_a": 0.4375,
+     "recall_b": 0.375,
+     "diff": 0.0625,
+     "lo": 0.0,
+     "hi": 0.1875,
+     "only_a": 1,
+     "only_b": 0,
+     "p": 1.0,
+     "p_midp": 0.4999999999999999,
+     "p_holm": 1.0
+    }
+   ],
+   "rq_b3_1": {
+    "n": 64,
+    "p_fracture_blind_mean": 0.00014718681250000006,
+    "p_fracture_retrieved_mean": 0.0030570333125000005,
+    "p_fracture_blind_median": 1.0599000000000001e-05,
+    "p_fracture_retrieved_median": 6.3639999999999995e-06,
+    "wilcoxon_p": 0.22355633459365865,
+    "fp_blind": 1,
+    "fp_retrieved": 1,
+    "mcnemar_fp": {
+     "b": 0,
+     "c": 0,
+     "p": 1.0,
+     "p_midp": 1.0
+    },
+    "fp_base_leak": 1
+   },
+   "rq_b3_2": {
+    "per_run": {
+     "R7 (partner \u2192 random)": {
+      "dp_mean": 0.00603508156249998,
+      "dp_median": 0.0,
+      "ddice_mean": 3.6711490458544906e-05,
+      "fractures_lost": 0
+     },
+     "R3 (nearest \u2192 random)": {
+      "dp_mean": 0.0001751311249999746,
+      "dp_median": 0.0,
+      "ddice_mean": -0.000442445979951842,
+      "fractures_lost": 0
+     },
+     "R4 (3 nearest \u2192 random)": {
+      "dp_mean": 0.009438930874999994,
+      "dp_median": 5.999999941330714e-09,
+      "ddice_mean": 0.00037951391905417494,
+      "fractures_lost": 0
+     }
+    },
+    "comparisons": [
+     {
+      "a": "R7 (partner \u2192 random)",
+      "b": "R3 (nearest \u2192 random)",
+      "metric": "dp",
+      "n": 64,
+      "mean_a": 0.00603508156249998,
+      "mean_b": 0.0001751311249999746,
+      "diff": 0.005859950437500006,
+      "lo": -0.00012931324609375707,
+      "hi": 0.013417152357812486,
+      "p": 0.44977544847634143,
+      "p_holm": 0.8995508969526829
+     },
+     {
+      "a": "R7 (partner \u2192 random)",
+      "b": "R3 (nearest \u2192 random)",
+      "metric": "ddice",
+      "n": 64,
+      "mean_a": 3.6711490458544906e-05,
+      "mean_b": -0.000442445979951842,
+      "diff": 0.0004791574704103869,
+      "lo": -0.0015872628316866038,
+      "hi": 0.0025023904777129783,
+      "p": 0.7406193072889592,
+      "p_holm": 1.0
+     },
+     {
+      "a": "R7 (partner \u2192 random)",
+      "b": "R4 (3 nearest \u2192 random)",
+      "metric": "dp",
+      "n": 64,
+      "mean_a": 0.00603508156249998,
+      "mean_b": 0.009438930874999994,
+      "diff": -0.003403849312500014,
+      "lo": -0.012348123561718737,
+      "hi": 0.002620346015624994,
+      "p": 0.7030409959926844,
+      "p_holm": 0.8995508969526829
+     },
+     {
+      "a": "R7 (partner \u2192 random)",
+      "b": "R4 (3 nearest \u2192 random)",
+      "metric": "ddice",
+      "n": 64,
+      "mean_a": 3.6711490458544906e-05,
+      "mean_b": 0.00037951391905417494,
+      "diff": -0.00034280242859563003,
+      "lo": -0.0023955982052324353,
+      "hi": 0.0017258796416650306,
+      "p": 0.5274046984683047,
+      "p_holm": 1.0
+     }
+    ]
+   },
+   "rq_b3_3": {
+    "dp_fractured_mean": -0.10761489148965517,
+    "dp_healthy_mean": 5.5579846153846125e-05,
+    "dice": {
+     "n": 145,
+     "mean_a": 0.7184690452439638,
+     "mean_b": 0.7412602531027117,
+     "diff": -0.022791207858747886,
+     "lo": -0.04530493684342994,
+     "hi": -0.005066749285400849,
+     "p": 0.147957399289481
+    },
+    "fractures_lost": 1,
+    "healthy_turned_fractured": 0
+   },
+   "leak": {
+    "fractured, healthy partner": {
+     "n": 64,
+     "correct_base": 53,
+     "correct_blind": 53,
+     "p_fracture_base": 0.9611167319687499,
+     "p_fracture_blind": 0.9611167319687499
+    },
+    "healthy, fractured partner": {
+     "n": 64,
+     "correct_base": 63,
+     "correct_blind": 63,
+     "p_fracture_base": 0.0030570333125000005,
+     "p_fracture_blind": 0.00014718681250000006
+    },
+    "single": {
+     "n": 82,
+     "correct_base": 66,
+     "correct_blind": 67,
+     "p_fracture_base": 0.9598031567317072,
+     "p_fracture_blind": 0.9598031567317072
+    }
+   }
+  }
+ },
+ "n_boot": 2000,
+ "seed": 2026
+}
