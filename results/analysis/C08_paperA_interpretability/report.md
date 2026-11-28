@@ -1,12 +1,13 @@
 # C08: Paper A's interpretability tests: oracle, region deletion, risk–coverage and geometry consistency
 
-*Written 2026-11-27 from the filed runs `A2_region` … `A6_slgnet` (register lines 22–26) and M0 (`S10_m0_convnext_unet`, line 8).*
+*Written 2026-11-27 from the filed runs `A2_region` … `A6_slgnet` (register lines 22–26) and M0 (`S10_m0_convnext_unet`, line 8). Updated 2026-11-28 with A6's geometry (§4) and with `A1_m0_deletion` (line 39), M0 retrained with the deletion test (§2b, the rule of Analysis/06 §13).*
 
 **Plan:** `Analysis/06_Step3_PaperA_Protocol.md` §5 (tests 1, 2, 3 and 5 of Report 04 §2), fixed before any SLG-Net result.
 
 **Where the numbers come from:**
 - `interpretability.md` / `interpretability.json` in this folder, made by
-  `python scripts/run_interpretability.py S10_m0_convnext_unet A2_region A3_geometry A4_hierarchy A5_shared_grade A6_slgnet --geometry S10_m0_convnext_unet=results/analysis/C08_paperA_interpretability/geometry_S10_m0_convnext_unet.csv --geometry A6_slgnet=results/analysis/C08_paperA_interpretability/geometry_A6_slgnet.csv --name C08_paperA_interpretability` (re-run 2026-11-28 with A6's geometry; every other number is unchanged).
+  `python scripts/run_interpretability.py S10_m0_convnext_unet A2_region A3_geometry A4_hierarchy A5_shared_grade A6_slgnet A1_m0_deletion --geometry S10_m0_convnext_unet=results/analysis/C08_paperA_interpretability/geometry_S10_m0_convnext_unet.csv --geometry A6_slgnet=results/analysis/C08_paperA_interpretability/geometry_A6_slgnet.csv --compare-deletion A6_slgnet:A1_m0_deletion --name C08_paperA_interpretability` (re-run 2026-11-28 with A6's geometry and then with `A1_m0_deletion`; every earlier number is unchanged).
+- `m0_replicate/stats.md`: the new M0 run against S10, `python scripts/run_stats.py A1_m0_deletion S10_m0_convnext_unet --pairs A1_m0_deletion:S10_m0_convnext_unet --name C08_paperA_interpretability/m0_replicate`.
 - `geometry_<run>.csv` holds the geometry of each femur's predicted region, read from the run's saved probability maps.
   - The maps are in the Kaggle work folder, which is not in the repository. Each file was made on the person's PC with `python scripts/map_geometry.py <the run's output zip> --run <run> --out ...`.
   - These regions reproduce the areas in the run's per-case files: out of fold to within 0.08% (the maps are saved with 8 bits), and exactly on the test set.
@@ -54,7 +55,27 @@ The predicted region is blurred away (deletion), or the same shape is blurred at
    - 10 on dimmer tissue;
    - 2 with no place free of overlap;
    - 15 femurs had no predicted region, so nothing was deleted.
-5. **Limit:** M0 was not run with this test, so these numbers show that SLG-Net's decisions use the region, not that they use it more than M0's do.
+5. ~~**Limit:** M0 was not run with this test, so these numbers show that SLG-Net's decisions use the region, not that they use it more than M0's do.~~ Resolved 2026-11-28 by §2b.
+
+## 2b. SLG-Net against M0 under deletion (Analysis/06 §13, fixed before the M0 run)
+
+**The M0 run.** `A1_m0_deletion` is M0 trained again with S10's settings and seed, plus the deletion test. It replicates S10 (`m0_replicate/stats.md`): out of fold 921 vs 922 correct, macro-F1 .825 vs .825, Dice .778 vs .777, no difference significant; test 179 vs 182 correct, macro-F1 .783 vs .779. Its Garden I-II recall is .614 out of fold (S10 .544): with 57 femurs, a retrained M0 moves 4 femurs by chance.
+
+**M0 alone** (same test as §2): deletion loses 274 of its 562 correct fractured decisions out of fold (48.8%), the control 8 (1.4%); on the test set 62 of 118 (52.5%) vs 1. Unlike SLG-Net, M0's P(fracture) also falls (mean −.199 vs A6 −.032).
+
+**The paired comparison** (fractured femurs that both classify correctly at base):
+
+| Part | Both correct | Lost: SLG-Net / M0 | Only SLG-Net lost / only M0 lost | Difference (95% CI) | p (mid-p) | Controls lost: SLG-Net / M0 |
+|---|---|---|---|---|---|---|
+| OOF | 525 | **337 (64.2%) / 253 (48.2%)** | 117 / 33 | **+16.0 points (+11.6 to +20.4)** | < .001 | 7 / 5 |
+| Test ensemble | 116 | 76 (65.5%) / 61 (52.6%) | 19 / 4 | +12.9 points (+5.2 to +20.7) | .002 | 0 / 1 |
+
+- Change of P(true class) under deletion, all fractured femurs: SLG-Net −.479 vs M0 −.442 out of fold (Wilcoxon p .044); −.538 vs −.476 on the test set (p < .001).
+- Each model's own control loses 1.3% (SLG-Net) and 1.4% (M0) out of fold, below the 5% limit.
+
+**Verdict by the rule of §13: SLG-Net's location and grade decisions depend on the fracture region more than M0's.** Out of fold it loses 16 points more (p < .001), and the test set points the same way (+12.9 points, p .002).
+
+What this means: M0 also uses the region a lot (about half its correct decisions are lost), because its decoder and head share the encoder that sees the fracture. SLG-Net's explicit region pooling makes the dependence clearly stronger, and it confines it to location and grade: SLG-Net's fracture decision stays global, while M0's fracture probability also drops.
 
 ## 3. Risk–coverage: does low confidence flag the errors? (test 5)
 
@@ -104,4 +125,4 @@ The released masks show that region height separates the Garden grades, area sep
 2. **Its remaining errors are mostly not caused by imperfect masks** (oracle: 8 fixed, 3 broken).
 3. **This dependence does not buy accuracy** (C07), and SLG-Net's confidence flags its errors no better than M0's.
 4. **The geometry test does not separate SLG-Net from M0:** both models' decided locations and grades agree with their own regions to a similar degree (out of fold, Garden AUC .87 vs .92, Evans .85 vs .85, location 82% vs 84%).
-5. **No comparison with M0 is possible for the deletion test**, because M0 was not run with it. So "more interpretable than M0" is not shown by any test so far; the only test left that could show it is the deletion test on M0 (the decision put to the person in Step 19).
+5. ~~No comparison with M0 is possible for the deletion test.~~ **Updated 2026-11-28 (§2b): SLG-Net's decisions depend on the fracture region significantly more than M0's** (64.2% vs 48.2% of the jointly correct fractured decisions lost, p < .001; test set +12.9 points, p .002), by the rule fixed before M0's run. This is SLG-Net's one property that M0 does not match, and the basis of its interpretability claim; accuracy (C07) and the geometry test (§4) do not separate the two models.

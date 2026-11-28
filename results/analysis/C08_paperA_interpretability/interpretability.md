@@ -1,4 +1,4 @@
-# Interpretability tests: S10_m0_convnext_unet, A2_region, A3_geometry, A4_hierarchy, A5_shared_grade, A6_slgnet
+# Interpretability tests: S10_m0_convnext_unet, A2_region, A3_geometry, A4_hierarchy, A5_shared_grade, A6_slgnet, A1_m0_deletion
 
 Decisions at each run's OOF threshold. Femurs: OOF 1,043 (680 fractured); test ensemble 210 (145 fractured).
 Intervals: cluster bootstrap over x-rays (2000 resamples); randomisation test for macro-F1 (5000 swaps of whole x-rays); seed 2026.
@@ -34,6 +34,34 @@ Correct decisions lost, per true class (deletion / control, of those correct at 
 
 Where the control went (fractured femurs; test: each of the 5 fold models' own deletion): OOF: dimmer 10, matched 653, no_region 15, none 2; test ensemble: dimmer 10, matched 695, no_region 11, none 9.
 
+## 2. Region deletion vs control: A1_m0_deletion
+
+| Part | Fractured femurs | ΔP(fracture): deletion / control, mean (median); Wilcoxon p | ΔP(true class): deletion / control, mean (median); Wilcoxon p | Correct decisions lost: deletion / control (McNemar p) | Wrong ones fixed: deletion / control | Same as metrics.json |
+|---|---|---|---|---|---|---|
+| OOF | 680 | -0.199 (-0.028) / -0.003 (-0.000); < .001 | -0.442 (-0.444) / +0.001 (-0.000); < .001 | 274 (48.8%) / 8 (1.4%) of 562 (< .001) | 18 / 3 of 118 | True |
+| test ensemble | 145 | -0.226 (-0.113) / -0.002 (-0.000); < .001 | -0.476 (-0.492) / +0.006 (-0.000); < .001 | 62 (52.5%) / 1 (0.8%) of 118 (< .001) | 1 / 2 of 27 | True |
+
+Correct decisions lost, per true class (deletion / control, of those correct at base):
+
+| Part | 2AB | 2CD | 3AB | 3CDE | 4 |
+|---|---|---|---|---|---|
+| OOF | 21 / 2 of 35 | 35 / 4 of 233 | 84 / 2 of 103 | 124 / 0 of 164 | 10 / 0 of 27 |
+| test ensemble | 5 / 0 of 7 | 2 / 0 of 41 | 25 / 0 of 32 | 28 / 1 of 32 | 2 / 0 of 6 |
+
+Where the control went (fractured femurs; test: each of the 5 fold models' own deletion): OOF: dimmer 13, matched 649, no_region 17, none 1; test ensemble: dimmer 6, matched 700, no_region 9, none 10.
+
+## 2b. Paired deletion comparison (Analysis/06 §13): A6_slgnet (A) vs A1_m0_deletion (B)
+
+Femurs: fractured, classified correctly at base by both runs. Share lost = becomes wrong under deletion. McNemar on the femurs only one run loses (mid-p decides); difference A − B with a cluster-bootstrap 95% interval. ΔP(true class): all fractured femurs, Wilcoxon (Pratt).
+
+| Part | Both correct | Lost: A / B (share) | Only A lost / only B lost | Difference A − B (95% CI) | p (mid-p; exact) | Control lost: A / B | ΔP(true class): A / B; Wilcoxon p |
+|---|---|---|---|---|---|---|---|
+| OOF | 525 | 337 (64.2%) / 253 (48.2%) | 117 / 33 | +16.0 points (+11.6 to +20.4) | < .001; < .001 | 7 / 5 | -0.479 / -0.442; .044 |
+| test ensemble | 116 | 76 (65.5%) / 61 (52.6%) | 19 / 4 | +12.9 points (+5.2 to +20.7) | .002; .003 | 0 / 1 | -0.538 / -0.476; < .001 |
+
+Each run's own control loss out of fold (of its own correct fractured femurs): A6_slgnet 1.3%, A1_m0_deletion 1.4%.
+**Verdict by the rule of §13:** A depends on the region more than B (OOF p < .05, test the same direction).
+
 ## 3. Risk-coverage: setting aside the least confident decisions
 
 | Run | Part | Errors | Errors among the 10% least confident (95% CI) | Error rate: all → the 90% kept | AURC (best possible) |
@@ -50,6 +78,8 @@ Where the control went (fractured femurs; test: each of the 5 fold models' own d
 | A5_shared_grade | test ensemble | 27 of 210 | 7 = 25.9% (12.5–44.0%) | 12.9% → 10.6% | 0.032 (0.009) |
 | A6_slgnet | OOF | 136 of 1043 | 44 = 32.4% (25.0–39.2%) | 13.0% → 9.8% | 0.040 (0.009) |
 | A6_slgnet | test ensemble | 24 of 210 | 6 = 25.0% (8.7–42.1%) | 11.4% → 9.5% | 0.029 (0.007) |
+| A1_m0_deletion | OOF | 122 of 1043 | 44 = 36.1% (29.0–43.0%) | 11.7% → 8.3% | 0.040 (0.007) |
+| A1_m0_deletion | test ensemble | 31 of 210 | 12 = 38.7% (22.9–53.3%) | 14.8% → 10.1% | 0.064 (0.012) |
 
 Confidence = the probability of the decided class (raw, before temperature scaling). Flagging at random would catch 10% of the errors on average.
 

@@ -1,0 +1,9 @@
+{
+  "run": "A1_m0_deletion",
+  "step": "3",
+  "git_commit": "080a0c5fe9cccee40493d1e8292472f8be9309bf",
+  "command": "/usr/bin/python3 /tmp/code/scripts/train_net.py --net m0:convnext_tiny.fb_in22k_ft_in1k --size 768x512 --epochs 60 --batch 16 --folds 0,1,2,3,4 --gpus 0,1 --extra-tests deletion --out /kaggle/working/results/A1_m0_deletion",
+  "started_utc": "2026-11-28T03:27:21Z",
+  "runtime_minutes": 147.87,
+  "exit_code": 0
+}

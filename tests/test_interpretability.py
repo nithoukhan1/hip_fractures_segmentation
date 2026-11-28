@@ -76,6 +76,41 @@ def test_map_geometry_matches_the_eda_measures():
     assert empty["area_px"] == 0 and empty["cy"] == "" and empty["components"] == 0
 
 
+def _run(y, base, deletion, control):
+    """Minimal rows and decisions of one run with deletion tests (probabilities: 0.9 on the decided class)."""
+    def rows(pred):
+        out = []
+        for c in pred:
+            p = [0.02] * 6
+            p[c] = 0.9
+            out.append({"score": str(1 - p[0]), **{f"conf_{k}": str(p[k]) for k in range(1, 6)}})
+        return out
+    files = np.array([f"f{i}" for i in range(len(y))])
+    decs = {m: {"file": files, "y": np.asarray(y), "pred": np.asarray(p)}
+            for m, p in (("base", base), ("deletion", deletion), ("deletion_control", control))}
+    return {"rows": {m: rows(decs[m]["pred"]) for m in decs}, "decs": decs}
+
+
+def test_deletion_compare_counts_only_femurs_both_get_right():
+    y = [1, 2, 3, 4, 5, 2, 0]
+    a = _run(y, base=[1, 2, 3, 4, 5, 3, 0], deletion=[2, 2, 2, 2, 5, 3, 0], control=[1, 2, 3, 4, 5, 3, 0])
+    b = _run(y, base=[1, 2, 3, 4, 2, 2, 0], deletion=[1, 2, 2, 4, 2, 2, 0], control=[1, 2, 3, 4, 2, 2, 0])
+    r = RI.deletion_compare(a, b, np.arange(7), n_boot=200, seed=0)
+    # both right at base: femurs 0-3 (femur 4: B wrong; femur 5: A wrong; femur 6 healthy)
+    assert r["n_both_correct"] == 4
+    assert (r["lost_a"], r["lost_b"]) == (3, 1)  # A loses 0, 2, 3; B loses 2
+    assert (r["only_a_lost"], r["only_b_lost"]) == (2, 0)
+    assert abs(r["diff"] - 0.5) < 1e-12 and r["control_lost_a"] == 0
+
+
+def test_section13_verdict_follows_the_rule():
+    oof = {"diff": 0.16, "p_midp": 0.001}
+    assert RI.section13_verdict(oof, {"diff": 0.13}, {"A": 0.013, "B": 0.014}).startswith("A depends")
+    assert RI.section13_verdict(oof, {"diff": -0.02}, {"A": 0.01, "B": 0.01}).startswith("similar")
+    assert RI.section13_verdict(oof, {"diff": 0.13}, {"A": 0.06, "B": 0.01}).startswith("inconclusive")
+    assert RI.section13_verdict({"diff": 0.03, "p_midp": 0.3}, {"diff": 0.1}, {"A": 0, "B": 0}).startswith("similar")
+
+
 if __name__ == "__main__":
     tests = [(n, f) for n, f in sorted(globals().items()) if n.startswith("test_") and callable(f)]
     for name, fn in tests:
