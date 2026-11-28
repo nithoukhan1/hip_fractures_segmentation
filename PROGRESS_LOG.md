@@ -4,6 +4,30 @@ Newest entries at the top. Each entry: what was done, what it produced, what com
 
 ---
 
+## 2026-11-28 · Step 24: New direction: standard metrics, FracAtlas, and a method that must beat our baselines (plan only)
+
+**Done (you)**
+- Merged PR #21.
+- Set the new requirements: the proposed method must beat our own trained baselines, generalise to FracAtlas and be explainable, with standard metrics only.
+
+**Done (me)**
+1. **`Analysis/11_New_Direction_Metrics_FracAtlas_Method_Plan.md`:**
+   - why the comparison with our retrained YOLOv8s-seg is like-for-like;
+   - the standard-only metric set;
+   - what FracAtlas can test;
+   - the candidate methods with their Kaggle hours and risks;
+   - the steps.
+2. **FracAtlas inspected on the PC** (read-only):
+   - 338 images flagged "hip", 63 of them fractured.
+   - After looking at all 63, only about 22 are adult proximal femur fractures without an implant. The rest are operated hips, children, femoral shafts or forearms.
+   - FracAtlas has no fracture type or grade, so it can test fracture yes/no, localisation and segmentation only.
+
+**Next**
+- You: approve the plan, or change it. Nothing runs before that.
+- Me, after approval: the written rules, the FracAtlas crops and the standard-metrics tables, then the fold-0 development runs.
+
+---
+
 ## 2026-11-28 · Step 23: Full names instead of short codes in every document
 
 **Done (you)**
