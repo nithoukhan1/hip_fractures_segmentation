@@ -39,6 +39,7 @@ The documents call every model, run and analysis by its full name. The folders a
 | `N_res1152_fold0`, `N_res1152_fold0_seed2` | ConvNeXt U-Net at 1152 × 768 (screening) | The ConvNeXt U-Net at 1.5 times the resolution. Fold 0, two seeds |
 | `N_convnext_s_fold0`, `N_convnext_s_fold0_seed2` | ConvNeXt U-Net with ConvNeXt-S (screening) | The ConvNeXt U-Net with the larger ConvNeXt-S encoder. Fold 0, two seeds |
 | `N1_segzoom` | segment-and-zoom network, 5 folds | The segment-and-zoom network on 5 folds and the test set, with the oracle and deletion tests. Defined 2026-11-28, run only if the person chooses it (`Analysis/11` section 7.5) |
+| `N_fracatlas_zero_shot` | FracAtlas zero-shot test | Every baseline and SLG-Net, as trained on HUSJA-UA, on the 148 FracAtlas hips (`scripts/eval_fracatlas.py`, `Analysis/11` section 8.4) |
 
 Run series in the register: **S** = shared baselines, **A** = Paper A (SLG-Net), **R** = Paper B (RefFrac), **N** = the new method (`Analysis/11`).
 

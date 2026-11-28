@@ -64,6 +64,7 @@
 | `N_screen_round2` | 25 | ~1.6 h (estimate) | Round 2, a parallel group: `N_convnext_s_fold0` (ConvNeXt U-Net with the ConvNeXt-S encoder) on GPU 0 and `N_segzoom_fold0_seed2` (the segment-and-zoom network with seed 2027) on GPU 1. Same settings |
 | `N_screen_round3` | 25 | ~1.8 h (estimate) | Round 3, only if the screening rule asks for these seeds: `N_res1152_fold0_seed2` on GPU 0 and `N_convnext_s_fold0_seed2` on GPU 1 (seed 2027). Same settings |
 | `N1_segzoom` | 27 | ~4.2 h (estimate) | **Only if you choose it** (`Analysis/11` section 7.5): the segment-and-zoom network on 5 folds and the test set, with the oracle and region-deletion tests. Two folds at a time on T4 x2. **Launch with `BRANCH = "main"`** |
+| `N_fracatlas_zero_shot` | 27 | ~25 min (estimate) | **FracAtlas external test, zero-shot** (`Analysis/11` section 8.4): every baseline and SLG-Net on the 148 FracAtlas hips. **First add your private Kaggle dataset made from the PC folder `FracAtlas_kaggle` as a second input of the notebook.** Launch with `BRANCH = "main"`; one GPU is enough |
 
 **About Kaggle's val/ folder:** the Kaggle copy moved 104 of the 1,043 training femurs into `val/`, without keeping both femurs of an x-ray together. All code pools `val/` back into train (`src/femurseg/paths.py`), so Kaggle and the local copy give the same 1,043 training femurs and the same 5 folds.
 

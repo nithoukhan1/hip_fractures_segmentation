@@ -26,10 +26,15 @@ Newest entries at the top. Each entry: what was done, what it produced, what com
 3. `scripts/run_standard_metrics.py` gained `--folds` (as `run_stats.py`), so the screening uses the same standard metrics.
 4. Checked the FracAtlas check sheets: every crop shows a half pelvis with the femoral head in the upper third, and every red outline sits on the fractured hip. Two outlines lie low (images 3341 left and 3342 left, subtrochanteric), as noted in `Analysis/11` section 8.2a. In four healthy images (0275, 0781, 2197, 2255) a bright band (the edge of a lead shield or the table) crosses the lower part of the crop. They are kept, because they are part of the real images.
 5. Defined the 5-fold segment-and-zoom run `N1_segzoom` in `kaggle/runs.json`, to be launched only if you choose it.
+6. **FracAtlas zero-shot test job** (`Analysis/11` sections 8.3 and 8.4):
+   - `scripts/eval_fracatlas.py` runs every model as trained on HUSJA-UA (its 5 fold models and its own threshold) on the 148 hips and writes the standard metrics. On 12 HUSJA-UA test femurs it reproduces the filed predictions of the ConvNeXt U-Net and YOLOv8s-seg. Tests: `tests/test_eval_fracatlas.py`.
+   - Patient groups for the intervals: images with file numbers within 2 of each other count as one patient. The 23 fractured hips lie in 10 groups.
+   - Run `N_fracatlas_zero_shot` (10 models, about 25 min).
+   - Upload folder on your PC: `FracAtlas_kaggle\` (the crops, and the final weights of the 10 runs from their Kaggle output zips; 3.8 GB; not in the repository).
 
 **Next**
-- You: decide what comes after the screening (decision card in the thread).
-- Me: the FracAtlas zero-shot test job, which every option needs.
+- You: decide what comes after the screening (decision card in the thread); upload `FracAtlas_kaggle` as a private Kaggle dataset and launch `N_fracatlas_zero_shot`.
+- Me: score the FracAtlas results when the zip arrives.
 
 ---
 
