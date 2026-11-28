@@ -33,12 +33,18 @@
      grade (III-V vs I-II); both with DeLong intervals, next to the same AUCs of the released masks for the released
      grades, and of the predicted regions for the released grades.
 
+5. Paired deletion comparison (with --compare-deletion A:B, Analysis/06 §13): on the fractured femurs that both runs
+   classify correctly at base, the share each loses under deletion; exact McNemar (mid-p) on the femurs that only one
+   of the two loses, and a cluster-bootstrap interval of the difference of the two shares (A − B). Also the change of
+   P(true class) under deletion on all fractured femurs, A against B (Wilcoxon, Pratt), and §13's verdict.
+
 Decisions use each run's OOF threshold (metrics.json thresholds.oof_youden), as everywhere else. The changes and
 shares of tests 1 and 2 are checked against the run's own metrics.json ("tests"), which train_net.py wrote. Writes
 results/analysis/<name>/interpretability.json and interpretability.md; it never edits a run folder.
 
   python scripts/run_interpretability.py S10_m0_convnext_unet A2_region A3_geometry A4_hierarchy A5_shared_grade \\
       A6_slgnet --name C08_paperA_interpretability
+  python scripts/run_interpretability.py ... A6_slgnet A1_m0_deletion --compare-deletion A6_slgnet:A1_m0_deletion ...
 """
 from __future__ import annotations
 
@@ -135,6 +141,45 @@ def deletion_block(rows: dict[str, list[dict]], decs: dict[str, dict]) -> dict:
                                      "lost_control": int((lost["deletion_control"] & (y == c)).sum())}
                         for c in range(1, 6)}
     return out
+
+
+def deletion_compare(a: dict, b: dict, groups: np.ndarray, n_boot: int, seed: int) -> dict:
+    """a, b: {"rows": {mode: rows}, "decs": {mode: decisions}} of two runs, aligned by file (Analysis/06 §13)."""
+    y = a["decs"]["base"]["y"]
+    fx = y > 0
+    both = fx & (a["decs"]["base"]["pred"] == y) & (b["decs"]["base"]["pred"] == y)
+    lost = {k: both & (r["decs"]["deletion"]["pred"] != y) for k, r in (("a", a), ("b", b))}
+    ctrl = {k: both & (r["decs"]["deletion_control"]["pred"] != y) for k, r in (("a", a), ("b", b))}
+    # kept = still correct; mcnemar_exact(kept_a, kept_b): b = only A kept (only B lost), c = only B kept (only A lost)
+    mc = S.mcnemar_exact(~lost["a"][both], ~lost["b"][both])
+    share = lambda yy, l: float(np.mean(l))  # noqa: E731
+    bd = S.bootstrap_diff(share, y[both], lost["a"][both], lost["b"][both], n_boot=n_boot, groups=groups[both], seed=seed)
+    idx = np.arange(len(y))
+    dtrue = {}
+    for k, r in (("a", a), ("b", b)):
+        pb, pd = written_probs(r["rows"]["base"]), written_probs(r["rows"]["deletion"])
+        dtrue[k] = pd[idx, y] - pb[idx, y]
+    return {"n_both_correct": int(both.sum()), "lost_a": int(lost["a"].sum()), "lost_b": int(lost["b"].sum()),
+            "share_a": float(lost["a"][both].mean()) if both.any() else float("nan"),
+            "share_b": float(lost["b"][both].mean()) if both.any() else float("nan"),
+            "control_lost_a": int(ctrl["a"].sum()), "control_lost_b": int(ctrl["b"].sum()),
+            "only_a_lost": mc["c"], "only_b_lost": mc["b"], "p_exact": mc["p"], "p_midp": mc["p_midp"],
+            "diff": bd["diff"], "lo": bd["lo"], "hi": bd["hi"],
+            "dp_true_mean_a": float(dtrue["a"][fx].mean()), "dp_true_mean_b": float(dtrue["b"][fx].mean()),
+            "wilcoxon_dp_true": S.wilcoxon_paired(dtrue["a"][fx], dtrue["b"][fx])}
+
+
+def section13_verdict(oof: dict, test: dict | None, own_controls: dict[str, float]) -> str:
+    """The rule of Analysis/06 §13 (A = SLG-Net, B = M0). own_controls: each run's OOF control loss share (C08)."""
+    if any(v > 0.05 for v in own_controls.values()):
+        return "inconclusive: a control loses more than 5% of its correct fractured decisions out of fold"
+    same_dir = test is not None and np.sign(test["diff"]) == np.sign(oof["diff"]) and test["diff"] != 0
+    if oof["p_midp"] < 0.05 and oof["diff"] > 0 and same_dir:
+        return "A depends on the region more than B (OOF p < .05, test the same direction)"
+    if oof["p_midp"] < 0.05 and oof["diff"] < 0:
+        return "B depends on the region more than A (OOF p < .05)" + ("" if same_dir else "; the test set does not agree")
+    return "similar dependence: no significant OOF difference in the share lost" + (
+        "" if oof["p_midp"] >= 0.05 else "; the test set does not point the same way")
 
 
 def placement(d: Path, prefix: str) -> dict:
@@ -339,6 +384,28 @@ def write_md(rep: dict) -> str:
         out += ["", "Where the control went (fractured femurs; test: each of the 5 fold models' own deletion): "
                 + "; ".join(f"{part_name[part]}: " + ", ".join(f"{k} {v}" for k, v in b["control_placement"].items())
                             for part, b in parts.items()) + ".", ""]
+    if rep.get("deletion_comparison"):
+        c = rep["deletion_comparison"]
+        out += [f"## 2b. Paired deletion comparison (Analysis/06 §13): {c['a']} (A) vs {c['b']} (B)", "",
+                "Femurs: fractured, classified correctly at base by both runs. Share lost = becomes wrong under "
+                "deletion. McNemar on the femurs only one run loses (mid-p decides); difference A − B with a "
+                "cluster-bootstrap 95% interval. ΔP(true class): all fractured femurs, Wilcoxon (Pratt).", "",
+                "| Part | Both correct | Lost: A / B (share) | Only A lost / only B lost | Difference A − B (95% CI) | "
+                "p (mid-p; exact) | Control lost: A / B | ΔP(true class): A / B; Wilcoxon p |",
+                "|---|---|---|---|---|---|---|---|"]
+        for part in PARTS:
+            if part not in c:
+                continue
+            b = c[part]
+            out.append(f"| {part_name[part]} | {b['n_both_correct']} | {b['lost_a']} ({100 * b['share_a']:.1f}%) / "
+                       f"{b['lost_b']} ({100 * b['share_b']:.1f}%) | {b['only_a_lost']} / {b['only_b_lost']} | "
+                       f"{100 * b['diff']:+.1f} points ({100 * b['lo']:+.1f} to {100 * b['hi']:+.1f}) | "
+                       f"{pfmt(b['p_midp'])}; {pfmt(b['p_exact'])} | {b['control_lost_a']} / {b['control_lost_b']} | "
+                       f"{b['dp_true_mean_a']:+.3f} / {b['dp_true_mean_b']:+.3f}; "
+                       f"{pfmt(b['wilcoxon_dp_true']['p'])} |")
+        own = ", ".join(f"{r} {100 * v:.1f}%" for r, v in c["own_control_share_oof"].items())
+        out += ["", f"Each run's own control loss out of fold (of its own correct fractured femurs): {own}.",
+                f"**Verdict by the rule of §13:** {c['verdict']}.", ""]
     out += ["## 3. Risk-coverage: setting aside the least confident decisions", "",
             f"| Run | Part | Errors | Errors among the {int(FLAG_SHARE * 100)}% least confident (95% CI) | Error rate: all → "
             f"the {100 - int(FLAG_SHARE * 100)}% kept | AURC (best possible) |", "|---|---|---|---|---|---|"]
@@ -397,6 +464,8 @@ def main(argv=None) -> int:
     ap.add_argument("--seed", type=int, default=2026)
     ap.add_argument("--geometry", action="append", default=[], metavar="RUN=CSV",
                     help="per-femur geometry of a run's predicted regions (scripts/map_geometry.py); repeatable")
+    ap.add_argument("--compare-deletion", default="", metavar="A:B",
+                    help="paired deletion comparison of two runs with deletion tests (Analysis/06 §13)")
     ap.add_argument("--eda", default=str(REPO / "EDA" / "per_image_stats.csv"),
                     help="the released masks' geometry (EDA/eda_femoral.py)")
     a = ap.parse_args(argv)
@@ -412,6 +481,7 @@ def main(argv=None) -> int:
     rep: dict = {"runs": a.runs, "n_boot": a.n_boot, "n_perm": a.n_perm, "seed": a.seed, "flag_share": FLAG_SHARE,
                  "oracle": {}, "deletion": {}, "risk_coverage": {}}
     base_of: dict[tuple[str, str], tuple[dict, list[dict]]] = {}
+    del_of: dict[tuple[str, str], dict] = {}
     for run in a.runs:
         d = results / run
         met = json.loads((d / "metrics.json").read_text())
@@ -441,6 +511,23 @@ def main(argv=None) -> int:
                           for m, k in (("deletion", "deletion"), ("deletion_control", "control"))]
                 b["matches_metrics_json"] = None if None in checks else all(checks)
                 rep["deletion"].setdefault(run, {})[part] = b
+                del_of[(run, part)] = {"rows": sub, "decs": {m: decs[m] for m in sub}, "groups": groups}
+    if a.compare_deletion:
+        ra, _, rb = a.compare_deletion.partition(":")
+        if (ra, "oof") not in del_of or (rb, "oof") not in del_of:
+            raise SystemExit(f"--compare-deletion {a.compare_deletion}: both runs need deletion tests")
+        cmp_: dict = {"a": ra, "b": rb}
+        for part in PARTS:
+            if (ra, part) in del_of and (rb, part) in del_of:
+                A, B = del_of[(ra, part)], del_of[(rb, part)]
+                if not np.array_equal(A["decs"]["base"]["file"], B["decs"]["base"]["file"]):
+                    raise SystemExit("the two runs did not predict the same femurs")
+                cmp_[part] = deletion_compare(A, B, A["groups"], a.n_boot, a.seed)
+        own = {r: rep["deletion"][r]["oof"]["lost_control"] / max(rep["deletion"][r]["oof"]["correct_base"], 1)
+               for r in (ra, rb)}
+        cmp_["own_control_share_oof"] = own
+        cmp_["verdict"] = section13_verdict(cmp_["oof"], cmp_.get("test_ensemble"), own)
+        rep["deletion_comparison"] = cmp_
     if geometry_of:
         released = released_geometry(Path(a.eda))
         fit = [(released[(r.split, r.file)]["cy"], LOCATION[r.cls6]) for r in records

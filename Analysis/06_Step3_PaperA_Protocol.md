@@ -335,3 +335,12 @@ Written on 2026-11-28, after the person chose this option on 2026-11-28 (the fra
 3. **If either model's control loses more than 5% of its correct fractured decisions out of fold,** the comparison is reported as inconclusive, because the blur itself, not the region, would then explain part of the loss.
 
 **Analysis:** C08 is re-run with `A1_m0_deletion` added, and its report gets this comparison.
+
+## 14. Addendum (2026-11-28): result of the M0 deletion test (§13)
+
+- **Run:** `A1_m0_deletion` (register line 39), from `080a0c5` (the merge of the pull request that added it), 5/5 folds, 147.9 min. It replicates S10: 921 vs 922 correct out of fold, macro-F1 .825 vs .825, Dice .778 vs .777 (no paired difference significant; `results/analysis/C08_paperA_interpretability/m0_replicate/`). Its Garden I-II recall is .614 (S10 .544): 4 of 57 femurs, the seed noise of that endpoint.
+- **Primary comparison** (C08 §2b, `scripts/run_interpretability.py --compare-deletion A6_slgnet:A1_m0_deletion`): of the 525 fractured OOF femurs that both models classify correctly, deletion makes 337 (64.2%) wrong for SLG-Net and 253 (48.2%) for M0; 117 are lost only by SLG-Net, 33 only by M0 (exact McNemar mid-p < .001); difference +16.0 points (95% CI +11.6 to +20.4).
+- **Test ensemble:** 116 jointly correct; 65.5% vs 52.6%, +12.9 points (+5.2 to +20.7), p .002: the same direction.
+- **Controls** lose 1.3% (SLG-Net) and 1.4% (M0) of each model's correct fractured decisions out of fold, below the 5% limit.
+- **Secondary:** ΔP(true class) −.479 vs −.442 (Wilcoxon p .044), test −.538 vs −.476 (p < .001). M0's P(fracture) also falls under deletion (−.199), SLG-Net's barely (−.032).
+- **Verdict (rule 1 of §13):** "SLG-Net's location and grade decisions depend on the fracture region more than M0's" may be stated.

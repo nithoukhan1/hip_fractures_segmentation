@@ -4,6 +4,29 @@ Newest entries at the top. Each entry: what was done, what it produced, what com
 
 ---
 
+## 2026-11-28 · Step 21: M0's deletion test, and the plan of the combined paper
+
+**Done (you)**
+- Merged PRs #17 and #18 and chose one paper (Paper B's findings join Paper A).
+- Ran `A1_m0_deletion` from `main` and put its zip in `results\_inbox\filed\`.
+
+**Done (me)**
+1. **Filed `A1_m0_deletion`** (register line 39): from `080a0c5`, 5/5 folds, 2.46 h. It replicates M0 (921 vs 922 correct out of fold, macro-F1 .825 vs .825).
+2. **The test fixed in Analysis/06 §13** (`scripts/run_interpretability.py --compare-deletion`, 2 new tests):
+   - of the 525 fractured femurs that both models get right, removing the predicted region makes 64.2% wrong for SLG-Net and 48.2% for M0 (117 vs 33 femurs, p < .001);
+   - test set 65.5% vs 52.6% (p .002), the same direction; both controls lose under 1.5%;
+   - **verdict: SLG-Net's location and grade decisions depend on the fracture region more than M0's.** This is now SLG-Net's main claim (C08 §2b, Analysis/06 §14).
+3. **Plan of the combined paper** (`Analysis/09_Combined_Paper_Plan.md`): what "one paper" means, what it claims (8 claims with their evidence), outline, tables and figures, and what is left.
+4. **Trackers:** EXPERIMENTS.md, PROJECT_TRACKER.md (M3-A reached; compute 69.2 h), README.md, kaggle/README.md.
+
+**Next**
+- You:
+  1. merge this PR;
+  2. decide on the optional second-backbone check (about 6–8 h; see our thread).
+- Me: the figures from the filed results (Fig. 2, Fig. 3), then the manuscript draft (Methods and Results first).
+
+---
+
 ## 2026-11-28 · Step 20: A6 geometry, the M0 deletion test prepared, Paper B's final runs analysed (C13–C16)
 
 **Done (you)**
