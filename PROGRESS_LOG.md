@@ -21,10 +21,15 @@ Newest entries at the top. Each entry: what was done, what it produced, what com
    - how each hip is labelled;
    - the crop, placed by the femoral head so that it matches the geometry of a HUSJA-UA image;
    - what is reported.
+3. **FracAtlas external test set** (`Analysis/11` sections 8.2 and 8.2a, `results/fracatlas/`):
+   - screened the hip images by eye: all 22 usable fractured images and the first 60 eligible healthy images in a fixed random order (seed 2026); 82 images, 148 hips;
+   - read two landmarks per hip by eye (the pelvic midline and the centre of the femoral head, without the fracture outlines): `results/fracatlas/landmarks.csv`; the 40 hips left out and why: `results/fracatlas/excluded.csv`;
+   - the crop: a half of the pelvis, the femoral head placed where it lies in a HUSJA-UA image (calibrated on 20 of them), resized to 1024 x 1536 and windowed; made by `scripts/make_fracatlas_crops.py` (2 unit tests in `tests/test_fracatlas_crops.py`);
+   - result: **148 hips, 23 fractured and 125 healthy** (`results/fracatlas/cases.csv`). The crops and masks stay on your PC in `FracAtlas_crops\` (not in the repo), with three check sheets.
 
 **Next**
-- You: launch `N_screen_round1` if it is not running yet, and send me its zip.
-- Me: screen the 338 FracAtlas hip images with the rules, make the crops and a check sheet for you.
+- You: look at `FracAtlas_crops\check_sheet_1.jpg` to `check_sheet_3.jpg` (every crop with its fracture outline in red); merge PR #24; launch `N_screen_round1` if it is not running yet, and send me its zip.
+- Me: score round 1; then plan the FracAtlas test job on Kaggle (you upload the crops as a private Kaggle dataset).
 
 ---
 
