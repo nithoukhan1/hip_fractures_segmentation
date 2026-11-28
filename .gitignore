@@ -1,5 +1,7 @@
 # --- Data: never commit the images (CC BY 4.0 dataset, ~800 MB; download from IEEE DataPort / Kaggle)
 /Femoral Fractures/
+/FracAtlas (FigShare)/
+/FracAtlas_crops/
 /data/
 /datasets/
 *.zip
