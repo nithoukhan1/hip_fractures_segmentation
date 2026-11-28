@@ -1,6 +1,6 @@
 # Report 11: New direction: standard metrics, the FracAtlas external test, and a method that must beat our own baselines
 
-**Date:** 2026-11-28 · **Status:** plan only. No run is launched until the person approves it.
+**Date:** 2026-11-28 · **Status:** approved by the person on 2026-11-28. The fold-0 screening rules (section 7) were fixed before any screening run.
 
 **The person's requirements (2026-11-28):**
 1. The proposed method must beat **our own trained baselines**, including ConvNeXt U-Net, DenseNet-121, SegFormer-B2 and the rest.
@@ -172,3 +172,62 @@ The 22 usable images are 2180, 2337, 2338, 2340, 2341, 2540–2545, 2549, 2701, 
 4. **The winner's** 5-fold and second-seed runs (Kaggle, about 8–18 h).
 5. **FracAtlas zero-shot test** of all models (Kaggle, about 0.5 h).
 6. **Tables** with the standard metrics; explainability figures; then the manuscript.
+
+## 7. Fold-0 screening rules (fixed 2026-11-28, before any screening run)
+
+### 7.1 The three candidates, as built
+| Candidate | Run names (first seed / second seed) | Network | Input | What differs from ConvNeXt U-Net |
+|---|---|---|---|---|
+| 1. Segment-and-zoom | `N_segzoom_fold0` / `N_segzoom_fold0_seed2` | ConvNeXt U-Net + a second ConvNeXt-T encoder for the crop (`zoom:` in the training script) | 1536 × 1024, the full resolution of the release | The ConvNeXt U-Net part sees the image averaged down by 2, exactly its usual 768 × 512 input. The crop is a 640 × 640 full-resolution square around the predicted mask, resampled to 512 × 512. The decision is made from the whole-femur features and the crop features together |
+| 2. Higher resolution | `N_res1152_fold0` / `N_res1152_fold0_seed2` | ConvNeXt U-Net unchanged | 1152 × 768 | Only the input size |
+| 3. Larger encoder | `N_convnext_s_fold0` / `N_convnext_s_fold0_seed2` | ConvNeXt U-Net with ConvNeXt-S (ImageNet-22k weights) | 768 × 512 | Only the encoder |
+
+**Change from section 4.2, stated before the runs:** candidate 2 is screened at 1152 × 768, not at 1536 × 1024. The full size would take about 3 h for fold 0 and about 14 h for 5 folds on the T4s, and the segment-and-zoom network already tests what full resolution adds where it matters. If 1152 × 768 passes, the full size is tried next.
+
+Candidate 4 (the ordinal grade loss) is not screened on its own. It will be added to the winner.
+
+**Segment-and-zoom, in detail:**
+1. **Locate:** the ConvNeXt U-Net predicts the fracture mask as always. The crop centre is the probability-weighted centre of the predicted fracture pixels (probability ≥ 0.5). A femur without such pixels, which is most healthy femurs, gets its crop at its most suspicious place (the 500 most probable pixels). Every femur therefore gets exactly one crop.
+2. **Training:** in the first 30 epochs the crop is sometimes centred on the released mask instead. The chance of this falls from 1 to 0 (teacher forcing, as in SLG-Net). The centre also moves by up to ±32 pixels, so that the network does not learn to expect the fracture in the exact middle.
+3. **Zoom:** a second ConvNeXt-T, with its own ImageNet weights, reads the crop.
+4. **Decide:** the whole-femur features and the crop features are joined, normalised and given to one linear 6-class layer. The ConvNeXt U-Net's own 6-class head is kept as an auxiliary output (weight 0.5 in the loss), so the whole-femur branch stays a full ConvNeXt U-Net.
+5. **Explainability:** every femur's crop window is saved. The pointing game of the crop (does the window hold the centre of the released mask?) is part of every run's results.
+
+**Everything else is the ConvNeXt U-Net's:** 60 epochs, effective batch 16, AdamW with learning rate 2e-4 and a cosine schedule, the same augmentations, folds and loss for the mask, and final weights (no early stopping). The first seed is 2026, the second 2027.
+
+### 7.2 The base to beat, computed now from the filed runs
+The base is the two ConvNeXt U-Net runs we already have: the ConvNeXt U-Net and its second run, the same settings trained twice. They are evaluated on fold 0's 208 held-out femurs, with the fracture threshold fitted on fold 0, as every candidate will be (`scripts/run_stats.py --folds 0`).
+
+| Fold 0, 208 femurs | ConvNeXt U-Net | Second ConvNeXt U-Net run | Mean = the base |
+|---|---|---|---|
+| Accuracy (6 classes) | 184/208 = .885 | 184/208 = .885 | .885 |
+| Macro-F1 (6 classes) | .822 | .811 | **.817** |
+| Dice, fractured femurs (a missed fracture counts 0) | .749 | .761 | **.755** |
+
+The two identical runs differ by .011 in macro-F1. That is the size of run-to-run noise on one fold, and why the rule uses the mean of two seeds.
+
+### 7.3 The pass rule
+A candidate passes the screening if both hold, for the mean of its two seeds on fold 0:
+- **macro-F1 ≥ .837** (the base + .02);
+- **Dice of fractured femurs ≥ .745** (the base − .01).
+
+**Second seeds:**
+- The segment-and-zoom network always gets its second seed, because it is the recommended method.
+- Candidates 2 and 3 get a second seed only if their first seed reaches macro-F1 ≥ .827 (the base + .01). Below that, the second seed would need a gain of more than .03 to pass, which is very unlikely.
+
+**After the screening:**
+- If more than one candidate passes, the one with the higher mean macro-F1 goes forward. If they are within .01, the cheaper one goes forward.
+- The winner gets 5 folds and the test set. The final claim needs the out-of-fold rule of section 4.2, step 4.
+- If no candidate passes, we stop and report that to the person before any further runs.
+
+**What we report for every screening run** (the standard set of section 2.2): accuracy, macro-F1, per-class precision, recall and F1, specificity, AUC, Dice, IoU, HD95, and for the segment-and-zoom network, the pointing game of its crop.
+
+### 7.4 Kaggle sessions (two runs per session, one per T4)
+| Session (RUN name) | GPU 0 | GPU 1 | Expected time |
+|---|---|---|---|
+| `N_screen_round1` | segment-and-zoom, seed 2026 | 1152 × 768, seed 2026 | about 1.8 h |
+| `N_screen_round2` | ConvNeXt-S, seed 2026 | segment-and-zoom, seed 2027 | about 1.6 h |
+| `N_screen_round3` (only if section 7.3 asks for these seeds) | 1152 × 768, seed 2027 | ConvNeXt-S, seed 2027 | about 1.8 h |
+
+Screening total: about 3.5–5 Kaggle hours.
+

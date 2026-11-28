@@ -18,6 +18,10 @@ A network is named by a ``--net`` string:
   ref:<timm model>:<variant>  RefFrac of Paper B (src/femurseg/refnet.py): M0 plus healthy reference femurs encoded by
                               the same encoder, aligned and fused into M0's decoder and head; variant R1..R7
                               (Analysis/08). Its outputs are M0's, so the M0 rule below applies unchanged.
+  zoom:<timm model>           segment-and-zoom network (src/femurseg/zoomnet.py, Analysis/11): M0 on the image at half
+                              resolution finds the fracture; a second encoder of the same timm model grades it from a
+                              full-resolution crop around the predicted mask. Input at full resolution (--size
+                              1536x1024). Its "cls" is a 6-class decision, so the M0 rule below applies unchanged.
 
 Every network returns a dict with "cls" (B, 6) logits and/or "seg" (B, C, H, W) logits at the input size.
 
@@ -39,14 +43,14 @@ TOPK = 500  # pixels at 768 x 512; the smallest released fracture mask has 1,722
 
 @dataclass(frozen=True)
 class NetSpec:
-    kind: str          # cls | seg | m0 | slg | ref
+    kind: str          # cls | seg | m0 | slg | ref | zoom
     arch: str          # timm model name (cls, m0, slg, ref) or smp architecture (seg)
     encoder: str       # smp encoder (seg); "" otherwise
     variant: str = ""  # SLG-Net variant A2..A6 (slg) or RefFrac variant R1..R7 (ref); "" otherwise
 
     @property
     def has_mask(self) -> bool:
-        return self.kind in ("seg", "m0", "slg", "ref")
+        return self.kind in ("seg", "m0", "slg", "ref", "zoom")
 
     @property
     def text(self) -> str:
@@ -56,7 +60,7 @@ class NetSpec:
 
 def parse_net(text: str) -> NetSpec:
     parts = text.split(":")
-    if parts[0] in ("cls", "m0") and len(parts) == 2:
+    if parts[0] in ("cls", "m0", "zoom") and len(parts) == 2:
         return NetSpec(parts[0], parts[1], "")
     if parts[0] == "seg" and len(parts) == 3:
         return NetSpec("seg", parts[1], parts[2])
@@ -73,17 +77,24 @@ def parse_net(text: str) -> NetSpec:
             raise ValueError(f"--net '{text}': RefFrac variant must be one of {', '.join(REF_VARIANTS)}")
         return NetSpec("ref", parts[1], "", parts[2])
     raise ValueError(f"--net '{text}': expected cls:<timm model>, m0:<timm model>, seg:<smp arch>:<encoder>, "
-                     "slg:<timm model>:<A2..A6> or ref:<timm model>:<R1..R7>")
+                     "slg:<timm model>:<A2..A6>, ref:<timm model>:<R1..R7> or zoom:<timm model>")
 
 
 def build_net(spec: NetSpec, pretrained: bool = True, drop_rate: float = 0.2, slg_scales=(16, 32),
-              slg_detach: bool = False, ref_k: int = 0, ref_margin: float | None = None, ref_window: float = 0.125):
+              slg_detach: bool = False, ref_k: int = 0, ref_margin: float | None = None, ref_window: float = 0.125,
+              zoom_window: int = 640, zoom_input: int = 512):
     """Create the network (downloads ImageNet weights when ``pretrained``). SLG-Net options: the encoder scales
     of region pooling and whether the decision losses may reach the mask (see slg.build_slg). RefFrac options: the
     number of references, the margin-loss weight and the attention window (None / 0 keep the variant's; see
-    refnet.build_refnet)."""
+    refnet.build_refnet). Segment-and-zoom options: the crop side in input pixels and the zoom encoder's input size
+    (zoomnet.build_zoomnet)."""
     import torch.nn as nn
 
+    if spec.kind == "zoom":
+        from .zoomnet import build_zoomnet
+
+        return build_zoomnet(spec.arch, pretrained=pretrained, drop_rate=drop_rate, window=zoom_window,
+                             zoom_input=zoom_input)
     if spec.kind == "ref":
         from .refnet import build_refnet
 
@@ -140,6 +151,10 @@ def make_loss(spec: NetSpec, seg_weight: float = 1.0, priors: dict | None = None
     import torch.nn.functional as F
     from segmentation_models_pytorch.losses import DiceLoss
 
+    if spec.kind == "zoom":
+        from .zoomnet import make_zoom_loss
+
+        return make_zoom_loss(seg_weight=seg_weight)
     if spec.kind == "ref":
         from .refnet import make_ref_loss
 
@@ -178,14 +193,16 @@ def postprocess(spec: NetSpec, out: dict, topk: int = TOPK) -> dict:
     and fmap (B, H, W) = fracture probability per pixel (None for classifiers)."""
     import torch
 
-    if spec.kind in ("cls", "m0", "slg", "ref"):
+    if spec.kind in ("cls", "m0", "slg", "ref", "zoom"):
         p = torch.softmax(out["cls"].float(), dim=1)  # SLG-Net A4-A6: "cls" = log-probabilities, softmax returns them
         conf = p[:, 1:]
         res = {"conf": conf, "score": conf.sum(dim=1), "top_cls6": conf.argmax(dim=1) + 1, "fmap": None}
-        if spec.kind in ("m0", "slg", "ref"):
+        if spec.kind in ("m0", "slg", "ref", "zoom"):
             res["fmap"] = torch.sigmoid(out["seg"].float()[:, 0])
         if spec.kind == "ref":
             res["diff16"] = out.get("diff16")  # RefFrac: |T - R~| at 1/16, for the pointing game
+        if spec.kind == "zoom":
+            res["centre"] = out["centre"]  # segment-and-zoom: crop centre (y, x) in input pixels
         return res
     p = torch.softmax(out["seg"].float(), dim=1)                     # (B, 6, H, W)
     f = 1.0 - p[:, 0]                                                # fracture probability

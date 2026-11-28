@@ -1093,5 +1093,194 @@
     "expected_minutes": 175,
     "about": "Paper A, analysis C08: M0 (= A1) trained again exactly as S10 (same settings and seed), now with the region-deletion test of Analysis/06 §5, so that SLG-Net's deletion result can be compared with M0's by the rule of Analysis/06 §13, fixed before this run. M0's head never sees the mask, so it has no oracle test. 5 folds and the test set. Launch from main (BRANCH = \"main\") after the pull request that adds it.",
     "estimate_note": "S10 took 140 min on T4 x2 (register line 8); the deletion test predicts every held-out and test femur twice more, which cost A6 about 30 min (A6 175 min with both tests, A5 145 min with the oracle test only)"
+  },
+  "N_segzoom_fold0": {
+    "step": "25",
+    "script": "scripts/train_net.py",
+    "pip": [
+      "segmentation-models-pytorch==0.6.0"
+    ],
+    "gpu": "one T4 (started by a parallel group, one run per GPU)",
+    "track": "New method",
+    "expected_minutes": 85,
+    "estimate_note": "ConvNeXt U-Net fold 0 trained in 44.5 min on one T4; the zoom encoder adds about 0.6 of that, plus the full-resolution image cache and data loading",
+    "args": [
+      "--net",
+      "zoom:convnext_tiny.fb_in22k_ft_in1k",
+      "--size",
+      "1536x1024",
+      "--epochs",
+      "60",
+      "--batch",
+      "16",
+      "--folds",
+      "0",
+      "--no-test"
+    ],
+    "about": "Screening of method candidate 1 (Analysis/11, section 'Fold-0 screening rules'): the segment-and-zoom network. The ConvNeXt U-Net finds the fracture on the image at half resolution, and a second ConvNeXt-T grades it from a 640 x 640 full-resolution crop around the predicted mask (input 1536 x 1024, teacher forcing of the crop centre over 30 epochs). Fold 0 only, no test-set predictions."
+  },
+  "N_res1152_fold0": {
+    "step": "25",
+    "script": "scripts/train_net.py",
+    "pip": [
+      "segmentation-models-pytorch==0.6.0"
+    ],
+    "gpu": "one T4 (started by a parallel group, one run per GPU)",
+    "track": "New method",
+    "expected_minutes": 100,
+    "estimate_note": "ConvNeXt U-Net fold 0 trained in 44.5 min on one T4; 2.25 times the pixels, so about 1.9 times the time",
+    "args": [
+      "--net",
+      "m0:convnext_tiny.fb_in22k_ft_in1k",
+      "--size",
+      "1152x768",
+      "--epochs",
+      "60",
+      "--batch",
+      "16",
+      "--folds",
+      "0",
+      "--no-test"
+    ],
+    "about": "Screening of method candidate 2 (Analysis/11, section 'Fold-0 screening rules'): the ConvNeXt U-Net unchanged, at 1152 x 768 instead of 768 x 512 (1.5 times the resolution). Fold 0 only, no test-set predictions."
+  },
+  "N_convnext_s_fold0": {
+    "step": "25",
+    "script": "scripts/train_net.py",
+    "pip": [
+      "segmentation-models-pytorch==0.6.0"
+    ],
+    "gpu": "one T4 (started by a parallel group, one run per GPU)",
+    "track": "New method",
+    "expected_minutes": 75,
+    "estimate_note": "ConvNeXt U-Net fold 0 trained in 44.5 min on one T4; the ConvNeXt-S encoder has about twice the computation of ConvNeXt-T",
+    "args": [
+      "--net",
+      "m0:convnext_small.fb_in22k_ft_in1k",
+      "--size",
+      "768x512",
+      "--epochs",
+      "60",
+      "--batch",
+      "16",
+      "--folds",
+      "0",
+      "--no-test"
+    ],
+    "about": "Screening of method candidate 3 (Analysis/11, section 'Fold-0 screening rules'): the ConvNeXt U-Net with the larger ConvNeXt-S encoder (ImageNet-22k weights) at 768 x 512. Fold 0 only, no test-set predictions."
+  },
+  "N_segzoom_fold0_seed2": {
+    "step": "25",
+    "script": "scripts/train_net.py",
+    "pip": [
+      "segmentation-models-pytorch==0.6.0"
+    ],
+    "gpu": "one T4 (started by a parallel group, one run per GPU)",
+    "track": "New method",
+    "expected_minutes": 85,
+    "estimate_note": "ConvNeXt U-Net fold 0 trained in 44.5 min on one T4; the zoom encoder adds about 0.6 of that, plus the full-resolution image cache and data loading",
+    "args": [
+      "--net",
+      "zoom:convnext_tiny.fb_in22k_ft_in1k",
+      "--size",
+      "1536x1024",
+      "--epochs",
+      "60",
+      "--batch",
+      "16",
+      "--folds",
+      "0",
+      "--no-test",
+      "--seed",
+      "2027"
+    ],
+    "about": "Screening of method candidate 1 (Analysis/11, section 'Fold-0 screening rules'): the segment-and-zoom network. The ConvNeXt U-Net finds the fracture on the image at half resolution, and a second ConvNeXt-T grades it from a 640 x 640 full-resolution crop around the predicted mask (input 1536 x 1024, teacher forcing of the crop centre over 30 epochs). Second seed (2027) of the same run, for the pass rule's mean of two seeds. Fold 0 only, no test-set predictions."
+  },
+  "N_res1152_fold0_seed2": {
+    "step": "25",
+    "script": "scripts/train_net.py",
+    "pip": [
+      "segmentation-models-pytorch==0.6.0"
+    ],
+    "gpu": "one T4 (started by a parallel group, one run per GPU)",
+    "track": "New method",
+    "expected_minutes": 100,
+    "estimate_note": "ConvNeXt U-Net fold 0 trained in 44.5 min on one T4; 2.25 times the pixels, so about 1.9 times the time",
+    "args": [
+      "--net",
+      "m0:convnext_tiny.fb_in22k_ft_in1k",
+      "--size",
+      "1152x768",
+      "--epochs",
+      "60",
+      "--batch",
+      "16",
+      "--folds",
+      "0",
+      "--no-test",
+      "--seed",
+      "2027"
+    ],
+    "about": "Screening of method candidate 2 (Analysis/11, section 'Fold-0 screening rules'): the ConvNeXt U-Net unchanged, at 1152 x 768 instead of 768 x 512 (1.5 times the resolution). Second seed (2027) of the same run, for the pass rule's mean of two seeds. Fold 0 only, no test-set predictions."
+  },
+  "N_convnext_s_fold0_seed2": {
+    "step": "25",
+    "script": "scripts/train_net.py",
+    "pip": [
+      "segmentation-models-pytorch==0.6.0"
+    ],
+    "gpu": "one T4 (started by a parallel group, one run per GPU)",
+    "track": "New method",
+    "expected_minutes": 75,
+    "estimate_note": "ConvNeXt U-Net fold 0 trained in 44.5 min on one T4; the ConvNeXt-S encoder has about twice the computation of ConvNeXt-T",
+    "args": [
+      "--net",
+      "m0:convnext_small.fb_in22k_ft_in1k",
+      "--size",
+      "768x512",
+      "--epochs",
+      "60",
+      "--batch",
+      "16",
+      "--folds",
+      "0",
+      "--no-test",
+      "--seed",
+      "2027"
+    ],
+    "about": "Screening of method candidate 3 (Analysis/11, section 'Fold-0 screening rules'): the ConvNeXt U-Net with the larger ConvNeXt-S encoder (ImageNet-22k weights) at 768 x 512. Second seed (2027) of the same run, for the pass rule's mean of two seeds. Fold 0 only, no test-set predictions."
+  },
+  "N_screen_round1": {
+    "step": "25",
+    "track": "New method",
+    "parallel": [
+      "N_segzoom_fold0",
+      "N_res1152_fold0"
+    ],
+    "gpu": "T4 x2 (one run per GPU)",
+    "expected_minutes": 110,
+    "about": "Fold-0 screening, round 1 (Analysis/11): the segment-and-zoom network on GPU 0 and the ConvNeXt U-Net at 1152 x 768 on GPU 1, in one session. Both results are in results_N_screen_round1.zip."
+  },
+  "N_screen_round2": {
+    "step": "25",
+    "track": "New method",
+    "parallel": [
+      "N_convnext_s_fold0",
+      "N_segzoom_fold0_seed2"
+    ],
+    "gpu": "T4 x2 (one run per GPU)",
+    "expected_minutes": 95,
+    "about": "Fold-0 screening, round 2 (Analysis/11): the ConvNeXt U-Net with the ConvNeXt-S encoder on GPU 0 and the second seed of the segment-and-zoom network on GPU 1. Both results are in results_N_screen_round2.zip."
+  },
+  "N_screen_round3": {
+    "step": "25",
+    "track": "New method",
+    "parallel": [
+      "N_res1152_fold0_seed2",
+      "N_convnext_s_fold0_seed2"
+    ],
+    "gpu": "T4 x2 (one run per GPU)",
+    "expected_minutes": 110,
+    "about": "Fold-0 screening, round 3 (Analysis/11): the second seeds of the ConvNeXt U-Net at 1152 x 768 and with the ConvNeXt-S encoder. Launch it only if the screening rule asks for these seeds (a first seed at least .01 above the base). Both results are in results_N_screen_round3.zip."
   }
 }
