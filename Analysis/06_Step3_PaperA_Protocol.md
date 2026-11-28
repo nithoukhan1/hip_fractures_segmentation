@@ -306,3 +306,32 @@ Written on 2026-11-27, after the five final runs were filed and C11 had confirme
 - How Paper A presents SLG-Net is the person's decision, raised with these results (`PROJECT_TRACKER.md`, open questions).
 - The sensitivity runs of §7 (about 8 h) wait for that decision.
 - A6's geometry test is completed when its maps arrive.
+
+## 13. Addendum (2026-11-28): a deletion test for M0, fixed before its run
+
+Written on 2026-11-28, after the person chose this option on 2026-11-28 (the framing decision that followed C07–C09) and before the run was launched. §1–§12 are unchanged.
+
+**Why.** C08 shows that deleting the predicted region costs SLG-Net (A6) 64.7% of its correct fractured decisions, against 1.3% for the control. Without the same test for M0, this does not show that SLG-Net relies on the region more than a model whose head never sees the region (§12, limit).
+
+**Run `A1_m0_deletion`** (`kaggle/runs.json`):
+- M0 trained again with S10's settings and seed (2026): 5 folds and the test set.
+- `--extra-tests deletion`: the deletion and its control exactly as in §5 (M0's own predicted region, dilated by 8 px, blurred with σ = 16 px; the control on equally bright tissue). M0's head never sees the mask, so it has no oracle test.
+- Launched from `main` after the pull request that adds it. M0's training code is unchanged; only the test is enabled for M0.
+
+**Primary comparison (out of fold):**
+- **Femurs:** the fractured OOF femurs that both A6 and the new M0 run classify correctly (6 classes) in their base mode.
+- **Measure:** the share of these femurs that becomes wrong after deletion, A6 against M0.
+- **Test:** exact McNemar (mid-p) on the femurs that only one of the two models loses, with a 95% cluster-bootstrap interval (over x-rays, 2,000 resamples) for the difference of the two shares.
+
+**Secondary (reported, not decisive):**
+- the same comparison on the test ensemble (145 fractured femurs);
+- the mean change of P(true class) after deletion on all fractured femurs, A6 against M0 (Wilcoxon signed-rank with Pratt zeros, paired per femur);
+- each model's deletion against its own control, as in C08, and where the control was placed;
+- the new M0 run's base results against S10's, as a check that it replicates M0.
+
+**Rule, fixed now:**
+1. **"SLG-Net's location and grade decisions depend on the fracture region more than M0's"** is stated only if A6 loses a larger share than M0 out of fold with p < .05, and the test ensemble points the same way.
+2. **Otherwise,** the paper states that both models' decisions depend on the region to a similar degree (or that M0's depend on it more, if that difference is significant). SLG-Net's interpretability then rests on its explicit region → location → grade structure and on the geometry test, not on deletion.
+3. **If either model's control loses more than 5% of its correct fractured decisions out of fold,** the comparison is reported as inconclusive, because the blur itself, not the region, would then explain part of the loss.
+
+**Analysis:** C08 is re-run with `A1_m0_deletion` added, and its report gets this comparison.

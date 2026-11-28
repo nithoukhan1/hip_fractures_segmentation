@@ -4,7 +4,8 @@ It builds the fake dataset of tests/synthetic_data.py, then checks, without any 
   1. --check-nets (the S00_net_check pre-flight) for a classifier, a segmenter, M0 and SLG-Net (A6);
   2. the time guard (a fold that cannot fit the budget is skipped, exit code 3);
   3. full 5-fold runs, two folds at a time on the CPU, of a classifier, a segmenter, M0 and SLG-Net A6 (M0 with
-     gradient accumulation; SLG-Net with teacher forcing and the oracle and deletion tests): every output file,
+     gradient accumulation and the deletion test; SLG-Net with teacher forcing and the oracle and deletion tests):
+     every output file,
      out-of-fold integrity, probability maps, the ensemble, and that metrics.json equals a re-evaluation of the
      per-case files;
   4. run_stats.py (intervals and paired comparisons; no Dice test against a classifier) and run_breakdown.py;
@@ -37,6 +38,7 @@ CONVNEXT = "convnext_tiny.fb_in22k_ft_in1k"
 NETS = {"SMOKE_CLS": f"cls:{CONVNEXT}", "SMOKE_SEG": "seg:Unet:resnet34", "SMOKE_M0": f"m0:{CONVNEXT}",
         "SMOKE_SLG": f"slg:{CONVNEXT}:A6"}
 TEST_MODES = ("oracle", "deletion", "deletion_control")
+M0_TEST_MODES = ("deletion", "deletion_control")  # M0's head never sees the mask: no oracle (Analysis/06 §13)
 
 
 def run(args_list: list[str], script: str = "train_net.py", quiet: bool = False, folder: Path | None = None) -> int:
@@ -85,7 +87,8 @@ def main() -> None:
     # 3) full runs: 5 folds, two at a time on the CPU, 2 epochs
     for name, net in NETS.items():
         out = results / name
-        extra = ["--micro-batch", "2"] if name == "SMOKE_M0" else []  # gradient accumulation 2 x 2
+        # M0: gradient accumulation 2 x 2 and the region-deletion test
+        extra = ["--micro-batch", "2", "--extra-tests", "deletion"] if name == "SMOKE_M0" else []
         if name == "SMOKE_SLG":
             extra = ["--tf-epochs", "1", "--extra-tests", "oracle,deletion"]
         rc = run([*common, "--net", net, "--epochs", "2", "--gpus", "cpu,cpu", "--out", str(out), *extra])
@@ -131,6 +134,8 @@ def main() -> None:
         assert summary.count("| Fracture AUC |") == 2 and ("NSD at 10 px" in summary) == has_mask
         if name == "SMOKE_SLG":
             check_slg_tests(out, res, oof, ens, tau)
+        if name == "SMOKE_M0":
+            check_slg_tests(out, res, oof, ens, tau, modes=M0_TEST_MODES)
         print(f"ok  full run {name} ({net}): 5 folds, OOF, test, ensemble, maps, summary")
 
     # 4) statistics and breakdown on the filed outputs
@@ -159,16 +164,22 @@ def main() -> None:
     print("SMOKE TEST PASSED")
 
 
-def check_slg_tests(out: Path, res: dict, oof: list[dict], ens: list[dict], tau: float) -> None:
-    """SLG-Net interpretability tests: files, row alignment, metrics, and what each test must (not) change."""
-    assert set(res["tests"]) == set(TEST_MODES), res.get("tests")
-    curve = list(csv.DictReader(open(out / "folds" / "fold0" / "train_curve.csv")))
-    tf = [float(r["tf_prob"]) for r in curve]  # teacher forcing over 1 epoch: falls to ~0 within epoch 1
-    assert 0 < tf[0] < 0.2 and tf[1] == 0.0 and "joint_nll" in curve[0], tf
+def check_slg_tests(out: Path, res: dict, oof: list[dict], ens: list[dict], tau: float,
+                    modes: tuple[str, ...] = TEST_MODES) -> None:
+    """Interpretability tests of SLG-Net (all modes) or M0 (deletion only): files, row alignment, metrics, and what
+    each test must (not) change."""
+    assert set(res["tests"]) == set(modes), res.get("tests")
     meta = json.loads((out / "folds" / "fold0" / "fold_meta.json").read_text())
-    assert meta["variant"] == "A6" and meta["extra_tests"] == ["oracle", "deletion"] and len(meta["priors"]["log_odds_high"]) == 2
+    if "oracle" in modes:  # SLG-Net A6
+        curve = list(csv.DictReader(open(out / "folds" / "fold0" / "train_curve.csv")))
+        tf = [float(r["tf_prob"]) for r in curve]  # teacher forcing over 1 epoch: falls to ~0 within epoch 1
+        assert 0 < tf[0] < 0.2 and tf[1] == 0.0 and "joint_nll" in curve[0], tf
+        assert meta["variant"] == "A6" and meta["extra_tests"] == ["oracle", "deletion"]
+        assert len(meta["priors"]["log_odds_high"]) == 2
+    else:  # M0
+        assert meta["extra_tests"] == ["deletion"] and "variant" not in meta, meta
     base = {r["file"]: r for r in oof}
-    for mode in TEST_MODES:
+    for mode in modes:
         rows = read_csv(out / f"per_case_oof_{mode}.csv")
         assert sorted(r["file"] for r in rows) == sorted(base), mode
         assert all(str(r["fold"]) == r["model"] for r in rows)
