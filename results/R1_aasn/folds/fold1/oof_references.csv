@@ -1,0 +1,628 @@
+file,split,fold,model,cls6_true,mode,source,refs,diff_hit,diff_chance,diff_peak_y,diff_peak_x
+00000_00000.png,train,1,1,4,base,nearest,train/01220_00812.png mirrored,0,0.104818,0.9896,0.5469
+00001_00000.png,train,1,1,0,base,nearest,train/01255_00835.png,,,,
+00016_00011.png,train,1,1,2,base,nearest,train/01516_01015.png,0,0.049479,0.9896,0.0156
+00017_00011.png,train,1,1,0,base,nearest,train/01460_00973.png mirrored,,,,
+00022_00016.png,train,1,1,3,base,nearest,train/00095_00063.png mirrored,0,0.050781,0.9896,0.0156
+00023_00016.png,train,1,1,0,base,nearest,train/01017_00678.png mirrored,,,,
+00039_00027.png,train,1,1,0,base,nearest,train/00627_00415.png,,,,
+00040_00027.png,train,1,1,4,base,nearest,train/01285_00854.png mirrored,0,0.102865,0.9896,0.0156
+00041_00028.png,train,1,1,0,base,nearest,train/00671_00443.png,,,,
+00042_00028.png,train,1,1,1,base,nearest,train/00999_00667.png mirrored,0,0.023438,0.9896,0.0156
+00058_00038.png,train,1,1,2,base,nearest,train/00015_00010.png,0,0.033203,0.9896,0.6719
+00064_00043.png,train,1,1,4,base,nearest,train/00464_00303.png mirrored,0,0.138021,0.9896,0.0156
+00066_00044.png,train,1,1,2,base,nearest,train/01437_00955.png mirrored,0,0.076823,0.9896,0.0156
+00076_00051.png,train,1,1,3,base,nearest,train/01329_00884.png mirrored,0,0.0625,0.9479,0.0469
+00102_00067.png,train,1,1,4,base,nearest,train/00550_00365.png,0,0.117839,0.9896,0.0156
+00108_00073.png,train,1,1,5,base,nearest,train/00219_00144.png mirrored,0,0.075521,0.9896,0.0156
+00000_00000.png,train,1,1,4,self,self,train/00000_00000.png,,,,
+00001_00000.png,train,1,1,0,self,self,train/00001_00000.png,,,,
+00016_00011.png,train,1,1,2,self,self,train/00016_00011.png,,,,
+00017_00011.png,train,1,1,0,self,self,train/00017_00011.png,,,,
+00022_00016.png,train,1,1,3,self,self,train/00022_00016.png,,,,
+00023_00016.png,train,1,1,0,self,self,train/00023_00016.png,,,,
+00039_00027.png,train,1,1,0,self,self,train/00039_00027.png,,,,
+00040_00027.png,train,1,1,4,self,self,train/00040_00027.png,,,,
+00041_00028.png,train,1,1,0,self,self,train/00041_00028.png,,,,
+00042_00028.png,train,1,1,1,self,self,train/00042_00028.png,,,,
+00058_00038.png,train,1,1,2,self,self,train/00058_00038.png,,,,
+00064_00043.png,train,1,1,4,self,self,train/00064_00043.png,,,,
+00066_00044.png,train,1,1,2,self,self,train/00066_00044.png,,,,
+00076_00051.png,train,1,1,3,self,self,train/00076_00051.png,,,,
+00102_00067.png,train,1,1,4,self,self,train/00102_00067.png,,,,
+00108_00073.png,train,1,1,5,self,self,train/00108_00073.png,,,,
+00000_00000.png,train,1,1,4,random,random,train/01512_01013.png mirrored,,,,
+00001_00000.png,train,1,1,0,random,random,train/01417_00942.png,,,,
+00016_00011.png,train,1,1,2,random,random,train/00608_00402.png mirrored,,,,
+00017_00011.png,train,1,1,0,random,random,train/01068_00710.png,,,,
+00022_00016.png,train,1,1,3,random,random,train/00280_00182.png,,,,
+00023_00016.png,train,1,1,0,random,random,train/00291_00190.png,,,,
+00039_00027.png,train,1,1,0,random,random,train/01426_00947.png mirrored,,,,
+00040_00027.png,train,1,1,4,random,random,train/00481_00314.png mirrored,,,,
+00041_00028.png,train,1,1,0,random,random,train/01426_00947.png mirrored,,,,
+00042_00028.png,train,1,1,1,random,random,train/00177_00118.png,,,,
+00058_00038.png,train,1,1,2,random,random,train/00780_00515.png,,,,
+00064_00043.png,train,1,1,4,random,random,train/01460_00973.png mirrored,,,,
+00066_00044.png,train,1,1,2,random,random,train/00193_00127.png mirrored,,,,
+00076_00051.png,train,1,1,3,random,random,train/01374_00912.png mirrored,,,,
+00102_00067.png,train,1,1,4,random,random,train/00513_00336.png mirrored,,,,
+00108_00073.png,train,1,1,5,random,random,train/01475_00986.png,,,,
+00135_00090.png,train,1,1,5,base,nearest,train/01285_00854.png mirrored,0,0.095052,0.9479,0.9844
+00149_00101.png,train,1,1,3,base,nearest,train/01329_00884.png,0,0.066406,0.9896,0.0156
+00150_00101.png,train,1,1,0,base,nearest,train/01068_00710.png,,,,
+00159_00107.png,train,1,1,0,base,nearest,train/00551_00365.png mirrored,,,,
+00160_00107.png,train,1,1,3,base,nearest,train/00551_00365.png,0,0.063151,0.9479,0.0156
+00161_00108.png,train,1,1,4,base,nearest,train/00727_00481.png,0,0.125,0.9896,0.0156
+00226_00149.png,train,1,1,3,base,nearest,train/00241_00157.png mirrored,0,0.052734,0.9896,0.0156
+00227_00149.png,train,1,1,0,base,nearest,train/00377_00246.png mirrored,,,,
+00242_00158.png,train,1,1,1,base,nearest,train/00241_00157.png mirrored,0,0.058594,0.9896,0.0156
+00243_00159.png,train,1,1,0,base,nearest,train/00783_00516.png,,,,
+00244_00159.png,train,1,1,2,base,nearest,train/00786_00518.png mirrored,0,0.054688,0.9896,0.0156
+00257_00167.png,train,1,1,4,base,nearest,train/01182_00788.png mirrored,0,0.125,0.9896,0.0156
+00273_00177.png,train,1,1,0,base,nearest,train/00048_00032.png mirrored,,,,
+00274_00177.png,train,1,1,4,base,nearest,train/00249_00162.png mirrored,0,0.129557,0.9479,0.7344
+00284_00185.png,train,1,1,4,base,nearest,train/00028_00020.png,0,0.097005,0.9896,0.0156
+00285_00186.png,train,1,1,3,base,nearest,train/01140_00757.png,0,0.078125,0.9479,0.9844
+00135_00090.png,train,1,1,5,self,self,train/00135_00090.png,,,,
+00149_00101.png,train,1,1,3,self,self,train/00149_00101.png,,,,
+00150_00101.png,train,1,1,0,self,self,train/00150_00101.png,,,,
+00159_00107.png,train,1,1,0,self,self,train/00159_00107.png,,,,
+00160_00107.png,train,1,1,3,self,self,train/00160_00107.png,,,,
+00161_00108.png,train,1,1,4,self,self,train/00161_00108.png,,,,
+00226_00149.png,train,1,1,3,self,self,train/00226_00149.png,,,,
+00227_00149.png,train,1,1,0,self,self,train/00227_00149.png,,,,
+00242_00158.png,train,1,1,1,self,self,train/00242_00158.png,,,,
+00243_00159.png,train,1,1,0,self,self,train/00243_00159.png,,,,
+00244_00159.png,train,1,1,2,self,self,train/00244_00159.png,,,,
+00257_00167.png,train,1,1,4,self,self,train/00257_00167.png,,,,
+00273_00177.png,train,1,1,0,self,self,train/00273_00177.png,,,,
+00274_00177.png,train,1,1,4,self,self,train/00274_00177.png,,,,
+00284_00185.png,train,1,1,4,self,self,train/00284_00185.png,,,,
+00285_00186.png,train,1,1,3,self,self,train/00285_00186.png,,,,
+00135_00090.png,train,1,1,5,random,random,train/00517_00338.png mirrored,,,,
+00149_00101.png,train,1,1,3,random,random,train/00905_00601.png,,,,
+00150_00101.png,train,1,1,0,random,random,train/00559_00371.png,,,,
+00159_00107.png,train,1,1,0,random,random,train/00219_00144.png mirrored,,,,
+00160_00107.png,train,1,1,3,random,random,train/00291_00190.png,,,,
+00161_00108.png,train,1,1,4,random,random,train/01293_00861.png,,,,
+00226_00149.png,train,1,1,3,random,random,train/00154_00104.png,,,,
+00227_00149.png,train,1,1,0,random,random,train/01255_00835.png mirrored,,,,
+00242_00158.png,train,1,1,1,random,random,train/01040_00693.png,,,,
+00243_00159.png,train,1,1,0,random,random,train/00720_00476.png,,,,
+00244_00159.png,train,1,1,2,random,random,train/00432_00284.png,,,,
+00257_00167.png,train,1,1,4,random,random,train/00450_00295.png,,,,
+00273_00177.png,train,1,1,0,random,random,train/00297_00193.png mirrored,,,,
+00274_00177.png,train,1,1,4,random,random,train/00100_00065.png mirrored,,,,
+00284_00185.png,train,1,1,4,random,random,train/01352_00898.png,,,,
+00285_00186.png,train,1,1,3,random,random,train/00566_00376.png mirrored,,,,
+00286_00187.png,train,1,1,0,base,nearest,train/00891_00590.png mirrored,,,,
+00287_00187.png,train,1,1,3,base,nearest,train/01126_00748.png,0,0.123047,0.9896,0.0156
+00309_00200.png,train,1,1,0,base,nearest,train/01105_00735.png mirrored,,,,
+00310_00200.png,train,1,1,0,base,nearest,train/01497_01003.png,,,,
+00318_00205.png,train,1,1,1,base,nearest,train/00626_00414.png,0,0.03776,0.9479,0.0469
+00328_00212.png,train,1,1,4,base,nearest,train/01520_01017.png,0,0.089844,0.9479,0.0156
+00329_00212.png,train,1,1,0,base,nearest,train/01520_01017.png mirrored,,,,
+00330_00213.png,train,1,1,0,base,nearest,train/00048_00032.png mirrored,,,,
+00331_00213.png,train,1,1,2,base,nearest,train/00048_00032.png,0,0.098307,0.9896,0.5156
+00332_00214.png,train,1,1,2,base,nearest,train/00756_00499.png mirrored,0,0.068359,0.9896,0.0156
+00333_00214.png,train,1,1,0,base,nearest,train/00756_00499.png,,,,
+00358_00233.png,train,1,1,2,base,nearest,train/00713_00472.png,0,0.05599,0.9896,0.0156
+00378_00247.png,train,1,1,5,base,nearest,train/01197_00799.png,0,0.089193,0.9896,0.0156
+00382_00252.png,train,1,1,2,base,nearest,train/00297_00193.png,0,0.073568,0.9896,0.0156
+00383_00252.png,train,1,1,0,base,nearest,train/00398_00261.png mirrored,,,,
+00386_00254.png,train,1,1,4,base,nearest,train/00415_00273.png mirrored,0,0.085286,0.9688,0.9844
+00286_00187.png,train,1,1,0,self,self,train/00286_00187.png,,,,
+00287_00187.png,train,1,1,3,self,self,train/00287_00187.png,,,,
+00309_00200.png,train,1,1,0,self,self,train/00309_00200.png,,,,
+00310_00200.png,train,1,1,0,self,self,train/00310_00200.png,,,,
+00318_00205.png,train,1,1,1,self,self,train/00318_00205.png,,,,
+00328_00212.png,train,1,1,4,self,self,train/00328_00212.png,,,,
+00329_00212.png,train,1,1,0,self,self,train/00329_00212.png,,,,
+00330_00213.png,train,1,1,0,self,self,train/00330_00213.png,,,,
+00331_00213.png,train,1,1,2,self,self,train/00331_00213.png,,,,
+00332_00214.png,train,1,1,2,self,self,train/00332_00214.png,,,,
+00333_00214.png,train,1,1,0,self,self,train/00333_00214.png,,,,
+00358_00233.png,train,1,1,2,self,self,train/00358_00233.png,,,,
+00378_00247.png,train,1,1,5,self,self,train/00378_00247.png,,,,
+00382_00252.png,train,1,1,2,self,self,train/00382_00252.png,,,,
+00383_00252.png,train,1,1,0,self,self,train/00383_00252.png,,,,
+00386_00254.png,train,1,1,4,self,self,train/00386_00254.png,,,,
+00286_00187.png,train,1,1,0,random,random,train/01500_01005.png mirrored,,,,
+00287_00187.png,train,1,1,3,random,random,train/00996_00664.png,,,,
+00309_00200.png,train,1,1,0,random,random,train/00550_00365.png,,,,
+00310_00200.png,train,1,1,0,random,random,train/00609_00403.png,,,,
+00318_00205.png,train,1,1,1,random,random,train/01516_01015.png mirrored,,,,
+00328_00212.png,train,1,1,4,random,random,train/00211_00139.png mirrored,,,,
+00329_00212.png,train,1,1,0,random,random,train/01120_00744.png,,,,
+00330_00213.png,train,1,1,0,random,random,train/00828_00546.png,,,,
+00331_00213.png,train,1,1,2,random,random,train/01062_00707.png mirrored,,,,
+00332_00214.png,train,1,1,2,random,random,train/00455_00297.png,,,,
+00333_00214.png,train,1,1,0,random,random,train/00247_00161.png mirrored,,,,
+00358_00233.png,train,1,1,2,random,random,train/01162_00773.png mirrored,,,,
+00378_00247.png,train,1,1,5,random,random,train/00341_00221.png,,,,
+00382_00252.png,train,1,1,2,random,random,train/00591_00391.png mirrored,,,,
+00383_00252.png,train,1,1,0,random,random,train/01300_00865.png mirrored,,,,
+00386_00254.png,train,1,1,4,random,random,train/00803_00529.png,,,,
+00387_00254.png,train,1,1,0,base,nearest,train/00010_00008.png,,,,
+00395_00260.png,train,1,1,4,base,nearest,train/00282_00184.png,0,0.13151,0.9479,0.7344
+00396_00260.png,train,1,1,0,base,nearest,train/00127_00085.png mirrored,,,,
+00404_00265.png,train,1,1,0,base,nearest,train/00705_00465.png mirrored,,,,
+00406_00266.png,train,1,1,2,base,nearest,train/00705_00465.png,0,0.044922,0.9479,0.9844
+00441_00289.png,train,1,1,2,base,nearest,train/00968_00644.png mirrored,0,0.041016,0.9896,0.0156
+00446_00293.png,train,1,1,0,base,nearest,train/00241_00157.png,,,,
+00447_00293.png,train,1,1,3,base,nearest,train/01238_00823.png,0,0.037109,0.9896,0.0156
+00452_00296.png,train,1,1,0,base,nearest,train/01306_00869.png,,,,
+00453_00296.png,train,1,1,3,base,nearest,train/00844_00557.png,0,0.095703,0.9479,0.0156
+00461_00301.png,train,1,1,0,base,nearest,train/00245_00160.png mirrored,,,,
+00463_00302.png,train,1,1,4,base,nearest,train/01220_00812.png mirrored,0,0.099609,0.9896,0.0156
+00471_00308.png,train,1,1,2,base,nearest,train/00472_00309.png mirrored,0,0.05599,0.9896,0.5781
+00474_00310.png,train,1,1,5,base,nearest,train/01232_00819.png mirrored,0,0.117839,0.9479,0.2969
+00484_00316.png,train,1,1,0,base,nearest,train/01017_00678.png mirrored,,,,
+00485_00316.png,train,1,1,5,base,nearest,train/00705_00465.png mirrored,0,0.110026,0.9896,0.0156
+00387_00254.png,train,1,1,0,self,self,train/00387_00254.png,,,,
+00395_00260.png,train,1,1,4,self,self,train/00395_00260.png,,,,
+00396_00260.png,train,1,1,0,self,self,train/00396_00260.png,,,,
+00404_00265.png,train,1,1,0,self,self,train/00404_00265.png,,,,
+00406_00266.png,train,1,1,2,self,self,train/00406_00266.png,,,,
+00441_00289.png,train,1,1,2,self,self,train/00441_00289.png,,,,
+00446_00293.png,train,1,1,0,self,self,train/00446_00293.png,,,,
+00447_00293.png,train,1,1,3,self,self,train/00447_00293.png,,,,
+00452_00296.png,train,1,1,0,self,self,train/00452_00296.png,,,,
+00453_00296.png,train,1,1,3,self,self,train/00453_00296.png,,,,
+00461_00301.png,train,1,1,0,self,self,train/00461_00301.png,,,,
+00463_00302.png,train,1,1,4,self,self,train/00463_00302.png,,,,
+00471_00308.png,train,1,1,2,self,self,train/00471_00308.png,,,,
+00474_00310.png,train,1,1,5,self,self,train/00474_00310.png,,,,
+00484_00316.png,train,1,1,0,self,self,train/00484_00316.png,,,,
+00485_00316.png,train,1,1,5,self,self,train/00485_00316.png,,,,
+00387_00254.png,train,1,1,0,random,random,train/01087_00724.png,,,,
+00395_00260.png,train,1,1,4,random,random,train/00179_00119.png mirrored,,,,
+00396_00260.png,train,1,1,0,random,random,train/00121_00082.png mirrored,,,,
+00404_00265.png,train,1,1,0,random,random,train/00008_00006.png,,,,
+00406_00266.png,train,1,1,2,random,random,train/00780_00515.png mirrored,,,,
+00441_00289.png,train,1,1,2,random,random,train/00727_00481.png mirrored,,,,
+00446_00293.png,train,1,1,0,random,random,train/00705_00465.png,,,,
+00447_00293.png,train,1,1,3,random,random,train/01153_00767.png mirrored,,,,
+00452_00296.png,train,1,1,0,random,random,train/01433_00952.png,,,,
+00453_00296.png,train,1,1,3,random,random,train/01203_00802.png,,,,
+00461_00301.png,train,1,1,0,random,random,train/01447_00962.png mirrored,,,,
+00463_00302.png,train,1,1,4,random,random,train/00167_00111.png,,,,
+00471_00308.png,train,1,1,2,random,random,train/00556_00369.png,,,,
+00474_00310.png,train,1,1,5,random,random,train/00989_00658.png mirrored,,,,
+00484_00316.png,train,1,1,0,random,random,train/00174_00116.png mirrored,,,,
+00485_00316.png,train,1,1,5,random,random,train/01197_00799.png,,,,
+00489_00319.png,train,1,1,0,base,nearest,train/00627_00415.png,,,,
+00490_00319.png,train,1,1,3,base,nearest,train/00989_00658.png,0,0.138672,0.9896,0.0156
+00492_00322.png,train,1,1,4,base,nearest,train/01520_01017.png mirrored,0,0.089193,0.9896,0.0156
+00493_00324.png,train,1,1,1,base,nearest,train/00638_00422.png mirrored,0,0.060547,0.9271,0.9844
+00494_00324.png,train,1,1,0,base,nearest,train/00789_00520.png,,,,
+00498_00327.png,train,1,1,0,base,nearest,train/00609_00403.png,,,,
+00499_00327.png,train,1,1,4,base,nearest,train/01460_00973.png,0,0.103516,0.9896,0.3906
+00503_00330.png,train,1,1,2,base,nearest,train/01220_00812.png mirrored,0,0.059896,0.9896,0.0156
+00504_00331.png,train,1,1,0,base,nearest,train/00158_00106.png mirrored,,,,
+00505_00331.png,train,1,1,2,base,nearest,train/01272_00846.png,0,0.08138,0.9896,0.0156
+00506_00332.png,train,1,1,0,base,nearest,train/01523_01019.png mirrored,,,,
+00507_00332.png,train,1,1,4,base,nearest,train/00472_00309.png,0,0.129557,0.9896,0.0156
+00515_00337.png,train,1,1,4,base,nearest,train/01523_01019.png mirrored,0,0.070964,0.9896,0.0156
+00524_00346.png,train,1,1,0,base,nearest,train/00177_00118.png,,,,
+00525_00346.png,train,1,1,2,base,nearest,train/00844_00557.png mirrored,0,0.06901,0.9479,0.9531
+00530_00351.png,train,1,1,2,base,nearest,train/00591_00391.png,0,0.075521,0.9896,0.0156
+00489_00319.png,train,1,1,0,self,self,train/00489_00319.png,,,,
+00490_00319.png,train,1,1,3,self,self,train/00490_00319.png,,,,
+00492_00322.png,train,1,1,4,self,self,train/00492_00322.png,,,,
+00493_00324.png,train,1,1,1,self,self,train/00493_00324.png,,,,
+00494_00324.png,train,1,1,0,self,self,train/00494_00324.png,,,,
+00498_00327.png,train,1,1,0,self,self,train/00498_00327.png,,,,
+00499_00327.png,train,1,1,4,self,self,train/00499_00327.png,,,,
+00503_00330.png,train,1,1,2,self,self,train/00503_00330.png,,,,
+00504_00331.png,train,1,1,0,self,self,train/00504_00331.png,,,,
+00505_00331.png,train,1,1,2,self,self,train/00505_00331.png,,,,
+00506_00332.png,train,1,1,0,self,self,train/00506_00332.png,,,,
+00507_00332.png,train,1,1,4,self,self,train/00507_00332.png,,,,
+00515_00337.png,train,1,1,4,self,self,train/00515_00337.png,,,,
+00524_00346.png,train,1,1,0,self,self,train/00524_00346.png,,,,
+00525_00346.png,train,1,1,2,self,self,train/00525_00346.png,,,,
+00530_00351.png,train,1,1,2,self,self,train/00530_00351.png,,,,
+00489_00319.png,train,1,1,0,random,random,train/00450_00295.png,,,,
+00490_00319.png,train,1,1,3,random,random,train/00968_00644.png,,,,
+00492_00322.png,train,1,1,4,random,random,train/00906_00601.png,,,,
+00493_00324.png,train,1,1,1,random,random,train/01500_01005.png mirrored,,,,
+00494_00324.png,train,1,1,0,random,random,train/00996_00664.png,,,,
+00498_00327.png,train,1,1,0,random,random,train/00584_00387.png,,,,
+00499_00327.png,train,1,1,4,random,random,train/00352_00229.png,,,,
+00503_00330.png,train,1,1,2,random,random,train/00999_00667.png,,,,
+00504_00331.png,train,1,1,0,random,random,train/00627_00415.png mirrored,,,,
+00505_00331.png,train,1,1,2,random,random,train/01208_00804.png,,,,
+00506_00332.png,train,1,1,0,random,random,train/01040_00693.png,,,,
+00507_00332.png,train,1,1,4,random,random,train/01497_01003.png,,,,
+00515_00337.png,train,1,1,4,random,random,train/00487_00317.png,,,,
+00524_00346.png,train,1,1,0,random,random,train/01017_00678.png,,,,
+00525_00346.png,train,1,1,2,random,random,train/00600_00397.png mirrored,,,,
+00530_00351.png,train,1,1,2,random,random,train/01512_01013.png,,,,
+00531_00352.png,train,1,1,2,base,nearest,train/00211_00139.png mirrored,0,0.109375,0.9479,0.0156
+00532_00352.png,train,1,1,0,base,nearest,train/00048_00032.png,,,,
+00568_00377.png,train,1,1,2,base,nearest,train/00417_00274.png mirrored,0,0.046875,0.9479,0.5156
+00586_00388.png,train,1,1,2,base,nearest,train/00177_00118.png,0,0.082031,0.9896,0.0156
+00592_00392.png,train,1,1,4,base,nearest,train/00968_00644.png mirrored,0,0.099609,0.9896,0.0156
+00593_00393.png,train,1,1,4,base,nearest,train/01374_00912.png mirrored,0,0.141276,0.9896,0.0156
+00616_00408.png,train,1,1,0,base,nearest,train/00650_00430.png,,,,
+00617_00408.png,train,1,1,3,base,nearest,train/00999_00667.png,1,0.111979,0.4896,0.3906
+00622_00412.png,train,1,1,3,base,nearest,train/00624_00413.png mirrored,0,0.052734,0.9896,0.0156
+00632_00418.png,train,1,1,0,base,nearest,train/01285_00854.png mirrored,,,,
+00633_00418.png,train,1,1,2,base,nearest,train/00517_00338.png,0,0.080729,0.9896,0.0156
+00635_00420.png,train,1,1,0,base,nearest,train/01482_00991.png,,,,
+00636_00420.png,train,1,1,4,base,nearest,train/00170_00113.png mirrored,0,0.116536,0.9896,0.0156
+00648_00429.png,train,1,1,0,base,nearest,train/01317_00876.png mirrored,,,,
+00649_00429.png,train,1,1,2,base,nearest,train/00245_00160.png mirrored,0,0.098958,0.9896,0.0156
+00655_00433.png,train,1,1,0,base,nearest,train/00727_00481.png,,,,
+00531_00352.png,train,1,1,2,self,self,train/00531_00352.png,,,,
+00532_00352.png,train,1,1,0,self,self,train/00532_00352.png,,,,
+00568_00377.png,train,1,1,2,self,self,train/00568_00377.png,,,,
+00586_00388.png,train,1,1,2,self,self,train/00586_00388.png,,,,
+00592_00392.png,train,1,1,4,self,self,train/00592_00392.png,,,,
+00593_00393.png,train,1,1,4,self,self,train/00593_00393.png,,,,
+00616_00408.png,train,1,1,0,self,self,train/00616_00408.png,,,,
+00617_00408.png,train,1,1,3,self,self,train/00617_00408.png,,,,
+00622_00412.png,train,1,1,3,self,self,train/00622_00412.png,,,,
+00632_00418.png,train,1,1,0,self,self,train/00632_00418.png,,,,
+00633_00418.png,train,1,1,2,self,self,train/00633_00418.png,,,,
+00635_00420.png,train,1,1,0,self,self,train/00635_00420.png,,,,
+00636_00420.png,train,1,1,4,self,self,train/00636_00420.png,,,,
+00648_00429.png,train,1,1,0,self,self,train/00648_00429.png,,,,
+00649_00429.png,train,1,1,2,self,self,train/00649_00429.png,,,,
+00655_00433.png,train,1,1,0,self,self,train/00655_00433.png,,,,
+00531_00352.png,train,1,1,2,random,random,train/00725_00480.png,,,,
+00532_00352.png,train,1,1,0,random,random,train/00134_00089.png,,,,
+00568_00377.png,train,1,1,2,random,random,train/00922_00610.png mirrored,,,,
+00586_00388.png,train,1,1,2,random,random,train/00891_00590.png mirrored,,,,
+00592_00392.png,train,1,1,4,random,random,train/00361_00235.png,,,,
+00593_00393.png,train,1,1,4,random,random,train/00789_00520.png,,,,
+00616_00408.png,train,1,1,0,random,random,train/00842_00556.png mirrored,,,,
+00617_00408.png,train,1,1,3,random,random,train/00600_00397.png mirrored,,,,
+00622_00412.png,train,1,1,3,random,random,train/00219_00144.png mirrored,,,,
+00632_00418.png,train,1,1,0,random,random,train/01430_00950.png mirrored,,,,
+00633_00418.png,train,1,1,2,random,random,train/00167_00111.png,,,,
+00635_00420.png,train,1,1,0,random,random,train/01081_00721.png mirrored,,,,
+00636_00420.png,train,1,1,4,random,random,train/00100_00065.png mirrored,,,,
+00648_00429.png,train,1,1,0,random,random,train/00377_00246.png mirrored,,,,
+00649_00429.png,train,1,1,2,random,random,train/00996_00664.png mirrored,,,,
+00655_00433.png,train,1,1,0,random,random,train/01272_00846.png mirrored,,,,
+00656_00433.png,train,1,1,4,base,nearest,train/00727_00481.png mirrored,0,0.133464,0.9896,0.0156
+00661_00437.png,train,1,1,3,base,nearest,train/00177_00118.png mirrored,0,0.10612,0.9896,0.0156
+00689_00455.png,train,1,1,2,base,nearest,train/01482_00991.png,0,0.046224,0.9896,0.0156
+00690_00456.png,train,1,1,2,base,nearest,train/00033_00023.png mirrored,0,0.073568,0.9896,0.0156
+00691_00456.png,train,1,1,0,base,nearest,train/00241_00157.png,,,,
+00702_00464.png,train,1,1,2,base,nearest,train/01043_00695.png,0,0.078776,0.9479,0.0156
+00703_00464.png,train,1,1,0,base,nearest,train/00591_00391.png mirrored,,,,
+00706_00466.png,train,1,1,0,base,nearest,train/00773_00511.png,,,,
+00707_00466.png,train,1,1,2,base,nearest,train/00773_00511.png mirrored,0,0.052734,0.9896,0.0156
+00715_00473.png,train,1,1,0,base,nearest,train/00696_00460.png,,,,
+00722_00477.png,train,1,1,3,base,nearest,train/00550_00365.png,0,0.054036,0.9896,0.0156
+00723_00479.png,train,1,1,3,base,nearest,train/00121_00082.png mirrored,0,0.03125,0.9271,0.5781
+00734_00485.png,train,1,1,2,base,nearest,train/00591_00391.png mirrored,0,0.080078,0.9896,0.0156
+00761_00502.png,train,1,1,2,base,nearest,train/00916_00607.png,0,0.051432,0.9479,0.7656
+00762_00503.png,train,1,1,2,base,nearest,train/01516_01015.png,0,0.067057,0.9896,0.0156
+00763_00503.png,train,1,1,0,base,nearest,train/00367_00240.png,,,,
+00656_00433.png,train,1,1,4,self,self,train/00656_00433.png,,,,
+00661_00437.png,train,1,1,3,self,self,train/00661_00437.png,,,,
+00689_00455.png,train,1,1,2,self,self,train/00689_00455.png,,,,
+00690_00456.png,train,1,1,2,self,self,train/00690_00456.png,,,,
+00691_00456.png,train,1,1,0,self,self,train/00691_00456.png,,,,
+00702_00464.png,train,1,1,2,self,self,train/00702_00464.png,,,,
+00703_00464.png,train,1,1,0,self,self,train/00703_00464.png,,,,
+00706_00466.png,train,1,1,0,self,self,train/00706_00466.png,,,,
+00707_00466.png,train,1,1,2,self,self,train/00707_00466.png,,,,
+00715_00473.png,train,1,1,0,self,self,train/00715_00473.png,,,,
+00722_00477.png,train,1,1,3,self,self,train/00722_00477.png,,,,
+00723_00479.png,train,1,1,3,self,self,train/00723_00479.png,,,,
+00734_00485.png,train,1,1,2,self,self,train/00734_00485.png,,,,
+00761_00502.png,train,1,1,2,self,self,train/00761_00502.png,,,,
+00762_00503.png,train,1,1,2,self,self,train/00762_00503.png,,,,
+00763_00503.png,train,1,1,0,self,self,train/00763_00503.png,,,,
+00656_00433.png,train,1,1,4,random,random,train/00609_00403.png,,,,
+00661_00437.png,train,1,1,3,random,random,train/00464_00303.png mirrored,,,,
+00689_00455.png,train,1,1,2,random,random,train/00259_00168.png,,,,
+00690_00456.png,train,1,1,2,random,random,train/00624_00413.png mirrored,,,,
+00691_00456.png,train,1,1,0,random,random,train/00671_00443.png,,,,
+00702_00464.png,train,1,1,2,random,random,train/00455_00297.png mirrored,,,,
+00703_00464.png,train,1,1,0,random,random,train/00432_00284.png mirrored,,,,
+00706_00466.png,train,1,1,0,random,random,train/01514_01014.png mirrored,,,,
+00707_00466.png,train,1,1,2,random,random,train/01162_00773.png,,,,
+00715_00473.png,train,1,1,0,random,random,train/00806_00531.png mirrored,,,,
+00722_00477.png,train,1,1,3,random,random,train/00711_00470.png,,,,
+00723_00479.png,train,1,1,3,random,random,train/00280_00182.png mirrored,,,,
+00734_00485.png,train,1,1,2,random,random,train/00885_00587.png mirrored,,,,
+00761_00502.png,train,1,1,2,random,random,train/00319_00206.png mirrored,,,,
+00762_00503.png,train,1,1,2,random,random,train/00826_00544.png mirrored,,,,
+00763_00503.png,train,1,1,0,random,random,train/00898_00596.png mirrored,,,,
+00772_00510.png,train,1,1,4,base,nearest,train/01220_00812.png,0,0.152344,0.9896,0.4531
+00777_00513.png,train,1,1,0,base,nearest,train/01285_00854.png,,,,
+00778_00513.png,train,1,1,1,base,nearest,train/00301_00195.png mirrored,0,0.044922,0.9896,0.0156
+00816_00538.png,train,1,1,0,base,nearest,train/01492_01000.png,,,,
+00817_00538.png,train,1,1,3,base,nearest,train/01220_00812.png mirrored,0,0.098307,0.9896,0.0156
+00818_00539.png,train,1,1,4,base,nearest,train/00705_00465.png mirrored,0,0.097005,0.9896,0.0156
+00822_00542.png,train,1,1,2,base,nearest,train/00786_00518.png,0,0.077474,0.9271,0.8594
+00823_00543.png,train,1,1,0,base,nearest,train/00154_00104.png,,,,
+00824_00543.png,train,1,1,2,base,nearest,train/00154_00104.png mirrored,0,0.076172,0.9896,0.0156
+00832_00548.png,train,1,1,4,base,nearest,train/00080_00053.png,0,0.037109,0.9479,0.0156
+00837_00552.png,train,1,1,5,base,nearest,train/00457_00298.png,0,0.044922,0.9896,0.0156
+00838_00552.png,train,1,1,0,base,nearest,train/00048_00032.png mirrored,,,,
+00839_00553.png,train,1,1,3,base,nearest,train/00031_00022.png mirrored,0,0.061198,0.9896,0.8906
+00846_00558.png,train,1,1,0,base,nearest,train/01124_00747.png,,,,
+00847_00558.png,train,1,1,5,base,nearest,train/00584_00387.png,1,0.091797,0.4896,0.3281
+00852_00564.png,train,1,1,4,base,nearest,train/00177_00118.png mirrored,0,0.083333,0.9896,0.0156
+00772_00510.png,train,1,1,4,self,self,train/00772_00510.png,,,,
+00777_00513.png,train,1,1,0,self,self,train/00777_00513.png,,,,
+00778_00513.png,train,1,1,1,self,self,train/00778_00513.png,,,,
+00816_00538.png,train,1,1,0,self,self,train/00816_00538.png,,,,
+00817_00538.png,train,1,1,3,self,self,train/00817_00538.png,,,,
+00818_00539.png,train,1,1,4,self,self,train/00818_00539.png,,,,
+00822_00542.png,train,1,1,2,self,self,train/00822_00542.png,,,,
+00823_00543.png,train,1,1,0,self,self,train/00823_00543.png,,,,
+00824_00543.png,train,1,1,2,self,self,train/00824_00543.png,,,,
+00832_00548.png,train,1,1,4,self,self,train/00832_00548.png,,,,
+00837_00552.png,train,1,1,5,self,self,train/00837_00552.png,,,,
+00838_00552.png,train,1,1,0,self,self,train/00838_00552.png,,,,
+00839_00553.png,train,1,1,3,self,self,train/00839_00553.png,,,,
+00846_00558.png,train,1,1,0,self,self,train/00846_00558.png,,,,
+00847_00558.png,train,1,1,5,self,self,train/00847_00558.png,,,,
+00852_00564.png,train,1,1,4,self,self,train/00852_00564.png,,,,
+00772_00510.png,train,1,1,4,random,random,train/00170_00113.png,,,,
+00777_00513.png,train,1,1,0,random,random,train/00584_00387.png,,,,
+00778_00513.png,train,1,1,1,random,random,train/01238_00823.png,,,,
+00816_00538.png,train,1,1,0,random,random,train/01508_01010.png mirrored,,,,
+00817_00538.png,train,1,1,3,random,random,train/00716_00474.png,,,,
+00818_00539.png,train,1,1,4,random,random,train/00433_00285.png mirrored,,,,
+00822_00542.png,train,1,1,2,random,random,train/01447_00962.png,,,,
+00823_00543.png,train,1,1,0,random,random,train/01520_01017.png,,,,
+00824_00543.png,train,1,1,2,random,random,train/00436_00287.png,,,,
+00832_00548.png,train,1,1,4,random,random,train/00780_00515.png,,,,
+00837_00552.png,train,1,1,5,random,random,train/00171_00114.png,,,,
+00838_00552.png,train,1,1,0,random,random,train/00711_00470.png,,,,
+00839_00553.png,train,1,1,3,random,random,train/01255_00835.png,,,,
+00846_00558.png,train,1,1,0,random,random,train/00455_00297.png mirrored,,,,
+00847_00558.png,train,1,1,5,random,random,train/00711_00470.png mirrored,,,,
+00852_00564.png,train,1,1,4,random,random,train/00780_00515.png mirrored,,,,
+00853_00564.png,train,1,1,0,base,nearest,train/01333_00887.png,,,,
+00854_00565.png,train,1,1,0,base,nearest,train/01160_00772.png,,,,
+00855_00565.png,train,1,1,2,base,nearest,train/01160_00772.png mirrored,0,0.083333,0.9479,0.4219
+00872_00577.png,train,1,1,1,base,nearest,train/00873_00578.png mirrored,0,0.007812,0.9896,0.0156
+00876_00581.png,train,1,1,1,base,nearest,train/00171_00114.png mirrored,0,0.054688,0.9479,0.8281
+00883_00585.png,train,1,1,2,base,nearest,train/00015_00010.png mirrored,0,0.060547,0.9479,0.0156
+00907_00602.png,train,1,1,0,base,nearest,train/00773_00511.png mirrored,,,,
+00908_00602.png,train,1,1,4,base,nearest,train/01302_00866.png mirrored,0,0.099609,0.9896,0.0156
+00910_00604.png,train,1,1,3,base,nearest,train/01157_00770.png,0,0.060547,0.9896,0.0156
+00919_00608.png,train,1,1,2,base,nearest,train/00543_00360.png,0,0.040365,0.9479,0.5781
+00951_00632.png,train,1,1,2,base,nearest,train/00773_00511.png mirrored,0,0.084635,0.9271,0.2031
+00977_00649.png,train,1,1,2,base,nearest,train/01523_01019.png,0,0.05599,0.9896,0.0156
+00979_00651.png,train,1,1,1,base,nearest,train/01279_00851.png,0,0.029297,0.9896,0.0156
+00981_00652.png,train,1,1,1,base,nearest,train/01005_00670.png mirrored,0,0.033854,0.9896,0.0156
+01012_00674.png,train,1,1,4,base,nearest,train/00550_00365.png,0,0.089844,0.9896,0.0156
+01019_00679.png,train,1,1,0,base,nearest,train/00749_00494.png,,,,
+00853_00564.png,train,1,1,0,self,self,train/00853_00564.png,,,,
+00854_00565.png,train,1,1,0,self,self,train/00854_00565.png,,,,
+00855_00565.png,train,1,1,2,self,self,train/00855_00565.png,,,,
+00872_00577.png,train,1,1,1,self,self,train/00872_00577.png,,,,
+00876_00581.png,train,1,1,1,self,self,train/00876_00581.png,,,,
+00883_00585.png,train,1,1,2,self,self,train/00883_00585.png,,,,
+00907_00602.png,train,1,1,0,self,self,train/00907_00602.png,,,,
+00908_00602.png,train,1,1,4,self,self,train/00908_00602.png,,,,
+00910_00604.png,train,1,1,3,self,self,train/00910_00604.png,,,,
+00919_00608.png,train,1,1,2,self,self,train/00919_00608.png,,,,
+00951_00632.png,train,1,1,2,self,self,train/00951_00632.png,,,,
+00977_00649.png,train,1,1,2,self,self,train/00977_00649.png,,,,
+00979_00651.png,train,1,1,1,self,self,train/00979_00651.png,,,,
+00981_00652.png,train,1,1,1,self,self,train/00981_00652.png,,,,
+01012_00674.png,train,1,1,4,self,self,train/01012_00674.png,,,,
+01019_00679.png,train,1,1,0,self,self,train/01019_00679.png,,,,
+00853_00564.png,train,1,1,0,random,random,train/01529_01022.png mirrored,,,,
+00854_00565.png,train,1,1,0,random,random,train/00627_00415.png mirrored,,,,
+00855_00565.png,train,1,1,2,random,random,train/00450_00295.png,,,,
+00872_00577.png,train,1,1,1,random,random,train/00653_00431.png,,,,
+00876_00581.png,train,1,1,1,random,random,train/01197_00799.png,,,,
+00883_00585.png,train,1,1,2,random,random,train/00662_00438.png mirrored,,,,
+00907_00602.png,train,1,1,0,random,random,train/00756_00499.png,,,,
+00908_00602.png,train,1,1,4,random,random,train/00158_00106.png,,,,
+00910_00604.png,train,1,1,3,random,random,train/00118_00079.png,,,,
+00919_00608.png,train,1,1,2,random,random,train/00377_00246.png,,,,
+00951_00632.png,train,1,1,2,random,random,train/00669_00442.png,,,,
+00977_00649.png,train,1,1,2,random,random,train/00118_00079.png mirrored,,,,
+00979_00651.png,train,1,1,1,random,random,train/00631_00417.png mirrored,,,,
+00981_00652.png,train,1,1,1,random,random,train/01302_00866.png,,,,
+01012_00674.png,train,1,1,4,random,random,train/00158_00106.png mirrored,,,,
+01019_00679.png,train,1,1,0,random,random,train/00844_00557.png mirrored,,,,
+01020_00679.png,train,1,1,4,base,nearest,train/00253_00164.png mirrored,0,0.132161,0.9896,0.0156
+01021_00680.png,train,1,1,4,base,nearest,train/01502_01006.png mirrored,0,0.119141,0.9479,0.5469
+01022_00681.png,train,1,1,0,base,nearest,train/00727_00481.png,,,,
+01023_00681.png,train,1,1,4,base,nearest,train/00806_00531.png,1,0.145833,0.4688,0.3906
+01025_00683.png,train,1,1,0,base,nearest,train/01182_00788.png mirrored,,,,
+01026_00683.png,train,1,1,4,base,nearest,train/01087_00724.png,0,0.135417,0.9896,0.0156
+01027_00684.png,train,1,1,3,base,nearest,train/00466_00304.png mirrored,0,0.044922,0.9896,0.0156
+01028_00685.png,train,1,1,3,base,nearest,train/01437_00955.png mirrored,0,0.0625,0.9896,0.0156
+01029_00685.png,train,1,1,0,base,nearest,train/01077_00717.png,,,,
+01045_00696.png,train,1,1,4,base,nearest,train/00551_00365.png mirrored,0,0.103516,0.9896,0.0156
+01050_00700.png,train,1,1,2,base,nearest,train/00780_00515.png,0,0.065755,0.9896,0.0156
+01051_00700.png,train,1,1,0,base,nearest,train/00529_00349.png,,,,
+01052_00701.png,train,1,1,0,base,nearest,train/00118_00079.png,,,,
+01053_00701.png,train,1,1,0,base,nearest,train/00118_00079.png mirrored,,,,
+01076_00715.png,train,1,1,4,base,nearest,train/00727_00481.png mirrored,0,0.11849,0.9896,0.0156
+01088_00725.png,train,1,1,3,base,nearest,train/01005_00670.png,0,0.052083,0.9479,0.7656
+01020_00679.png,train,1,1,4,self,self,train/01020_00679.png,,,,
+01021_00680.png,train,1,1,4,self,self,train/01021_00680.png,,,,
+01022_00681.png,train,1,1,0,self,self,train/01022_00681.png,,,,
+01023_00681.png,train,1,1,4,self,self,train/01023_00681.png,,,,
+01025_00683.png,train,1,1,0,self,self,train/01025_00683.png,,,,
+01026_00683.png,train,1,1,4,self,self,train/01026_00683.png,,,,
+01027_00684.png,train,1,1,3,self,self,train/01027_00684.png,,,,
+01028_00685.png,train,1,1,3,self,self,train/01028_00685.png,,,,
+01029_00685.png,train,1,1,0,self,self,train/01029_00685.png,,,,
+01045_00696.png,train,1,1,4,self,self,train/01045_00696.png,,,,
+01050_00700.png,train,1,1,2,self,self,train/01050_00700.png,,,,
+01051_00700.png,train,1,1,0,self,self,train/01051_00700.png,,,,
+01052_00701.png,train,1,1,0,self,self,train/01052_00701.png,,,,
+01053_00701.png,train,1,1,0,self,self,train/01053_00701.png,,,,
+01076_00715.png,train,1,1,4,self,self,train/01076_00715.png,,,,
+01088_00725.png,train,1,1,3,self,self,train/01088_00725.png,,,,
+01020_00679.png,train,1,1,4,random,random,train/01372_00911.png mirrored,,,,
+01021_00680.png,train,1,1,4,random,random,train/00644_00426.png mirrored,,,,
+01022_00681.png,train,1,1,0,random,random,train/01091_00727.png,,,,
+01023_00681.png,train,1,1,4,random,random,train/00341_00221.png mirrored,,,,
+01025_00683.png,train,1,1,0,random,random,train/01032_00687.png mirrored,,,,
+01026_00683.png,train,1,1,4,random,random,train/00417_00274.png,,,,
+01027_00684.png,train,1,1,3,random,random,train/00433_00285.png mirrored,,,,
+01028_00685.png,train,1,1,3,random,random,train/00789_00520.png mirrored,,,,
+01029_00685.png,train,1,1,0,random,random,train/00727_00481.png mirrored,,,,
+01045_00696.png,train,1,1,4,random,random,train/01417_00942.png,,,,
+01050_00700.png,train,1,1,2,random,random,train/00193_00127.png mirrored,,,,
+01051_00700.png,train,1,1,0,random,random,train/00683_00451.png mirrored,,,,
+01052_00701.png,train,1,1,0,random,random,train/01526_01021.png,,,,
+01053_00701.png,train,1,1,0,random,random,train/01074_00713.png,,,,
+01076_00715.png,train,1,1,4,random,random,train/00171_00114.png,,,,
+01088_00725.png,train,1,1,3,random,random,train/01302_00866.png mirrored,,,,
+01089_00725.png,train,1,1,0,base,nearest,train/00352_00229.png,,,,
+01096_00730.png,train,1,1,0,base,nearest,train/00529_00349.png mirrored,,,,
+01097_00730.png,train,1,1,4,base,nearest,train/00121_00082.png mirrored,0,0.124349,0.9479,0.2969
+01098_00731.png,train,1,1,0,base,nearest,train/01285_00854.png mirrored,,,,
+01099_00731.png,train,1,1,3,base,nearest,train/01285_00854.png,0,0.049479,0.9896,0.0156
+01108_00737.png,train,1,1,0,base,nearest,train/00605_00401.png mirrored,,,,
+01109_00737.png,train,1,1,4,base,nearest,train/00705_00465.png mirrored,0,0.121094,0.9896,0.0156
+01171_00779.png,train,1,1,3,base,nearest,train/00206_00136.png mirrored,0,0.072917,0.9479,0.0156
+01172_00780.png,train,1,1,2,base,nearest,train/00130_00087.png mirrored,0,0.065755,0.9479,0.4219
+01173_00781.png,train,1,1,0,base,nearest,train/00301_00195.png mirrored,,,,
+01174_00781.png,train,1,1,2,base,nearest,train/00415_00273.png mirrored,0,0.065104,0.9896,0.0156
+01178_00785.png,train,1,1,3,base,nearest,train/00206_00136.png mirrored,0,0.061198,0.9479,0.2344
+01179_00786.png,train,1,1,2,base,nearest,train/00450_00295.png mirrored,0,0.059245,0.9896,0.0156
+01180_00786.png,train,1,1,0,base,nearest,train/00118_00079.png mirrored,,,,
+01192_00795.png,train,1,1,2,base,nearest,train/00624_00413.png,0,0.089193,0.9896,0.0156
+01193_00795.png,train,1,1,0,base,nearest,train/00609_00403.png mirrored,,,,
+01089_00725.png,train,1,1,0,self,self,train/01089_00725.png,,,,
+01096_00730.png,train,1,1,0,self,self,train/01096_00730.png,,,,
+01097_00730.png,train,1,1,4,self,self,train/01097_00730.png,,,,
+01098_00731.png,train,1,1,0,self,self,train/01098_00731.png,,,,
+01099_00731.png,train,1,1,3,self,self,train/01099_00731.png,,,,
+01108_00737.png,train,1,1,0,self,self,train/01108_00737.png,,,,
+01109_00737.png,train,1,1,4,self,self,train/01109_00737.png,,,,
+01171_00779.png,train,1,1,3,self,self,train/01171_00779.png,,,,
+01172_00780.png,train,1,1,2,self,self,train/01172_00780.png,,,,
+01173_00781.png,train,1,1,0,self,self,train/01173_00781.png,,,,
+01174_00781.png,train,1,1,2,self,self,train/01174_00781.png,,,,
+01178_00785.png,train,1,1,3,self,self,train/01178_00785.png,,,,
+01179_00786.png,train,1,1,2,self,self,train/01179_00786.png,,,,
+01180_00786.png,train,1,1,0,self,self,train/01180_00786.png,,,,
+01192_00795.png,train,1,1,2,self,self,train/01192_00795.png,,,,
+01193_00795.png,train,1,1,0,self,self,train/01193_00795.png,,,,
+01089_00725.png,train,1,1,0,random,random,train/00826_00544.png mirrored,,,,
+01096_00730.png,train,1,1,0,random,random,train/01329_00884.png,,,,
+01097_00730.png,train,1,1,4,random,random,train/00905_00601.png mirrored,,,,
+01098_00731.png,train,1,1,0,random,random,train/01495_01002.png,,,,
+01099_00731.png,train,1,1,3,random,random,train/00316_00204.png mirrored,,,,
+01108_00737.png,train,1,1,0,random,random,train/01011_00673.png mirrored,,,,
+01109_00737.png,train,1,1,4,random,random,train/00894_00592.png mirrored,,,,
+01171_00779.png,train,1,1,3,random,random,train/00211_00139.png,,,,
+01172_00780.png,train,1,1,2,random,random,train/00540_00358.png,,,,
+01173_00781.png,train,1,1,0,random,random,train/01300_00865.png mirrored,,,,
+01174_00781.png,train,1,1,2,random,random,train/00130_00087.png mirrored,,,,
+01178_00785.png,train,1,1,3,random,random,train/00031_00022.png,,,,
+01179_00786.png,train,1,1,2,random,random,train/00683_00451.png,,,,
+01180_00786.png,train,1,1,0,random,random,train/00683_00451.png mirrored,,,,
+01192_00795.png,train,1,1,2,random,random,train/01460_00973.png mirrored,,,,
+01193_00795.png,train,1,1,0,random,random,train/01105_00735.png mirrored,,,,
+01209_00805.png,train,1,1,3,base,nearest,train/00417_00274.png,0,0.063151,0.9896,0.5156
+01210_00806.png,train,1,1,2,base,nearest,train/01005_00670.png mirrored,0,0.079427,0.9896,0.0156
+01211_00806.png,train,1,1,0,base,nearest,train/00487_00317.png mirrored,,,,
+01219_00811.png,train,1,1,5,base,nearest,train/00543_00360.png mirrored,0,0.079427,0.9271,0.2344
+01227_00816.png,train,1,1,2,base,nearest,train/01374_00912.png mirrored,0,0.074219,0.9479,0.4531
+01228_00816.png,train,1,1,0,base,nearest,train/01158_00771.png,,,,
+01273_00847.png,train,1,1,3,base,nearest,train/00578_00384.png,0,0.130208,0.9896,0.0156
+01274_00848.png,train,1,1,2,base,nearest,train/00626_00414.png,0,0.044922,0.9896,0.0156
+01324_00881.png,train,1,1,4,base,nearest,train/00828_00546.png mirrored,0,0.123047,0.9896,0.0156
+01330_00885.png,train,1,1,2,base,nearest,train/01296_00862.png,0,0.044922,0.9896,0.3281
+01335_00888.png,train,1,1,1,base,nearest,train/00033_00023.png,0,0.028646,0.9479,0.5781
+01336_00888.png,train,1,1,0,base,nearest,train/00361_00235.png mirrored,,,,
+01340_00891.png,train,1,1,2,base,nearest,train/00653_00431.png,0,0.049479,0.9896,0.0156
+01361_00904.png,train,1,1,0,base,nearest,train/00393_00259.png mirrored,,,,
+01362_00904.png,train,1,1,2,base,nearest,train/01040_00693.png mirrored,0,0.077474,0.9896,0.0156
+01370_00910.png,train,1,1,4,base,nearest,train/01483_00992.png mirrored,0,0.136068,0.9479,0.8281
+01209_00805.png,train,1,1,3,self,self,train/01209_00805.png,,,,
+01210_00806.png,train,1,1,2,self,self,train/01210_00806.png,,,,
+01211_00806.png,train,1,1,0,self,self,train/01211_00806.png,,,,
+01219_00811.png,train,1,1,5,self,self,train/01219_00811.png,,,,
+01227_00816.png,train,1,1,2,self,self,train/01227_00816.png,,,,
+01228_00816.png,train,1,1,0,self,self,train/01228_00816.png,,,,
+01273_00847.png,train,1,1,3,self,self,train/01273_00847.png,,,,
+01274_00848.png,train,1,1,2,self,self,train/01274_00848.png,,,,
+01324_00881.png,train,1,1,4,self,self,train/01324_00881.png,,,,
+01330_00885.png,train,1,1,2,self,self,train/01330_00885.png,,,,
+01335_00888.png,train,1,1,1,self,self,train/01335_00888.png,,,,
+01336_00888.png,train,1,1,0,self,self,train/01336_00888.png,,,,
+01340_00891.png,train,1,1,2,self,self,train/01340_00891.png,,,,
+01361_00904.png,train,1,1,0,self,self,train/01361_00904.png,,,,
+01362_00904.png,train,1,1,2,self,self,train/01362_00904.png,,,,
+01370_00910.png,train,1,1,4,self,self,train/01370_00910.png,,,,
+01209_00805.png,train,1,1,3,random,random,train/00898_00596.png,,,,
+01210_00806.png,train,1,1,2,random,random,train/01433_00952.png mirrored,,,,
+01211_00806.png,train,1,1,0,random,random,train/00247_00161.png,,,,
+01219_00811.png,train,1,1,5,random,random,train/00237_00155.png,,,,
+01227_00816.png,train,1,1,2,random,random,train/00626_00414.png,,,,
+01228_00816.png,train,1,1,0,random,random,train/01272_00846.png mirrored,,,,
+01273_00847.png,train,1,1,3,random,random,train/01153_00767.png mirrored,,,,
+01274_00848.png,train,1,1,2,random,random,train/00935_00622.png mirrored,,,,
+01324_00881.png,train,1,1,4,random,random,train/00786_00518.png,,,,
+01330_00885.png,train,1,1,2,random,random,train/00716_00474.png,,,,
+01335_00888.png,train,1,1,1,random,random,train/01406_00935.png mirrored,,,,
+01336_00888.png,train,1,1,0,random,random,train/00905_00601.png,,,,
+01340_00891.png,train,1,1,2,random,random,train/00669_00442.png mirrored,,,,
+01361_00904.png,train,1,1,0,random,random,train/01439_00957.png mirrored,,,,
+01362_00904.png,train,1,1,2,random,random,train/01372_00911.png,,,,
+01370_00910.png,train,1,1,4,random,random,train/00371_00242.png mirrored,,,,
+01387_00921.png,train,1,1,4,base,nearest,train/00749_00494.png,0,0.129557,0.9896,0.0156
+01388_00921.png,train,1,1,0,base,nearest,train/00871_00576.png,,,,
+01402_00932.png,train,1,1,0,base,nearest,train/01333_00887.png mirrored,,,,
+01403_00932.png,train,1,1,2,base,nearest,train/00415_00273.png,0,0.034505,0.9479,0.5156
+01404_00933.png,train,1,1,2,base,nearest,train/00626_00414.png mirrored,0,0.059896,0.9479,0.9844
+01418_00943.png,train,1,1,0,base,nearest,train/00806_00531.png,,,,
+01419_00943.png,train,1,1,2,base,nearest,train/01043_00695.png,0,0.050781,0.9479,0.0156
+01422_00945.png,train,1,1,1,base,nearest,train/01329_00884.png mirrored,0,0.022135,0.9896,0.0156
+01427_00948.png,train,1,1,0,base,nearest,train/00481_00314.png mirrored,,,,
+01428_00948.png,train,1,1,3,base,nearest,train/00930_00617.png mirrored,0,0.078125,0.9479,0.4844
+01435_00954.png,train,1,1,2,base,nearest,train/01423_00946.png mirrored,0,0.078125,0.9896,0.7969
+01464_00976.png,train,1,1,2,base,nearest,train/00026_00019.png mirrored,0,0.04362,0.9479,0.4219
+01465_00976.png,train,1,1,0,base,nearest,train/00937_00623.png mirrored,,,,
+01471_00983.png,train,1,1,2,base,nearest,train/00211_00139.png mirrored,0,0.032552,0.9688,0.0781
+01477_00988.png,train,1,1,4,base,nearest,train/01423_00946.png mirrored,0,0.108073,0.9896,0.7969
+01478_00988.png,train,1,1,0,base,nearest,train/00060_00040.png,,,,
+01387_00921.png,train,1,1,4,self,self,train/01387_00921.png,,,,
+01388_00921.png,train,1,1,0,self,self,train/01388_00921.png,,,,
+01402_00932.png,train,1,1,0,self,self,train/01402_00932.png,,,,
+01403_00932.png,train,1,1,2,self,self,train/01403_00932.png,,,,
+01404_00933.png,train,1,1,2,self,self,train/01404_00933.png,,,,
+01418_00943.png,train,1,1,0,self,self,train/01418_00943.png,,,,
+01419_00943.png,train,1,1,2,self,self,train/01419_00943.png,,,,
+01422_00945.png,train,1,1,1,self,self,train/01422_00945.png,,,,
+01427_00948.png,train,1,1,0,self,self,train/01427_00948.png,,,,
+01428_00948.png,train,1,1,3,self,self,train/01428_00948.png,,,,
+01435_00954.png,train,1,1,2,self,self,train/01435_00954.png,,,,
+01464_00976.png,train,1,1,2,self,self,train/01464_00976.png,,,,
+01465_00976.png,train,1,1,0,self,self,train/01465_00976.png,,,,
+01471_00983.png,train,1,1,2,self,self,train/01471_00983.png,,,,
+01477_00988.png,train,1,1,4,self,self,train/01477_00988.png,,,,
+01478_00988.png,train,1,1,0,self,self,train/01478_00988.png,,,,
+01387_00921.png,train,1,1,4,random,random,train/01074_00713.png,,,,
+01388_00921.png,train,1,1,0,random,random,train/00428_00281.png mirrored,,,,
+01402_00932.png,train,1,1,0,random,random,train/01272_00846.png,,,,
+01403_00932.png,train,1,1,2,random,random,train/00247_00161.png mirrored,,,,
+01404_00933.png,train,1,1,2,random,random,train/01157_00770.png,,,,
+01418_00943.png,train,1,1,0,random,random,train/00158_00106.png,,,,
+01419_00943.png,train,1,1,2,random,random,train/01285_00854.png mirrored,,,,
+01422_00945.png,train,1,1,1,random,random,train/01276_00849.png mirrored,,,,
+01427_00948.png,train,1,1,0,random,random,train/00324_00208.png mirrored,,,,
+01428_00948.png,train,1,1,3,random,random,train/00591_00391.png mirrored,,,,
+01435_00954.png,train,1,1,2,random,random,train/00725_00480.png,,,,
+01464_00976.png,train,1,1,2,random,random,train/00170_00113.png,,,,
+01465_00976.png,train,1,1,0,random,random,train/01302_00866.png mirrored,,,,
+01471_00983.png,train,1,1,2,random,random,train/00961_00638.png mirrored,,,,
+01477_00988.png,train,1,1,4,random,random,train/00783_00516.png mirrored,,,,
+01478_00988.png,train,1,1,0,random,random,train/00765_00504.png,,,,
+01518_01016.png,train,1,1,4,base,nearest,train/00894_00592.png,0,0.08138,0.9896,0.0156
+01518_01016.png,train,1,1,4,self,self,train/01518_01016.png,,,,
+01518_01016.png,train,1,1,4,random,random,train/00671_00443.png,,,,

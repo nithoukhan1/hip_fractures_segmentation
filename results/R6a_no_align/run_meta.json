@@ -1,0 +1,9 @@
+{
+  "run": "R6a_no_align",
+  "step": "5",
+  "git_commit": "1c88912c8040d81a7a44620c7347ba4c726d86a0",
+  "command": "/usr/bin/python3 /tmp/code/scripts/train_net.py --net ref:convnext_tiny.fb_in22k_ft_in1k:R6a --size 768x512 --epochs 60 --batch 16 --folds 0,1,2,3,4 --gpus 0,1 --extra-tests self,random --out /kaggle/working/results/R6a_no_align",
+  "started_utc": "2026-11-27T12:17:25Z",
+  "runtime_minutes": 230.41,
+  "exit_code": 0
+}

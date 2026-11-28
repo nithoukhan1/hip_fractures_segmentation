@@ -289,3 +289,27 @@ Written on 2026-11-27, after the four development runs and before any final R ru
 - **Created** by the person on 2026-11-27 on `1c88912`, the merge of PR #14 (Step 18). Milestone M2-B is reached.
 - **Its files are identical to `3c52ed7`** (Step 18). Its training code is identical to `2619b39`, which trained the development runs: `scripts/train_net.py`, `src/femurseg/`, `kaggle/run.py` and `kaggle/launcher.ipynb` have no difference between the two commits.
 - **Every final R run** is launched with `BRANCH = "B-v1-frozen"`, and its log must show `1c88912`.
+
+## 10. Addendum (2026-11-28): results of the final runs (C13–C16)
+
+All eight final runs (R1–R7, register lines 31–38) were trained from `1c88912` on 5/5 folds, about 28.6 h of T4 x2 session time in total. The analyses were run as §5 fixed them, with one tool added: `scripts/run_refstats.py` (Garden I-II McNemar, subgroups, reference tests and R7's modes), because `run_stats.py` has no test for Garden I-II recall. Reports: `results/analysis/C13_paperB_reference/`, `C14_paperB_partner/`, `C15_paperB_components/`, `C16_paperB_main_table/` (each `report.md`).
+
+**Choices made at the analysis stage, before reading the affected numbers:**
+- Garden I-II recall is compared with an exact McNemar test on the Garden I-II femurs (as accuracy elsewhere) and a cluster-bootstrap interval; Holm across the pairs of each analysis.
+- "The smallest third of masks" is each part's own lower tertile of released mask area among fractured femurs (test masks are smaller, C01).
+- A swap test is read at the threshold of the mode it replaces; R7's blind and retrieved modes get their own OOF Youden thresholds (rule 4 of §3).
+
+**Results:**
+
+| Question | Answer | Evidence |
+|---|---|---|
+| RQ-B1, Dice: does a healthy reference help? | **No** | every Dice difference ≤ .005, OOF and test, also in the subgroups (C13) |
+| RQ-B1, Garden I-II recall | **Trend, not significant** | OOF M0 .544 < R2 .614 < R3 .684 < R4 .702; R4 vs M0 +.158, 12 vs 3, p .035, Holm .14; test .312 = .312; folds 1–4 +.109 (C13) |
+| RQ-B1: does retrieval matter? | **No** | R3 vs R2 n.s.; a random reference at prediction time changes nothing (C13) |
+| Is the reference used? | **Yes, as "different from healthy"** | self test: R4 loses 201 of 663 fractures, Garden I-II .702 → .158; pointing game 4–9 × chance (C13 §4) |
+| RQ-B2: own hip vs retrieved | **No difference** | R7 blind vs retrieved Dice −.001 (Holm .10), vs R3 −.000 (C14) |
+| RQ-B3: pairing shortcut | **Not learnt** | a fractured partner does not raise P(fracture) of healthy femurs (.0071 vs .0093); base = blind decisions (C14) |
+| RQ-B4: alignment and fusion | **No effect on accuracy** | Dice and macro-F1 n.s.; Garden I-II R4 > R6a (8 vs 0, Holm .031), other variants Holm .06–.08; test none (C15) |
+| Main table | **R4 ties M0** | OOF beats S01 (+.081 macro-F1, +.037 Dice), S05, S06, and S07–S09 on Dice; test: not better than M0 or S01 (C16) |
+
+**Consequence for Paper B:** the pre-registered primary hypothesis (a reference improves Dice and Garden I-II recall) is not confirmed. The defensible paper is an analysis of reference-based comparison: it is used, its match does not matter, the patient's own hip is not better, and there is no pairing shortcut; the Garden I-II gain is an exploratory out-of-fold trend. How to frame Paper B is a decision for the person (as for Paper A).
