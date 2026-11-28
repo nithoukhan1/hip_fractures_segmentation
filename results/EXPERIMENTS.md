@@ -11,6 +11,7 @@ Every Kaggle run gets one line in the table at the **bottom** of this file. `scr
   - C11 = Paper A's second-seed check; C12 = Paper B's fold-0 development runs vs M0.
   - C07 = Paper A's ablation chain (A0–A6); C08 = Paper A's interpretability tests (oracle, region deletion, risk–coverage, geometry; §2b SLG-Net vs M0 under deletion with `A1_m0_deletion`); C09 = Paper A's main table (A6 against every baseline).
   - C13 = Paper B's reference question (RQ-B1: M0, R2, R3, R4, plus the reference tests of every R run); C14 = R7, the own other hip and the pairing shortcut (RQ-B2, RQ-B3); C15 = alignment, fusion and AASN (RQ-B4: R4 vs R1, R5, R6a, R6b); C16 = Paper B's main table (R4 against every baseline). Garden I-II tests, subgroups and R7's modes: `scripts/run_refstats.py`.
+  - C17 = ensembles of saved predictions (M0, a second M0, SLG-Net, RefFrac; exploratory, no GPU): `scripts/run_ensemble.py`.
 - Details of each run are in `results/<RUN>/NOTES.md`.
 
 ## Planned next runs (from Analysis/04 §7, Analysis/06 and Analysis/08)

@@ -60,7 +60,7 @@ Details: [`PROJECT_TRACKER.md`](PROJECT_TRACKER.md) (overall) and [`PROGRESS_LOG
 │                           run_interpretability.py (C08: Paper A's oracle, deletion, risk–coverage and
 │                           geometry tests), map_geometry.py (region geometry from saved maps; runs on a laptop),
 │                           run_refstats.py (C13–C16: Paper B's Garden I-II tests, subgroups, reference tests
-│                           and R7's modes)
+│                           and R7's modes), run_ensemble.py (C17: ensembles of saved predictions)
 ├── tests/                  checks of metrics, statistics, folds, the article's numbers, the breakdown, Paper A's
 │                           interpretability analysis and region geometry, Paper B's analysis tools, the networks, SLG-Net and RefFrac,
 │                           Paper B's reference bank, the Kaggle launcher's data check, and CPU smoke tests of
@@ -75,7 +75,7 @@ Details: [`PROJECT_TRACKER.md`](PROJECT_TRACKER.md) (overall) and [`PROGRESS_LOG
 │   │                       C07 = Paper A's ablation chain, C08 = Paper A's interpretability tests, C09 = Paper
 │   │                       A's main table, C10 = Paper B's orientation, C11 = Paper A's second seed, C12 =
 │   │                       Paper B's fold-0 development, C13–C16 = Paper B's reference question, own hip,
-│   │                       components and main table, M1_baseline_table = all ten baselines)
+│   │                       components and main table, C17 = ensembles, M1_baseline_table = all ten baselines)
 │   └── _inbox/             drop zips downloaded from Kaggle here
 └── manuscript/             paper drafts, tables and figures (later)
 ```
