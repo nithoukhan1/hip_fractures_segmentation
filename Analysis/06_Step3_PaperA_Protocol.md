@@ -307,9 +307,9 @@ Written on 2026-11-27, after the five final runs were filed and C11 had confirme
 - The sensitivity runs of §7 (about 8 h) wait for that decision.
 - A6's geometry test is completed when its maps arrive.
 
-## 13. Addendum (2026-11-27): a deletion test for M0, fixed before its run
+## 13. Addendum (2026-11-28): a deletion test for M0, fixed before its run
 
-Written on 2026-11-27, after the person chose this option (the framing decision that followed C07–C09) and before the run was launched. §1–§12 are unchanged.
+Written on 2026-11-28, after the person chose this option on 2026-11-28 (the framing decision that followed C07–C09) and before the run was launched. §1–§12 are unchanged.
 
 **Why.** C08 shows that deleting the predicted region costs SLG-Net (A6) 64.7% of its correct fractured decisions, against 1.3% for the control. Without the same test for M0, this does not show that SLG-Net relies on the region more than a model whose head never sees the region (§12, limit).
 
