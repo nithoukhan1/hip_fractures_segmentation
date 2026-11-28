@@ -50,7 +50,7 @@ Correct decisions lost, per true class (deletion / control, of those correct at 
 
 Where the control went (fractured femurs; test: each of the 5 fold models' own deletion): OOF: dimmer 13, matched 649, no_region 17, none 1; test ensemble: dimmer 6, matched 700, no_region 9, none 10.
 
-## 2b. Paired deletion comparison (Analysis/06 §13): A6_slgnet (A) vs A1_m0_deletion (B)
+## 2b. Paired deletion comparison (Analysis/06 section 13): A6_slgnet (A) vs A1_m0_deletion (B)
 
 Femurs: fractured, classified correctly at base by both runs. Share lost = becomes wrong under deletion. McNemar on the femurs only one run loses (mid-p decides); difference A − B with a cluster-bootstrap 95% interval. ΔP(true class): all fractured femurs, Wilcoxon (Pratt).
 
@@ -60,7 +60,7 @@ Femurs: fractured, classified correctly at base by both runs. Share lost = becom
 | test ensemble | 116 | 76 (65.5%) / 61 (52.6%) | 19 / 4 | +12.9 points (+5.2 to +20.7) | .002; .003 | 0 / 1 | -0.538 / -0.476; < .001 |
 
 Each run's own control loss out of fold (of its own correct fractured femurs): A6_slgnet 1.3%, A1_m0_deletion 1.4%.
-**Verdict by the rule of §13:** A depends on the region more than B (OOF p < .05, test the same direction).
+**Verdict by the rule of section 13:** A depends on the region more than B (OOF p < .05, test the same direction).
 
 ## 3. Risk-coverage: setting aside the least confident decisions
 
@@ -85,7 +85,7 @@ Confidence = the probability of the decided class (raw, before temperature scali
 
 ## 4. Geometry consistency: does the region agree with the decided location and grade?
 
-Location rule: centroid height (relative to the image) below 0.389 = neck, below 0.488 = pertrochanteric, otherwise subtrochanteric; fitted on 680 OOF fractures (released masks). Garden: region height; Evans: region area (Report 03 §2). AUCs with DeLong 95% intervals.
+Location rule: centroid height (relative to the image) below 0.389 = neck, below 0.488 = pertrochanteric, otherwise subtrochanteric; fitted on 680 OOF fractures (released masks). Garden: region height; Evans: region area (Report 03 section 2). AUCs with DeLong 95% intervals.
 
 | Run | Part | Location: rule on the region = decided location | Garden: height vs decided grade, AUC | Evans: area vs decided grade, AUC | Garden: height vs released grade | Evans: area vs released grade | Region check (areas vs per-case file) |
 |---|---|---|---|---|---|---|---|

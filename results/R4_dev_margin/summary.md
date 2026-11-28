@@ -1,6 +1,6 @@
 # R4_dev_margin: summary
 
-Network `ref:convnext_tiny.fb_in22k_ft_in1k:R4`, input 768 x 512, 60 epochs, batch 16 (micro-batch 16 x 1), lr 0.0002, final weights. RefFrac R4: 3 reference(s) per femur (nearest), alignment attention (window +-0.125 of the image height), fusion difference, margin loss 0.5; references encoded by the shared encoder without gradient.
+Network `ref:convnext_tiny.fb_in22k_ft_in1k:R4`, input 768 x 512, 60 epochs, batch 16 (micro-batch 16 x 1), lr 0.0002, final weights. RefFrac: 3 reference(s) per femur (nearest), alignment attention (window +-0.125 of the image height), fusion difference, margin loss 0.5; references encoded by the shared encoder without gradient.
 Folds completed [0], skipped [], failed []. Runtime 81.9 min on Tesla T4.
 
 ## Fracture threshold fitted on the OOF predictions (Youden): 0.9745
@@ -31,7 +31,7 @@ Folds completed [0], skipped [], failed []. Runtime 81.9 min on Tesla T4.
 | Dice, detected fractures only | 0.790 |
 | NSD at 10 px, fractured femurs | 0.228 |
 
-## Reference tests (RefFrac, Analysis/08 §2.6), at the OOF threshold
+## Reference tests (RefFrac, Analysis/08 section 2.6), at the OOF threshold
 
 | Mode | OOF Dice, fractured | OOF macro-F1 | OOF Garden I-II recall | Change of P(fracture), fractured | Change of P(fracture), healthy | Healthy femurs that become fractured |
 |---|---|---|---|---|---|---|

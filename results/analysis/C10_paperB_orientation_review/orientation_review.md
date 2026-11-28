@@ -1,4 +1,4 @@
-# C10: review of Paper B's orientation rule (Analysis/07 §8)
+# Orientation review: review of Paper B's orientation rule (Analysis/07 section 8)
 
 Made by `scripts/check_orientation.py` from the released images of all 1253 femurs (96 x 64 thumbnails; no label used) in 37 s.
 

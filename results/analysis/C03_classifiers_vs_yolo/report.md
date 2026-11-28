@@ -1,4 +1,4 @@
-# C03: Do image classifiers grade better than YOLO? Does our retraining reproduce the article's classifiers?
+# Classifier analysis: Do image classifiers grade better than YOLO? Does our retraining reproduce the article's classifiers?
 
 *Written 2026-11-27 from the filed runs:*
 - `results/S01_yolov8s_seg_1024/` (register line 3);
@@ -10,14 +10,14 @@
 - `breakdown.md` / `breakdown.json`: per class, per fold and fold model, errors, comparison with the article (`python scripts/run_breakdown.py` with the same four runs and `--name C03_classifiers_vs_yolo`).
 
 **What differs.**
-- **S01** is the article's final model, YOLOv8s-seg at 1024 px, trained as in the article. It decides from detected instances.
-- **S04, S05 and S06** are plain image classifiers at 768 × 512 with the shared Step 2 recipe (`Analysis/05_Step2_Baselines_Protocol.md`). They are DenseNet121 (the article's best classifier), EfficientNet-B4 (an article baseline) and ConvNeXt-T (= A0).
+- **YOLOv8s-seg** is the article's final model, YOLOv8s-seg at 1024 px, trained as in the article. It decides from detected instances.
+- **DenseNet-121, EfficientNet-B4 and ConvNeXt-T classifier** are plain image classifiers at 768 × 512 with the shared Step 2 recipe (`Analysis/05_Step2_Baselines_Protocol.md`). They are DenseNet121 (the article's best classifier), EfficientNet-B4 (an article baseline) and ConvNeXt-T (= ConvNeXt-T classifier).
 - All four use the same folds, the same decision rule and the same threshold rule (Youden on the pooled out-of-fold femurs).
 - The classifiers have no mask, so this analysis is about classification only.
 
 ## 1. Verdict: on the 1,043 out-of-fold femurs, DenseNet121 and ConvNeXt-T classify better than YOLO; on the 210 test femurs, YOLO's ensemble is ahead, not significantly
 
-| Endpoint | S01 YOLOv8s-seg | S04 DenseNet121 | S05 EfficientNet-B4 | S06 ConvNeXt-T |
+| Endpoint | YOLOv8s-seg | DenseNet-121 | EfficientNet-B4 | ConvNeXt-T classifier |
 |---|---|---|---|---|
 | **OOF, 1,043 femurs:** fracture AUC | .975 (.967–.983) | **.992** (.987–.996) | .990 (.985–.995) | .990 (.984–.995) |
 | 6-class accuracy | 83.2% (81.0–85.4) | **86.8%** (84.6–88.6) | 84.8% (82.6–86.8) | 86.4% (84.3–88.4) |
@@ -31,13 +31,13 @@
 
 Intervals: 95% cluster bootstrap over x-rays.
 
-**Paired tests against S01** (classifier − YOLO, Holm within each pair):
+**Paired tests against YOLOv8s-seg** (classifier − YOLO, Holm within each pair):
 
 | | OOF accuracy | OOF macro-F1 | OOF AUC | Test-ensemble accuracy | Test-ensemble macro-F1 |
 |---|---|---|---|---|---|
-| S04 DenseNet121 | **+3.5 points (p = .002)** | **+.058 (p = .002)** | **+.016 (p < .001)** | −2.4 points (p = .95) | −.086 (p = .24) |
-| S05 EfficientNet-B4 | +1.5 points (p = .38) | +.011 (p = .59) | **+.015 (p = .001)** | −7.1 points (p = .067) | −.101 (p = .070) |
-| S06 ConvNeXt-T | **+3.2 points (p = .009)** | +.039 (p = .050) | **+.015 (p = .003)** | −3.3 points (p = .53) | −.103 (p = .12) |
+| DenseNet-121 | **+3.5 points (p = .002)** | **+.058 (p = .002)** | **+.016 (p < .001)** | −2.4 points (p = .95) | −.086 (p = .24) |
+| EfficientNet-B4 | +1.5 points (p = .38) | +.011 (p = .59) | **+.015 (p = .001)** | −7.1 points (p = .067) | −.101 (p = .070) |
+| ConvNeXt-T classifier | **+3.2 points (p = .009)** | +.039 (p = .050) | **+.015 (p = .003)** | −3.3 points (p = .53) | −.103 (p = .12) |
 
 1. **Out of fold, the classifiers find fractures better than YOLO.**
    - Fracture AUC is .990–.992 against .975, significant for all three.
@@ -54,7 +54,7 @@ Intervals: 95% cluster bootstrap over x-rays.
 
 ## 2. Where the differences come from
 
-| Errors (as in the article) | S01 OOF | S04 OOF | S05 OOF | S06 OOF | S01 test ens. | S04 test ens. | S05 test ens. | S06 test ens. |
+| Errors (as in the article) | YOLOv8s-seg OOF | DenseNet-121 OOF | EfficientNet-B4 OOF | ConvNeXt-T classifier OOF | YOLOv8s-seg test ens. | DenseNet-121 test ens. | EfficientNet-B4 test ens. | ConvNeXt-T classifier test ens. |
 |---|---|---|---|---|---|---|---|---|
 | Detection (fracture vs none) | **62** | 32 | 40 | 31 | 6 | 4 | 12 | 3 |
 | Location | 37 | 39 | 44 | 43 | **2** | 9 | 8 | 9 |
@@ -84,22 +84,22 @@ Intervals: 95% cluster bootstrap over x-rays.
 
 | Run | Temperature | OOF ECE before → after | Test-ensemble ECE before → after |
 |---|---|---|---|
-| S01 YOLOv8s-seg | not applicable | .079 | .083 |
-| S04 DenseNet121 | 2.44 | .116 → .026 | .083 → .055 |
-| S05 EfficientNet-B4 | 3.27 | .122 → .025 | .104 → .064 |
-| S06 ConvNeXt-T | 3.43 | .127 → .046 | .102 → .066 |
+| YOLOv8s-seg | not applicable | .079 | .083 |
+| DenseNet-121 | 2.44 | .116 → .026 | .083 → .055 |
+| EfficientNet-B4 | 3.27 | .122 → .025 | .104 → .064 |
+| ConvNeXt-T classifier | 3.43 | .127 → .046 | .102 → .066 |
 
 - All three classifiers are over-confident, and a single temperature fitted on the OOF femurs removes most of it.
 - YOLO's confidences are better calibrated before any scaling. A temperature cannot be fitted for YOLO: 99 of its 1,043 OOF femurs get probability 0 for their true class.
-- S05 has one OOF femur whose true class is written as probability 0, below the 8 decimals of the per-case file. `scripts/run_stats.py` now reads such a written 0 as 10⁻¹² for network runs (2026-11-27), as it already did for every other class.
-  - S05's temperature lies between 3.19 and 3.27, depending on how that one femur is treated, and its OOF ECE after scaling between .025 and .026.
+- EfficientNet-B4 has one OOF femur whose true class is written as probability 0, below the 8 decimals of the per-case file. `scripts/run_stats.py` now reads such a written 0 as 10⁻¹² for network runs (2026-11-27), as it already did for every other class.
+  - EfficientNet-B4's temperature lies between 3.19 and 3.27, depending on how that one femur is treated, and its OOF ECE after scaling between .025 and .026.
   - Every other value in this table is unchanged by the fix.
 
 ## 5. Decision
 
-- **Image classifiers are kept as baselines in both papers.** DenseNet121 (S04) is the strongest plain classifier and joins Paper A's main table (C09) next to S01, S06 and M0.
-- **ConvNeXt-T stays the backbone of M0, SLG-Net and RefFrac.**
+- **Image classifiers are kept as baselines in both papers.** DenseNet121 (DenseNet-121) is the strongest plain classifier and joins Paper A's main table (SLG-Net main-table analysis) next to YOLOv8s-seg, ConvNeXt-T classifier and ConvNeXt U-Net.
+- **ConvNeXt-T stays the backbone of ConvNeXt U-Net, SLG-Net and RefFrac.**
   - It is as good as DenseNet121 here (no significant difference).
-  - It is the backbone for which M0's mask task was shown to help (C05: M0 OOF macro-F1 .825, above every model in this table).
-- **What the next models must fix is the same for all baselines:** grade errors within a location (Garden I-II above all), and calibration. YOLO's test-set location advantage is noted for C09.
-- **C04** (the segmenters S07–S10 against S01, with the formal Dice test of M0) follows when S09 is filed.
+  - It is the backbone for which ConvNeXt U-Net's mask task was shown to help (mask-task analysis: ConvNeXt U-Net OOF macro-F1 .825, above every model in this table).
+- **What the next models must fix is the same for all baselines:** grade errors within a location (Garden I-II above all), and calibration. YOLO's test-set location advantage is noted for the SLG-Net main-table analysis.
+- **Segmenter analysis** (the segmenters the segmentation baselines against YOLOv8s-seg, with the formal Dice test of ConvNeXt U-Net) follows when SegFormer-B2 is filed.

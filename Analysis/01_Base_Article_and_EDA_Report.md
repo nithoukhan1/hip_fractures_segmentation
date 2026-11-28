@@ -157,7 +157,7 @@ Median mask area as % of ROI:
 
 ### 2.6 Annotation quality findings
 1. **Exact duplicate image with two different masks:** `train/00397_00261.png` and `train/00399_00262.png` are pixel-identical (different femur and x-ray IDs, same class Evans III–V), but their masks differ: 157,150 vs 109,703 pixels, **IoU ≈ 0.70**. This is a natural sample of annotation variability and suggests that the ceiling for region Dice is well below 1. Keep one of them, or treat it as a soft label.
-2. **Train–test annotation-style shift for neck fractures:** test neck masks are about 35–40% smaller than train neck masks of the same grade (table in 2.4). The test set was committee-reviewed and train was not (paper §Reference standard), which plausibly made the test polygons tighter. A model trained on train-style polygons will over-segment test neck fractures and lose Dice. This is a measurable label-noise / protocol-shift effect worth addressing.
+2. **Train–test annotation-style shift for neck fractures:** test neck masks are about 35–40% smaller than train neck masks of the same grade (table in 2.4). The test set was committee-reviewed and train was not (paper, section "Reference standard"), which plausibly made the test polygons tighter. A model trained on train-style polygons will over-segment test neck fractures and lose Dice. This is a measurable label-noise / protocol-shift effect worth addressing.
 3. Near-duplicate screening (perceptual hash + normalised cross-correlation) flags many train–test pairs at correlation about 0.97, but these are anatomically similar different patients (same canonical crop), not leaks. No x-ray ID appears in both splits.
 
 ### 2.7 Hidden structure: paired contralateral femurs
@@ -174,15 +174,15 @@ Median mask area as % of ROI:
 
 | # | Gap observed | Evidence |
 |---|---|---|
-| G1 | Segmentation quality is not the focus: YOLO mask head, Dice falls with resolution, no per-class Dice or boundary metrics | Table 2; §1.11 |
-| G2 | Rare classes (Garden I–II: 57 train, subtroch: 36 train) perform worst; the authors' own future work | Table 1, Fig 3, §2.3 |
+| G1 | Segmentation quality is not the focus: YOLO mask head, Dice falls with resolution, no per-class Dice or boundary metrics | Table 2; section 1.11 |
+| G2 | Rare classes (Garden I–II: 57 train, subtroch: 36 train) perform worst; the authors' own future work | Table 1, Fig 3, section 2.3 |
 | G3 | Flat 6-way classification ignores location → grade hierarchy and ordinal grades, while most errors are within-location | Fig 3 text |
 | G4 | No evidence that segmentation helps classification (no ablation; DenseNet ≈ YOLO) | Table 3 |
-| G5 | Annotation noise and train/test protocol shift (duplicate IoU 0.70; smaller test neck masks) | §2.6 |
-| G6 | Contralateral femur never used, although available in about half of fractured cases | §2.7 |
-| G7 | No uncertainty, calibration or failure analysis, important for a "trustworthy" segmentation claim | §1.11 |
-| G8 | Laterality, padding and saturation are not normalised; mixed DX/CR without metadata | §2.4–2.5 |
-| G9 | Official val split is missing in the release | §2.2 |
+| G5 | Annotation noise and train/test protocol shift (duplicate IoU 0.70; smaller test neck masks) | section 2.6 |
+| G6 | Contralateral femur never used, although available in about half of fractured cases | section 2.7 |
+| G7 | No uncertainty, calibration or failure analysis, important for a "trustworthy" segmentation claim | section 1.11 |
+| G8 | Laterality, padding and saturation are not normalised; mixed DX/CR without metadata | sections 2.4–2.5 |
+| G9 | Official val split is missing in the release | section 2.2 |
 | G10 | Single site, no external test; public hip datasets exist only with image-level labels | paper limitations; see literature review |
 
 Note: the paper reports only overall Dice. Per-class Dice needs model predictions, so we will report it (together with HD95 and NSD) once baselines are trained; this will be the first per-class segmentation breakdown on this dataset.
@@ -190,7 +190,7 @@ Note: the paper reports only overall Dice. Per-class Dice needs model prediction
 ## Part 4. Recommended experimental protocol (for all later phases)
 1. Keep the official **test set (210)** frozen; report AUC, binary accuracy, Se/Sp, 6-class accuracy, macro-F1, balanced accuracy, **per-class Dice, HD95, NSD**, plus calibration (ECE).
 2. Create `splits/val_from_train.csv`: about 15% of train grouped by x-ray ID, stratified by class (or 5-fold grouped CV for robustness on the small rare classes).
-3. Re-run the paper's YOLOv8-seg (small @1024, its final model, and small @640, its best-Dice setting; corrected 2026-11-26, this line first said nano @640) on Kaggle as our own reproduction baseline, since their code and hyper-parameters are not public. Done as runs S01 and S02 with one model per fold of the 5 folds (Analysis/04).
+3. Re-run the paper's YOLOv8-seg (small @1024, its final model, and small @640, its best-Dice setting; corrected 2026-11-26, this line first said nano @640) on Kaggle as our own reproduction baseline, since their code and hyper-parameters are not public. Done as runs YOLOv8s-seg and YOLOv8s-seg at 640 px with one model per fold of the 5 folds (Analysis/04).
 4. Use DeLong for AUC, McNemar / bootstrap for accuracy and Dice, with 95% CIs.
 5. Optional pre-processing: mirror all femurs to one side, mask the black padding out of the loss and the normalisation.
 

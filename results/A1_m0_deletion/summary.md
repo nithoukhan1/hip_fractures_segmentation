@@ -31,7 +31,7 @@ Folds completed [0, 1, 2, 3, 4], skipped [], failed []. Runtime 147.6 min on Tes
 | Dice, detected fractures only | 0.806 | 0.749 ± 0.006 | 0.751 | 0.77 |
 | NSD at 10 px, fractured femurs | 0.243 | 0.189 ± 0.003 | 0.195 |  |
 
-## Interpretability tests (M0, Analysis/06 §13), at the OOF threshold
+## Interpretability tests (ConvNeXt U-Net, Analysis/06 section 13), at the OOF threshold
 
 | Mode | OOF 6-class accuracy (%) | OOF macro-F1 | OOF Garden I-II recall | Change of P(true class), fractured | Correct fractured femurs that become wrong | Test ensemble accuracy (%) |
 |---|---|---|---|---|---|---|

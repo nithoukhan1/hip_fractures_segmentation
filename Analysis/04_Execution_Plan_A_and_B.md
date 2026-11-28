@@ -2,10 +2,10 @@
 
 **Date:** 2026-11-26 · **Decision:** run **Option A (SLG-Net)** and **Option B (RefFrac)** in parallel, as **two papers** that share one codebase, one data split and one set of baselines.
 **Constraint:** no access to a radiologist or any other clinician. **Rule:** every experiment and its result is documented in the local folder and in the repository.
-**This report replaces** the compute (§8) and timeline (§9) sections of Report 03. The ranking and the method ideas in Report 03 stay valid.
+**This report replaces** the compute (section 8) and timeline (section 9) sections of Report 03. The ranking and the method ideas in Report 03 stay valid.
 
 **Run names from now on:**
-- **S** = shared runs (the baselines B1–B9 of Report 03 are now S1–S9).
+- **S** = shared runs (the nine baselines of Report 03 are now the nine baselines).
 - **A** = Paper A runs.
 - **R** = Paper B (RefFrac) runs.
 
@@ -15,19 +15,19 @@
 
 ```
                     SHARED FOUNDATION (built once, Weeks 0-2)
-   data split -> data loader -> metrics + statistics -> baselines S1-S9 -> core model M0
-   (M0 = ConvNeXt-T encoder + U-Net decoder + flat 6-class head)
+   data split -> data loader -> metrics + statistics -> nine baselines -> core model ConvNeXt U-Net
+   (ConvNeXt U-Net = ConvNeXt-T encoder + U-Net decoder + flat 6-class head)
                                    |
              +---------------------+----------------------+
              v                                            v
    TRACK A (Paper 1): SLG-Net                 TRACK B (Paper 2): RefFrac
-   M0 + new HEADS:                             M0 + new INPUT side:
+   ConvNeXt U-Net + new HEADS:                 ConvNeXt U-Net + new INPUT side:
    region pooling, region geometry,            a healthy reference femur, Siamese
    location -> grade hierarchy                 encoder, alignment, difference fusion
    "How should the network DECIDE?"            "What should the network COMPARE WITH?"
 ```
 
-- **Shared:** everything before the fork. That covers the split, data loader, augmentations, training loop, metrics, statistics code, Kaggle launcher, all nine baselines, and M0. M0 is ablation A1 in Paper A and the "no reference" model R0 in Paper B, so it is trained once and used twice.
+- **Shared:** everything before the fork. That covers the split, data loader, augmentations, training loop, metrics, statistics code, Kaggle launcher, all nine baselines, and ConvNeXt U-Net. ConvNeXt U-Net is the second step of the SLG-Net ablation chain and the "no reference" starting point of RefFrac, so it is trained once and used twice.
 - **Separate:** only each paper's own module, its ablations and its manuscript.
 - **The two papers answer different questions:**
   - Paper A changes how the network *decides*.
@@ -49,7 +49,7 @@
 **How interpretability is shown without a clinician (measurable tests):**
 1. **Oracle test (A):** give the heads the released (ground-truth) mask instead of the predicted one. If grading improves, the decision really depends on the region.
 2. **Region-deletion test (A):** blank out the predicted region. If grade confidence drops, the model is looking at the fracture, not elsewhere.
-3. **Geometry consistency (A):** check that predicted region size and position agree with the predicted grade and location, which our data shows they should (Report 03 §2).
+3. **Geometry consistency (A):** check that predicted region size and position agree with the predicted grade and location, which our data shows they should (Report 03 section 2).
 4. **Difference maps (B):** check whether "target minus reference" features peak inside the released (ground-truth) fracture mask (we measure this with a pointing-game score).
 5. **Uncertainty (A and B):** check whether flagging the most uncertain 10% of cases removes a large share of the errors (risk–coverage curves).
 
@@ -94,21 +94,21 @@ Yes. k-fold cross-validation is the standard approach when a dataset is small or
 
 ## 4. Step 4: Track A (Paper 1), SLG-Net, in short
 
-The full design is in Report 03 §3 and §7. The only changes are:
+The full design is in Report 03 sections 3 and 7. The only changes are:
 - the run names,
-- the shared M0,
-- the interpretability tests from §2 of this report.
+- the shared ConvNeXt U-Net,
+- the interpretability tests from section 2 of this report.
 
 | Run | What | Folds | Reuses |
 |---|---|---|---|
-| A0 | ConvNeXt-T flat classifier | 5 | = S6 (shared) |
-| A1 | + segmentation decoder, flat head | 5 | = M0 (shared) |
-| A2 | + region pooling | 5 | |
-| A3 | + region geometry | 5 | |
-| A4 | + location → grade hierarchy | 5 | |
-| A5 | + shared severity trunk | 5 | |
-| A6 | + logit adjustment = **SLG-Net** (final) | 5 | |
-| A-oracle, A-deletion | Interpretability tests | inference only | A6 models |
+| ConvNeXt-T classifier | ConvNeXt-T flat classifier | 5 | = ConvNeXt-T classifier (shared) |
+| ConvNeXt U-Net | + segmentation decoder, flat head | 5 | = ConvNeXt U-Net (shared) |
+| Region-pooling model | + region pooling | 5 | |
+| Geometry model | + region geometry | 5 | |
+| Hierarchy model | + location → grade hierarchy | 5 | |
+| Shared-trunk model | + shared severity trunk | 5 | |
+| SLG-Net | + logit adjustment = **SLG-Net** (final) | 5 | |
+| A-oracle, A-deletion | Interpretability tests | inference only | SLG-Net models |
 | A-sens | Second backbone; input 1152×768 | 5 + 5 | |
 
 **Primary endpoints (fixed in advance):** 6-class macro-F1 and mean Dice on fractured femurs.
@@ -116,10 +116,10 @@ The full design is in Report 03 §3 and §7. The only changes are:
 ## 5. Step 5: Track B (Paper 2), RefFrac, full plan
 
 ### 5.1 Research questions
-- **RQ-B1:** Does a healthy reference femur improve fracture segmentation and detection, **especially for subtle fractures** (undisplaced Garden I–II, the smallest masks)?
-- **RQ-B2:** Which reference is better: the patient's **own contralateral femur** or a **retrieved healthy femur** from other patients?
-- **RQ-B3:** Do bilateral models learn the dataset's **shortcut**? Here exactly one femur of every two-femur x-ray is fractured, and 64 of the 65 healthy test femurs are partners of a fractured one. How do we prevent it? This methodological warning is a contribution in itself.
-- **RQ-B4:** How should the reference be aligned and fused (difference vs concatenation; none vs spatial transformer vs cross-attention)?
+- **Reference question:** Does a healthy reference femur improve fracture segmentation and detection, **especially for subtle fractures** (undisplaced Garden I–II, the smallest masks)?
+- **Own-hip question:** Which reference is better: the patient's **own contralateral femur** or a **retrieved healthy femur** from other patients?
+- **Pairing-shortcut question:** Do bilateral models learn the dataset's **shortcut**? Here exactly one femur of every two-femur x-ray is fractured, and 64 of the 65 healthy test femurs are partners of a fractured one. How do we prevent it? This methodological warning is a contribution in itself.
+- **Alignment-and-fusion question:** How should the reference be aligned and fused (difference vs concatenation; none vs spatial transformer vs cross-attention)?
 
 ### 5.2 The data B uses (from `splits/folds_v1.csv`)
 - Fractured femurs whose healthy partner is present: train 334 (66–68 per fold), test 64 of 145 (44%).
@@ -129,8 +129,8 @@ The full design is in Report 03 §3 and §7. The only changes are:
 1. **Reference choice (main method):** for every femur, retrieve the k = 3 most similar healthy femurs from the bank. Similarity is cosine distance of frozen ImageNet ConvNeXt-T features, trying both the image and its mirror and keeping the better match. This works for **100% of cases** and has **no shortcut**, because the reference is always a healthy femur of another patient.
 2. **Siamese encoder:** the same ConvNeXt-T, with shared weights, encodes the target and the references.
 3. **Alignment:** local cross-attention at the 1/16 and 1/32 scales, where each target position looks for its match in the reference. Ablations test none and a global spatial transformer (as in AASN).
-4. **Fusion:** at each scale, [target, target − reference, |target − reference|] → 1×1 convolution → the same U-Net decoder and flat head as M0. The **only** difference from M0 is the reference, so gains can be attributed to it.
-5. **Contralateral study (RQ-B2, RQ-B3):**
+4. **Fusion:** at each scale, [target, target − reference, |target − reference|] → 1×1 convolution → the same U-Net decoder and flat head as ConvNeXt U-Net. The **only** difference from ConvNeXt U-Net is the reference, so gains can be attributed to it.
+5. **Contralateral study (own-hip question, the pairing-shortcut question):**
    - a variant uses the mirrored partner as the reference whenever it exists;
    - swap tests then replace the partner with (a) a random healthy femur and (b) a random fractured femur, and measure how much the prediction depends on the partner's state;
    - segmentation quality with own-partner vs retrieved reference is compared on the 64 paired test fractures.
@@ -138,14 +138,14 @@ The full design is in Report 03 §3 and §7. The only changes are:
 ### 5.4 Baselines and ablations
 | Run | What | Tests |
 |---|---|---|
-| S1–S9, M0 (= R0) | Shared baselines; M0 has no reference | Starting point |
-| R1 | AASN-style Siamese + global spatial transformer, adapted to femur crops | Closest published idea (Chen et al., ECCV 2020) |
-| R2 | M0 + a **random** healthy reference | Does *any* second image help, or only a matched one? |
-| R3 | Retrieved reference, k = 1 | Value of retrieval |
-| R4 | Retrieved, k = 3, cross-attention + difference fusion = **RefFrac** (final) | Main method |
-| R5 | R4 with concatenation instead of difference fusion | Fusion type |
-| R6 | R4 without alignment; R4 with global spatial transformer instead | Alignment type |
-| R7 | Partner reference when present (retrieved otherwise) + swap tests | Shortcut study (RQ-B3) |
+| Nine baselines, ConvNeXt U-Net | Shared baselines; ConvNeXt U-Net has no reference | Starting point |
+| AASN-style model | AASN-style Siamese + global spatial transformer, adapted to femur crops | Closest published idea (Chen et al., ECCV 2020) |
+| Random-reference model | ConvNeXt U-Net + a **random** healthy reference | Does *any* second image help, or only a matched one? |
+| Nearest-reference model | Retrieved reference, k = 1 | Value of retrieval |
+| RefFrac | Retrieved, k = 3, cross-attention + difference fusion = **RefFrac** (final) | Main method |
+| Concatenation model | RefFrac with concatenation instead of difference fusion | Fusion type |
+| Alignment models | RefFrac without alignment; RefFrac with global spatial transformer instead | Alignment type |
+| Own-hip model | Partner reference when present (retrieved otherwise) + swap tests | Shortcut study (pairing-shortcut question) |
 | R-sens | Second backbone | Robustness |
 
 ### 5.5 Metrics and statistics
@@ -162,9 +162,9 @@ The full design is in Report 03 §3 and §7. The only changes are:
 
 | Block | What | GPU-hours |
 |---|---|---|
-| Shared | env check; S1 YOLOv8s-seg @1024; S2 YOLOv8s-seg @640 (the paper's best Dice, .780; earlier drafts said nano); S3 YOLO11s-seg @1024; S4–S6 classifiers; S7–S9 segmenters; M0 (5 folds each) | **≈ 28–34** |
-| Track A only | development (fold 0); A2–A5; A6 final; sensitivity; oracle and deletion tests | **≈ 35–38** |
-| Track B only | development (fold 0); R1–R7 (5 folds each); sensitivity; retrieval and swap tests | **≈ 55–60** |
+| Shared | env check; YOLOv8s-seg @1024; YOLOv8s-seg at 640 px @640 (the paper's best Dice, .780; earlier drafts said nano); YOLO11s-seg @1024; the three classifiers; the three segmenters; ConvNeXt U-Net (5 folds each) | **≈ 28–34** |
+| Track A only | development (fold 0); the four intermediate SLG-Net models; SLG-Net final; sensitivity; oracle and deletion tests | **≈ 35–38** |
+| Track B only | development (fold 0); the eight reference runs (5 folds each); sensitivity; retrieval and swap tests | **≈ 55–60** |
 | **A + B total** | | **≈ 120–135** |
 | A alone, for comparison | | ≈ 65–72 |
 
@@ -193,18 +193,18 @@ The full design is in Report 03 §3 and §7. The only changes are:
 | Wk | Dates | Shared | Paper A (SLG-Net) | Paper B (RefFrac) |
 |---|---|---|---|---|
 | 0 | 26–29 Nov | `S00_env_check`; `main` branch | | |
-| 1 | 30 Nov–6 Dec | Loader, metrics, statistics, S1–S2 (YOLO reproduction) | | Pair index and retrieval-bank code (CPU) |
-| 2 | 7–13 Dec | S3–S9 + M0 → **M1: baseline table** | | Retrieval sanity check (nearest-neighbour figure) |
+| 1 | 30 Nov–6 Dec | Loader, metrics, statistics, the two YOLOv8s-seg runs (YOLO reproduction) | | Pair index and retrieval-bank code (CPU) |
+| 2 | 7–13 Dec | Other seven baselines + ConvNeXt U-Net → **Milestone 1: baseline table** | | Retrieval sanity check (nearest-neighbour figure) |
 | 3–4 | 14–27 Dec | | Build SLG-Net heads; fold-0 development | Build Siamese encoder + fusion; fold-0 development |
-| 5 | 28 Dec–3 Jan | | Rare-class + calibration → **M2-A: frozen** | Alignment variants, k; R1 baseline |
-| 6–7 | 4–17 Jan | | Final + ablations + tests → **M3-A** | Development ends → **M2-B: frozen**; R2–R3 |
-| 8 | 18–24 Jan | | Statistics + figures → **M4-A** | R4 final, R5–R6 |
-| 9 | 25–31 Jan | | Manuscript A | R7 shortcut study, sensitivity → **M3-B** |
-| 10 | 1–7 Feb | | Manuscript A | Statistics + figures → **M4-B** |
+| 5 | 28 Dec–3 Jan | | Rare-class + calibration → **Paper A milestone 2: frozen** | Alignment variants, k; the AASN-style model baseline |
+| 6–7 | 4–17 Jan | | Final + ablations + tests → **Paper A milestone 3** | Development ends → **Paper B milestone 2: frozen**; the random- and nearest-reference models |
+| 8 | 18–24 Jan | | Statistics + figures → **Paper A milestone 4** | RefFrac final, the concatenation and alignment models |
+| 9 | 25–31 Jan | | Manuscript A | Own-hip model shortcut study, sensitivity → **Paper B milestone 3** |
+| 10 | 1–7 Feb | | Manuscript A | Statistics + figures → **Paper B milestone 4** |
 | 11 | 8–14 Feb | | Manuscript A, internal review | Manuscript B |
-| 12 | 15–21 Feb | | **M5-A: submit Paper A** | Manuscript B |
+| 12 | 15–21 Feb | | **Paper A milestone 5: submit Paper A** | Manuscript B |
 | 13–14 | 22 Feb–7 Mar | | Buffer | Manuscript B, internal review |
-| 15 | 8–14 Mar | | | **M5-B: submit Paper B** |
+| 15 | 8–14 Mar | | | **Paper B milestone 5: submit Paper B** |
 
 Each paper keeps a 2-week buffer: Paper A by about 7 Mar 2027, Paper B by about 28 Mar 2027. Option: post Paper A as a preprint when it is submitted, so Paper B can cite it. Check each journal's preprint policy first.
 
@@ -239,4 +239,4 @@ Each paper keeps a 2-week buffer: Paper A by about 7 Mar 2027, Paper B by about 
 2. **Me (Step 1, shared):**
    - data loader with the same augmentations for all models;
    - metrics (Dice, IoU, HD95, NSD, AUC, macro-F1, ECE) and the statistics module;
-   - the YOLO reproduction runs S1–S2 in `kaggle/runs.json`.
+   - the YOLO reproduction the two YOLOv8s-seg runs in `kaggle/runs.json`.
