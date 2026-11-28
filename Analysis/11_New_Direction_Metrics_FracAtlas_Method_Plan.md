@@ -232,6 +232,30 @@ A candidate passes the screening if both hold, for the mean of its two seeds on 
 Screening total: about 3.5–5 Kaggle hours.
 
 
+### 7.5 Screening results (2026-11-28): no candidate passes
+
+All six screening runs finished and are filed (`results/N_*_fold0*`). They are scored on fold 0's 208 held-out femurs with the threshold fitted again on fold 0, as the base was (`results/analysis/N_screening_fold0/`: `standard_metrics.md` has the standard metrics, `stats.md` has the intervals and the paired tests).
+
+| Fold 0, 208 femurs | Seed 2026 macro-F1 / Dice | Seed 2027 macro-F1 / Dice | **Mean macro-F1** | **Mean Dice** | Passes? |
+|---|---|---|---|---|---|
+| The base: ConvNeXt U-Net, its two runs | .822 / .749 | .811 / .761 | .817 | .755 | – |
+| 1. Segment-and-zoom network | .816 / .763 | .843 / .763 | **.829** (+.013) | .763 (+.008) | No: macro-F1 below .837 |
+| 2. ConvNeXt U-Net at 1152 × 768 | .783 / .768 | .790 / .779 | .786 (−.031) | .773 (+.018) | No |
+| 3. ConvNeXt U-Net with ConvNeXt-S | .814 / .759 | .788 / .761 | .801 (−.016) | .760 (+.005) | No |
+
+Pass mark: mean macro-F1 ≥ .837 and mean Dice ≥ .745.
+
+**What the numbers say:**
+1. **No candidate passes the screening rule.** The segment-and-zoom network comes closest. It is the only candidate whose mean is above the base on both macro-F1 and Dice, but its gain of +.013 is below the +.02 the rule asks for. Its first seed equals the base (.816 against .817); its second seed (.843) would pass on its own.
+2. **None of the gains is significant.** Paired tests on fold 0 (randomisation test per x-ray for macro-F1, Wilcoxon for Dice) give p ≥ .33 for every candidate against the base run of the same seed (the first seed against the ConvNeXt U-Net, the second against its second run).
+3. **Higher resolution helps the mask but not the grade.** The 1152 × 768 model has the best Dice of all (+.018 mean, 1 missed fracture with seed 2027), but its macro-F1 falls by .031.
+4. **The larger encoder does not help.**
+5. **Fold 0 is noisy for macro-F1.** Fold 0 holds only 11 Garden I-II and 7 subtrochanteric femurs. One subtrochanteric femur more or less moves macro-F1 by about .02, and that is the size of the gain the rule asks for. Two seeds of the same candidate differ by up to .027, and the two identical base runs by .011. Most of the second segment-and-zoom seed's gain comes from the subtrochanteric class (6 of 7 right against 3–5 of 7).
+6. **The segment-and-zoom crop finds the fracture.** The crop window holds the centre of the released mask in 135 of 136 fractured femurs with both seeds (pointing game .993), and on average 99% of the mask lies inside the window. This explainability comes with the method.
+7. Round 3 (the second seeds of candidates 2 and 3) was not required by the rule, because both first seeds were below .827. It was run anyway, and it confirms that they fail.
+
+**What the rule says now:** "If no candidate passes, we stop and report that to the person before any further runs." The next step is the person's decision (PROGRESS_LOG, Step 27).
+
 ## 8. FracAtlas external test: inclusion and crop rules (fixed 2026-11-28, before any model sees a FracAtlas image)
 
 ### 8.1 Which images and which hips

@@ -1,0 +1,50 @@
+{
+  "run": "N_convnext_s_fold0_seed2",
+  "step": "25",
+  "git_commit": "eb22c1f8787e6fd8a4ea187a31976d6c698ae116",
+  "command": "/usr/bin/python3 /tmp/code/scripts/train_net.py --net m0:convnext_small.fb_in22k_ft_in1k --size 768x512 --epochs 60 --batch 16 --folds 0 --no-test --seed 2027 --out /kaggle/working/results/N_screen_round3/N_convnext_s_fold0_seed2 --gpus 1 --workers 2 --work /kaggle/working/work/N_convnext_s_fold0_seed2",
+  "started_utc": "2026-11-28T12:15:41Z",
+  "group": "N_screen_round3"
+}
+image cache /tmp/femurseg_cache/768x512_7ba784de8d7c ready in 51 s
+pre-flight: micro-batch 4 x 4, 0.3333 s per micro-step, peak 11.66 GB; about 77.5 min per fold
+[fold 0] started on GPU 1; log /kaggle/working/work/N_convnext_s_fold0_seed2/logs/fold0.log
+[fold 0] finished after 68.3 min
+# N_convnext_s_fold0_seed2: summary
+
+Network `m0:convnext_small.fb_in22k_ft_in1k`, input 768 x 512, 60 epochs, batch 16 (micro-batch 4 x 4), lr 0.0002, final weights.
+Folds completed [0], skipped [], failed []. Runtime 70.9 min on Tesla T4.
+
+## Fracture threshold fitted on the OOF predictions (Youden): 0.0001
+
+| Metric | OOF (n=208) |
+|---|---|
+| Fracture AUC | 0.998 |
+| Fracture sensitivity | 0.993 |
+| Fracture specificity | 0.986 |
+| 6-class accuracy (%) | 86.5 |
+| 6-class macro-F1 | 0.788 |
+| Garden I-II recall | 0.636 |
+| Dice, fractured femurs (missed = 0) | 0.761 |
+| Dice, detected fractures only | 0.766 |
+| NSD at 10 px, fractured femurs | 0.224 |
+
+## Plain threshold 0.5 on the fracture probability
+
+| Metric | OOF (n=208) |
+|---|---|
+| Fracture AUC | 0.998 |
+| Fracture sensitivity | 0.956 |
+| Fracture specificity | 0.986 |
+| 6-class accuracy (%) | 85.6 |
+| 6-class macro-F1 | 0.767 |
+| Garden I-II recall | 0.636 |
+| Dice, fractured femurs (missed = 0) | 0.754 |
+| Dice, detected fractures only | 0.789 |
+| NSD at 10 px, fractured femurs | 0.222 |
+
+Development run (`--no-test`): the held-out folds only; the test set was not predicted.
+
+folds done [0], skipped [], failed []; total 70.9 min
+
+run 'N_convnext_s_fold0_seed2' finished with exit code 0 in 70.94 min; outputs in /kaggle/working/results/N_screen_round3/N_convnext_s_fold0_seed2

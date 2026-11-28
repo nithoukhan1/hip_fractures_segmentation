@@ -38,6 +38,7 @@ The documents call every model, run and analysis by its full name. The folders a
 | `N_segzoom_fold0`, `N_segzoom_fold0_seed2` | segment-and-zoom network (screening) | ConvNeXt U-Net finds the fracture; a second ConvNeXt-T grades it from a full-resolution crop around the predicted mask. Fold 0, seeds 2026 and 2027 |
 | `N_res1152_fold0`, `N_res1152_fold0_seed2` | ConvNeXt U-Net at 1152 × 768 (screening) | The ConvNeXt U-Net at 1.5 times the resolution. Fold 0, two seeds |
 | `N_convnext_s_fold0`, `N_convnext_s_fold0_seed2` | ConvNeXt U-Net with ConvNeXt-S (screening) | The ConvNeXt U-Net with the larger ConvNeXt-S encoder. Fold 0, two seeds |
+| `N1_segzoom` | segment-and-zoom network, 5 folds | The segment-and-zoom network on 5 folds and the test set, with the oracle and deletion tests. Defined 2026-11-28, run only if the person chooses it (`Analysis/11` section 7.5) |
 
 Run series in the register: **S** = shared baselines, **A** = Paper A (SLG-Net), **R** = Paper B (RefFrac), **N** = the new method (`Analysis/11`).
 
@@ -64,6 +65,7 @@ Run series in the register: **S** = shared baselines, **A** = Paper A (SLG-Net),
 | `C17_ensembles` | ensemble analysis | Do ensembles of saved predictions buy accuracy? |
 | `M1_baseline_table` | baseline table | All ten baselines side by side |
 | `standard_metrics_all_runs` | standard-metrics tables | Every model with the standard metrics only (`Analysis/11` section 2.2): accuracy, macro precision, recall and F1, per-class precision, recall and F1, sensitivity, specificity, AUC, confusion matrices, Dice, IoU, HD95 |
+| `N_screening_fold0` | fold-0 screening scores | The three new method candidates (two seeds each) and the two ConvNeXt U-Net runs on fold 0: standard metrics (`standard_metrics.md`) and intervals with paired tests (`stats.md`). `Analysis/11` section 7.5 |
 
 ## Other terms
 - **OOF (out of fold):** each of the 1,043 training femurs is predicted by the fold model that did not see it. This is the main evaluation scope.

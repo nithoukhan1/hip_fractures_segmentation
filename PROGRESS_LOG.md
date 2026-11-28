@@ -4,6 +4,35 @@ Newest entries at the top. Each entry: what was done, what it produced, what com
 
 ---
 
+## 2026-11-28 · Step 27: Fold-0 screening results: no candidate passes
+
+**Done (you)**
+- Merged PR #24; ran all three screening sessions (`N_screen_round1`–`N_screen_round3`) and put their zips in the inbox; looked at the FracAtlas check sheets.
+
+**Done (me)**
+1. **Filed the six screening runs** with `register_run.py` (register lines 40–45, `results/N_*_fold0*`, each with its NOTES.md).
+2. **Scored them** on fold 0 against the base, by the rule fixed before the runs (`Analysis/11` section 7.5; `results/analysis/N_screening_fold0/`):
+
+   | Candidate (mean of two seeds) | Macro-F1 | Dice |
+   |---|---|---|
+   | The base: ConvNeXt U-Net, two runs | .817 | .755 |
+   | Segment-and-zoom network | .829 (+.013) | .763 |
+   | ConvNeXt U-Net at 1152 × 768 | .786 (−.031) | .773 |
+   | ConvNeXt U-Net with ConvNeXt-S | .801 (−.016) | .760 |
+
+   - **No candidate passes** (pass mark: macro-F1 ≥ .837 and Dice ≥ .745). None of the differences is significant (p ≥ .33).
+   - The segment-and-zoom network is the only candidate above the base on both measures. Its crop holds the fracture centre in 135 of 136 fractured femurs.
+   - Fold 0 is noisy: one subtrochanteric femur (7 on fold 0) moves macro-F1 by about .02, which is the size of the pass margin.
+3. `scripts/run_standard_metrics.py` gained `--folds` (as `run_stats.py`), so the screening uses the same standard metrics.
+4. Checked the FracAtlas check sheets: every crop shows a half pelvis with the femoral head in the upper third, and every red outline sits on the fractured hip. Two outlines lie low (images 3341 left and 3342 left, subtrochanteric), as noted in `Analysis/11` section 8.2a. In four healthy images (0275, 0781, 2197, 2255) a bright band (the edge of a lead shield or the table) crosses the lower part of the crop. They are kept, because they are part of the real images.
+5. Defined the 5-fold segment-and-zoom run `N1_segzoom` in `kaggle/runs.json`, to be launched only if you choose it.
+
+**Next**
+- You: decide what comes after the screening (decision card in the thread).
+- Me: the FracAtlas zero-shot test job, which every option needs.
+
+---
+
 ## 2026-11-28 · Step 26: Standard-metric tables for every model, and the FracAtlas rules
 
 **Done (you)**

@@ -1,0 +1,10 @@
+{
+  "run": "N_segzoom_fold0",
+  "step": "25",
+  "git_commit": "eb22c1f8787e6fd8a4ea187a31976d6c698ae116",
+  "command": "/usr/bin/python3 /tmp/code/scripts/train_net.py --net zoom:convnext_tiny.fb_in22k_ft_in1k --size 1536x1024 --epochs 60 --batch 16 --folds 0 --no-test --out /kaggle/working/results/N_screen_round1/N_segzoom_fold0 --gpus 0 --workers 2 --work /kaggle/working/work/N_segzoom_fold0",
+  "started_utc": "2026-11-28T12:10:42Z",
+  "group": "N_screen_round1",
+  "runtime_minutes": 72.49,
+  "exit_code": 0
+}
