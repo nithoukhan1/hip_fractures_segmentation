@@ -4,6 +4,32 @@ Newest entries at the top. Each entry: what was done, what it produced, what com
 
 ---
 
+## 2026-11-28 · Step 22: The combined paper's idea, novelty and defence; ensembles tested
+
+**Done (you)**
+- Merged PR #19 and asked: what is the combined idea, its novelty and contribution, how do we defend it when neither extension beat M0, and what next.
+
+**Done (me)**
+1. **C17, ensembles of saved predictions** (`scripts/run_ensemble.py`, 2 new tests; no GPU; `results/analysis/C17_ensembles/report.md`):
+   - averaging M0 with SLG-Net and RefFrac gives the best out-of-fold macro-F1 so far (.842 vs .825), but it is not significant (p .12) and hardly more than averaging two M0s (.828);
+   - on the test set M0 + SLG-Net gets 189 of 210 right (macro-F1 .843), but it is the weakest ensemble out of fold, so this is not evidence. Exploratory, supplement at most.
+2. **Analysis/10** (`Analysis/10_Novelty_Defense_and_Next_Plan.md`):
+   - the combined idea: segment first (M0), then make the decisions use the right evidence (region grounding, healthy references), each tested;
+   - novelty N1–N5 and five contributions;
+   - a candid view of Q2/Q3 chances, with reviewers' likely objections and our answers;
+   - every accuracy option with its Kaggle hours;
+   - the test set cannot detect differences under about 4–5 accuracy points (9–10 femurs);
+   - the numbered plan.
+3. **Trackers:** EXPERIMENTS.md, PROJECT_TRACKER.md, README.md.
+
+**Next**
+- You:
+  1. merge this PR;
+  2. answer the second-backbone card (recommended: write first, run it later).
+- Me: the figures (Fig. 2, Fig. 3), then the manuscript draft in `manuscript/`.
+
+---
+
 ## 2026-11-28 · Step 21: M0's deletion test, and the plan of the combined paper
 
 **Done (you)**
