@@ -1,6 +1,6 @@
-# R00_reference_bank_r2: pair index and reference bank (Paper B, step B-1)
+# R00_reference_bank_r2: pair index and reference bank (Paper B, step 1 of Paper B)
 
-Features: `convnext_tiny.fb_in22k_ft_in1k` (ImageNet weights, frozen), input 768 x 512, 768 numbers per image; 1253 femurs, each as released and mirrored. Orientation: version 2 (protocol §8): a reference is mirrored when its pelvis side (the brighter half of the upper image) differs from the femur's. Took 154 s on cuda. Protocol: `Analysis/07_Step4_PaperB_Reference_Bank_Protocol.md`.
+Features: `convnext_tiny.fb_in22k_ft_in1k` (ImageNet weights, frozen), input 768 x 512, 768 numbers per image; 1253 femurs, each as released and mirrored. Orientation: version 2 (protocol section 8): a reference is mirrored when its pelvis side (the brighter half of the upper image) differs from the femur's. Took 154 s on cuda. Protocol: `Analysis/07_Step4_PaperB_Reference_Bank_Protocol.md`.
 
 ## Data (pair types)
 
@@ -9,9 +9,9 @@ Features: `convnext_tiny.fb_in22k_ft_in1k` (ImageNet weights, frozen), input 768
 | train | 1043 | 363 | 680 | 517 | fractured, healthy partner: 334; healthy, fractured partner: 334; healthy, healthy partner: 14; single: 361 |
 | test | 210 | 65 | 145 | 106 | fractured, healthy partner: 64; healthy, fractured partner: 64; single: 82 |
 
-## Checks (protocol §4)
+## Checks (protocol section 4)
 
-1. **Mirror check:** the orientation rule mirrors the partner (the other hip) for 804 of 810 femurs with a partner (99.3%). Rule: >= 0.80 use the orientation rule as written; 0.60-0.80 use it and state it as a limitation; < 0.60 review the orientation rule before B-2. With the ImageNet features alone (the version-1 rule, reported only), the mirrored partner is closer for 473 (58.4%).
+1. **Mirror check:** the orientation rule mirrors the partner (the other hip) for 804 of 810 femurs with a partner (99.3%). Rule: >= 0.80 use the orientation rule as written; 0.60-0.80 use it and state it as a limitation; < 0.60 review the orientation rule before Paper B step 2. With the ImageNet features alone (the version-1 rule, reported only), the mirrored partner is closer for 473 (58.4%).
 2. **Retrieval vs chance** (held-out femurs): mean cosine of the 3 nearest minus that of the random healthy femur = 0.547 (mean over the 5 fold models).
 
 | Fold model | Held-out: 3 nearest | Held-out: random healthy | Held-out: nearest, median (IQR) | Test: nearest, median (IQR) |

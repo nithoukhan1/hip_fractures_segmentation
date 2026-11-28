@@ -1,4 +1,4 @@
-# C04: Which segmenter outlines fractures best? Does a dedicated segmentation decoder beat YOLOv8-seg (RQ1)?
+# Segmenter analysis: Which segmenter outlines fractures best? Does a dedicated segmentation decoder beat YOLOv8-seg (segmentation question)?
 
 *Written 2026-11-27 from the filed runs:*
 - `results/S01_yolov8s_seg_1024/` (register line 3);
@@ -12,15 +12,15 @@
 - The boundary metrics (NSD at 10 and 20 px, HD95) are each run's own `metrics.json` (keys `nsd10_fractured_mean`, `nsd20_fractured_mean`, `hd95_detected_median`), written by the same evaluation code (`src/femurseg/evaluation.py`).
 
 **What differs.**
-- **S01** is the article's final model, YOLOv8s-seg at 1024 px, trained as in the article. Its mask is the mask of the top detected instance.
-- **S07, S08 and S09** are standard semantic segmenters at 768 × 512 with the shared Step 2 recipe (`Analysis/05_Step2_Baselines_Protocol.md`): U-Net and DeepLabV3+ with a ResNet34 encoder, and SegFormer with a MiT-B2 encoder. They label every pixel with one of 6 classes; the mask is the pixels with fracture probability ≥ 0.5.
-- **S10 = M0** is the ConvNeXt-T classifier S06 plus a U-Net decoder that learns a binary fracture mask (the core model of both papers).
+- **YOLOv8s-seg** is the article's final model, YOLOv8s-seg at 1024 px, trained as in the article. Its mask is the mask of the top detected instance.
+- **ResNet-34 U-Net, ResNet-34 DeepLabV3+ and SegFormer-B2** are standard semantic segmenters at 768 × 512 with the shared Step 2 recipe (`Analysis/05_Step2_Baselines_Protocol.md`): U-Net and DeepLabV3+ with a ResNet34 encoder, and SegFormer with a MiT-B2 encoder. They label every pixel with one of 6 classes; the mask is the pixels with fracture probability ≥ 0.5.
+- **ConvNeXt U-Net** is the ConvNeXt-T classifier plus a U-Net decoder that learns a binary fracture mask (the core model of both papers).
 - All five use the same folds, the same decision rule and the same threshold rule (Youden on the pooled out-of-fold femurs). Masks are scored at full resolution (1024 × 1536) against the released masks.
 - **Primary endpoint here:** Dice on fractured femurs, with a missed fracture counted as 0 (`Analysis/04`; 680 fractured femurs out of fold, 145 on the test set). Classification is reported as a secondary result.
 
-## 1. Verdict: M0 outlines fractures best; out of fold it beats YOLO and every standard segmenter, on the test set it beats U-Net and DeepLabV3+ only
+## 1. Verdict: ConvNeXt U-Net outlines fractures best; out of fold it beats YOLO and every standard segmenter, on the test set it beats U-Net and DeepLabV3+ only
 
-| Endpoint | S01 YOLOv8s-seg | S07 U-Net | S08 DeepLabV3+ | S09 SegFormer | S10 M0 |
+| Endpoint | YOLOv8s-seg | ResNet-34 U-Net | ResNet-34 DeepLabV3+ | SegFormer-B2 | ConvNeXt U-Net |
 |---|---|---|---|---|---|
 | **OOF, 1,043 femurs:** Dice, fractured femurs, missed = 0 (primary) | .740 (.722–.755) | .748 (.734–.762) | .749 (.734–.763) | .766 (.753–.778) | **.777** (.764–.789) |
 | Fractures missed (of 680) | 51 | 21 | 28 | **16** | 19 |
@@ -41,10 +41,10 @@ Intervals: 95% cluster bootstrap over x-rays. NSD and HD95 are descriptive (no t
 
 | Pair | OOF difference | OOF p (Holm) | Test-ensemble difference | Test-ensemble p (Holm) |
 |---|---|---|---|---|
-| M0 − YOLO | **+.037** | **< .0001** | +.018 | .36 |
-| M0 − SegFormer | **+.011** | **.0003** | +.006 | .44 |
-| M0 − U-Net | **+.029** | **< .0001** | **+.033** | **< .0001** |
-| M0 − DeepLabV3+ | **+.028** | **< .0001** | **+.045** | **.0005** |
+| ConvNeXt U-Net − YOLO | **+.037** | **< .0001** | +.018 | .36 |
+| ConvNeXt U-Net − SegFormer | **+.011** | **.0003** | +.006 | .44 |
+| ConvNeXt U-Net − U-Net | **+.029** | **< .0001** | **+.033** | **< .0001** |
+| ConvNeXt U-Net − DeepLabV3+ | **+.028** | **< .0001** | **+.045** | **.0005** |
 | SegFormer − YOLO | **+.026** | **.014** | +.012 | 1.00 |
 | SegFormer − U-Net | **+.018** | **.002** | **+.027** | **.012** |
 | SegFormer − DeepLabV3+ | **+.017** | **.013** | +.039 | .30 |
@@ -52,30 +52,30 @@ Intervals: 95% cluster bootstrap over x-rays. NSD and HD95 are descriptive (no t
 | DeepLabV3+ − YOLO | +.009 | .64 | −.027 | .68 |
 | U-Net − DeepLabV3+ | −.001 | 1.00 | +.012 | .94 |
 
-1. **RQ1 is answered "yes" out of fold, for M0 and SegFormer.**
-   - M0's U-Net decoder on ConvNeXt-T has the highest Dice in every view: .777 out of fold, .734 ± .005 per test model, .744 for the test ensemble.
-   - Out of fold, M0 is significantly better than all four other models (+.011 to +.037). SegFormer is the best standard segmenter and also beats YOLO (+.026).
-2. **On the 210 test femurs, M0's lead over YOLO (+.018) and SegFormer (+.006) is not significant.** It stays significant over U-Net and DeepLabV3+ (+.033 and +.045). The test set has only 145 fractured femurs, and its neck masks are drawn differently (§4).
+1. **Segmentation question is answered "yes" out of fold, for ConvNeXt U-Net and SegFormer.**
+   - ConvNeXt U-Net's U-Net decoder on ConvNeXt-T has the highest Dice in every view: .777 out of fold, .734 ± .005 per test model, .744 for the test ensemble.
+   - Out of fold, ConvNeXt U-Net is significantly better than all four other models (+.011 to +.037). SegFormer is the best standard segmenter and also beats YOLO (+.026).
+2. **On the 210 test femurs, ConvNeXt U-Net's lead over YOLO (+.018) and SegFormer (+.006) is not significant.** It stays significant over U-Net and DeepLabV3+ (+.033 and +.045). The test set has only 145 fractured femurs, and its neck masks are drawn differently (section 4).
 3. **The two ResNet34 segmenters (U-Net, DeepLabV3+) are not better than YOLO** in either view, and they are the same as each other.
-4. **M0 and SegFormer lead in all three views.** The order of the other three changes between views (test models: DeepLabV3+ .704, U-Net .698, YOLO .693; test ensemble: YOLO .725, U-Net .711, DeepLabV3+ .698), and none of their differences is significant.
+4. **ConvNeXt U-Net and SegFormer lead in all three views.** The order of the other three changes between views (test models: DeepLabV3+ .704, U-Net .698, YOLO .693; test ensemble: YOLO .725, U-Net .711, DeepLabV3+ .698), and none of their differences is significant.
 
 ## 2. Where the Dice differences come from
 
 **Mostly from fractures that are missed, which count as Dice 0.**
 
-| Dice on the femurs each model detects (its own set) | S01 | S07 | S08 | S09 | S10 |
+| Dice on the femurs each model detects (its own set) | YOLOv8s-seg | ResNet-34 U-Net | ResNet-34 DeepLabV3+ | SegFormer-B2 | ConvNeXt U-Net |
 |---|---|---|---|---|---|
 | OOF | **.800** | .772 | .781 | .784 | .799 |
 | Test, 5 fold models | .741 ± .009 | .718 ± .009 | .733 ± .006 | .735 ± .005 | **.746 ± .002** |
 | Test ensemble | **.751** | .736 | .750 | .747 | .749 |
 
 - YOLO misses 51 of the 680 fractured femurs out of fold (7.5%), the segmenters 16–28. Most of YOLO's Dice deficit (.740 against .777) is these misses.
-- On the fractures it does find, YOLO's masks are as good as M0's (.800 against .799) and better than those of the three standard segmenters (.772–.784). This comparison favours YOLO, because its own set leaves out the 51 femurs it misses, which are likely the harder ones.
-- On the test set YOLO's ensemble misses only 5 of 145 fractures (M0: 1), which is why the test difference is small.
+- On the fractures it does find, YOLO's masks are as good as ConvNeXt U-Net's (.800 against .799) and better than those of the three standard segmenters (.772–.784). This comparison favours YOLO, because its own set leaves out the 51 femurs it misses, which are likely the harder ones.
+- On the test set YOLO's ensemble misses only 5 of 145 fractures (ConvNeXt U-Net: 1), which is why the test difference is small.
 
 **Per class** (OOF pooled; test, 5 fold models mean ± SD; a missed fracture counts as 0; `breakdown.md`):
 
-| Class (OOF / test femurs) | S01 | S07 | S08 | S09 | S10 |
+| Class (OOF / test femurs) | YOLOv8s-seg | ResNet-34 U-Net | ResNet-34 DeepLabV3+ | SegFormer-B2 | ConvNeXt U-Net |
 |---|---|---|---|---|---|
 | 2AB Neck Garden I-II (57 / 16), OOF | .534 | .588 | .556 | .592 | **.624** |
 | test | .524 ± .036 | .544 ± .041 | .557 ± .058 | **.612 ± .013** | .578 ± .032 |
@@ -88,13 +88,13 @@ Intervals: 95% cluster bootstrap over x-rays. NSD and HD95 are descriptive (no t
 | 4 Subtrochanteric (36 / 12), OOF | .601 | .662 | .682 | **.728** | .682 |
 | test | .608 ± .024 | .558 ± .038 | .577 ± .024 | .631 ± .021 | **.655 ± .039** |
 
-- **M0 is best or second best in every class.** Its gain over YOLO is largest where YOLO misses the most fractures: Garden I-II (OOF +.090; YOLO detects 74% of them, the segmenters 82–93%) and subtrochanteric (+.081; YOLO detects 81%).
+- **ConvNeXt U-Net is best or second best in every class.** Its gain over YOLO is largest where YOLO misses the most fractures: Garden I-II (OOF +.090; YOLO detects 74% of them, the segmenters 82–93%) and subtrochanteric (+.081; YOLO detects 81%).
 - **SegFormer is the best model for subtrochanteric fractures out of fold** (.728) and for Garden I-II on the test set (.612). Both classes are small (36 and 57 femurs out of fold, 12 and 16 on the test set).
-- **Garden I-II and subtrochanteric fractures stay the hardest to outline** for every model (Dice .52–.73), as they are the hardest to classify (C03).
+- **Garden I-II and subtrochanteric fractures stay the hardest to outline** for every model (Dice .52–.73), as they are the hardest to classify (classifier analysis).
 
 ## 3. Boundary metrics (descriptive)
 
-| Metric | S01 | S07 | S08 | S09 | S10 |
+| Metric | YOLOv8s-seg | ResNet-34 U-Net | ResNet-34 DeepLabV3+ | SegFormer-B2 | ConvNeXt U-Net |
 |---|---|---|---|---|---|
 | NSD at 2 px, OOF | .053 | .050 | .049 | .054 | **.057** |
 | NSD at 10 px, OOF | not computed | .221 | .222 | .238 | **.248** |
@@ -103,13 +103,13 @@ Intervals: 95% cluster bootstrap over x-rays. NSD and HD95 are descriptive (no t
 | HD95 (px), median, detected, OOF | 63.0 | 64.4 | 61.7 | 61.6 | **60.8** |
 | HD95 (px), test, 5 fold models | 72.3 ± 1.4 | 72.4 ± 1.4 | 70.6 ± 0.8 | 71.8 ± 1.5 | **68.4 ± 1.0** |
 
-- **The order is the same as for Dice:** M0 ≥ SegFormer > the ResNet34 segmenters. The HD95 medians of all five models lie within 4 px of each other (at 1024 × 1536 px), so no model draws clearly sharper borders.
+- **The order is the same as for Dice:** ConvNeXt U-Net ≥ SegFormer > the ResNet34 segmenters. The HD95 medians of all five models lie within 4 px of each other (at 1024 × 1536 px), so no model draws clearly sharper borders.
 - **All models outline the fracture region, not a sharp fracture line.** Only about 5% of the boundary lies within 2 px of the released boundary, and 22–25% within 10 px. The released masks are large regions (median 30,000–150,000 px), so a boundary tolerance of a few pixels is very strict for them.
-- **S01 has NSD at 2 px only.** It was scored before NSD at 10 and 20 px were added to the evaluation, and its masks are not in the repository. At 2 px it is in the same range as the others (.053 OOF, .043 test ensemble against .049–.057 and .039–.047). A re-score of S01's saved masks would be needed only if a reviewer asks for NSD at 10 px for YOLO.
+- **YOLOv8s-seg has NSD at 2 px only.** It was scored before NSD at 10 and 20 px were added to the evaluation, and its masks are not in the repository. At 2 px it is in the same range as the others (.053 OOF, .043 test ensemble against .049–.057 and .039–.047). A re-score of YOLOv8s-seg's saved masks would be needed only if a reviewer asks for NSD at 10 px for YOLO.
 
 ## 4. The test set: neck masks are drawn smaller, so every model's test Dice drops for neck fractures
 
-| Class | True mask, training femurs (median px) | True mask, test femurs | Test / training | Predicted / true area on the test set, 5 models (S01, S07, S08, S09, S10) | Same out of fold |
+| Class | True mask, training femurs (median px) | True mask, test femurs | Test / training | Predicted / true area on the test set, 5 models (YOLOv8s-seg, ResNet-34 U-Net, ResNet-34 DeepLabV3+, SegFormer-B2, ConvNeXt U-Net) | Same out of fold |
 |---|---|---|---|---|---|
 | 2AB Neck Garden I-II | 45,963 | 29,797 | **0.65** | 2.04, 1.74, 1.71, 1.73, 1.89 | 0.76–1.06 |
 | 2CD Neck Garden III-IV | 75,612 | 45,844 | **0.61** | 1.78, 1.80, 1.76, 1.70, 1.71 | 0.87–0.99 |
@@ -118,12 +118,12 @@ Intervals: 95% cluster bootstrap over x-rays. NSD and HD95 are descriptive (no t
 | 4 Subtrochanteric | 126,204 | 149,960 | 1.19 | 0.69–0.95 | 0.95–1.04 |
 
 - All five models learned the training masks and draw neck fractures 1.7–2.0 times larger than the test masks. Their neck Dice drops from .744–.773 out of fold to .677–.699 on the test set (2CD), while pertrochanteric Dice changes little.
-- This is a property of the test labels (the article says a committee reviewed them), not of one model, and it was already seen for YOLO in C01. It limits every test Dice the papers report. As decided in C01, Dice is reported per location, and the paper states the shift.
-- The test set must not be used to correct it (Report 04 §3.4).
+- This is a property of the test labels (the article says a committee reviewed them), not of one model, and it was already seen for YOLO in the YOLO resolution analysis. It limits every test Dice the papers report. As decided in the YOLO resolution analysis, Dice is reported per location, and the paper states the shift.
+- The test set must not be used to correct it (Report 04 section 3.4).
 
 ## 5. Classification (secondary here)
 
-| | S01 | S07 | S08 | S09 | S10 |
+| | YOLOv8s-seg | ResNet-34 U-Net | ResNet-34 DeepLabV3+ | SegFormer-B2 | ConvNeXt U-Net |
 |---|---|---|---|---|---|
 | OOF fracture AUC | .975 | .990 | .990 | .994 | **.995** |
 | OOF 6-class accuracy | 83.2% | 86.3% | 86.2% | 87.9% | **88.4%** |
@@ -133,29 +133,29 @@ Intervals: 95% cluster bootstrap over x-rays. NSD and HD95 are descriptive (no t
 | Test ensemble errors: detection / location / grade | 6 / **2** / 17 | 5 / 5 / 18 | 10 / 5 / **14** | 2 / 7 / 16 | **1** / 7 / 20 |
 
 - **Out of fold, every segmenter classifies better than YOLO:** 6-class accuracy +3.0 to +5.2 points, macro-F1 +.055 to +.081, fracture AUC +.014 to +.019, and fewer detection errors (all Holm p ≤ .017).
-- **Among the segmenters there is little difference.** M0 is more accurate than U-Net and DeepLabV3+ out of fold (+2.1 and +2.2 points, Holm p = .046 and .035) and detects fractures better than DeepLabV3+ (Holm p = .002). M0 and SegFormer do not differ on any classification endpoint (smallest Holm p = 1.00).
-- **On the test set no segmenter differs from YOLO in classification** (smallest Holm p = .31). DeepLabV3+ misses more fractures than SegFormer and M0 (detection −.038 and −.043, Holm p = .039 and .016).
-- **The pattern of C03 holds:** YOLO makes the most detection errors out of fold and the fewest location errors on the test set (2 in the ensemble against 5–7; test location accuracy per model .966 against .948–.956). Grade errors are similar for all models (65–76 OOF, 14–20 test). Per test model, SegFormer has the highest accuracy (86.8 ± 0.8%) and M0 the smallest spread (86.0 ± 0.5%).
+- **Among the segmenters there is little difference.** ConvNeXt U-Net is more accurate than U-Net and DeepLabV3+ out of fold (+2.1 and +2.2 points, Holm p = .046 and .035) and detects fractures better than DeepLabV3+ (Holm p = .002). ConvNeXt U-Net and SegFormer do not differ on any classification endpoint (smallest Holm p = 1.00).
+- **On the test set no segmenter differs from YOLO in classification** (smallest Holm p = .31). DeepLabV3+ misses more fractures than SegFormer and ConvNeXt U-Net (detection −.038 and −.043, Holm p = .039 and .016).
+- **The pattern of the classifier analysis holds:** YOLO makes the most detection errors out of fold and the fewest location errors on the test set (2 in the ensemble against 5–7; test location accuracy per model .966 against .948–.956). Grade errors are similar for all models (65–76 OOF, 14–20 test). Per test model, SegFormer has the highest accuracy (86.8 ± 0.8%) and ConvNeXt U-Net the smallest spread (86.0 ± 0.5%).
 
 ## 6. Calibration (reported only; `stats.md`)
 
 | Run | Temperature | OOF ECE before → after | Test-ensemble ECE before → after | Test fold models, ECE before → after |
 |---|---|---|---|---|
-| S01 YOLOv8s-seg | not applicable | .079 | .083 | .082 |
-| S07 U-Net | 2.22 | .115 → .035 | .083 → .099 | .140 → .062 |
-| S08 DeepLabV3+ | 2.36 | .115 → .031 | .075 → .098 | .124 → .055 |
-| S09 SegFormer | 2.39 | .096 → .050 | .074 → .084 | .115 → .064 |
-| S10 M0 | 3.14 | .108 → .040 | .103 → .064 | .131 → .062 |
+| YOLOv8s-seg | not applicable | .079 | .083 | .082 |
+| ResNet-34 U-Net | 2.22 | .115 → .035 | .083 → .099 | .140 → .062 |
+| ResNet-34 DeepLabV3+ | 2.36 | .115 → .031 | .075 → .098 | .124 → .055 |
+| SegFormer-B2 | 2.39 | .096 → .050 | .074 → .084 | .115 → .064 |
+| ConvNeXt U-Net | 3.14 | .108 → .040 | .103 → .064 | .131 → .062 |
 
 - All four networks are over-confident as single models, and one temperature fitted on the OOF femurs removes most of it, also for each fold model on the test set.
-- **For the test ensembles of S07–S09 the same temperature makes the ECE worse** (.074–.083 → .084–.099). Averaging five models already softens their probabilities, so the OOF temperature over-corrects. M0's ensemble stays over-confident before scaling (.103) and improves (.064).
-- The temperature never changes a decision. Paper A reports calibration for the fold models and the ensemble separately (Analysis/06 §6).
+- **For the test ensembles of the three segmenters the same temperature makes the ECE worse** (.074–.083 → .084–.099). Averaging five models already softens their probabilities, so the OOF temperature over-corrects. ConvNeXt U-Net's ensemble stays over-confident before scaling (.103) and improves (.064).
+- The temperature never changes a decision. Paper A reports calibration for the fold models and the ensemble separately (Analysis/06 section 6).
 
 ## 7. Decision
 
-- **RQ1:** a dedicated segmentation decoder outlines fractures better than YOLOv8-seg out of fold (M0 +.037 Dice, SegFormer +.026). On the 210 test femurs the difference is smaller and not significant (M0 +.018, Holm p = .36). The papers state both results, and that the gain comes mainly from fewer missed fractures.
-- **M0 stays the base model of both papers.** It has the best Dice in every view and is significantly better than all three standard segmenters out of fold. Its classification equals SegFormer's (no significant difference) and is above YOLO's out of fold.
-- **SegFormer (S09) is the strongest standard segmenter.** It enters Paper A's main table (C09) as planned (A6 against S01 and S04–S10), and it is the segmentation baseline to beat in the Dice columns.
-- **U-Net and DeepLabV3+ (S07, S08) stay in the baseline table only.** They are no better than YOLO on Dice.
-- **For both papers:** Dice is reported per location because of the test-set neck shift (§4). Garden I-II and subtrochanteric fractures are the hardest to outline as well as to classify.
-- **With C04, Step 2 is complete:** S01–S10 are filed and analysed (C01–C05). This is milestone **M1, baseline table v1** (planned for 13 Dec 2026): `results/analysis/M1_baseline_table/`.
+- **Segmentation question:** a dedicated segmentation decoder outlines fractures better than YOLOv8-seg out of fold (ConvNeXt U-Net +.037 Dice, SegFormer +.026). On the 210 test femurs the difference is smaller and not significant (ConvNeXt U-Net +.018, Holm p = .36). The papers state both results, and that the gain comes mainly from fewer missed fractures.
+- **ConvNeXt U-Net stays the base model of both papers.** It has the best Dice in every view and is significantly better than all three standard segmenters out of fold. Its classification equals SegFormer's (no significant difference) and is above YOLO's out of fold.
+- **SegFormer (SegFormer-B2) is the strongest standard segmenter.** It enters Paper A's main table (SLG-Net main-table analysis) as planned (SLG-Net against YOLOv8s-seg and the seven other baselines), and it is the segmentation baseline to beat in the Dice columns.
+- **U-Net and DeepLabV3+ (ResNet-34 U-Net, ResNet-34 DeepLabV3+) stay in the baseline table only.** They are no better than YOLO on Dice.
+- **For both papers:** Dice is reported per location because of the test-set neck shift (section 4). Garden I-II and subtrochanteric fractures are the hardest to outline as well as to classify.
+- **With the segmenter analysis, Step 2 is complete:** the ten baselines are filed and analysed (baseline analyses). This is **the baseline-table milestone, baseline table v1** (planned for 13 Dec 2026): `results/analysis/M1_baseline_table/`.

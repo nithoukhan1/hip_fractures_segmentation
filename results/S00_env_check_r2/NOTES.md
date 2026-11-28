@@ -13,4 +13,4 @@
 
 **4. What we learnt:** The hypothesis held. The 104 Kaggle val images are pixel- and label-identical to the corresponding official training femurs, so Kaggle and the local copy now give the same data and folds.
 
-**5. Decision / next step:** Step 0 is complete (milestone M0). Start Step 1: data and metrics modules, then the YOLO reproduction runs S01 and S02. Use Save Version for those, because they take hours.
+**5. Decision / next step:** Step 0 is complete (milestone ConvNeXt U-Net). Start Step 1: data and metrics modules, then the YOLO reproduction runs YOLOv8s-seg and YOLOv8s-seg at 640 px. Use Save Version for those, because they take hours.

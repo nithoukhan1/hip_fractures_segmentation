@@ -1,6 +1,6 @@
 # R7_partner: summary
 
-Network `ref:convnext_tiny.fb_in22k_ft_in1k:R7`, input 768 x 512, 60 epochs, batch 16 (micro-batch 16 x 1), lr 0.0002, final weights. RefFrac R7: 1 reference(s) per femur (partner), alignment attention (window +-0.125 of the image height), fusion difference; references encoded by the shared encoder without gradient.
+Network `ref:convnext_tiny.fb_in22k_ft_in1k:R7`, input 768 x 512, 60 epochs, batch 16 (micro-batch 16 x 1), lr 0.0002, final weights. RefFrac the own-hip model: 1 reference(s) per femur (partner), alignment attention (window +-0.125 of the image height), fusion difference; references encoded by the shared encoder without gradient.
 Folds completed [0, 1, 2, 3, 4], skipped [], failed []. Runtime 193.1 min on Tesla T4 x2.
 
 ## Fracture threshold fitted on the OOF predictions (Youden): 0.0601
@@ -31,7 +31,7 @@ Folds completed [0, 1, 2, 3, 4], skipped [], failed []. Runtime 193.1 min on Tes
 | Dice, detected fractures only | 0.802 | 0.749 ± 0.005 | 0.753 | 0.77 |
 | NSD at 10 px, fractured femurs | 0.242 | 0.188 ± 0.005 | 0.197 |  |
 
-## Reference tests (RefFrac, Analysis/08 §2.6), at the OOF threshold
+## Reference tests (RefFrac, Analysis/08 section 2.6), at the OOF threshold
 
 | Mode | OOF Dice, fractured | OOF macro-F1 | OOF Garden I-II recall | Change of P(fracture), fractured | Change of P(fracture), healthy | Healthy femurs that become fractured | Test ensemble Dice, fractured |
 |---|---|---|---|---|---|---|---|

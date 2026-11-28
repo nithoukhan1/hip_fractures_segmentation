@@ -14,14 +14,14 @@ Sources:
 |---|---|
 | Base article reading and dataset EDA | Done |
 | Literature: who used the dataset, state of the art | Done |
-| Ranking of directions D1–D9 and research plan | Done (Report 03) |
+| Ranking of the nine directions and research plan | Done (Report 03) |
 | Decision: Papers A and B in parallel; execution plan | Done (Report 04) |
 | Fixed 5-fold split of the training set | Done (`splits/folds_v1.csv`) |
 | Kaggle environment check | Done: data and folds on Kaggle are identical to `splits/folds_v1.csv` (Kaggle's val/ pooled into train) |
 | Data loader, metrics, statistics, tests | Done (`src/femurseg/data.py`, `metrics.py`, `stats.py`, `tests/`) |
-| Shared baselines S1–S9 and core model M0 | **Done (milestone M1, 2026-11-27):** baseline table v1 in `results/analysis/M1_baseline_table/report.md`. S01 and S02 (YOLOv8s-seg) reproduce the article's accuracy and AUC (`results/analysis/C01_yolo_1024_vs_640/report.md`); S03 (YOLO11s-seg) adds nothing (`C02_yolov8_vs_yolo11`). The image classifiers S04–S06 classify better than YOLO out of fold and reproduce the article's DenseNet121 and EfficientNet-B4 (`C03_classifiers_vs_yolo`). The core model M0 (S10) classifies better than the ConvNeXt-T classifier S06 and segments better than YOLO (`C05_mask_task_s06_vs_s10`). Among the segmenters (`C04_segmenters_vs_yolo`), M0 has the best Dice: out of fold it beats YOLO and every standard segmenter; on the test set its lead over YOLO is not significant. SegFormer (S09) is the best standard segmenter. Protocol in `Analysis/05_Step2_Baselines_Protocol.md` |
-| Paper A (SLG-Net) | Fold-0 development done (`results/analysis/C06_paperA_dev_fold0/report.md`): the base setting missed the go/no-go line (macro-F1 .776 < .79); the design review traced this to the 1/16 region features, and region pooling at 1/32 only reaches M0's level (.827). **Freeze approved 2026-11-27** (teacher forcing over 30 epochs, end-to-end mask, region pooling at 1/32 only; tag `A-v1-frozen`). The second-seed check confirmed the freeze (`results/analysis/C11_paperA_seed2/report.md`: +.054 macro-F1 over two seeds). **The five final runs A2–A6 are done and analysed** (2026-11-27, all from the tag, all 5 folds; `Analysis/06` §12): out of fold, SLG-Net beats the base article's model (macro-F1 +.061) but is not more accurate than M0 (−.020, not significant; `results/analysis/C07_paperA_ablation_chain/report.md`, `C09_paperA_main_table`). Its location and grade decisions depend on the predicted fracture region: deleting the region loses 65% of the correct decisions, the control 1% (`C08_paperA_interpretability`); its grades follow its own region, but no better than M0's (geometry test, C08 §4). **2026-11-28: SLG-Net is kept as pre-registered**, and M0 gets the same deletion test (`A1_m0_deletion`, `Analysis/06` §13) so that "more region-dependent than M0" can be tested. **Result (2026-11-28, C08 §2b): it is** (64% vs 48% of correct decisions lost when the region is removed, p < .001; the test set agrees). The plan of the combined paper (SLG-Net and RefFrac in one paper) is `Analysis/09_Combined_Paper_Plan.md` |
-| Paper B (RefFrac) | Step B-1 (`Analysis/07_Step4_PaperB_Reference_Bank_Protocol.md`): pair index and bank of healthy reference femurs built (R00). Its mirror check failed because ImageNet features hardly see left and right; version 2 of the orientation rule reads the pelvis side from the image (the two femurs of an x-ray get opposite sides in 402 of 405 x-rays, `results/analysis/C10_paperB_orientation_review/`) and passes as `R00_reference_bank_r2` (804 of 810 partners, 99.3%): **step B-1 is complete** (`Analysis/07` §9). **Step B-2 started 2026-11-27:** the protocol was written before any R run (`Analysis/08_Step5_PaperB_RefFrac_Protocol.md`: the Siamese RefFrac model, runs R1–R7, the reference tests and a fold-0 decision rule), the model is coded (`src/femurseg/refnet.py`) and tested on the CPU, and the fold-0 development is done (`results/analysis/C12_paperB_dev_fold0/report.md`): RefFrac R4 passes the go/no-go (fold-0 Dice .770 against M0's .749), clearly uses its references, and neither alternative setting wins. **The settings are frozen as written:** the eight final runs R1–R7 are in `kaggle/runs.json` and start from the tag `B-v1-frozen` (created 2026-11-27). **The eight final runs are done and analysed** (2026-11-28; `Analysis/08` §10): a healthy reference does not improve Dice; Garden I-II recall rises out of fold (RefFrac .702 vs M0 .544) but not after Holm and not on the test set (`results/analysis/C13_paperB_reference/report.md`). The model uses the comparison but not the match of the reference; the patient's own hip is no better, and there is no pairing shortcut (`C14_paperB_partner`). Alignment and fusion change how the reference is used, not accuracy (`C15_paperB_components`). RefFrac ties M0 and beats the base article's model out of fold (`C16_paperB_main_table`). **2026-11-28: no separate Paper B;** its findings join Paper A as one paper (`Analysis/08` §11) |
+| Shared nine baselines and core model ConvNeXt U-Net | **Done (the baseline-table milestone, 2026-11-27):** baseline table v1 in `results/analysis/M1_baseline_table/report.md`. YOLOv8s-seg and YOLOv8s-seg at 640 px reproduce the article's accuracy and AUC (`results/analysis/C01_yolo_1024_vs_640/report.md`); YOLO11s-seg adds nothing (`C02_yolov8_vs_yolo11`). The image the three classifiers better than YOLO out of fold and reproduce the article's DenseNet121 and EfficientNet-B4 (`C03_classifiers_vs_yolo`). The core model ConvNeXt U-Net classifies better than the ConvNeXt-T classifier and segments better than YOLO (`C05_mask_task_s06_vs_s10`). Among the segmenters (`C04_segmenters_vs_yolo`), ConvNeXt U-Net has the best Dice: out of fold it beats YOLO and every standard segmenter; on the test set its lead over YOLO is not significant. SegFormer (SegFormer-B2) is the best standard segmenter. Protocol in `Analysis/05_Step2_Baselines_Protocol.md` |
+| Paper A (SLG-Net) | Fold-0 development done (`results/analysis/C06_paperA_dev_fold0/report.md`): the base setting missed the go/no-go line (macro-F1 .776 < .79); the design review traced this to the 1/16 region features, and region pooling at 1/32 only reaches ConvNeXt U-Net's level (.827). **Freeze approved 2026-11-27** (teacher forcing over 30 epochs, end-to-end mask, region pooling at 1/32 only; tag `A-v1-frozen`). The second-seed check confirmed the freeze (`results/analysis/C11_paperA_seed2/report.md`: +.054 macro-F1 over two seeds). **The five final the five SLG-Net chain runs are done and analysed** (2026-11-27, all from the tag, all 5 folds; `Analysis/06` section 12): out of fold, SLG-Net beats the base article's model (macro-F1 +.061) but is not more accurate than ConvNeXt U-Net (−.020, not significant; `results/analysis/C07_paperA_ablation_chain/report.md`, `C09_paperA_main_table`). Its location and grade decisions depend on the predicted fracture region: deleting the region loses 65% of the correct decisions, the control 1% (`C08_paperA_interpretability`); its grades follow its own region, but no better than ConvNeXt U-Net's (geometry test, the SLG-Net interpretability analysis, section 4). **2026-11-28: SLG-Net is kept as pre-registered**, and ConvNeXt U-Net gets the same deletion test (`A1_m0_deletion`, `Analysis/06` section 13) so that "more region-dependent than ConvNeXt U-Net" can be tested. **Result (2026-11-28, the SLG-Net interpretability analysis, section 2b): it is** (64% vs 48% of correct decisions lost when the region is removed, p < .001; the test set agrees). The plan of the combined paper (SLG-Net and RefFrac in one paper) is `Analysis/09_Combined_Paper_Plan.md` |
+| Paper B (RefFrac) | Step 1 of Paper B (`Analysis/07_Step4_PaperB_Reference_Bank_Protocol.md`): pair index and bank of healthy reference femurs built (reference bank). Its mirror check failed because ImageNet features hardly see left and right; version 2 of the orientation rule reads the pelvis side from the image (the two femurs of an x-ray get opposite sides in 402 of 405 x-rays, `results/analysis/C10_paperB_orientation_review/`) and passes as `R00_reference_bank_r2` (804 of 810 partners, 99.3%): **step 1 of Paper B is complete** (`Analysis/07` section 9). **Step 2 of Paper B started 2026-11-27:** the protocol was written before any R run (`Analysis/08_Step5_PaperB_RefFrac_Protocol.md`: the Siamese RefFrac model, the eight reference runs, the reference tests and a fold-0 decision rule), the model is coded (`src/femurseg/refnet.py`) and tested on the CPU, and the fold-0 development is done (`results/analysis/C12_paperB_dev_fold0/report.md`): RefFrac passes the go/no-go (fold-0 Dice .770 against ConvNeXt U-Net's .749), clearly uses its references, and neither alternative setting wins. **The settings are frozen as written:** the eight final the eight reference runs are in `kaggle/runs.json` and start from the tag `B-v1-frozen` (created 2026-11-27). **The eight final runs are done and analysed** (2026-11-28; `Analysis/08` section 10): a healthy reference does not improve Dice; Garden I-II recall rises out of fold (RefFrac .702 vs ConvNeXt U-Net .544) but not after Holm and not on the test set (`results/analysis/C13_paperB_reference/report.md`). The model uses the comparison but not the match of the reference; the patient's own hip is no better, and there is no pairing shortcut (`C14_paperB_partner`). Alignment and fusion change how the reference is used, not accuracy (`C15_paperB_components`). RefFrac ties ConvNeXt U-Net and beats the base article's model out of fold (`C16_paperB_main_table`). **2026-11-28: no separate Paper B;** its findings join Paper A as one paper (`Analysis/08` section 11) |
 
 Details: [`PROJECT_TRACKER.md`](PROJECT_TRACKER.md) (overall) and [`PROGRESS_LOG.md`](PROGRESS_LOG.md) (step by step).
 
@@ -30,17 +30,18 @@ Details: [`PROJECT_TRACKER.md`](PROJECT_TRACKER.md) (overall) and [`PROGRESS_LOG
 ```
 .
 ├── README.md               this file
+├── GLOSSARY.md             folder and run names, and the full names the documents use for them
 ├── PROJECT_TRACKER.md      overall tracker: phases per track, milestones, decisions, open questions
 ├── PROGRESS_LOG.md         step-by-step log, newest first
 ├── Analysis/               reports
 │   ├── 01_Base_Article_and_EDA_Report.md
-│   ├── 02_How_to_Use_the_Dataset.md        nine directions D1–D9
+│   ├── 02_How_to_Use_the_Dataset.md        nine research directions
 │   ├── 03_Idea_Ranking_and_Research_Plan.md ranking, Option A and B designs
 │   ├── 04_Execution_Plan_A_and_B.md         A and B in parallel: runs, validation, compute, timeline
-│   ├── 05_Step2_Baselines_Protocol.md       how S04–S10 (classifiers, segmenters, M0) are trained and scored
-│   ├── 06_Step3_PaperA_Protocol.md          Paper A: runs A2–A6, fold-0 development, interpretability tests
-│   ├── 07_Step4_PaperB_Reference_Bank_Protocol.md   Paper B, step B-1: pair index and bank of healthy references
-│   └── 08_Step5_PaperB_RefFrac_Protocol.md          Paper B, step B-2: RefFrac model, runs R1–R7, fold-0 development
+│   ├── 05_Step2_Baselines_Protocol.md       how the classifiers, segmenters and ConvNeXt U-Net are trained and scored
+│   ├── 06_Step3_PaperA_Protocol.md          Paper A: the SLG-Net ablation runs, fold-0 development, interpretability tests
+│   ├── 07_Step4_PaperB_Reference_Bank_Protocol.md   Paper B, step 1: pair index and bank of healthy references
+│   └── 08_Step5_PaperB_RefFrac_Protocol.md          Paper B, step 2: RefFrac model and its runs, fold-0 development
 ├── research/               literature notes
 ├── EDA/                    EDA script, per-image statistics, figures
 ├── splits/                 fixed train folds (official val folder is empty; test is untouched)
@@ -50,17 +51,17 @@ Details: [`PROJECT_TRACKER.md`](PROJECT_TRACKER.md) (overall) and [`PROGRESS_LOG
 │                           a time guard (runner.py), PyTorch networks (nets.py), SLG-Net of Paper A (slg.py),
 │                           Paper B's pair index and reference bank (refbank.py), RefFrac of Paper B (refnet.py)
 │                           and image cache (torchdata.py)
-├── scripts/                command-line tools: make_splits.py, register_run.py, train_yolo_seg.py (S01–S03),
-│                           train_net.py (S04–S10: classifiers, segmenters, M0; S00_net_check; SLG-Net A2–A6;
-│                           RefFrac R1–R7),
+├── scripts/                command-line tools: make_splits.py, register_run.py, train_yolo_seg.py (the YOLO baselines),
+│                           train_net.py (classifiers, segmenters, ConvNeXt U-Net, the network check, SLG-Net
+│                           and RefFrac runs),
 │                           run_stats.py (95% intervals, paired comparisons and calibration of filed runs),
 │                           run_breakdown.py (per class, mean ± SD over folds, comparison with the article),
-│                           build_reference_bank.py (R00: Paper B's reference femurs),
-│                           check_orientation.py (C10: Paper B's orientation review; runs on a laptop),
-│                           run_interpretability.py (C08: Paper A's oracle, deletion, risk–coverage and
+│                           build_reference_bank.py (Paper B's reference bank of healthy femurs),
+│                           check_orientation.py (Paper B's orientation review; runs on a laptop),
+│                           run_interpretability.py (SLG-Net's oracle, deletion, risk–coverage and
 │                           geometry tests), map_geometry.py (region geometry from saved maps; runs on a laptop),
-│                           run_refstats.py (C13–C16: Paper B's Garden I-II tests, subgroups, reference tests
-│                           and R7's modes), run_ensemble.py (C17: ensembles of saved predictions)
+│                           run_refstats.py (RefFrac's Garden I-II tests, subgroups, reference tests and the
+│                           own-hip model's modes), run_ensemble.py (ensembles of saved predictions)
 ├── tests/                  checks of metrics, statistics, folds, the article's numbers, the breakdown, Paper A's
 │                           interpretability analysis and region geometry, Paper B's analysis tools, the networks, SLG-Net and RefFrac,
 │                           Paper B's reference bank, the Kaggle launcher's data check, and CPU smoke tests of
@@ -70,12 +71,8 @@ Details: [`PROJECT_TRACKER.md`](PROJECT_TRACKER.md) (overall) and [`PROGRESS_LOG
 ├── kaggle/                 Kaggle launcher notebook, run list and Kaggle-only scripts
 ├── results/                every run's metrics, notes and small outputs (no model weights)
 │   ├── EXPERIMENTS.md      the experiment register: one line per run
-│   ├── analysis/           analyses across runs (C01 = S01 vs S02, C02 = S01 vs S03, C03 = classifiers vs S01,
-│   │                       C04 = segmenters vs S01, C05 = S06 vs S10, C06 = Paper A's fold-0 development,
-│   │                       C07 = Paper A's ablation chain, C08 = Paper A's interpretability tests, C09 = Paper
-│   │                       A's main table, C10 = Paper B's orientation, C11 = Paper A's second seed, C12 =
-│   │                       Paper B's fold-0 development, C13–C16 = Paper B's reference question, own hip,
-│   │                       components and main table, C17 = ensembles, M1_baseline_table = all ten baselines)
+│   ├── analysis/           analyses across runs, one folder each (folder names and what each analysis is
+│   │                       called in the documents: GLOSSARY.md)
 │   └── _inbox/             drop zips downloaded from Kaggle here
 └── manuscript/             paper drafts, tables and figures (later)
 ```
@@ -123,6 +120,7 @@ See [`kaggle/README.md`](kaggle/README.md). In short:
 5. Primary endpoints are fixed in advance:
    - Paper A: 6-class macro-F1 and mean Dice on fractured femurs.
    - Paper B: mean Dice on fractured femurs and recall of Garden I–II fractures.
+6. Documents call every model, run and analysis by its full name (for example ConvNeXt U-Net, RefFrac, the reference analysis), never by a short code. Folder names keep their codes because the scripts depend on them; `GLOSSARY.md` links the two.
 
 ## Citation of the data and base work
 If you use this code, also cite the base article and the dataset:

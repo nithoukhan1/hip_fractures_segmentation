@@ -1,22 +1,22 @@
-# Report 03: Ranking the directions (D1–D9) and the research plan
+# Report 03: Ranking the directions (nine directions) and the research plan
 
 **Date:** 2026-11-26
-**Builds on:** `Analysis/01_Base_Article_and_EDA_Report.md` (article + EDA), `Analysis/02_How_to_Use_the_Dataset.md` (D1–D9), `research/01_prior_use_and_sota_review.md` (who has used the data).
+**Builds on:** `Analysis/01_Base_Article_and_EDA_Report.md` (article + EDA), `Analysis/02_How_to_Use_the_Dataset.md` (nine directions), `research/01_prior_use_and_sota_review.md` (who has used the data).
 **Status:** options analysis.
 
 > **Decision, 26 Nov 2026:** you chose to run **Option A and Option B in parallel, as two papers**.
-> - The adopted plan is **`Analysis/04_Execution_Plan_A_and_B.md`**. It replaces §8 (compute) and §9 (timeline) below.
+> - The adopted plan is **`Analysis/04_Execution_Plan_A_and_B.md`**. It replaces section 8 (compute) and section 9 (timeline) below.
 > - It adds the no-clinician constraint, the full Paper B plan and the validation rules.
-> - Run names changed there: baselines B1–B9 below are **S1–S9** (shared), and Paper B runs are **R1–R7**.
+> - Run names changed there: the nine baselines below are **the nine baselines** (shared), and Paper B runs are **the eight reference runs**.
 
 ---
 
 ## 0. Summary in five lines
 
 1. I scored all nine directions on novelty, evidence in our data, chance of a clear result, Kaggle feasibility and reviewer value (Section 2).
-2. The strongest core is **D3 (location → grade reasoning) built on D2 (a real segmentation decoder)**. Support pieces D1 (rare classes), D7 (uncertainty) and D9 (benchmark) are cheap and make the paper complete.
+2. The strongest core is **the hierarchical-grading direction (location → grade reasoning) built on the segmentation-first direction (a real segmentation decoder)**. Support pieces the rare-class direction (rare classes), the uncertainty direction and the benchmark direction are cheap and make the paper complete.
 3. **Option A, "SLG-Net" (Segment, Locate, Grade), is my recommendation.** The network first outlines the fracture region, then uses that region to decide the location, then the grade. It attacks the paper's main weaknesses directly: 15 of its 29 test errors are wrong grades at the right location, and its Dice falls at high resolution.
-4. **Option B, "RefFrac" (compare with a healthy reference femur, D4),** is the most novel but riskiest: a healthy contralateral femur exists for only 44% of test fractures, and the data has a built-in shortcut. It fits better as a second paper on the same code.
+4. **Option B, "RefFrac" (compare with a healthy reference femur, the healthy-femur-comparison direction),** is the most novel but riskiest: a healthy contralateral femur exists for only 44% of test fractures, and the data has a built-in shortcut. It fits better as a second paper on the same code.
 5. Core compute for Option A is about **70–80 Kaggle GPU-hours** (about 3 weeks of free quota), and the plan reaches **submission in about 12 weeks** (late February 2027) with a 2-week buffer.
 
 ---
@@ -35,25 +35,25 @@ A Q2/Q3 reviewer asks five questions, so each direction gets a 1–5 score on ea
 
 Novelty and reviewer value carry the most weight, because the citing literature is full of "YOLO + one attention block" papers that reviewers now see as weak (literature review, Section 4).
 
-## 2. Step 2: Scores for D1–D9, with the evidence behind each
+## 2. Step 2: Scores for the nine directions, with the evidence behind each
 
 | Rank | Dir. | Direction | N | E | G | F | R | **Score** | Role in the paper |
 |---|---|---|---|---|---|---|---|---|---|
-| 1 | **D3** | Location → grade (hierarchical) grading guided by the mask | 4 | 5 | 3.5 | 4 | 5 | **4.30** | **Core** |
-| 2 | D7 | Uncertainty and calibration | 2.5 | 4 | 5 | 5 | 4 | 3.98 | Support (cheap, always gives results) |
-| 3 | **D2** | Dedicated segmentation decoder + per-class Dice/HD95/NSD | 3 | 5 | 4 | 4 | 3.5 | **3.78** | **Core (backbone of the method)** |
-| 4 | D4 | Compare with the healthy contralateral femur | 4.5 | 4 | 2.5 | 2.5 | 4 | 3.60 | Option B / second paper |
-| 5 | D9 | Independent benchmark of modern models | 2.5 | 4 | 5 | 4 | 3 | 3.58 | Support (needed anyway) |
-| 6 | D1 | Rare-class (long-tail) learning | 2 | 5 | 3 | 5 | 3 | 3.35 | Support, built into the hierarchy |
-| 7 | D8 | External test on FracAtlas hips | 3 | 4 | 2.5 | 2.5 | 4.5 | 3.35 | Optional, if time allows |
-| 8 | D6 | SAM / MedSAM with adapters | 3 | 2 | 2.5 | 3 | 3.5 | 2.88 | One extra baseline (optional) |
-| 9 | D5 | Label-noise / annotation-shift-aware training | 2.5 | 3 | 2.5 | 3.5 | 3 | 2.85 | Analysis only (report, don't optimise) |
+| 1 | **Hierarchical-grading direction** | Location → grade (hierarchical) grading guided by the mask | 4 | 5 | 3.5 | 4 | 5 | **4.30** | **Core** |
+| 2 | Uncertainty direction | Uncertainty and calibration | 2.5 | 4 | 5 | 5 | 4 | 3.98 | Support (cheap, always gives results) |
+| 3 | **Segmentation-first direction** | Dedicated segmentation decoder + per-class Dice/HD95/NSD | 3 | 5 | 4 | 4 | 3.5 | **3.78** | **Core (backbone of the method)** |
+| 4 | Healthy-femur-comparison direction | Compare with the healthy contralateral femur | 4.5 | 4 | 2.5 | 2.5 | 4 | 3.60 | Option B / second paper |
+| 5 | Benchmark direction | Independent benchmark of modern models | 2.5 | 4 | 5 | 4 | 3 | 3.58 | Support (needed anyway) |
+| 6 | Rare-class direction | Rare-class (long-tail) learning | 2 | 5 | 3 | 5 | 3 | 3.35 | Support, built into the hierarchy |
+| 7 | External-test direction | External test on FracAtlas hips | 3 | 4 | 2.5 | 2.5 | 4.5 | 3.35 | Optional, if time allows |
+| 8 | Foundation-model direction | SAM / MedSAM with adapters | 3 | 2 | 2.5 | 3 | 3.5 | 2.88 | One extra baseline (optional) |
+| 9 | Label-noise direction | Label-noise / annotation-shift-aware training | 2.5 | 3 | 2.5 | 3.5 | 3 | 2.85 | Analysis only (report, don't optimise) |
 
-Score = 0.25·N + 0.15·E + 0.20·G + 0.15·F + 0.25·R. The scores are a structured judgement, not a measurement. D7 ranks high because it is low-risk, not because it is novel, so it supports the core rather than being one.
+Score = 0.25·N + 0.15·E + 0.20·G + 0.15·F + 0.25·R. The scores are a structured judgement, not a measurement. The uncertainty direction ranks high because it is low-risk, not because it is novel, so it supports the core rather than being one.
 
 ### Why each direction got its score
 
-**D3, location → grade (rank 1).**
+**Hierarchical-grading direction, location → grade (rank 1).**
 - *Evidence in the base paper:* of its 29 test errors, 8 are fracture/no-fracture errors (derived from Se 95.17% and Sp 98.46%), **15 are the wrong grade at the right location, and 6 are the wrong location**. Grade errors are the biggest error type.
 - *Evidence in the labels themselves:* `data.yml` codes are `2AB, 2CD, 3AB, 3CDE, 4`. The digit is the location (2 neck, 3 pertrochanteric, 4 subtrochanteric) and the letters are the grade. The labels are hierarchical, but the base model learns them as 6 flat classes.
 - *New evidence from our data (computed today from the ground-truth masks):*
@@ -64,12 +64,12 @@ Score = 0.25·N + 0.15·E + 0.20·G + 0.15·F + 0.25·R. The scores are a struct
 - *Literature:* hierarchical classification of proximal femur fractures exists, but only as cascades of image classifiers without fracture masks: Tanzi et al. 2020 (AO/OTA cascade, 3-class accuracy 0.86, 5-class 0.81) and Jiménez-Sánchez et al. 2019 (box localisation, then A vs B). Garden-only grading reaches 90.6% on private data with CT reference (Yang et al. 2025). **None of the papers we could read combines a fracture-region mask with a location → grade decision in one network** (checked: base paper and its 25 citers, Tanzi 2020, Jiménez-Sánchez 2019, Yilmaz 2025, Zheng 2025, Wang 2025, FMC-Net 2026).
 - *Risk:* the released grades are already grouped into two levels per location (I–II vs III–IV; I–II vs III–V), so "ordinal" modelling reduces to a binary decision inside each location. We therefore frame it as a **hierarchical, conditional** model, not as an ordinal-regression paper.
 
-**D2, segmentation decoder (rank 3, but the backbone of the method).**
+**Segmentation-first direction, segmentation decoder (rank 3, but the backbone of the method).**
 - *Evidence:* the paper's Dice is 0.77 with a very wide 95% CI (0.56–0.98). Dice gets **worse** at higher resolution (0.780 at 640 px vs 0.755 at 1536 px for YOLOv8-small), because YOLO's mask head builds masks from low-resolution prototypes. No per-class Dice or boundary metric is reported.
 - *Ceiling:* the one pixel-identical image pair in train has two masks with IoU 0.70, which is **Dice ≈ 0.82**. That is a rough inter-annotator ceiling from a single pair, so realistic Dice gains are a few points, not 0.10. We must say this honestly; it also protects us from reviewers expecting Dice 0.90.
-- *Literature:* no dedicated segmentation model has been reported on hip fracture-region masks (review §5b). Auxiliary classification improved fracture segmentation in rib CT (Dice 62.2 → 64.6; Harini et al. 2024), which supports the multi-task design.
+- *Literature:* no dedicated segmentation model has been reported on hip fracture-region masks (review section 5b). Auxiliary classification improved fracture segmentation in rib CT (Dice 62.2 → 64.6; Harini et al. 2024), which supports the multi-task design.
 
-**D4, contralateral femur (rank 4).**
+**Healthy-femur-comparison direction, contralateral femur (rank 4).**
 - *Evidence:* 398 x-rays hold one fractured and one healthy femur; no x-ray has two fractures.
 - *Literature:* left-right comparison works for **pelvic** fracture detection on full pelvic x-rays (AASN, a Siamese network with a spatial transformer, AUC 0.977; Chen et al., ECCV 2020). None of the hip papers we could read uses the contralateral femur for segmentation or grading.
 - *Why it is not the core:*
@@ -78,17 +78,17 @@ Score = 0.25·N + 0.15·E + 0.20·G + 0.15·F + 0.25·R. The scores are a struct
   3. **Alignment:** the two crops were cut and resized independently, so they are not registered.
 - High novelty, medium-low chance of a clean result. It is Option B below.
 
-**D9, benchmark (rank 5).** Nobody has trained anything on this dataset except the original authors. A careful benchmark under one protocol is a contribution, but alone it is Q3/Q4. We need the baselines anyway, so it comes for free.
+**Benchmark direction, benchmark (rank 5).** Nobody has trained anything on this dataset except the original authors. A careful benchmark under one protocol is a contribution, but alone it is Q3/Q4. We need the baselines anyway, so it comes for free.
 
-**D1, rare classes (rank 6).** Garden I–II has 57 training femurs and subtrochanteric 36, and both are the base model's worst classes. Standard long-tail fixes (logit adjustment, Menon et al. 2021) are not new on their own, so D1 is built into the hierarchy instead (Section 3.4).
+**Rare-class direction, rare classes (rank 6).** Garden I–II has 57 training femurs and subtrochanteric 36, and both are the base model's worst classes. Standard long-tail fixes (logit adjustment, Menon et al. 2021) are not new on their own, so the rare-class direction is built into the hierarchy instead (Section 3.4).
 
-**D7, uncertainty and calibration (rank 2 by score, support role).** The base paper's title promises interpretability but measures no calibration or uncertainty. Training 5 fold-models gives a deep ensemble for free (Lakshminarayanan et al. 2017), and temperature scaling (Guo et al. 2017) is cheap.
+**Uncertainty direction, uncertainty and calibration (rank 2 by score, support role).** The base paper's title promises interpretability but measures no calibration or uncertainty. Training 5 fold-models gives a deep ensemble for free (Lakshminarayanan et al. 2017), and temperature scaling (Guo et al. 2017) is cheap.
 
-**D8, FracAtlas external test (rank 7).** Reviewers like external validation, but FracAtlas has only 63 fractured hip studies, different labels (no Garden/Evans) and full images that we would have to crop ourselves. Kept as an optional extra.
+**External-test direction, FracAtlas external test (rank 7).** Reviewers like external validation, but FracAtlas has only 63 fractured hip studies, different labels (no Garden/Evans) and full images that we would have to crop ourselves. Kept as an optional extra.
 
-**D6, SAM/MedSAM (rank 8).** "SAM + adapter on dataset X" papers are common, and the masks here are loose regions rather than crisp objects, which plays to SAM's weak side. Worth one baseline row if compute allows.
+**Foundation-model direction, SAM/MedSAM (rank 8).** "SAM + adapter on dataset X" papers are common, and the masks here are loose regions rather than crisp objects, which plays to SAM's weak side. Worth one baseline row if compute allows.
 
-**D5, label noise (rank 9).** The train/test annotation shift (test neck masks 35–40% smaller) is real, but designing the method around it would use knowledge taken from the test set. We **report and analyse** it (predicted vs reference area per split) instead of optimising for it.
+**Label-noise direction, label noise (rank 9).** The train/test annotation shift (test neck masks 35–40% smaller) is real, but designing the method around it would use knowledge taken from the test set. We **report and analyse** it (predicted vs reference area per split) instead of optimising for it.
 
 ---
 
@@ -98,10 +98,10 @@ Score = 0.25·N + 0.15·E + 0.20·G + 0.15·F + 0.25·R. The scores are a struct
 A radiologist reads a hip fracture in three steps: *where is the break* (outline it), *which part of the femur is it in* (location), and *how bad is it* (grade: displaced or not, stable or not). SLG-Net copies that order. It first segments the fracture region. It then uses **what is inside the region** (its image features) and **the region's shape and position** (its geometry) to decide the location and, conditioned on the location, the grade. The mask is no longer a by-product: it is the evidence the decision is built on, which makes the model interpretable by construction.
 
 ### 3.2 Research questions (each becomes a results subsection)
-- **RQ1:** Does a dedicated high-resolution segmentation decoder outline fracture regions better than YOLOv8-seg (per-class Dice, HD95, NSD)?
-- **RQ2:** Does using the segmented region to make the decision improve fine-grained grading over a flat classifier with the same backbone? *(This is the question the base paper raised but never tested.)*
-- **RQ3:** Does the location → grade hierarchy reduce grade errors and help the rare classes (Garden I–II, subtrochanteric)?
-- **RQ4:** Are the predictions calibrated, and can the model's uncertainty flag the cases it gets wrong?
+- **Segmentation question:** Does a dedicated high-resolution segmentation decoder outline fracture regions better than YOLOv8-seg (per-class Dice, HD95, NSD)?
+- **Region-decision question:** Does using the segmented region to make the decision improve fine-grained grading over a flat classifier with the same backbone? *(This is the question the base paper raised but never tested.)*
+- **Hierarchy question:** Does the location → grade hierarchy reduce grade errors and help the rare classes (Garden I–II, subtrochanteric)?
+- **Calibration question:** Are the predictions calibrated, and can the model's uncertainty flag the cases it gets wrong?
 
 ### 3.3 Architecture sketch
 
@@ -144,14 +144,14 @@ Chain rule (always gives valid, consistent 6-class probabilities):
 
 | # | Component | Weakness it targets (evidence) | How we prove it works |
 |---|---|---|---|
-| C1 | Full-resolution U-Net-style decoder, Dice + BCE loss | Coarse YOLO masks; Dice falls with resolution (G1) | Per-class Dice, HD95, NSD vs YOLOv8-seg and U-Net family |
-| C2 | Mask-weighted region pooling (the heads look inside the predicted region) | Grade errors at the right location (15 of 29) | Ablation: global pooling vs region pooling |
-| C3 | Differentiable region geometry vector g | Geometry alone gives AUC 0.75–0.84 for grade and 80% for location | Ablation: with vs without g |
-| C4 | Hierarchical heads (fracture → location → grade), trained conditionally | Flat 6-way labels ignore the label hierarchy (G3) | Ablation: flat 6-way head vs hierarchy; error-type table |
-| C5 | Shared "severity" trunk for the neck and pertrochanteric grades | Rare Garden I–II can borrow strength from "stable" Evans I–II (both low displacement) | Ablation: separate vs shared grade heads; Garden I–II recall |
-| C6 | Logit adjustment at each node (Menon et al. 2021) | Rare classes: 57 and 36 training femurs (G2) | Balanced accuracy, per-class recall |
-| C7 | Teacher forcing: the heads start from the released (ground-truth) mask and move to the predicted mask during training | Bad early masks would confuse the heads | Training stability; "oracle mask" analysis |
-| C8 | 5-fold deep ensemble + temperature scaling + mask uncertainty | No calibration or uncertainty (G7) | ECE, Brier, reliability plots, risk–coverage curves |
+| Segmentation decoder | Full-resolution U-Net-style decoder, Dice + BCE loss | Coarse YOLO masks; Dice falls with resolution (G1) | Per-class Dice, HD95, NSD vs YOLOv8-seg and U-Net family |
+| Region pooling | Mask-weighted region pooling (the heads look inside the predicted region) | Grade errors at the right location (15 of 29) | Ablation: global pooling vs region pooling |
+| Geometry vector | Differentiable region geometry vector g | Geometry alone gives AUC 0.75–0.84 for grade and 80% for location | Ablation: with vs without g |
+| Hierarchical heads | Hierarchical heads (fracture → location → grade), trained conditionally | Flat 6-way labels ignore the label hierarchy (G3) | Ablation: flat 6-way head vs hierarchy; error-type table |
+| Shared severity trunk | Shared "severity" trunk for the neck and pertrochanteric grades | Rare Garden I–II can borrow strength from "stable" Evans I–II (both low displacement) | Ablation: separate vs shared grade heads; Garden I–II recall |
+| Logit adjustment | Logit adjustment at each node (Menon et al. 2021) | Rare classes: 57 and 36 training femurs (G2) | Balanced accuracy, per-class recall |
+| Teacher forcing | Teacher forcing: the heads start from the released (ground-truth) mask and move to the predicted mask during training | Bad early masks would confuse the heads | Training stability; "oracle mask" analysis |
+| Calibrated ensemble | 5-fold deep ensemble + temperature scaling + mask uncertainty | No calibration or uncertainty (G7) | ECE, Brier, reliability plots, risk–coverage curves |
 
 **Losses:** L = L_seg (Dice + BCE, on all femurs; healthy femurs teach an empty mask) + L_fracture (BCE) + L_location (cross-entropy, fractured femurs only) + L_grade (BCE, neck and pertrochanteric fractures only) + 0.5 · L_joint (negative log-likelihood of the chain-rule 6-class probability, keeps the parts consistent).
 
@@ -171,7 +171,7 @@ Chain rule (always gives valid, consistent 6-class probabilities):
 | Train/test annotation shift lowers everyone's test Dice | Certain | Same for all models. We report predicted vs reference area per split and explain it; no tuning on test |
 | Compute overrun | Low | Development on fold 0 only; 5 folds only for frozen configurations |
 
-**Safety net:** even if the hierarchy gives only modest gains, the paper still has four solid contributions: a better segmentation decoder (RQ1), an honest answer to whether segmentation helps grading (RQ2), calibrated uncertainty (RQ4) and the first independent benchmark. That is enough for a Q3 journal at worst.
+**Safety net:** even if the hierarchy gives only modest gains, the paper still has four solid contributions: a better segmentation decoder (segmentation question), an honest answer to whether segmentation helps grading (region-decision question), calibrated uncertainty (calibration question) and the first independent benchmark. That is enough for a Q3 journal at worst.
 
 ---
 
@@ -193,7 +193,7 @@ Radiologists compare the painful hip with the other side. RefFrac gives the netw
 
 | | **A: SLG-Net (recommended)** | B: RefFrac |
 |---|---|---|
-| Core directions | D3 + D2, with D1, D7, D9 | D4 + D2, with D7, D9 |
+| Core directions | Hierarchical-grading direction + segmentation-first direction, with the rare-class direction, the uncertainty direction, the benchmark direction | Healthy-femur-comparison direction + segmentation-first direction, with the uncertainty direction, the benchmark direction |
 | Novelty | Medium-high | High |
 | Evidence in our data | Strong (15 of 29 errors are grade errors; geometry AUC up to 0.84) | Moderate (partner for 44% of test fractures) |
 | Chance of a clear positive result | High | Medium-low |
@@ -211,7 +211,7 @@ Radiologists compare the painful hip with the other side. RefFrac gives the netw
 1. **Official test set (210 femurs) is frozen.** It is used once per final configuration and never for tuning.
 2. **Train (1,043 femurs) is split into 5 folds,** grouped by x-ray ID so both femurs of one radiograph stay together, and stratified by the 6 classes. The duplicate image pair is merged into one group (both are in fold 0).
 3. **Done today:** `scripts/make_splits.py` ran on your local data and wrote `splits/folds_v1.csv`. Each fold has 208–209 femurs from 139–141 x-rays (close to the paper's 201-femur validation set), with 11–12 Garden I–II and 7–8 subtrochanteric cases per fold. The class counts match the paper's Table 1 exactly. Fingerprint `733a70aa…`, which lets us confirm the Kaggle copy is identical.
-4. **Each configuration trains 5 models** (fold k held out). Training length is fixed in advance, and thresholds and calibration come from the pooled out-of-fold predictions (rules in Report 04 §3.4). We report (a) out-of-fold results on all 1,043 training femurs, (b) test mean ± SD over the 5 models, and (c) the 5-model ensemble on test (headline number).
+4. **Each configuration trains 5 models** (fold k held out). Training length is fixed in advance, and thresholds and calibration come from the pooled out-of-fold predictions (rules in Report 04 section 3.4). We report (a) out-of-fold results on all 1,043 training femurs, (b) test mean ± SD over the 5 models, and (c) the 5-model ensemble on test (headline number).
 5. **Pre-processing:** resize to 768×512, random horizontal flip (so left and right femurs need no mirroring), small rotation and scale, brightness, contrast and gamma, and mild noise or blur to mimic old CR images. No vertical flips (anatomy).
 
 ## 7. Step 7: Experiment plan (Option A)
@@ -219,26 +219,26 @@ Radiologists compare the painful hip with the other side. RefFrac gives the netw
 ### 7.1 Baselines (all trained by us on the same 5 folds)
 | ID | Model | Why it is there |
 |---|---|---|
-| B1 | YOLOv8s-seg @ 1024 px | The paper's final model (our reproduction; their code is not public) |
-| B2 | YOLOv8s-seg @ 640 px | The paper's best-Dice setting (small @640: test Dice .780; corrected 2026-11-26, earlier drafts said nano) |
-| B3 | YOLO11s-seg @ 1024 px (run S03; changed from 640 px on 2026-11-26 because S01 vs S02 showed no difference, and 1024 px matches S01) | Newer YOLO generation |
-| B4 | DenseNet121 classifier | The paper's best classifier (AUC 0.993) |
-| B5 | EfficientNet-B4 classifier | Paper baseline |
-| B6 | ConvNeXt-T classifier | **Same backbone as ours**, isolates the effect of our heads |
-| B7–B9 | U-Net (ResNet34), DeepLabV3+, SegFormer-B2 | Standard segmentation models for RQ1 |
-| (opt.) | MedSAM + LoRA, nnU-Net 2D | Foundation-model (D6) and self-configuring baselines, if compute allows |
+| YOLOv8s-seg | YOLOv8s-seg @ 1024 px | The paper's final model (our reproduction; their code is not public) |
+| YOLOv8s-seg at 640 px | YOLOv8s-seg @ 640 px | The paper's best-Dice setting (small @640: test Dice .780; corrected 2026-11-26, earlier drafts said nano) |
+| YOLO11s-seg | YOLO11s-seg @ 1024 px (run YOLO11s-seg; changed from 640 px on 2026-11-26 because YOLOv8s-seg vs YOLOv8s-seg at 640 px showed no difference, and 1024 px matches YOLOv8s-seg) | Newer YOLO generation |
+| DenseNet-121 | DenseNet121 classifier | The paper's best classifier (AUC 0.993) |
+| EfficientNet-B4 | EfficientNet-B4 classifier | Paper baseline |
+| ConvNeXt-T classifier | ConvNeXt-T classifier | **Same backbone as ours**, isolates the effect of our heads |
+| Three segmenters | U-Net (ResNet34), DeepLabV3+, SegFormer-B2 | Standard segmentation models for the segmentation question |
+| (opt.) | MedSAM + LoRA, nnU-Net 2D | Foundation-model (foundation-model direction) and self-configuring baselines, if compute allows |
 
 ### 7.2 Ablations (each removes or swaps one component; 5 folds each)
 | ID | Variant | Tests |
 |---|---|---|
-| A0 | ConvNeXt-T + flat 6-way head (= B6) | Starting point |
-| A1 | + segmentation decoder, flat head on global features | Does segmentation as an extra task help? |
-| A2 | + region pooling (C2) | Does looking inside the region help? |
-| A3 | + geometry vector (C3) | Does region shape help? |
-| A4 | + hierarchical heads (C4) | Does location → grade help? |
-| A5 | + shared severity trunk (C5) | Does sharing help Garden I–II? |
-| A6 | + logit adjustment (C6) = **full SLG-Net** | Rare-class effect |
-| Oracle | A6 with the released (ground-truth) mask at test time | Upper bound: how much better with perfect masks |
+| ConvNeXt-T classifier | ConvNeXt-T + flat 6-way head (= ConvNeXt-T classifier) | Starting point |
+| ConvNeXt U-Net | + segmentation decoder, flat head on global features | Does segmentation as an extra task help? |
+| Region-pooling model | + region pooling | Does looking inside the region help? |
+| Geometry model | + geometry vector | Does region shape help? |
+| Hierarchy model | + hierarchical heads | Does location → grade help? |
+| Shared-trunk model | + shared severity trunk | Does sharing help Garden I–II? |
+| SLG-Net | + logit adjustment = **full SLG-Net** | Rare-class effect |
+| Oracle | SLG-Net with the released (ground-truth) mask at test time | Upper bound: how much better with perfect masks |
 | Sens. | Second backbone (EfficientNetV2-S); higher input (1152×768) | Gains are not tied to one setting |
 
 ### 7.3 Metrics (chosen following *Metrics Reloaded*, Maier-Hein et al. 2024)
@@ -267,13 +267,13 @@ Hours per run are my estimates for a single T4 or P100 with mixed precision. Wee
 | Block | Runs | Hours per run | GPU-hours |
 |---|---|---|---|
 | Environment check + image cache | 1 | 0.3 | 0.3 |
-| B1 YOLOv8s-seg @1024 | 5 | 1.5–2.0 | 8–10 |
-| B2 YOLOv8s-seg @640, B3 YOLO11s-seg @1024 | 10 | 0.5–0.8 | 6–7 |
-| B4–B6 classifiers | 15 | 0.3–0.4 | 5–6 |
-| B7–B9 segmenters | 15 | 0.4–0.5 | 6–8 |
+| YOLOv8s-seg @1024 | 5 | 1.5–2.0 | 8–10 |
+| YOLOv8s-seg at 640 px @640, YOLO11s-seg @1024 | 10 | 0.5–0.8 | 6–7 |
+| Three classifiers | 15 | 0.3–0.4 | 5–6 |
+| Three segmenters | 15 | 0.4–0.5 | 6–8 |
 | SLG-Net development (fold 0 only) | ~25 | 0.5 | 12–15 |
 | SLG-Net final | 5 | 0.6 | 3 |
-| Ablations A0–A5 (A6 = final) | 30 | 0.5 | 15–18 |
+| Ablations the SLG-Net chain up to the shared-trunk model (SLG-Net = final) | 30 | 0.5 | 15–18 |
 | Sensitivity runs | 10 | 0.6–1.2 | 9 |
 | Ensembles, test-time augmentation, uncertainty | n/a | n/a | 2 |
 | **Core total** | | | **≈ 70–80** |
@@ -294,14 +294,14 @@ Hours per run are my estimates for a single T4 or P100 with mixed precision. Wee
 | Step | When | What happens | Milestone / output |
 |---|---|---|---|
 | 0 | 26–29 Nov | You choose the option. Repo goes live. First Kaggle run (environment check) | Decision logged; `env_report.json` |
-| 1 | Week 1: 30 Nov–6 Dec | Data loader, metrics module, YOLO baselines B1–B2 on Kaggle | First per-class Dice ever reported on HUSJA-UA |
-| 2 | Week 2: 7–13 Dec | Baselines B3–B9, baseline table v1, error analysis | **M1: baseline table** |
+| 1 | Week 1: 30 Nov–6 Dec | Data loader, metrics module, YOLO baselines the two YOLOv8s-seg runs on Kaggle | First per-class Dice ever reported on HUSJA-UA |
+| 2 | Week 2: 7–13 Dec | Other seven baselines, baseline table v1, error analysis | **Milestone 1: baseline table** |
 | 3 | Weeks 3–4: 14–27 Dec | Build SLG-Net (decoder, region pooling, geometry, hierarchy), unit tests, fold-0 development | Working model |
-| 4 | Week 5: 28 Dec–3 Jan | Rare-class pieces and calibration, then freeze the configuration (git tag) | **M2: frozen method** |
-| 5 | Weeks 6–7: 4–17 Jan | 5-fold final runs, ablations, sensitivity runs | **M3: all runs done** |
-| 6 | Week 8: 18–24 Jan | Statistics, uncertainty analysis, figures, error and failure analysis | **M4: results package** |
+| 4 | Week 5: 28 Dec–3 Jan | Rare-class pieces and calibration, then freeze the configuration (git tag) | **Milestone 2: frozen method** |
+| 5 | Weeks 6–7: 4–17 Jan | 5-fold final runs, ablations, sensitivity runs | **Milestone 3: all runs done** |
+| 6 | Week 8: 18–24 Jan | Statistics, uncertainty analysis, figures, error and failure analysis | **Milestone 4: results package** |
 | 7 | Weeks 9–11: 25 Jan–14 Feb | Manuscript: methods and results first, then introduction and discussion; CLAIM checklist; internal review | Full draft |
-| 8 | Week 12: 15–21 Feb | Journal choice (check JCR), formatting, code release, cover letter, submission | **M5: submitted** |
+| 8 | Week 12: 15–21 Feb | Journal choice (check JCR), formatting, code release, cover letter, submission | **Milestone 5: submitted** |
 | Buffer | 2 weeks | Holidays, re-runs, reviewer-style self-check | Latest submission about 7 Mar 2027 |
 
 Option B would add about 3–4 weeks (Steps 3–5 take longer).

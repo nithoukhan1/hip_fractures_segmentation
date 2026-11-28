@@ -26,7 +26,7 @@ results/
 ```
 
 ## Run names
-- **S** = shared runs (environment check, baselines S1–S9, core model M0 = run S10)
+- **S** = shared runs (environment check, the nine baselines, core model ConvNeXt U-Net)
 - **A** = Paper A (SLG-Net)
 - **R** = Paper B (RefFrac)
 
@@ -46,5 +46,5 @@ Example: `S01_yolov8s_seg_1024`. The plan for every run is in `Analysis/04_Execu
 ## Rules
 1. A run folder is never edited after it is filed, except its `NOTES.md`. A re-run gets a new name, for example `S01_yolov8s_seg_1024_r2`.
 2. Every number in a manuscript must come from a file in this folder.
-3. Test-set metrics appear only for frozen configurations: fixed baselines such as S01–S03, and runs marked `final`.
+3. Test-set metrics appear only for frozen configurations: fixed baselines such as the three YOLO runs, and runs marked `final`.
 4. Failed runs are filed too (exit code ≠ 0), with a note on what went wrong. They show what was tried.

@@ -1,7 +1,7 @@
-# Report 05: Step 2 protocol, baselines S04–S09 and the core model M0 (S10)
+# Report 05: Step 2 protocol, the six non-YOLO baselines and the core model ConvNeXt U-Net
 
 **Date:** 2026-11-26 · **Code:** `scripts/train_net.py` with `src/femurseg/nets.py`, `torchdata.py`, `evaluation.py`, `runner.py` · **Runs:** `kaggle/runs.json`
-**Why this report:** it fixes, before any of these runs exists, how every non-YOLO baseline and M0 is trained and scored, so that the methods section of both papers can be written from it and no choice is made after seeing results.
+**Why this report:** it fixes, before any of these runs exists, how every non-YOLO baseline and ConvNeXt U-Net is trained and scored, so that the methods section of both papers can be written from it and no choice is made after seeing results.
 
 ---
 
@@ -11,13 +11,13 @@
 |---|---|---|---|
 | `S04_densenet121` | `cls:densenet121.tv_in1k` | Image classifier, 6 classes | The article's best classifier (test AUC .993, 6-class accuracy 83.8%, Table 3) |
 | `S05_efficientnet_b4` | `cls:efficientnet_b4.ra2_in1k` | Image classifier | An article baseline (AUC .990, accuracy 79.0%) |
-| `S06_convnext_tiny` | `cls:convnext_tiny.fb_in22k_ft_in1k` | Image classifier | **= A0.** Same backbone as M0 and both papers' models: separates the backbone from what the papers add |
-| `S07_unet_r34` | `seg:Unet:resnet34` | Semantic segmentation, 6 classes per pixel | Standard segmentation baseline for the Dice comparison with YOLO (RQ1) |
+| `S06_convnext_tiny` | `cls:convnext_tiny.fb_in22k_ft_in1k` | Image classifier | **= ConvNeXt-T classifier.** Same backbone as ConvNeXt U-Net and both papers' models: separates the backbone from what the papers add |
+| `S07_unet_r34` | `seg:Unet:resnet34` | Semantic segmentation, 6 classes per pixel | Standard segmentation baseline for the Dice comparison with YOLO (segmentation question) |
 | `S08_deeplabv3p_r34` | `seg:DeepLabV3Plus:resnet34` | Semantic segmentation | Second standard family (atrous context) |
 | `S09_segformer_b2` | `seg:Segformer:mit_b2` | Semantic segmentation | Transformer segmenter |
-| `S10_m0_convnext_unet` | `m0:convnext_tiny.fb_in22k_ft_in1k` | U-Net with the ConvNeXt-T encoder: binary fracture mask + 6-class head | **The core model M0 = A1 (Paper A) = R0 (Paper B)** |
+| `S10_m0_convnext_unet` | `m0:convnext_tiny.fb_in22k_ft_in1k` | U-Net with the ConvNeXt-T encoder: binary fracture mask + 6-class head | **The core model ConvNeXt U-Net** |
 
-**M0 in one sentence:** M0 is S06 plus a U-Net decoder. Its 6-class head is the S06 classifier's own head (global average pooling, LayerNorm, dropout, linear) on the same encoder's last feature map. `tests/test_nets.py` checks that, with the same weights, M0 and S06 give identical class logits. So **S06 vs S10 answers one question only: does learning the fracture mask as an extra task help the classification?** Paper A then changes how M0 decides (region pooling, geometry, hierarchy) and Paper B what it compares with (a healthy reference).
+**ConvNeXt U-Net in one sentence:** ConvNeXt U-Net is ConvNeXt-T classifier plus a U-Net decoder. Its 6-class head is the ConvNeXt-T classifier's own head (global average pooling, LayerNorm, dropout, linear) on the same encoder's last feature map. `tests/test_nets.py` checks that, with the same weights, ConvNeXt U-Net and ConvNeXt-T classifier give identical class logits. So **ConvNeXt-T classifier vs ConvNeXt U-Net answers one question only: does learning the fracture mask as an extra task help the classification?** Paper A then changes how ConvNeXt U-Net decides (region pooling, geometry, hierarchy) and Paper B what it compares with (a healthy reference).
 
 Weights: ImageNet weights from timm (`densenet121.tv_in1k` = the original torchvision weights; `efficientnet_b4.ra2_in1k`; `convnext_tiny.fb_in22k_ft_in1k` = the authors' ImageNet-22k pre-training fine-tuned on 1k) and from segmentation_models_pytorch 0.6.0 (`resnet34` and `mit_b2` ImageNet encoders). Decoders and heads start random.
 
@@ -25,26 +25,26 @@ Weights: ImageNet weights from timm (`densenet121.tv_in1k` = the original torchv
 
 | Item | Setting | Reason |
 |---|---|---|
-| Input | 768 × 512 px: the 1024 × 1536 femur crop at exactly half size (area interpolation); grey copied to 3 channels; ImageNet normalisation | Report 03 §6; keeps the 2:3 shape; fits a T4 |
+| Input | 768 × 512 px: the 1024 × 1536 femur crop at exactly half size (area interpolation); grey copied to 3 channels; ImageNet normalisation | Report 03 section 6; keeps the 2:3 shape; fits a T4 |
 | Augmentation (training only) | Horizontal flip; affine (scale 0.9–1.1, rotation ±10°, shift ±5%); brightness/contrast ±0.2; gamma 80–120; Gaussian noise or blur (p 0.3). No vertical flip | Left and right femurs, small positioning differences, old CR images |
 | Optimiser | AdamW, lr 2 × 10⁻⁴, weight decay 0.05 (none on biases and norms), gradient clipping 1.0 | Standard fine-tuning settings for all of these families |
-| Schedule | 2 warm-up epochs, then cosine decay to 0; **60 epochs, final weights** | Fixed length: the held-out fold never picks an epoch (Report 04 §3.4, rule 1) |
+| Schedule | 2 warm-up epochs, then cosine decay to 0; **60 epochs, final weights** | Fixed length: the held-out fold never picks an epoch (Report 04 section 3.4, rule 1) |
 | Batch | 16 images. If 16 do not fit in a T4, the pre-flight halves the micro-batch and accumulates gradients up to 16 | Same optimisation for every model |
 | Precision | Mixed (fp16) | Speed on T4 |
-| Losses | Classifiers: cross-entropy. Segmenters: pixel cross-entropy + Dice over the 5 fracture classes. M0: cross-entropy + (binary cross-entropy + Dice) of the fracture mask, weight 1 | nnU-Net-style CE + Dice for masks |
+| Losses | Classifiers: cross-entropy. Segmenters: pixel cross-entropy + Dice over the 5 fracture classes. ConvNeXt U-Net: cross-entropy + (binary cross-entropy + Dice) of the fracture mask, weight 1 | nnU-Net-style CE + Dice for masks |
 | Seeds | 2026 + fold | Recorded per fold |
 
 The time per fold and the batch that fits are measured by the pre-flight run `S00_net_check` on Kaggle's T4s before training starts.
 
-## 3. From network outputs to a decision (same rule as S01–S03)
+## 3. From network outputs to a decision (same rule as the three YOLO runs)
 
-Every model writes, for each femur, a fracture **score**, five class confidences, a predicted class and (if it has one) a mask. The same code (`src/femurseg/evaluation.py`) scores every model, YOLO included; it re-scores the filed S01 and S02 to exactly their published `metrics.json`.
+Every model writes, for each femur, a fracture **score**, five class confidences, a predicted class and (if it has one) a mask. The same code (`src/femurseg/evaluation.py`) scores every model, YOLO included; it re-scores the filed YOLOv8s-seg and YOLOv8s-seg at 640 px to exactly their published `metrics.json`.
 
 | Model type | Fracture score | Class if a fracture is called | Mask |
 |---|---|---|---|
-| Classifier (S04–S06) | 1 − P(no fracture) | most probable fracture class | none (no Dice) |
-| Segmenter (S07–S09) | mean of the 500 highest pixel fracture probabilities (1 − P(background)), a robust maximum | class with the largest share of the predicted region | pixels with fracture probability ≥ 0.5 |
-| M0 (S10) | 1 − P(no fracture) from its head | most probable fracture class | sigmoid ≥ 0.5 |
+| Classifier (three classifiers) | 1 − P(no fracture) | most probable fracture class | none (no Dice) |
+| Segmenter (three segmenters) | mean of the 500 highest pixel fracture probabilities (1 − P(background)), a robust maximum | class with the largest share of the predicted region | pixels with fracture probability ≥ 0.5 |
+| ConvNeXt U-Net | 1 − P(no fracture) from its head | most probable fracture class | sigmoid ≥ 0.5 |
 
 - A femur is called fractured when its score ≥ the threshold **fitted on the pooled out-of-fold predictions (Youden; ties → higher sensitivity)**, applied unchanged to the test set. Results at the plain threshold 0.5 are reported too.
 - Masks are scored at **full resolution** (1024 × 1536) against the released masks: the probability map is resized with bilinear interpolation, then thresholded. A missed fracture counts as Dice 0. NSD is reported at 2, 10 and 20 px.
@@ -54,10 +54,10 @@ Every model writes, for each femur, a fracture **score**, five class confidences
 
 | Analysis | Runs | Question |
 |---|---|---|
-| C02 | S01 vs S03 | Does a newer YOLO (YOLO11) change anything? |
-| C03 | S04, S05, S06 vs S01 | Do image classifiers grade better than YOLO? Does our retraining reproduce the article's classifier numbers? |
-| C04 | S07, S08, S09, S10 vs S01 | Which segmenter outlines fractures best (Dice, NSD@10, HD95, per location; RQ1)? |
-| C05 | S06 vs S10 | Does the mask as an extra task help the classifier (Paper A, A0 → A1)? |
+| YOLO version analysis | YOLOv8s-seg vs YOLO11s-seg | Does a newer YOLO (YOLO11) change anything? |
+| Classifier analysis | DenseNet-121, EfficientNet-B4, ConvNeXt-T classifier vs YOLOv8s-seg | Do image classifiers grade better than YOLO? Does our retraining reproduce the article's classifier numbers? |
+| Segmenter analysis | ResNet-34 U-Net, ResNet-34 DeepLabV3+, SegFormer-B2, ConvNeXt U-Net vs YOLOv8s-seg | Which segmenter outlines fractures best (Dice, NSD@10, HD95, per location; the segmentation question)? |
+| Mask-task analysis | ConvNeXt-T classifier vs ConvNeXt U-Net | Does the mask as an extra task help the classifier (Paper A, ConvNeXt-T classifier → ConvNeXt U-Net)? |
 
 Each analysis = `scripts/run_stats.py` (cluster-bootstrap intervals, DeLong, McNemar, randomisation and Wilcoxon tests with Holm) + `scripts/run_breakdown.py` (per class, folds, errors, article) + `report.md`. Primary endpoints stay those fixed in Report 04: macro-F1 and Dice on fractured femurs (missed = 0). Classifiers have no Dice, so they enter only the classification comparisons.
 
@@ -79,18 +79,18 @@ Each run trains 5 folds, two at a time on the two T4s, with the time guard of `s
 
 ## 7. Addendum: pre-flight result (`S00_net_check`, 2026-11-26, register line 5)
 
-Added after the pre-flight; §1–§6 are unchanged. The run used commit `a15364b` on Kaggle's T4s and took 3.5 min (image cache built in 46 s). All 7 networks downloaded their ImageNet weights and trained a step. The pre-flight only fixed the micro-batch, by the rule in §2.
+Added after the pre-flight; sections 1–6 are unchanged. The run used commit `a15364b` on Kaggle's T4s and took 3.5 min (image cache built in 46 s). All 7 networks downloaded their ImageNet weights and trained a step. The pre-flight only fixed the micro-batch, by the rule in section 2.
 
 | Run | Network | Micro-batch × accumulation | Peak GPU memory (GB) | Minutes per fold | Expected run time |
 |---|---|---|---|---|---|
-| S04 | DenseNet121 | 16 × 1 | 8.5 | 29 | 1.6 h |
-| S05 | EfficientNet-B4 | 8 × 2 | 7.5 | 40 | 2.1 h |
-| S06 | ConvNeXt-T | 16 × 1 | 8.3 | 30 | 1.7 h |
-| S07 | U-Net (ResNet34) | 16 × 1 | 8.4 | 32 | 1.7 h |
-| S08 | DeepLabV3+ (ResNet34) | 16 × 1 | 6.3 | 27 | 1.5 h |
-| S09 | SegFormer (MiT-B2) | 8 × 2 | 10.6 | 63 | 3.3 h |
-| S10 | M0 | 16 × 1 | 11.2 | 54 | 2.8 h |
+| DenseNet-121 | DenseNet121 | 16 × 1 | 8.5 | 29 | 1.6 h |
+| EfficientNet-B4 | EfficientNet-B4 | 8 × 2 | 7.5 | 40 | 2.1 h |
+| ConvNeXt-T classifier | ConvNeXt-T | 16 × 1 | 8.3 | 30 | 1.7 h |
+| ResNet-34 U-Net | U-Net (ResNet34) | 16 × 1 | 8.4 | 32 | 1.7 h |
+| ResNet-34 DeepLabV3+ | DeepLabV3+ (ResNet34) | 16 × 1 | 6.3 | 27 | 1.5 h |
+| SegFormer-B2 | SegFormer (MiT-B2) | 8 × 2 | 10.6 | 63 | 3.3 h |
+| ConvNeXt U-Net | ConvNeXt U-Net | 16 × 1 | 11.2 | 54 | 2.8 h |
 
 - EfficientNet-B4 needed 14.6 GB at micro-batch 16 (over 85% of the 15.6 GB T4), and SegFormer ran out of memory at 16. Both train with micro-batches of 8 and two accumulated steps, so the optimiser still sees 16 images per update. EfficientNet-B4's batch-norm statistics come from 8 images; SegFormer has a single batch-norm layer, in its decoder. The methods section states this.
-- No network is close to the 85% limit at its chosen size (largest: M0 with 11.2 GB), so each run's own pre-flight picks the same micro-batch.
+- No network is close to the 85% limit at its chosen size (largest: ConvNeXt U-Net with 11.2 GB), so each run's own pre-flight picks the same micro-batch.
 - Expected run time = 3 rounds of folds (5 folds, two at a time) + about 5 min of set-up; about 14.6 h for the 7 runs. The step times come from random images. The data loader should not slow training: augmenting one image takes about 1.5 ms on one CPU core (measured in our container), more than ten times faster than a fold needs.

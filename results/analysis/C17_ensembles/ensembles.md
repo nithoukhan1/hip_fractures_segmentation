@@ -1,6 +1,6 @@
 # Ensembles from saved predictions
 
-Members' 6-class probabilities averaged per femur; threshold (Youden) fitted on each ensemble's OOF femurs; mask and Dice from the first member (M0). Holm (family) across all 9 comparisons, per endpoint and scope.
+Members' 6-class probabilities averaged per femur; threshold (Youden) fitted on each ensemble's OOF femurs; mask and Dice from the first member (ConvNeXt U-Net). Holm (family) across all 9 comparisons, per endpoint and scope.
 
 | Model | Members | Threshold |
 |---|---|---|

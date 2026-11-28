@@ -1,6 +1,6 @@
 # A3_geometry: summary
 
-Network `slg:convnext_tiny.fb_in22k_ft_in1k:A3`, input 768 x 512, 60 epochs, batch 16 (micro-batch 16 x 1), lr 0.0002, final weights. SLG-Net A3: teacher forcing over 30 epochs, region pooling at 1/32.
+Network `slg:convnext_tiny.fb_in22k_ft_in1k:A3`, input 768 x 512, 60 epochs, batch 16 (micro-batch 16 x 1), lr 0.0002, final weights. SLG-Net the geometry model: teacher forcing over 30 epochs, region pooling at 1/32.
 Folds completed [0, 1, 2, 3, 4], skipped [], failed []. Runtime 142.5 min on Tesla T4 x2.
 
 ## Fracture threshold fitted on the OOF predictions (Youden): 0.0577
@@ -31,7 +31,7 @@ Folds completed [0, 1, 2, 3, 4], skipped [], failed []. Runtime 142.5 min on Tes
 | Dice, detected fractures only | 0.797 | 0.745 ± 0.004 | 0.752 | 0.77 |
 | NSD at 10 px, fractured femurs | 0.244 | 0.198 ± 0.004 | 0.204 |  |
 
-## Interpretability tests (SLG-Net, Analysis/06 §5), at the OOF threshold
+## Interpretability tests (SLG-Net, Analysis/06 section 5), at the OOF threshold
 
 | Mode | OOF 6-class accuracy (%) | OOF macro-F1 | OOF Garden I-II recall | Change of P(true class), fractured | Correct fractured femurs that become wrong | Test ensemble accuracy (%) |
 |---|---|---|---|---|---|---|
